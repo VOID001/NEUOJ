@@ -1,7 +1,7 @@
 NEUOJ
 ====
 
-###Function Enabled for v1.0
+### Function Enabled for v1.0
 * [ ]Problem managment
  * [ ]Add Problem
  * [ ]Edit Problem
@@ -20,7 +20,7 @@ NEUOJ
  * [ ]Reset Password
  * [ ] (Future) SSO and Third party login
 
-###top level route
+### top level route
 * /profile User profile page
 * /dashboard User managment panel
 * /problem Show Problem(s)
@@ -29,6 +29,6 @@ NEUOJ
 * /contest Show or get in contest
 * /discuss Route to subfunction of bbs
 
-###Code Styling
+### Code Styling
 
 Use [PSR-2](http://www.php-fig.org/psr/psr-2/) Code Standard
