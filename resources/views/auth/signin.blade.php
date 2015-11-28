@@ -14,7 +14,7 @@
         <th>Sign in</th>
             <tr>
                 <td>Username</td>
-                <td><input type="text" name="username" value="{{ old('username') }}"/></td>
+                <td><input type="text" name="username" value="@if(!isset($username)){{ old('username') }}@else{{ $username }}@endif"/></td>
             </tr>
             <tr>
                 <td>Password</td>

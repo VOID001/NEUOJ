@@ -36,6 +36,7 @@ class AuthController extends Controller
             }
             $userObject = new User;
             $row = $userObject->where('username',$input['username'])->first();
+            $data['username'] = $input['username'];
             if(isset($row))
             {
                 $passHash = $row->password;
