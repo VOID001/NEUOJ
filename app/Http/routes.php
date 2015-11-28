@@ -61,6 +61,6 @@ Route::get('/test/getss',[
 ]);
 
 Route::get('/test/delss',[
-    "as" => "test.getss",
+    "as" => "test.delss",
     "uses" => "TestController@destroySession"
 ]);
