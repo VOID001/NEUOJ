@@ -50,9 +50,16 @@ class AuthController extends Controller
             else
             {
                 $data['loginError'] = "No such user!";
+                unset($data['username']);
             }
         }
         return View::make('auth.signin', $data);
+    }
+
+    public function logoutAction(Request $request)
+    {
+        $request->session()->flush();
+        return Redirect::route('home');
     }
 }
 

@@ -24,13 +24,23 @@ Route::get('/profile', function(){
     return "This is the profile root";
 });
 
-Route::get('/dashboard', function(){
-    return "This is the dashboard root";
-});
+Route::get('/dashboard', [
+    "as" => "dashboard",
+    "middleware" => "auth",
+]);
 
-Route::get('/problem', function(){
-    return "This is the problem root";
-});
+Route::get('/problem/{problem_id}',[
+    "uses" => "ProblemController@getProblemByID"
+]);
+
+Route::get('/problem/p/{page_id}', [
+    "uses" => "ProblemController@getProblemListByPageID"
+]);
+
+Route::match(['post','get'], '/problem', [
+    "uses" => "ProblemController@getProblem"
+]);
+
 
 Route::get('/status', function(){
     return "This is the status root";
@@ -48,6 +58,11 @@ Route::match(['post','get'], '/auth/signin', [
     "as" => "signin",
     //"middleware" => "",
     "uses" => "AuthController@loginAction"
+]);
+
+Route::get('/auth/logout', [
+    "as" => "logout",
+    "uses" => "AuthController@logoutAction"
 ]);
 
 /*

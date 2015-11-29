@@ -2,7 +2,7 @@
     <div>Welcome {{ $username }} !</div>
     <div>You are currently logged in</div>
     <a href="/dashboard">Dashboard</a>
-    <a href="/logout">logout</a>
+    <a href="/auth/logout">logout</a>
 @else
     <div>Welcome Guest!</div>
     <div>You are currently not logged in</div>
