@@ -16,9 +16,15 @@ NEUOJ
  * [ ]+ User Managment
 * [ ]Auth module
  * [ ]Register
- * [ ]Login
+ * [x]Login
  * [ ]Reset Password
  * [ ] (Future) SSO and Third party login
+* [ ] Problem Browsing
+ * [ ] Search problem by id
+ * [ ] View Page-splited problem list
+ * [ ] Search problem by title
+* [ ] Problem Submit
+
 
 ### top level route
 * /profile User profile page
