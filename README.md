@@ -2,22 +2,22 @@ NEUOJ
 ====
 
 ### Function Enabled for v1.0
-* [ ]Problem managment
- * [ ]Add Problem
- * [ ]Edit Problem
- * [ ]Delete Problem
- * [ ]Edit data
-* [ ]Hold Contest
- * [ ]Three kind of access to contest: Private Register Public
- * [ ]Enable user register himself into the register Contest
- * [ ]Board display
- * [ ]Import student info from xls and xlsx etc.
-* [ ]Root Admin Panel
- * [ ]+ User Managment
-* [ ]Auth module
- * [ ]Register
- * [x]Login
- * [ ]Reset Password
+* [ ] Problem managment
+ * [ ] Add Problem
+ * [ ] Edit Problem
+ * [ ] Delete Problem
+ * [ ] Edit data
+* [ ] Hold Contest
+ * [ ] Three kind of access to contest: Private Register Public
+ * [ ] Enable user register himself into the register Contest
+ * [ ] Board display
+ * [ ] Import student info from xls and xlsx etc.
+* [ ] Root Admin Panel
+ * [ ] + User Managment
+* [ ] Auth module
+ * [ ] Register
+ * [x] Login
+ * [ ] Reset Password
  * [ ] (Future) SSO and Third party login
 * [ ] Problem Browsing
  * [ ] Search problem by id
