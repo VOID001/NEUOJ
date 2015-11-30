@@ -31,9 +31,9 @@ Route::get('/dashboard', [
 
 Route::get('/problem/{problem_id}',[
     "uses" => "ProblemController@getProblemByID"
-]);
+])->where('problem_id', '[0-9]+');
 
-Route::get('/problem/p/{page_id}', [
+Route::match(['post', 'get'], '/problem/p/{page_id}', [
     "uses" => "ProblemController@getProblemListByPageID"
 ]);
 

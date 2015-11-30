@@ -21,7 +21,7 @@ NEUOJ
  * [ ] (Future) SSO and Third party login
 * [ ] Problem Browsing
  * [ ] Search problem by id
- * [ ] View Page-splited problem list
+ * [x] View Page-splited problem list
  * [ ] Search problem by title
 * [ ] Problem Submit
 
