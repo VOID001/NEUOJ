@@ -15,7 +15,6 @@ class UserTableSeeder extends DatabaseSeeder
      */
     public function run()
     {
-        $userObject = new User;
         $users = [
             [
                 "username" => "VOID001",
