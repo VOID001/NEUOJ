@@ -1,6 +1,11 @@
 @if(!isset($noLogin))
     <div>Welcome {{ $username }} !</div>
     <div>You are currently logged in</div>
+    @if(!isset($lastlogin_ip))
+        <div>This is your first time to log in</div>
+    @elseif(isset($lastlogin_ip))
+        <div>Your last login ip is {{ $lastlogin_ip }}</div>
+    @endif
     <a href="/dashboard">Dashboard</a>
     <a href="/auth/logout">logout</a>
 @else

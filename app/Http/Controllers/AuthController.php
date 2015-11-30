@@ -42,7 +42,13 @@ class AuthController extends Controller
                 $passHash = $row->password;
                 if (Hash::check($input['pass'], $passHash))
                 {
-                    $request->session()->put('username', $row->username);
+                    /* Save ip into session before update it */
+                    if($row->lastlogin_ip != "") $request->session()->put('lastlogin_ip', $row->lastlogin_ip);
+                    $userObject->where('uid', $row->uid)->update(['lastlogin_ip' => $request->ip()]);
+                    $request->session()->put([
+                        'username' => $row->username,
+                        'uid' => $row->uid,
+                    ]);
                     return Redirect::route('home');
                 }
                 $data['loginError'] = "Invalid Password";
