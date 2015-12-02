@@ -19,16 +19,67 @@ DOMJudge 测评后端API分析
 * usage
 
 ####dbconfig_get_rest
-这里需要补充信息
+* arguments:
+ $name: 用于表示想要get的配置的名称
+ 
+* description:
+ 获取服务器的配置信息
+ 
+* retval
+ 服务器的相应的配置信息
 
 ####fetch_executable
-这里需要补充信息
+__核心函数,用于下载用户提交的代码,并且将代码编译, 生成运行测评的脚本run.sh 并且返回run.sh的绝对路径共后续调用使用__
 
-####judge
-这里需要补充信息
+* arguments: 
+ $workdirpath: 测评路径
+ $execid: 需要fetch的执行脚本archive的id
+ $md5sum: zip的校验和
+* description:
+ 该函数根据提供的三个参数, 先检查是否本地已经存在运行本次测评需要的所有脚本(或者二进制文件), 如果不存在则从server 访问 REST/executable ,获取下来相应的execid对应的base64加密后的zip文件,解码,然后在本地的workdir/executable/$execid/下进行解压 ,并且根据不同语言写入不同的脚本内容
+* retval:
+ 返回值为相应的执行脚本(run.sh)所在的绝对路径
+
+####judge(主测评函数)
+* arguments: 
+ $row: 一个数组,里面含有测评所需要的所有信息, $row是在服务器端获得数据之后decode,然后存入的数据
+* description:
+ 该函数实现比较复杂, 将该函数的整个执行以流程的形式说明
+ 1.检查是否有创建文件等一系列的权限
+ 2.获取比赛队员提交的文件 需要访问RESTapi 的 submission_files ,id存在$row['submitid']内
+ 3.获取编译该语言代码所需的 compile script ,调用fetch_executable, 取出所需的compile_script,并且返回一个绝对路径 $execrunpath
+ 4.运行LIBJUDGE_DIR下的compile.sh脚本, 对代码进行编译
+ 5.检查compile的成功与否, 成功则继续,否则退出,并将compile result返回给server
+ 6.如果有CHROOT的设置,则建立chroot环境
+ 7.循环获取每个testcase, 本地无testcase则去远端获取(input & output) ,将他们放在 $workdirpath/testcase/下
+ 8.获取hardtimelimit(运行时限), __**未解决**__为什么要用overshoot_time这个函数来求运行时限(line 612左右 定义在 lib/lib.misc.php下)
+ 9.执行testcase run脚本, 测评开始
+ 10.判断测评结果(返回值的含义)
+ 11.尝试从program.metadata中读取测评耗时(等信息)
+ 12.将测评结果返回给server RESTapi POST 请求 judging_runs 返回的数据如下:(数据的解释可能有偏差)
+ 
+ ```
+ 	testcaseid: 测试数据id
+    runresult: 执行结果
+    runtime: 执行时间
+    judgehost: 测评的host名
+    output_run: 测评标准输出
+    output_error: 测评中的地方发
+    output_system: 测评信息
+    output_diff: 测评diff
+ ```
+ 13.如果有chroot环境则destroy掉
+ 14.一次judge结束
+
+* retval:NULL
+
 
 ####read_credentials
-这里需要补充信息
+* arguments: NULL
+* description: 
+  获取配置文件(ETCDIR/restapi.secret)中的认证信息并且添加到全局认证变量 $endpoints 中.配置文件中通过空白字符对每个信息域进行分割, 信息含有 认证记录的index(字符串), RESTAPI的入口地址 和访问RESTAPI需要的用户名和密码.
+* retval
+  实际上是将全局变量 $endpoints的信息更新了, 不过没有返回值
 
 ####request
 * arguments:
@@ -47,7 +98,16 @@ DOMJudge 测评后端API分析
    ```
 
 ####reset_encode_file
-这里需要补充信息
+* arguments:
+ $file: 文件所在路径
+ $sizelimit: 是否限制文件的大小 (传递给 dj_get_file_contents)
+* description:
+ 将文件用base64和urlencode进行编码,并返回其值, 如果限定了$sizelimit = TRUE 的话, 文件会被限制在50000B 
+* retval:
+ 返回文件encode之后的字符串
 
 ####usage
-这里需要补充信息
+* arguments: NULL
+* description:
+ 显示说明信息并退出
+* retval: NULL
