@@ -60,6 +60,12 @@ Route::match(['post','get'], '/auth/signin', [
     "uses" => "AuthController@loginAction"
 ]);
 
+Route::match(['post','get'], '/auth/signup', [
+    "as" => "signup",
+    //"middleware" => "",
+    "uses" => "AuthController@registAction"
+]);
+
 Route::get('/auth/logout', [
     "as" => "logout",
     "uses" => "AuthController@logoutAction"
