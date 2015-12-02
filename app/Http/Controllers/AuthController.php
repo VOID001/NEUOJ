@@ -61,7 +61,39 @@ class AuthController extends Controller
         }
         return View::make('auth.signin', $data);
     }
-
+    public function registAction(Request $request)
+    {
+        $input = [];
+        $data = [];
+        if($request->method() == 'POST')
+        {
+            $input = $request->input();
+            $vdtor = Validator::make($input, [
+                "username" => "required|max:255|unique:users",
+                "pass" => "required|confirmed|max:255",
+                "email" => "required|email|unique:users"
+            ]);
+            if($vdtor->fails())
+            {
+                return Redirect::route('signup')->withErrors($vdtor)->withInput($input);
+            }
+            $userObject = new User;
+            $userObject->username=$request->username;
+            $userObject->password=Hash::make($request->pass);
+            $userObject->email=$request->email;
+            $userObject->save();
+            //Keep this session if you need auto-login after sign up
+            /*
+            $userObject->where('uid', $userObject->uid)->update(['lastlogin_ip' => $request->ip()]);
+            $request->session()->put([
+                'username' => $userObject->username,
+                'uid' => $userObject->uid,
+            ]);
+            */
+            return Redirect::route('home');
+        }
+        return View::make('auth.signup', $data);
+    }
     public function logoutAction(Request $request)
     {
         $request->session()->flush();
