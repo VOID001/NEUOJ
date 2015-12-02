@@ -82,6 +82,7 @@ class AuthController extends Controller
             $userObject->password=Hash::make($request->pass);
             $userObject->email=$request->email;
             $userObject->save();
+            //Keep this session if you need auto-login after sign up
             /*
             $userObject->where('uid', $userObject->uid)->update(['lastlogin_ip' => $request->ip()]);
             $request->session()->put([
