@@ -45,18 +45,18 @@ __核心函数,用于下载用户提交的代码,并且将代码编译, 生成�
  $row: 一个数组,里面含有测评所需要的所有信息, $row是在服务器端获得数据之后decode,然后存入的数据
 * description:
  该函数实现比较复杂, 将该函数的整个执行以流程的形式说明
- 1.检查是否有创建文件等一系列的权限
- 2.获取比赛队员提交的文件 需要访问RESTapi 的 submission_files ,id存在$row['submitid']内
- 3.获取编译该语言代码所需的 compile script ,调用fetch_executable, 取出所需的compile_script,并且返回一个绝对路径 $execrunpath
- 4.运行LIBJUDGE_DIR下的compile.sh脚本, 对代码进行编译
- 5.检查compile的成功与否, 成功则继续,否则退出,并将compile result返回给server
- 6.如果有CHROOT的设置,则建立chroot环境
- 7.循环获取每个testcase, 本地无testcase则去远端获取(input & output) ,将他们放在 $workdirpath/testcase/下
- 8.获取hardtimelimit(运行时限), __**未解决**__为什么要用overshoot_time这个函数来求运行时限(line 612左右 定义在 lib/lib.misc.php下)
- 9.执行testcase run脚本, 测评开始
- 10.判断测评结果(返回值的含义)
- 11.尝试从program.metadata中读取测评耗时(等信息)
- 12.将测评结果返回给server RESTapi POST 请求 judging_runs 返回的数据如下:(数据的解释可能有偏差)
+ 1. 检查是否有创建文件等一系列的权限
+ 2. 获取比赛队员提交的文件 需要访问RESTapi 的 submission_files ,id存在$row['submitid']内
+ 3. 获取编译该语言代码所需的 compile script ,调用fetch_executable, 取出所需的compile_script,并且返回一个绝对路径 $execrunpath
+ 4. 运行LIBJUDGE_DIR下的compile.sh脚本, 对代码进行编译
+ 5. 检查compile的成功与否, 成功则继续,否则退出,并将compile result返回给server
+ 6. 如果有CHROOT的设置,则建立chroot环境
+ 7. 循环获取每个testcase, 本地无testcase则去远端获取(input & output) ,将他们放在 $workdirpath/testcase/下
+ 8. 获取hardtimelimit(运行时限), __**未解决**__为什么要用overshoot_time这个函数来求运行时限(line 612左右 定义在 lib/lib.misc.php下)
+ 9. 执行testcase run脚本, 测评开始
+ 10. 判断测评结果(返回值的含义)
+ 11. 尝试从program.metadata中读取测评耗时(等信息)
+ 12. 将测评结果返回给server RESTapi POST 请求 judging_runs 返回的数据如下:(数据的解释可能有偏差)
  
  ```
  	testcaseid: 测试数据id
@@ -68,8 +68,8 @@ __核心函数,用于下载用户提交的代码,并且将代码编译, 生成�
     output_system: 测评信息
     output_diff: 测评diff
  ```
- 13.如果有chroot环境则destroy掉
- 14.一次judge结束
+ 13. 如果有chroot环境则destroy掉
+ 14. 一次judge结束
 
 * retval:NULL
 
