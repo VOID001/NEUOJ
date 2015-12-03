@@ -1,3 +1,6 @@
+<!doctype html>
+<html>
+
 <h3>Problem: {{ $title }}</h3>
 <div>Time limit: {{ $time_limit }}s Mem limit{{ $mem_limit }}K @if($is_spj == 1) <b>Special Judge</b>@endif</div>
 <div><b>Description</b></div>
@@ -9,3 +12,4 @@
 @else
     <div>Sign in to Submit your code</div>
 @endif
+<html>

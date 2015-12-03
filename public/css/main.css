@@ -1,0 +1,32 @@
+/*登陆按钮式样*/
+#dashboard,#signin{
+    position: absolute;
+    top:10px;
+    right: 140px;
+    width: 70px;
+}
+#logout,#signup{
+    position: absolute;
+    top:10px;
+    right: 60px;
+    width: 70px;
+}
+/*题目列表式样*/
+#problemlist > thead > tr > th,
+#problemlist > tbody > tr > th,
+#problemlist > tfoot > tr > th,
+#problemlist > thead > tr > td,
+#problemlist > tbody > tr > td,
+#problemlist > tfoot > tr > td {
+    padding: 5px;
+}
+/*登陆注册表*/
+#signinTable{
+    width: 600px;
+}
+#signinTable td,#signupTable td{
+    height: 50px;
+}
+#signupTable{
+    width: 400px;
+}

@@ -1,33 +1,45 @@
-@if(count($errors) > 0 || isset($loginError))
-    <div>
-        @foreach($errors->all() as $error)
-            <li>{{ $error }}</li>
-        @endforeach
-        @if(isset($loginError))
-            <li>{{ $loginError }}</li>
-        @endif
-    </div>
-@endif
+<!doctype html>
+<html>
+<head>
+    <title>Sign in</title>
+    <?php require("./UI/head.php");?>
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+    <?php require("./UI/header.php");?>
+<div align="center">
 <form action="/auth/signin" method="POST">
 {{ csrf_field() }}
-    <table>
-        <th>Sign in</th>
-            <tr>
-                <td>Username</td>
-                <td><input type="text" name="username" value="@if(!isset($username)){{ old('username') }}@else{{ $username }}@endif"/></td>
-            </tr>
-            <tr>
-                <td>Password</td>
-                <td><input type="password" name="pass"/></td>
-            </tr>
-            <tr>
-                <td><div>Forget Password? Click <a href="/auth/request">here</a> to reset</div></td>
-            </tr>
-            <tr>
-                <td><div>Not signed up? <a href="/auth/signup">Sign Up Now!</a></div></td>
-            </tr>
-            <tr>
-                <td><input type="submit" value="Sign in"></td>
-            </tr>
+    <h3 class="text-center">Sign in</h3>
+    <table id="signinTable">
+        <tr >
+            <td style="padding-left: 100px">Username</td>
+            <td ><input type="text" name="username" class="form-control" value="@if(!isset($username)){{ old('username') }}@else{{ $username }}@endif"/></td>
+            <td><div style="padding-left: 4px">Not signed up? <a href="/auth/signup">Sign Up Now!</a></div></td>
+        </tr>
+        <tr>
+            <td style="padding-left: 100px">Password</td>
+            <td ><input type="password" name="pass"class="form-control"/></td>
+            <td><div style="padding-left: 4px">Forget Password? Click <a href="/auth/request">here</a> to reset</div></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td class="text-right"><input type="submit" value="Sign in" class="btn btn-success"></td>
+        </tr>
     </table>
+
+    @if(count($errors) > 0 || isset($loginError))
+            @foreach($errors->all() as $error)
+                <div style="width: 400px;text-align: left" class="text-danger">{{ $error }}</div>
+                <?php break;?>
+            @endforeach
+            @if(isset($loginError))
+                <li>{{ $loginError }}</li>
+            @endif
+    @endif
 </form>
+
+</div>
+    <?php require("./UI/footer.php");?>
+</body>
+</html>

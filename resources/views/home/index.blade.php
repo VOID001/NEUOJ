@@ -1,23 +1,33 @@
-@if(!isset($noLogin))
-    <div>Welcome {{ $username }} !</div>
-    <div>You are currently logged in</div>
-    @if(!isset($lastlogin_ip))
-        <div>This is your first time to log in</div>
-    @elseif(isset($lastlogin_ip))
-        <div>Your last login ip is {{ $lastlogin_ip }}</div>
-    @endif
-    <a href="/dashboard">Dashboard</a>
-    <a href="/auth/logout">logout</a>
-@else
-    <div>Welcome Guest!</div>
-    <div>You are currently not logged in</div>
-    <a href="/auth/signin">Sign in</a>
-    <a href="/auth/signup">Sign Up</a>
-@endif
+<!doctype html>
+<html>
+<head>
+    <title>Welcome come to NEU online judge</title>
+    <?php require("./UI/head.php");?>
+    <link rel="stylesheet" href="/css/main.css">
+    <script src="/js/main.js"></script>
+</head>
+<body>
+    <?php require("./UI/header.php");?>
+    <main>
+        <h1 class="text-center">Welcome come to NEU online judge</h1>
 
-<a href="/problem">Problem</a>
-<a href="/status">Status</a>
-<a href="/discuss">Discuss Board</a>
+        @if(!isset($noLogin))
+            <div>Welcome {{ $username }} !</div>
+            <div>You are currently logged in</div>
+            @if(!isset($lastlogin_ip))
+                <div class="text-info">This is your first time to log in</div>
+            @elseif(isset($lastlogin_ip))
+                <div class="text-info">Your last login ip is {{ $lastlogin_ip }}</div>
+            @endif
+        @else
+            <div class="text-info">Welcome Guest!</div>
+            <div class="text-info">You are currently not logged in</div>
+        @endif
+        <p></p>
 
-<h3>Announcement</h3>
-<div>Something here</div>
+        <div style="height:250px"></div>
+    </main>
+        <div style="height:30px;"></div>
+    <?php require("./UI/footer.php");?>
+</body>
+</html>
