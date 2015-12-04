@@ -111,3 +111,98 @@ __核心函数,用于下载用户提交的代码,并且将代码编译, 生成�
 * description:
  显示说明信息并退出
 * retval: NULL
+
+##JSON format
+
+```
+ ---- POST api/judgings ----
+ {
+    "submitid":24,
+    "cid":2,
+    "teamid":2,
+    "probid":4,
+    "langid":"cpp",
+    "rejudgingid":null,
+    "maxruntime":1,
+    "memlimit":524288,
+    "outputlimit":4096,
+    "run":"run",
+    "compare":"compare",
+    "compare_args":null,
+    "compile_script":"cpp",
+    "compare_md5sum":"71306aae6e243f8a030ab1bd7d6b354b",
+    "run_md5sum":"c2cb7864f2f7343d1ab5094b8fd40da4",
+    "compile_script_md5sum":"cf76014b4e27a6e25378055f53733a7a",
+    "judgingid":37
+}
+---- GET api/config ----
+{
+    "clar_categories":{
+        "general":"General issue",
+        "tech":"Technical issue"
+    },
+    "script_timelimit":30,
+    "script_memory_limit":2097152,
+    "script_filesize_limit":65536,
+    "memory_limit":524288,
+    "output_limit":4096,
+    "process_limit":64,
+    "sourcesize_limit":256,
+    "sourcefiles_limit":100,
+    "timelimit_overshoot":"1s|10%",
+    "verification_required":0,
+    "show_affiliations":1,
+    "show_pending":0,
+    "show_compile":2,
+    "show_sample_output":0,
+    "show_balloons_postfreeze":1,
+    "penalty_time":20,
+    "compile_penalty":1,
+    "results_prio":{
+        "memory-limit":"99",
+        "output-limit":"99",
+        "run-error":"99",
+        "timelimit":"99",
+        "wrong-answer":"30",
+        "no-output":"10",
+        "correct":"1"
+    },
+    "results_remap":[
+
+    ],
+    "lazy_eval_results":1,
+    "enable_printing":0,
+    "time_format":"%H:%M",
+    "default_compare":"compare",
+    "default_run":"run",
+    "allow_registration":0,
+    "judgehost_warning":30,
+    "judgehost_critical":120,
+    "thumbnail_size":128
+}
+---- GET api/submission_files ----
+[
+    {
+        "filename":"biubiubiu.cpp",
+        "content":"I2luY2x1ZGUgPGNzdGRpbz4NCmludCBtYWluKCl7DQogcHJpbnRmKCIyMDRcbiIpOw0KIHJldHVybiAwOw0KfQ0K"
+    }
+]
+
+---- GET api/testcases ----
+{
+    "testcaseid":6,
+    "rank":1,
+    "probid":4,
+    "md5sum_input":"495804e297ee23dbbef4ab1b7bb845ab",
+    "md5sum_output":"495804e297ee23dbbef4ab1b7bb845ab"
+}
+---- GET api/executable ----
+String(base64_encode zip archive)
+
+---- GET api/testcase_files ----
+String(base64_encode plain file)
+
+---- POST api/judging_runs ----
+// POST omit
+
+```
