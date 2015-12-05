@@ -11,20 +11,21 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a href="##" class="navbar-brand">NEUOJ</a>
+                <a href="##" class="navbar-brand" style="font-size: 30px">NEUOJ</a>
             </div>
             <div class="collapse navbar-collapse navbar-responsive-collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="/" id="home">Home</a></li>
-                    <li><a href="/problem" id="problem">Problem</a></li>
-                    <li><a href="/status" id="status">Status</a></li>
-                    <li><a href="/discuss" id="discuss">Discuss</a></li>
-                    <li><a href="#" id="rating">Rating</a></li>
+                    <li id="home"><a href="/" >Home</a></li>
+                    <li id="problem"><a href="/problem">Problem</a></li>
+                    <li id="status"><a href="/status">Status</a></li>
+                    <li id="discuss"><a href="/discuss">Discuss</a></li>
+                    <li id="rating"><a href="#">Rating</a></li>
                 </ul>
 
                 <?php
-                    if(!isset($noLogin)){
-                        echo '<a href="/dashboard" class="btn btn-success" id="dashboard">Dash</a>
+                    if(Request::session()->get('username')!=""){
+                        $username=Request::session()->get('username');
+                        echo '<a href="/dashboard" class="" id="dashboard" style="padding-top: 10px">待修改</a>
                              <a href="/auth/logout" class="btn btn-success" id="logout">logout</a>';
                     }else{
                         echo '<a href="/auth/signin" class="btn btn-success" id="signin">Sign in</a>

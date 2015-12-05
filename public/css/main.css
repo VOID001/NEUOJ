@@ -30,3 +30,32 @@
 #signupTable{
     width: 400px;
 }
+/*body整个屏幕*/
+html{
+    height: 100%;
+}
+body{
+    min-height: 100%;
+    position: relative;
+}
+.main{
+    margin:20px auto;
+    width: 800px;
+}
+
+/*页脚*/
+.footer{
+    background: #a6e1ec;
+    width: 100%;
+    line-height: 10px;
+    position: absolute;
+    bottom: 0;
+    margin-bottom: 0px;
+    overflow: hidden;
+}
+.footspanclass{
+    height: 20px;
+    line-height: 20px;
+    font-size: 13px;
+}
+

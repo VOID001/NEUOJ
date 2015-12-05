@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-    <title>Sign in</title>
+    <title>Sign up</title>
     <?php require("./UI/head.php");?>
     <link rel="stylesheet" href="/css/main.css">
 </head>

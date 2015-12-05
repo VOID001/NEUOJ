@@ -5,13 +5,18 @@
     <?php require("./UI/head.php");?>
     <link rel="stylesheet" href="/css/main.css">
     <script src="/js/main.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            $("#home").addClass("active");
+        })
+    </script>
 </head>
 <body>
     <?php require("./UI/header.php");?>
-    <main>
+    <div>
         <h1 class="text-center">Welcome come to NEU online judge</h1>
 
-        @if(!isset($noLogin))
+        {{--@if(!isset($noLogin))
             <div>Welcome {{ $username }} !</div>
             <div>You are currently logged in</div>
             @if(!isset($lastlogin_ip))
@@ -22,12 +27,14 @@
         @else
             <div class="text-info">Welcome Guest!</div>
             <div class="text-info">You are currently not logged in</div>
-        @endif
+        @endif--}}
+
         <p></p>
 
         <div style="height:250px"></div>
-    </main>
+
         <div style="height:30px;"></div>
+    </div>
     <?php require("./UI/footer.php");?>
 </body>
 </html>
