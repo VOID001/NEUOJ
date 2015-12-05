@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Problem List</title>
-    <?php require("./UI/head.php");?>
+    @include("layout.head")
     <link rel="stylesheet" href="/css/main.css">
     <script type="text/javascript">
         $(function(){
@@ -11,7 +11,7 @@
     </script>
 </head>
 <body>
-    <?php require("./UI/header.php");?>
+    @include("layout.header")
 
     <h3 class="text-center">Problem List</h3>
     <div class="main">
@@ -81,6 +81,6 @@
             <input type="submit" value="show"/>
         </form>
 
-    <?php  require("./UI/footer.php");?>
+    @include("layout.footer")
 </body>
 </html>

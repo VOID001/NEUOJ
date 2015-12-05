@@ -11,7 +11,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a href="##" class="navbar-brand" style="font-size: 30px">NEUOJ</a>
+                <a href="#" class="navbar-brand neuoj_theme"><img src="/image/neuacmlogo.PNG" class="neuacmlogo"/><span style="float: left">NEUOJ<span></a>
             </div>
             <div class="collapse navbar-collapse navbar-responsive-collapse">
                 <ul class="nav navbar-nav">
@@ -22,16 +22,15 @@
                     <li id="rating"><a href="#">Rating</a></li>
                 </ul>
 
-                <?php
-                    if(Request::session()->get('username')!=""){
-                        $username=Request::session()->get('username');
-                        echo '<a href="/dashboard" class="" id="dashboard" style="padding-top: 10px">待修改</a>
-                             <a href="/auth/logout" class="btn btn-success" id="logout">logout</a>';
-                    }else{
-                        echo '<a href="/auth/signin" class="btn btn-success" id="signin">Sign in</a>
-                             <a href="/auth/signup" class="btn btn-success" id="signup">Sign Up</a>';
-                    }
-                ?>
+                @if(Request::session()->get('username')!="")
+                    <a href="/dashboard" class="text-center" id="dashboard" >{{Request::session()->get('username')}}</a>
+                    <a href="/auth/logout" class="btn btn-success" id="logout">logout</a>
+                @else
+                    <a href="/auth/signin" class="btn btn-success" id="signin">Sign in</a>
+                             <a href="/auth/signup" class="btn btn-success" id="signup">Sign Up</a>
+                @endif
+
+
             </div>
         </div>
     </div>

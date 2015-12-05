@@ -2,11 +2,11 @@
 <html>
 <head>
     <title>Sign in</title>
-    <?php require("./UI/head.php");?>
+    @include("layout.head")
     <link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
-    <?php require("./UI/header.php");?>
+    @include("layout.header")
 <div align="center">
 <form action="/auth/signin" method="POST">
 {{ csrf_field() }}
@@ -40,11 +40,14 @@
     </div>
 </form>
     <div class="panel panel-default" style="width: 400px;height: 80px">
-        <div class="panel-heading">第三方登陆</div>
-        <div class="panel-body">QQ图标在哪里</div>
+        <div class="panel-heading text-left">第三方登陆</div>
+        <div class="panel-body">
+            <img class="third_logo1" src="/image/qq.PNG">
+            <img class="third_logo2" src="/image/github.PNG">
+        </div>
     </div>
 
 </div>
-    <?php require("./UI/footer.php");?>
+    @include("layout.footer")
 </body>
 </html>

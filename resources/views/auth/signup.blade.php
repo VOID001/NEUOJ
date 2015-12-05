@@ -2,11 +2,11 @@
 <html>
 <head>
     <title>Sign up</title>
-    <?php require("./UI/head.php");?>
+    @include("layout.head")
     <link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
-    <?php require("./UI/header.php");?>
+    @include("layout.header")
 
     <div align="center">
     <form action="/auth/signup" method="POST">
@@ -45,6 +45,7 @@
     </form>
     </div>
     <div style="height: 192px"></div>
-    <?php require("./UI/footer.php");?>
+
+    @include("layout.footer")
 </body>
 </html>

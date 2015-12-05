@@ -1,15 +1,84 @@
-/*登陆按钮式样*/
-#dashboard,#signin{
+/*主页*/
+.home_body{
+    background-image: linear-gradient(to bottom, #63B8FF, #a6e1ec);
+    overflow: hidden;
+}
+.home_logo{
+    position: relative;
+    width: 700px;
+    margin: 0 auto;
+    margin-top: 10%;
+}
+.home_logo>img{
+    width: 100%;
+}
+.home_text{
+    font-size: 30px;
+}
+.dropdownmenu{
+    width: 150px;
+    padding-top: 150px;
+    marigin:0;
+    margin: 0 auto;
+}
+.dropdownmenu>ul{
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    margin: 0 auto;
+    position: relative;
+}
+#home_btn{
+    z-index: 9;
+    position: relative;
+}
+.dropdownmenu>ul>li{
+    opacity:0;
+    position: absolute;
+    top:-50px;
+    width: 100px;
+}
+
+.home_button{
+    width: 150px;
+    height: 50px;
+    border: 1px solid white;
+    background: rgba(0,0,0,0);
+    display: table-cell;
+    vertical-align: middle;
+}
+
+/*导航栏式样*/
+#signin{
     position: absolute;
     top:10px;
     right: 140px;
     width: 70px;
+}
+#dashboard{
+    position: absolute;
+    top:6px;
+    right: 140px;
+    width: 70px;
+    padding-top: 10px;
+    text-decoration: none;
+    font-size: 18px;
 }
 #logout,#signup{
     position: absolute;
     top:10px;
     right: 60px;
     width: 70px;
+}
+.neuoj_theme{
+    font-size: 40px;
+    width: 250px;
+}
+.neuacmlogo{
+    width: 40px;
+    margin-top: -10px;
+    float: left;
+    margin-right: 10px;
 }
 /*题目列表式样*/
 #problemlist > thead > tr > th,
@@ -30,6 +99,14 @@
 #signupTable{
     width: 400px;
 }
+.third_logo1{
+    width: 40px;
+    margin-top: -15px;
+}
+.third_logo2{
+    width: 40px;
+    margin-top: -18px;
+}
 /*body整个屏幕*/
 html{
     height: 100%;
@@ -42,6 +119,7 @@ body{
     margin:20px auto;
     width: 800px;
 }
+
 
 /*页脚*/
 .footer{

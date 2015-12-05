@@ -2,11 +2,11 @@
 <html>
 <head>
     <title>Problem</title>
-    <?php require("./UI/head.php");?>
+    @include("layout.head")
     <link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
-    <?php require("./UI/header.php");?>
+    @include("layout.header")
     <h3 class="text-center">Problem: {{ $title }}</h3>
     <div class="text-center text-primary">Time limit: {{ $time_limit }}s&nbsp;&nbsp;&nbsp;&nbsp;Mem limit:{{ $mem_limit }}K @if($is_spj == 1) <b>Special Judge</b>@endif</div>
     <div class="panel panel-default main">
@@ -35,8 +35,6 @@
             <div class="text-center" style="padding-bottom: 50px">Sign in to Submit your code</div>
         @endif
 
-
-
-    <?php  require("./UI/footer.php");?>
+    @include("layout.footer")
 </body>
 <html>

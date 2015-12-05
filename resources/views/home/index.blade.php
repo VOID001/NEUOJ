@@ -2,39 +2,22 @@
 <html>
 <head>
     <title>Welcome come to NEU online judge</title>
-    <?php require("./UI/head.php");?>
+    @include("layout.head")
     <link rel="stylesheet" href="/css/main.css">
-    <script src="/js/main.js"></script>
-    <script type="text/javascript">
-        $(function(){
-            $("#home").addClass("active");
-        })
-    </script>
+    <script src="/js/home.js"></script>
 </head>
-<body>
-    <?php require("./UI/header.php");?>
-    <div>
-        <h1 class="text-center">Welcome come to NEU online judge</h1>
-
-        {{--@if(!isset($noLogin))
-            <div>Welcome {{ $username }} !</div>
-            <div>You are currently logged in</div>
-            @if(!isset($lastlogin_ip))
-                <div class="text-info">This is your first time to log in</div>
-            @elseif(isset($lastlogin_ip))
-                <div class="text-info">Your last login ip is {{ $lastlogin_ip }}</div>
-            @endif
-        @else
-            <div class="text-info">Welcome Guest!</div>
-            <div class="text-info">You are currently not logged in</div>
-        @endif--}}
-
-        <p></p>
-
-        <div style="height:250px"></div>
-
-        <div style="height:30px;"></div>
-    </div>
-    <?php require("./UI/footer.php");?>
+<body class="home_body">
+    <div class="home_logo"><img src="/image/neuonlinejudge.png"><div>
+    <div class="text-center"><span class="text-success home_text"><kbd>talk is cheap,show me the code </kbd></span></div>
+     <div class="dropdownmenu">
+         <a class="btn home_button" type="button" id="home_btn">开启旅程&nbsp;&raquo;</a>
+        <ul role="menu">
+            <li><a role="menuitem" class="btn home_button" href="/problem">Problems</a></li>
+            <li><a role="menuitem" class="btn home_button" href="#">NEUACM</a></li>
+            <li><a role="menuitem" class="btn home_button" href="#">Donate</a></li>
+            <li><a role="menuitem" class="btn home_button" href="#">More</a></li>
+            <input id="hidval" type="hidden" value="0"/>
+        </ul>
+     </div>
 </body>
 </html>
