@@ -61,6 +61,7 @@ class AuthController extends Controller
         }
         return View::make('auth.signin', $data);
     }
+
     public function registAction(Request $request)
     {
         $input = [];
@@ -94,6 +95,7 @@ class AuthController extends Controller
         }
         return View::make('auth.signup', $data);
     }
+
     public function logoutAction(Request $request)
     {
         $request->session()->flush();
