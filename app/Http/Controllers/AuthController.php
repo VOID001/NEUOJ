@@ -78,9 +78,9 @@ class AuthController extends Controller
                 return Redirect::route('signup')->withErrors($vdtor)->withInput($input);
             }
             $userObject = new User;
-            $userObject->username=$request->username;
-            $userObject->password=Hash::make($request->pass);
-            $userObject->email=$request->email;
+            $userObject->username = $request->username;
+            $userObject->password = Hash::make($request->pass);
+            $userObject->email = $request->email;
             $userObject->save();
             //Keep this session if you need auto-login after sign up
             /*
