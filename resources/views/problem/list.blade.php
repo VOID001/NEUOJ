@@ -12,7 +12,6 @@
 </head>
 <body>
     @include("layout.header")
-
     <h3 class="text-center">Problem List</h3>
     <div class="main">
         <form class="form-inline">
@@ -74,12 +73,8 @@
         </div>
     </div>
 
-        <form action="{{ Request::getUri() }}" method="POST" class="text-center" style="padding-bottom: 40px">
-            {{ csrf_field() }}
-            <label>How many problems to show on one page </label>
-            <input type="text" value="{{ $problemPerPage }}" name="problem_per_page"/>
-            <input type="submit" value="show"/>
-        </form>
+    <div style="padding-bottom: 40px">
+    </div>
 
     @include("layout.footer")
 </body>

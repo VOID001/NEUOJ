@@ -33,7 +33,8 @@ class ProblemController extends Controller
 
     public function getProblemListByPageID(Request $request, $page_id)
     {
-        $problemPerPage = 10;
+        $problemPerPage = 20;
+        /**  Remove the customize pagination function
         if($request->method() == "GET")
         {
             if(($problemPerPage = $request->session()->get('problem_per_page')) == NULL)
@@ -47,6 +48,7 @@ class ProblemController extends Controller
             else
                 $request->session()->put('problem_per_page', $problemPerPage);
         }
+         **/
         $data = [];
         $data['problems'] = NULL;
         $data['problemPerPage'] = $problemPerPage;
