@@ -30,42 +30,51 @@
         <div>admin</div>
     </div>
     @if(Request::session()->get('username') != NULL)
-        <div class="text-center" style="padding-bottom: 50px"><a href="/submit/{{ $problem_id }}" class="btn btn-success">submit</a></div>
-        <div>You are logged in, you can submit the code</div>
-        <form action="/submit/{{ $problem_id }}" method ="POST">
-            {{ csrf_field() }}
-            <table>
-                <tr>
-                    <label name="lang">Select language</label>
-                    <select name="Language">
-                        <option name="c">C</option>
-                        <option name="java">Java</option>
-                        <option name="cpp">C++</option>
-                        <option name="cpp11">C++11</option>
-                    </select>
-                </tr>
-                <tr>
-                    <td>
-                        <input type=""/>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="submit" value="Submit Code"/>
-                    </td>
-                    <td>
-                        <input type="reset" value="Reset"/>
-                    </td>
-                </tr>
-        </table>
-            <div class="text-center" style="padding-bottom: 50px"></div>
-    </form>
+        <div class="text-center" style="padding-bottom: 50px"><a href="/submit/{{ $problem_id }}" class="btn btn-success">submit</a></div> @endif
+    @if(isset($errors))
+        @foreach($errors->all() as $error)
+            <li>{{ $error }}</li>
+        @endforeach
+    @endif
+
+        @if(Request::session()->get('username') != NULL)
+            <div>You are logged in, you can submit the code</div>
+            <form action="/submit/{{ $problem_id }}" method ="POST">
+                {{ csrf_field() }}
+                <table>
+                    <th>
+                        Submit your code below
+                    </th>
+                    <tr>
+                        <label name="Language">Select language</label>
+                        <select name="lang">
+                            <option name="c">C</option>
+                            <option name="java">Java</option>
+                            <option name="cpp">C++</option>
+                            <option name="cpp11">C++11</option>
+                        </select>
+                    </tr>
+                    <tr>
+                        <td>
+                            <textarea name="code" placeholder="Input your code here..."></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="submit" value="Submit Code"/>
+                        </td>
+                        <td>
+                            <input type="reset" value="Reset"/>
+                        </td>
+                    </tr>
+                </table>
+                <div class="text-center" style="padding-bottom: 50px"></div>
+            </form>
 
         @else
-            <div class="text-center" style="padding-bottom: 50px">Sign in to Submit your code</div>
+            <div class="text-center" style="padding-bottom: 50px"><a href="/auth/signin">Sign in</a> to Submit your code</div>
         @endif
 
-    @include("layout.footer")
+        @include("layout.footer")
 </body>
 <html>
-

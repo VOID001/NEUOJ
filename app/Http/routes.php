@@ -68,20 +68,12 @@ Route::match(['post','get'], '/auth/signup', [
 
 Route::get('/auth/logout', [
     "as" => "logout",
+    "middleware" => "auth",
     "uses" => "AuthController@logoutAction"
 ]);
 
-/*
- * These routes below are only use for testing and debugging
- * DO NOT ENABLE IT IN THE PRODUCTION PROJECT
- */
-
-Route::get('/test/getss',[
-    "as" => "test.getss",
-    "uses" => "TestController@getSession"
-]);
-
-Route::get('/test/delss',[
-    "as" => "test.delss",
-    "uses" => "TestController@destroySession"
+Route::post('/submit/{problem_id}', [
+    "as" => "submit",
+    "middleware" => "auth",
+    "uses" => "SubmissionController@submitAction"
 ]);
