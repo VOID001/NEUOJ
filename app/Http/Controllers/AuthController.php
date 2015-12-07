@@ -22,7 +22,10 @@ class AuthController extends Controller
     public function loginAction(Request $request)
     {
         $input = [];
-        $data = [];
+        if(!($request->session()->has('loginError')))
+            $data = [];
+        else
+            $data['loginError'] = $request->session()->get('loginError');
         if($request->method() == 'POST')
         {
             $input = $request->input();
