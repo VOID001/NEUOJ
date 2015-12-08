@@ -20,6 +20,7 @@ class CreateSubmissionTable extends Migration
             $table->dateTime('submit_time');
             $table->integer('exec_time');
             $table->integer('exec_mem');
+            $table->string('lang');
             $table->string('result');
             $table->string('err_info');
             $table->string('assessment');

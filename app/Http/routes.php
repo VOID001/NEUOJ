@@ -42,9 +42,9 @@ Route::match(['post','get'], '/problem', [
 ]);
 
 
-Route::get('/status', function(){
-    return "This is the status root";
-});
+Route::get('/status', [
+    "uses" => "SubmissionController@getSubmission"
+]);
 
 Route::get('/contest', function(){
     return "This is the contest root";
@@ -76,4 +76,14 @@ Route::post('/submit/{problem_id}', [
     "as" => "submit",
     "middleware" => "auth",
     "uses" => "SubmissionController@submitAction"
+]);
+
+Route::match(['post', 'get'], '/status/p/{page_id}', [
+    "as" => "status",
+    "uses" => "SubmissionController@getSubmissionListByPageID"
+]);
+
+Route::get('/status/{run_id}', [
+    "uses" => "SubmissionController@getSubmissionByID",
+    "middleware" => "role",
 ]);

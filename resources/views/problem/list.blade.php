@@ -32,28 +32,14 @@
             </thead>
             @if($problems != NULL)
                 @foreach($problems as $problem)
-                    <tr>
-                        <td class="text-center"><a href="/problem/{{ $problem->problem_id }}">{{ $problem->problem_id }}</a></td>
-                        <td class="text-left">{{ $problem->title }}</td>
-                        <td class="text-center">{{ $problem->difficulty }}</td>
-                        <td class="text-center">&nbsp;</td>
-                        <td class="text-center">&nbsp;</td>
-                        <td class="text-center">{{ $problem->visibility_locks }}</td>
-                    </tr>
-                @endforeach
-            @endif
-
-            <!--only for test-->
-            @if($problems != NULL)
-                @foreach($problems as $problem)
-                    <tr>
-                        <td class="text-center"><a href="/problem/{{ $problem->problem_id }}">{{ $problem->problem_id }}</a></td>
-                        <td class="text-left">{{ $problem->title }}</td>
-                        <td class="text-center">{{ $problem->difficulty }}</td>
-                        <td class="text-center">&nbsp;</td>
-                        <td class="text-center">&nbsp;</td>
-                        <td class="text-center">{{ $problem->visibility_locks }}</td>
-                    </tr>
+                        <tr>
+                            <td class="text-center"><a href="/problem/{{ $problem->problem_id }}">{{ $problem->problem_id }}</a></td>
+                            <td class="text-left">{{ $problem->title }}</td>
+                            <td class="text-center">{{ $problem->difficulty }}</td>
+                            <td class="text-center">&nbsp;</td>
+                            <td class="text-center">&nbsp;</td>
+                            <td class="text-center">{{ $problem->visibility_locks }}</td>
+                        </tr>
                 @endforeach
             @endif
             </table>

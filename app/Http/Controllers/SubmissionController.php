@@ -16,9 +16,6 @@ use App\Submission;
 
 class SubmissionController extends Controller
 {
-    //public function getSubmissionListByPageID();
-    //public function getSubmissionByID();
-    //public function getSubmissionBySearch();
 
     public function submitAction(Request $request, $problem_id)
     {
@@ -58,6 +55,75 @@ class SubmissionController extends Controller
             var_dump($submission);
             return Redirect::to($request->server('HTTP_REFERER'));
         }
+    }
+
+    public function getSubmissionByID(Request $request, $run_id)
+    {
+        $data = [];
+        $submissionObj = Submission::where('runid', $run_id)->first();
+        $fileContent = Storage::get($submissionObj->submit_file);
+        $fileContent = nl2br($fileContent, false);
+        $data = $submissionObj;
+        $data->code = $fileContent;
+
+        return View::make('status.index', $data);
+    }
+
+    public function getSubmission(Request $request)
+    {
+        return Redirect::to('/status/p/1');
+    }
+
+    public function getSubmissionListByPageID(Request $request, $page_id)
+    {
+        $itemsPerPage = 10;
+        $data = [];
+        $data['submissions'] = NULL;
+        $input = $request->all();
+        $queryArr = [];
+
+        foreach($input as $key => $val)
+        {
+            if($val == "All" || $val == "")
+                continue;
+            if($key != "username")
+                $queryArr[$key] = $val;
+            if($key == "username")
+            {
+                $userObj = User::where('username', $val)->first();
+                if($userObj != NULL)
+                {
+                    $queryArr['uid'] = $userObj->uid;
+                }
+                else
+                {
+                    $queryArr['uid'] = "Th11EN412am#eN%o0neCanCreEte";
+                }
+            }
+        }
+        $submissionObj = Submission::where($queryArr);
+        $submissionObj = $submissionObj->orderby('runid', 'asc')->get();
+        for($count = 0, $i = ($page_id - 1) * $itemsPerPage; $count < $itemsPerPage && $i < $submissionObj->count(); $i++, $count++)
+        {
+            $data['submissions'][$count] = $submissionObj[$i];
+            $tmpUserObj = User::where('uid', $submissionObj[$i]->uid)->first();
+            $tmpProblemObj = Problem::where('problem_id', $submissionObj[$i]->pid)->first();
+            $problemTitle = $tmpProblemObj['title'];
+            $username = $tmpUserObj['username'];
+            $data['submissions'][$count]->userName = $username;
+            $data['submissions'][$count]->problemTitle = $problemTitle;
+        }
+        if($i >= $submissionObj->count())
+        {
+            $data['lastPage'] = true;
+        }
+        if($page_id == 1)
+        {
+            $data['firstPage'] = true;
+        }
+        $data['page_id'] = $page_id;
+
+        return View::make('status.list', $data);
     }
 
 }
