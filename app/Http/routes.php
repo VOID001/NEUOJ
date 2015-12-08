@@ -24,11 +24,6 @@ Route::get('/profile', function(){
     return "This is the profile root";
 });
 
-Route::get('/dashboard', [
-    "as" => "dashboard",
-    "middleware" => "auth",
-]);
-
 Route::get('/problem/{problem_id}',[
     "uses" => "ProblemController@getProblemByID"
 ])->where('problem_id', '[0-9]+');
@@ -66,18 +61,6 @@ Route::match(['post','get'], '/auth/signup', [
     "uses" => "AuthController@registAction"
 ]);
 
-Route::get('/auth/logout', [
-    "as" => "logout",
-    "middleware" => "auth",
-    "uses" => "AuthController@logoutAction"
-]);
-
-Route::post('/submit/{problem_id}', [
-    "as" => "submit",
-    "middleware" => "auth",
-    "uses" => "SubmissionController@submitAction"
-]);
-
 Route::match(['post', 'get'], '/status/p/{page_id}', [
     "as" => "status",
     "uses" => "SubmissionController@getSubmissionListByPageID"
@@ -87,3 +70,18 @@ Route::get('/status/{run_id}', [
     "uses" => "SubmissionController@getSubmissionByID",
     "middleware" => "role",
 ]);
+
+/*Route group need auth middleware*/
+Route::group(['middleware' => 'auth'],function(){
+    Route::get('/auth/logout', [
+        "as" => "logout",
+        "uses" => "AuthController@logoutAction"
+    ]);
+    Route::get('/dashboard', [
+        "as" => "dashboard",
+    ]);
+    Route::post('/submit/{problem_id}', [
+        "as" => "submit",
+        "uses" => "SubmissionController@submitAction"
+    ]);
+});
