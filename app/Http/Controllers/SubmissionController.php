@@ -43,14 +43,16 @@ class SubmissionController extends Controller
             }
             $fileName = $uid."-".$problem_id."-".time().".".$langsufix[$request->input('lang')];
             echo $fileName;
-            Storage::put($fileName, $request->input('code'));
+            Storage::put("submissions/".$fileName, $request->input('code'));
             $submission->pid = $problem_id;
             $submission->uid = $uid;
             $submission->cid = 0;
+            $submission->lang = $request->input('lang');
             $submission->result = "Pending";
             $submission->submit_time = date('Y-m-d-H:i:s');
             $submission->submit_file = $fileName;
             $submission->md5sum = md5($request->input('code'));
+            $submission->judge_status = 0;
             $submission->save();
             var_dump($submission);
             return Redirect::to($request->server('HTTP_REFERER'));
@@ -61,7 +63,7 @@ class SubmissionController extends Controller
     {
         $data = [];
         $submissionObj = Submission::where('runid', $run_id)->first();
-        $fileContent = Storage::get($submissionObj->submit_file);
+        $fileContent = Storage::get("submissions/".$submissionObj->submit_file);
         $fileContent = nl2br($fileContent, false);
         $data = $submissionObj;
         $data->code = $fileContent;
