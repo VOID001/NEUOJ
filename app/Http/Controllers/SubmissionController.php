@@ -64,7 +64,6 @@ class SubmissionController extends Controller
         $data = [];
         $submissionObj = Submission::where('runid', $run_id)->first();
         $fileContent = Storage::get("submissions/".$submissionObj->submit_file);
-        $fileContent = nl2br($fileContent, false);
         $data = $submissionObj;
         $data->code = $fileContent;
 

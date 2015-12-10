@@ -14,12 +14,12 @@
     <table id="signinTable">
         <tr >
             <td style="padding-left: 100px">Username</td>
-            <td ><input type="text" name="username" class="form-control" value="@if(!isset($username)){{ old('username') }}@else{{ $username }}@endif"/></td>
+            <td ><input type="text" name="username" class="form-control" value="@if(!isset($username)){{ old('username') }}@else{{ $username }}@endif" tabindex="1"/></td>
             <td><div style="padding-left: 4px"><a href="/auth/signup">Sign Up Now!</a></div></td>
         </tr>
         <tr>
             <td style="padding-left: 100px">Password</td>
-            <td ><input type="password" name="pass"class="form-control"/></td>
+            <td ><input type="password" name="pass"class="form-control" tabindex="2"/></td>
             <td><div style="padding-left: 4px">Click <a href="/auth/request">here</a> to reset</div></td>
         </tr>
         <tr>

@@ -1,53 +1,3 @@
-/*主页*/
-.home_body{
-    background-image: linear-gradient(to bottom, #63B8FF, #a6e1ec);
-    overflow: hidden;
-}
-.home_logo{
-    position: relative;
-    width: 700px;
-    margin: 0 auto;
-    margin-top: 10%;
-}
-.home_logo>img{
-    width: 100%;
-}
-.home_text{
-    font-size: 30px;
-}
-.dropdownmenu{
-    width: 150px;
-    padding-top: 150px;
-    marigin:0;
-    margin: 0 auto;
-}
-.dropdownmenu>ul{
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-    margin: 0 auto;
-    position: relative;
-}
-#home_btn{
-    z-index: 9;
-    position: relative;
-}
-.dropdownmenu>ul>li{
-    opacity:0;
-    position: absolute;
-    top:-50px;
-    width: 100px;
-}
-
-.home_button{
-    width: 150px;
-    height: 50px;
-    border: 1px solid white;
-    background: rgba(0,0,0,0);
-    display: table-cell;
-    vertical-align: middle;
-}
-
 /*导航栏式样*/
 #signin{
     position: absolute;
@@ -89,6 +39,14 @@
 #problemlist > tfoot > tr > td {
     padding: 5px;
 }
+#problemlist>thead{
+    background: #a6e1ec;
+}
+/**题目内容页**/
+#promblem_submit_textarea.form-control{
+    height: 400px;
+    width: 100%;
+}
 /*登陆注册表*/
 #signinTable{
     width: 600px;
@@ -119,8 +77,6 @@ body{
     margin:20px auto;
     width: 800px;
 }
-
-
 /*页脚*/
 .footer{
     background: #a6e1ec;
@@ -136,4 +92,27 @@ body{
     line-height: 20px;
     font-size: 13px;
 }
-
+/*常用全局标签*/
+.my_p{
+    width: 800px;
+    word-break: break-all;
+    text-indent: 2em;
+    font-size: 20px;
+    line-height: 30px;
+}
+/**status**/
+.status_main{
+    margin:20px auto;
+    width: 1000px;
+}
+#statuslist > thead > tr > th,
+#statuslist > tbody > tr > th,
+#statuslist > tfoot > tr > th,
+#statuslist > thead > tr > td,
+#statuslist > tbody > tr > td,
+#statuslist > tfoot > tr > td {
+    padding: 5px;
+}
+#statuslist>thead{
+    background: #a6e1ec;
+}

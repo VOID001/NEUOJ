@@ -1,22 +1,37 @@
-<meta http-equiv="Refresh" content="20"> <!-- Do not refresh too frequently -->
-<div>Status List</div>
-<div>
-    <div>Filter</div>
-    <form action="/status/p/1" method="GET">
-        <label>Username</label>
-        <input type="text" name="username"/>
-        <label>Problem ID</label>
-        <input type="text" name="pid"/>
-        <label>Language</label>
-        <select name="lang">
+<!doctype html>
+<html>
+<head>
+    <title>Problem</title>
+    @include("layout.head")
+    <link rel="stylesheet" href="/css/main.css">
+    <meta http-equiv="Refresh" content="20"> <!-- Do not refresh too frequently -->
+    <script type="text/javascript">
+        $(function(){
+            $("#status").addClass("active");
+            $('.selectpicker').selectpicker();
+        })
+    </script>
+</head>
+<body>
+    @include("layout.header")
+
+    <h3 class="text-center">Status List</h3>
+<div class="status_main">
+    <form action="/status/p/1" method="GET" class="form-inline">
+        <span style="font-size: 15px">Username:</span>
+        <input class="form-control" style="width: 150px;"type="text" name="username"/>
+        <span style="font-size: 15px;margin-left: 10px">Problem ID:</span>
+        <input class="form-control" style="width: 150px;"type="text" name="pid"/>
+        <span style="font-size: 15px;margin-left: 10px">Language:</span>
+        <select name="lang" class="form-control">
             <option name="all">All</option>
             <option name="c">C</option>
             <option name="java">Java</option>
             <option name="cpp">C++</option>
             <option name="cpp11">C++11</option>
         </select>
-        <label>Result</label>
-        <select name="result">
+        <span style="font-size: 15px;margin-left: 10px">Result:</span>
+        <select name="result" class="form-control">
             <option name="all">All</option>
             <option name="wt">Pending</option>
             <option name="ac">Accepted</option>
@@ -28,53 +43,49 @@
             <option name="ole">Output Limit Exceed</option>
             <option name="je">Judge Error</option>
         </select>
-        <input type="submit" value="filter"/>
+        <input type="submit" value="Filter" class="btn btn-info form-control"/>
     </form>
-</div>
-<table border="1">
-    <th>
-        <tr>
-            <td>
-                Run ID
-            </td>
-            <td>
+
+    <table class="table table-striped table-bordered table-hover" id="statuslist" width="100%" style="margin-top: 5px">
+    <thead>
+            <td class="text-center">Run ID</td>
+            <td class="text-center">
                 Submit Time
             </td>
-            <td>
+            <td class="text-center">
                 User ID
             </td>
-            <td>
+            <td class="text-center">
                 Username
             </td>
-            <td>
+            <td class="text-left">
                 Problem Title
             </td>
-            <td>
+            <td class="text-center">
                 Result
             </td>
-            <td>
+            <td class="text-center">
                 Exec_mem
             </td>
-            <td>
+            <td class="text-center">
                 Exec_time
             </td>
-            <td>
+            <td class="text-center">
                 View Code
             </td>
-        </tr>
-    </th>
+    </thead>
     @if($submissions != NULL)
         @foreach($submissions as $submission)
             <tr>
-                <td>{{ $submission->runid }}</td>
-                <td>{{ $submission->submit_time }}</td>
-                <td>{{ $submission->uid }}</td>
-                <td>{{ $submission->userName }}</td>
-                <td>{{ $submission->problemTitle }}</td>
-                <td>{{ $submission->result }}</td>
-                <td>{{ $submission->exec_mem }}</td>
-                <td>{{ $submission->exec_time }}</td>
-                <td>
+                <td class="text-center">{{ $submission->runid }}</td>
+                <td class="text-center">{{ $submission->submit_time }}</td>
+                <td class="text-center">{{ $submission->uid }}</td>
+                <td class="text-center">{{ $submission->userName }}</td>
+                <td class="text-left">{{ $submission->problemTitle }}</td>
+                <td class="text-center">{{ $submission->result }}</td>
+                <td class="text-center">{{ $submission->exec_mem }}</td>
+                <td class="text-center">{{ $submission->exec_time }}</td>
+                <td class="text-center">
                     @if(Request::session()->get('uid') == $submission->uid)
                         <a href="/status/{{ $submission->runid }}">View Source</a>
                     @else
@@ -84,12 +95,20 @@
             </tr>
         @endforeach
     @endif
-</table>
+    </table>
 
-@if(!isset($firstPage))
-    <a href="/status/p/{{ $page_id - 1 }}">Prev</a>
-@endif
+    <ul class="pager" role="fanye">
+        @if(!isset($firstPage))
+            <li ><a href="/status/p/{{ $page_id - 1 }}">&laquo;Previous</a></li>
+        @endif
+        @if(!isset($lastPage))
+            <li><a href="/status/p/{{ $page_id + 1 }}">&nbsp;&nbsp;&nbsp;Next&nbsp;&nbsp;&nbsp;&raquo;</a></li>
+        @endif
+    </ul>
 
-@if(!isset($lastPage))
-    <a href="/status/p/{{ $page_id + 1 }}">Next</a>
-@endif
+    </div>
+
+    <div style="padding-bottom: 40px">
+    @include("layout.footer")
+</body>
+</html>

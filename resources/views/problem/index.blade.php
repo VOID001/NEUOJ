@@ -4,6 +4,13 @@
     <title>Problem</title>
     @include("layout.head")
     <link rel="stylesheet" href="/css/main.css">
+    <script>
+        $(function(){
+            $("#submit").click(function(){
+                $("#mymodal").modal("toggle");
+            });
+        });
+    </script>
 </head>
 <body>
     @include("layout.header")
@@ -30,50 +37,47 @@
         <div>admin</div>
     </div>
     @if(Request::session()->get('username') != NULL)
-        <div class="text-center" style="padding-bottom: 50px"><a href="/submit/{{ $problem_id }}" class="btn btn-success">submit</a></div> @endif
+        <div class="text-center" style="padding-bottom: 50px"><a class="btn btn-success" id="submit">submit</a></div>
+    @else
+        <div class="text-center" style="padding-bottom: 50px"><a href="/auth/signin">Sign in</a> to Submit your code</div>
+    @endif
     @if(isset($errors))
         @foreach($errors->all() as $error)
             <li>{{ $error }}</li>
         @endforeach
     @endif
 
-        @if(Request::session()->get('username') != NULL)
-            <div>You are logged in, you can submit the code</div>
-            <form action="/submit/{{ $problem_id }}" method ="POST">
-                {{ csrf_field() }}
-                <table>
-                    <th>
-                        Submit your code below
-                    </th>
-                    <tr>
-                        <label name="Language">Select language</label>
-                        <select name="lang">
+    <div class="modal fade" id="mymodal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: #286090">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title"style="color: white">Submit</h4>
+                </div>
+                <div class="modal-body">
+
+                    <form action="/submit/{{ $problem_id }}" method ="POST">
+                     {{ csrf_field() }}
+                        <span name="Language" style="float: left;font-size: 16px;margin-top: 8px">language:</span>
+                        <select name="lang" class="form-control" style="display: inline-block;width: 100px;margin-bottom: 10px">
                             <option name="c">C</option>
                             <option name="java">Java</option>
                             <option name="cpp">C++</option>
                             <option name="cpp11">C++11</option>
                         </select>
-                    </tr>
-                    <tr>
-                        <td>
-                            <textarea name="code" placeholder="Input your code here..."></textarea>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <input type="submit" value="Submit Code"/>
-                        </td>
-                        <td>
-                            <input type="reset" value="Reset"/>
-                        </td>
-                    </tr>
-                </table>
-                <div class="text-center" style="padding-bottom: 50px"></div>
-            </form>
+                        <textarea name="code" id="promblem_submit_textarea" class="form-control" placeholder="Input your code here..."></textarea>
 
-        @else
-            <div class="text-center" style="padding-bottom: 50px"><a href="/auth/signin">Sign in</a> to Submit your code</div>
-        @endif
+                        <input type="reset" class="btn btn-primary pull-right" value="&nbsp;Reset&nbsp;" style="margin-left: 10px;margin-top: 10px"/>
+                        <input type="submit" class="btn btn-primary pull-right" value="Submit" style="margin-top: 10px"/>
+
+
+                        <div class="text-center" style="padding-bottom: 50px;"></div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
 
         @include("layout.footer")
 </body>
