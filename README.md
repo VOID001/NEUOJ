@@ -15,7 +15,7 @@ NEUOJ
 * [ ] Root Admin Panel
  * [ ] + User Managment
 * [ ] Auth module
- * [ ] Register
+ * [x] Register
  * [x] Login
  * [ ] Reset Password
  * [ ] (Future) SSO and Third party login
@@ -23,7 +23,7 @@ NEUOJ
  * [ ] Search problem by id
  * [x] View Page-splited problem list
  * [ ] Search problem by title
-* [ ] Problem Submit
+* [x] Problem Submit
 * [ ] Judge (Current Plan: use domjudge judgedaemon to judge)
  * [ ] Read domjudge judge/ code and make the Request Graph
  * [ ] Implement the RESTful API with laravel
