@@ -85,3 +85,43 @@ Route::group(['middleware' => 'auth'],function(){
         "uses" => "SubmissionController@submitAction"
     ]);
 });
+
+/*
+ * RESTful API routes
+ */
+
+Route::post('/api/judgings', [
+    "uses" => "RESTController@postJudgings"
+]);
+
+Route::get('/api/config', [
+    "uses" => "RESTController@getConfig"
+]);
+
+Route::get('/api/submission_files', [
+    "uses" => "RESTController@getSubmissionFiles"
+]);
+
+Route::get('/api/testcases', [
+    "uses" => "RESTController@getTestcases"
+]);
+
+Route::get('/api/executable', [
+    "uses" => "RESTController@getExecutable"
+]);
+
+Route::any('/api/judgehosts', [
+    "uses" => "RESTController@postJudgeHosts"
+]);
+
+Route::put('/api/judgings/{id}',[
+    "uses" => "RESTController@putJudgings"
+]);
+
+Route::get('api/testcase_files',[
+    "uses" => "RESTController@getTestcaseFiles"
+]);
+
+Route::post('/api/judging_runs',[
+    "uses" => "RESTController@postJudgingRuns"
+]);

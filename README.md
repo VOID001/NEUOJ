@@ -24,9 +24,9 @@ NEUOJ
  * [x] View Page-splited problem list
  * [ ] Search problem by title
 * [x] Problem Submit
-* [ ] Judge (Current Plan: use domjudge judgedaemon to judge)
- * [ ] Read domjudge judge/ code and make the Request Graph
- * [ ] Implement the RESTful API with laravel
+* [x] Judge (Current Plan: use domjudge judgedaemon to judge)
+ * [x] Read domjudge judge/ code and make the Request Graph
+ * [x] Implement the RESTful API with laravel
 
 
 ### top level route
