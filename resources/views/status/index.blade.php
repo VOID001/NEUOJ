@@ -13,10 +13,10 @@
     <label>Download Source Code</label>
 </div>
 <div>
-<h3>Source Code</h3>
+    <h3>Source Code</h3>
 <pre>
 <code class="cpp">
-{{ $code }}
+    {{ $code }}
 </code>
 </pre>
 </div>
