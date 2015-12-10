@@ -95,9 +95,16 @@ class RESTController extends Controller
         return response()->json($content);
     }
 
-    public function putJudgings(Request $request)
+    public function putJudgings(Request $request, $id)
     {
-        var_dump($request->input());
+        $input = $request->input();
+        if($input["compile_success"] != "1")
+        {
+            Submission::where('runid', $id)->update([
+                "judge_status" => 3,
+                "result" => "Compile Error",
+            ]);
+        }
     }
 
     public function getTestcases(Request $request)
