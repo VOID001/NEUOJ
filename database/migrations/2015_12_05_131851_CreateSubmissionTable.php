@@ -18,7 +18,7 @@ class CreateSubmissionTable extends Migration
             $table->integer('uid');
             $table->integer('cid');
             $table->dateTime('submit_time');
-            $table->integer('exec_time');
+            $table->double('exec_time');
             $table->integer('exec_mem');
             $table->string('lang');
             $table->string('result');
@@ -27,6 +27,7 @@ class CreateSubmissionTable extends Migration
             $table->string('judgeid');
             $table->string('submit_file');
             $table->string('md5sum');
+            $table->integer('judge_status'); // 0 for in queue 1 for send to judge 2 for finished
             $table->timestamps();
         });
     }
