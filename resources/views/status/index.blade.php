@@ -1,8 +1,9 @@
 
 
-<link rel="stylesheet" href="/hljs/src/styles/monokai.css">
-<script src="/hljs/src/highlight.js"></script>
-<script>hljs.initHightlingOnLoad();</script>
+<link href="//cdn.bootcss.com/highlight.js/9.0.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="//cdn.bootcss.com/highlight.js/9.0.0/highlight.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.0.0/languages/cpp.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
 <div>
     <h3>
         Run ID {{ $runid }}
@@ -12,10 +13,10 @@
     <label>Download Source Code</label>
 </div>
 <div>
-    <h3>Source Code</h3>
-    <pre>
-        <code class="c">
-    {!! $code !!}
-        </code>
-    </pre>
+<h3>Source Code</h3>
+<pre>
+<code class="cpp">
+{{ $code }}
+</code>
+</pre>
 </div>
