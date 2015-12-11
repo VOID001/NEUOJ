@@ -99,10 +99,10 @@
 
     <ul class="pager" role="fanye">
         @if(!isset($firstPage))
-            <li ><a href="/status/p/{{ $page_id - 1 }}">&laquo;Previous</a></li>
+            <li ><a href="/status/p/{{ $page_id - 1 }}{{ $queryStr }}">&laquo;Previous</a></li>
         @endif
         @if(!isset($lastPage))
-            <li><a href="/status/p/{{ $page_id + 1 }}">&nbsp;&nbsp;&nbsp;Next&nbsp;&nbsp;&nbsp;&raquo;</a></li>
+            <li><a href="/status/p/{{ $page_id + 1 }}{{ $queryStr }}">&nbsp;&nbsp;&nbsp;Next&nbsp;&nbsp;&nbsp;&raquo;</a></li>
         @endif
     </ul>
 

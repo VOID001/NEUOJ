@@ -54,8 +54,8 @@ class SubmissionController extends Controller
             $submission->md5sum = md5($request->input('code'));
             $submission->judge_status = 0;
             $submission->save();
-            var_dump($submission);
-            return Redirect::to($request->server('HTTP_REFERER'));
+            $runid = $submission->id;
+            return Redirect::to("/status/$runid");
         }
     }
 
@@ -103,7 +103,7 @@ class SubmissionController extends Controller
             }
         }
         $submissionObj = Submission::where($queryArr);
-        $submissionObj = $submissionObj->orderby('runid', 'asc')->get();
+        $submissionObj = $submissionObj->orderby('runid', 'desc')->get();
         for($count = 0, $i = ($page_id - 1) * $itemsPerPage; $count < $itemsPerPage && $i < $submissionObj->count(); $i++, $count++)
         {
             $data['submissions'][$count] = $submissionObj[$i];
@@ -114,6 +114,12 @@ class SubmissionController extends Controller
             $data['submissions'][$count]->userName = $username;
             $data['submissions'][$count]->problemTitle = $problemTitle;
         }
+        $queryInput = $request->input();
+        $queryStr = "?";
+        foreach($queryInput as $key => $val)
+        {
+            $queryStr .= $key . "=" . $val . "&";
+        }
         if($i >= $submissionObj->count())
         {
             $data['lastPage'] = true;
@@ -123,7 +129,7 @@ class SubmissionController extends Controller
             $data['firstPage'] = true;
         }
         $data['page_id'] = $page_id;
-
+        $data['queryStr'] = $queryStr;
         return View::make('status.list', $data);
     }
 

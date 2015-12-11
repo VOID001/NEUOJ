@@ -1,4 +1,4 @@
-
+<meta http-equiv="Refresh" content="2">
 
 <link href="//cdn.bootcss.com/highlight.js/9.0.0/styles/monokai-sublime.min.css" rel="stylesheet">
 <script src="//cdn.bootcss.com/highlight.js/9.0.0/highlight.min.js"></script>
