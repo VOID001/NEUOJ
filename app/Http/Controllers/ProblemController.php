@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Redirect;
 
 use App\User;
 use App\Problem;
+use App\Submission;
 
 class ProblemController extends Controller
 {
@@ -57,6 +58,11 @@ class ProblemController extends Controller
         for($count = 0, $i = ($page_id - 1) * $problemPerPage; $count < $problemPerPage && $i < $problemObj->count(); $i++, $count++)
         {
             $data['problems'][$count] = $problemObj[$i];
+            $data['problems'][$count]->submission_count = Submission::where('pid', $problemObj[$i]->problem_id)->count();
+            $data['problems'][$count]->ac_count = Submission::where('pid', $problemObj[$i]->problem_id)
+                ->where('result', 'Accepted')->count();
+            $authorObj = User::where('uid', $problemObj[$i]->author_id)->first();
+            $data['problems'][$count]->author = $authorObj["username"];
         }
         if($i >= $problemObj->count())
         {

@@ -15,8 +15,11 @@ class CreateUserInfoTable extends Migration
         Schema::create('userinfo', function (Blueprint $table) {
             $table->increments("info_id");
             $table->integer("uid")->unique();
+            $table->string("nickname");
             $table->string("school");
             $table->string("stu_id");
+            $table->integer("submit_count");
+            $table->integer("ac_count");
             $table->timestamps();
 
         });

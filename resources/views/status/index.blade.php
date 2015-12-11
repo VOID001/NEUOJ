@@ -8,7 +8,7 @@
     <h3>
         Run ID {{ $runid }}
     </h3>
-    <label>Problem ID <b>{{ $pid }}</b></label>
+    <label><a href="/problem/{{ $pid }}">Problem ID <b>{{ $pid }}</b></a></label>
     <label>Result <b>{{ $result }}</b></label>
     <label>Download Source Code</label>
 </div>
