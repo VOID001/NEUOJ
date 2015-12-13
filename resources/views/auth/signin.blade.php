@@ -42,7 +42,6 @@
             <img class="third_logo2" src="/image/github.PNG">
         </div>
     </div>
-
 </div>
     @include("layout.footer")
 </body>
