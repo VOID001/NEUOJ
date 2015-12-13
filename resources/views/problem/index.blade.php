@@ -9,6 +9,21 @@
             $("#submit").click(function(){
                 $("#mymodal").modal("toggle");
             });
+            $("#promblem_submit_textarea").keydown(function(){
+                if($("#promblem_submit_textarea").val().length<50||
+                        $("#promblem_submit_textarea").val().length>50000) {
+                    $("#hint_code").addClass("label-warning");
+                    $("#hint_code").html("the character range must be [50,50000]");
+                }else{
+                    $("#hint_code").removeClass("label-warning");
+                }
+            });
+            $("#submit_code").click(function(){
+                if($("#promblem_submit_textarea").val().length>=50&&
+                        $("#promblem_submit_textarea").val().length<=50000){
+                    $("#form_code").submit();
+                }
+            });
         });
     </script>
 </head>
@@ -41,22 +56,16 @@
     @else
         <div class="text-center" style="padding-bottom: 50px"><a href="/auth/signin">Sign in</a> to Submit your code</div>
     @endif
-    @if(isset($errors))
-        @foreach($errors->all() as $error)
-            <li>{{ $error }}</li>
-        @endforeach
-    @endif
 
     <div class="modal fade" id="mymodal">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header" style="background-color: #286090">
-                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <button type="button" class="close" data-dismiss="modal" style="color: white"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                     <h4 class="modal-title"style="color: white">Submit</h4>
                 </div>
                 <div class="modal-body">
-
-                    <form action="/submit/{{ $problem_id }}" method ="POST">
+                    <form action="/submit/{{ $problem_id }}" method ="POST" id="form_code">
                      {{ csrf_field() }}
                         <span name="Language" style="float: left;font-size: 16px;margin-top: 8px">language:</span>
                         <select name="lang" class="form-control" style="display: inline-block;width: 100px;margin-bottom: 10px">
@@ -66,14 +75,11 @@
                             <option name="cpp11">C++11</option>
                         </select>
                         <textarea name="code" id="promblem_submit_textarea" class="form-control" placeholder="Input your code here..."></textarea>
-
                         <input type="reset" class="btn btn-primary pull-right" value="&nbsp;Reset&nbsp;" style="margin-left: 10px;margin-top: 10px"/>
-                        <input type="submit" class="btn btn-primary pull-right" value="Submit" style="margin-top: 10px"/>
-
-
-                        <div class="text-center" style="padding-bottom: 50px;"></div>
+                        <input type="button" class="btn btn-primary pull-right" value="Submit" style="margin-top: 10px" id="submit_code"/>
+                        <div style="margin-top: 15px"><div class="label label-warning" style="font-size: 13px;" id="hint_code">the character range must be [50,50000]</div></div>
+                        <div class="text-center" style="padding-bottom: 20px;"></div>
                     </form>
-
                 </div>
             </div>
         </div>

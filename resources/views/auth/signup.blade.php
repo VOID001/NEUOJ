@@ -12,6 +12,11 @@
     <form action="/auth/signup" method="POST">
     {{ csrf_field() }}
         <h3 class="text-center">Sign up</h3>
+        <div style="height: 20px;padding-left: 38px">
+            @if(count($errors) > 0)
+                <div class="form-group" style="width: 400px;text-align: left"><div class="label label-warning" style="font-size: 13px">{{$errors->all()[0]}}</div></div>
+            @endif
+        </div>
         <table id="signupTable">
                 <tr>
                     <td style="padding-left: 20px">Username</td>
@@ -34,14 +39,6 @@
                     <td class="text-right"><input type="submit" value="Sign up" class="btn btn-success"></td>
                 </tr>
         </table>
-        @if(count($errors) > 0)
-            <div>
-                @foreach($errors->all() as $error)
-                    <div style="width: 360px;text-align: left;" class="text-danger" >{{ $error }}</div>
-                    <?php break;?>
-                @endforeach
-            </div>
-        @endif
     </form>
     </div>
     <div style="height: 192px"></div>

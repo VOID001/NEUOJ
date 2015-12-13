@@ -11,6 +11,13 @@
 <form action="/auth/signin" method="POST">
 {{ csrf_field() }}
     <h3 class="text-center">Sign in</h3>
+    <div style="height: 20px">
+        @if(count($errors) > 0 )
+            <div class="form-group" style="width: 400px;text-align: left"><div class="label label-warning" style="font-size: 13px">{{$errors->all()[0]}}</div></div>
+        @elseif(isset($loginError))
+            <div class="form-group" style="width: 400px;text-align: left"><div class="label label-warning" style="font-size: 13px">{{ $loginError }}</div></div>
+        @endif
+    </div>
     <table id="signinTable">
         <tr >
             <td style="padding-left: 100px">Username</td>
@@ -27,17 +34,6 @@
             <td class="text-right"><input type="submit" value="Sign in" class="btn btn-success"></td>
         </tr>
     </table>
-    <div style="height: 20px">
-    @if(count($errors) > 0 || isset($loginError))
-        @foreach($errors->all() as $error)
-            <div style="width: 400px;text-align: left" class="text-danger">{{ $error }}</div>
-            <?php break;?>
-        @endforeach
-        @if(isset($loginError))
-            <li>{{ $loginError }}</li>
-        @endif
-    @endif
-    </div>
 </form>
     <div class="panel panel-default" style="width: 400px;height: 80px">
         <div class="panel-heading text-left">第三方登陆</div>
