@@ -32,6 +32,13 @@ class UserController extends Controller
             if($vdtor->fails()) {
                 return Redirect::route('dashboard.profile')->withErrors($vdtor);
             }
+            $userinfoObject=Userinfo::where('uid', $uid)->first();
+            if(!isset($userinfoObject))
+            {
+                $userinfoObject = new Userinfo;
+                $userinfoObject->uid = $uid;
+                $userinfoObject->save();
+            }
             Userinfo::where('uid', $uid)->update(['nickname' => $request->nickname]);
             Userinfo::where('uid', $uid)->update(['school' => $request->school]);
             Userinfo::where('uid', $uid)->update(['stu_id' => $request->stu_id]);
