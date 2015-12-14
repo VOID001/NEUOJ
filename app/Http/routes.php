@@ -80,6 +80,10 @@ Route::group(['middleware' => 'auth'],function(){
     Route::get('/dashboard', [
         "as" => "dashboard",
     ]);
+    Route::match(['post','get'],'/dashboard/profile', [
+        "as" => "dashboard.profile",
+        "uses" => "UserController@setProfile"
+    ]);
     Route::post('/submit/{problem_id}', [
         "as" => "submit",
         "uses" => "SubmissionController@submitAction"

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use App\User;
+use App\Userinfo;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 
@@ -86,15 +87,21 @@ class AuthController extends Controller
             $userObject->password = Hash::make($request->pass);
             $userObject->email = $request->email;
             $userObject->save();
+
+            $userObject->where('username', $request->username)->update(['lastlogin_ip' => $request->ip()]);
+            $userObject->where('username', $request->username)->update(['regsitration_ip' => $request->ip()]);
+
+            //after $userObject->save(), $userObject->uid is not available
+            $userObject=User::where('username',$request->username)->first();
             //Keep this session if you need auto-login after sign up
-            /*
-            $userObject->where('uid', $userObject->uid)->update(['lastlogin_ip' => $request->ip()]);
             $request->session()->put([
                 'username' => $userObject->username,
                 'uid' => $userObject->uid,
             ]);
-            */
-            return Redirect::route('home');
+            $userinfoObject = new Userinfo;
+            $userinfoObject->uid = $userObject->uid;
+            $userinfoObject->save();
+            return Redirect::route('dashboard.profile');
         }
         return View::make('auth.signup', $data);
     }
