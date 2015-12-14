@@ -27,8 +27,10 @@ class UserController extends Controller
             $vdtor = Validator::make($input, [
                 "nickname" => "max:255",
                 "school" => "max:255",  //check school
-                "stu_id" => "max:255"  //check stu_id unique
             ]);
+            $vdtor->sometimes('stu_id','required|max:255:unique',function($input){
+               return $input->school == "NEU";
+            });
             if($vdtor->fails()) {
                 return Redirect::route('dashboard.profile')->withErrors($vdtor);
             }
