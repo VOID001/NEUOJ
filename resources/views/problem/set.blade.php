@@ -14,6 +14,12 @@
     <input type="text" value="{{ $problem->title }}" name="title"/>
     <div>Problem Description</div>
     <textarea name="description">{{ $problem->description or "" }}</textarea>
+    <div>Memory Limit</div>
+    <input type="text" name="mem_limit" value="{{ $problem->mem_limit }}"/>
+    <div>Time Limit</div>
+    <input type="text" name="time_limit" value="{{ $problem->time_limit }}"/>
+    <div>Output Limit</div>
+    <input type="text" name="output_limit" value="{{ $problem->output_limit }}"/>
     <div>Input</div>
     <textarea name="input">{{ $problem->input or "" }}</textarea>
     <div>Output</div>

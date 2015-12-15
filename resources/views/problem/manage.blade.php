@@ -1,4 +1,6 @@
 Please Desgin the Pattern as your wish
+<div>{{ $status or "" }}</div>
+<a href="/dashboard/problem/add/">Add Problem</a>
 @foreach($problems as $problem)
     <div>{{ $problem->title }}</div>
     <div>{{ $problem->problem_id }}</div>

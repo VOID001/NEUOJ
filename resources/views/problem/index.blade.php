@@ -34,22 +34,22 @@
     <div class="panel panel-default main">
 
         <h3>Problem Description</h3>
-        <div>{{ $problem->description }}</div>
+        <pre>{{ $problem->description }}</pre>
         <hr>
         <h3>Input</h3>
-        <div>{{ $problem->input }}</div>
+        <pre>{{ $problem->input }}</pre>
         <hr>
         <h3>Output</h3>
-        <div>{{ $problem->output }}</div>
+        <pre>{{ $problem->output }}</pre>
         <hr>
         <h3>Sample Input</h3>
-        <div>{{ $problem->sample_input }}</div>
+        <pre>{{ $problem->sample_input }}</pre>
         <hr>
         <h3>Sample Output</h3>
-        <div>{{ $problem->sample_output }}</div>
+        <pre>{{ $problem->sample_output }}</pre>
         <hr>
         <h3>Source</h3>
-        <div>{{ $problem->source }}</div>
+        <pre>{{ $problem->source }}</pre>
     </div>
     @if(Request::session()->get('username') != NULL)
         <div class="text-center" style="padding-bottom: 50px"><a class="btn btn-success" id="submit">submit</a></div>
