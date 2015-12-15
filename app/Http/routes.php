@@ -77,12 +77,19 @@ Route::group(['middleware' => 'auth'],function(){
         "as" => "logout",
         "uses" => "AuthController@logoutAction"
     ]);
-    Route::get('/dashboard', [
-        "as" => "dashboard",
+    Route::get('/dashboard/problem/', [
+        "uses" => "ProblemController@showProblemDashboard",
+    ]);
+    Route::get('/dashboard/problem/p/{page_id}', [
+        "as" => "dashboard.problem",
+        "uses" => "ProblemController@showProblemDashboardByPageID",
     ]);
     Route::match(['post','get'],'/dashboard/profile', [
         "as" => "dashboard.profile",
         "uses" => "UserController@setProfile"
+    ]);
+    Route::match(['post', 'get'], '/dashboard/problem/{problem_id}', [
+        "uses" => "ProblemController@setProblem",
     ]);
     Route::post('/submit/{problem_id}', [
         "as" => "submit",
