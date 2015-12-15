@@ -96,6 +96,10 @@ class ProblemController extends Controller
         $problemPerPage = 20;
         $problemObj = Problem::all();
         $data[] = NULL;
+        if(session('status'))
+        {
+            $data['status'] = session('status');
+        }
         for($count = 0, $i = ($page_id - 1) * $problemPerPage; $count < $problemPerPage && $i < $problemObj->count(); $count++, $i++)
         {
             $data['problems'][$count] = $problemObj[$i];
@@ -123,6 +127,10 @@ class ProblemController extends Controller
         $data['errors'] = [];
         $problemObj = Problem::where('problem_id', $problem_id)->first();
         $testcaseObj = Testcase::where('pid', $problem_id)->first();
+        if($problemObj == NULL)
+        {
+            return Redirect::to('/dashboard/problem/');
+        }
         if($testcaseObj != NULL)
         {
             $testcaseObj = Testcase::where('pid', $problem_id)->get();
@@ -133,24 +141,30 @@ class ProblemController extends Controller
             /*
              * POST means update , Update the problem Info
              */
-            $input = $request->input();
-            $title = $input['title'];
-            unset($input['title']);
-            unset($input['_token']);
+            $updateProblemData = $request->input();
+
             /*
              * Description is stored in json format
              * encode it and store it
+             * And do not store limitation info in the description
              */
-            foreach($input as $key => $val)
+            unset($updateProblemData['_token']);
+            foreach($updateProblemData as $key => $val)
             {
+                if(strpos($key, "limit"))
+                {
+                    continue;
+                }
                 $jsonObj[$key] = $val;
             }
-            $description = json_encode($jsonObj);
-            var_dump($input);
-            Problem::where('problem_id', $problem_id)->update([
-                "title" => $title,
-                "description" => $description,
-            ]);
+            unset($updateProblemData['input']);
+            unset($updateProblemData['output']);
+            unset($updateProblemData['sample_input']);
+            unset($updateProblemData['sample_output']);
+            unset($updateProblemData['source']);
+            $updateProblemData['description'] = json_encode($jsonObj);
+            //var_dump($input);
+            Problem::where('problem_id', $problem_id)->update($updateProblemData);
             /*
              * Check if testcase files are changed
              */
@@ -225,4 +239,16 @@ class ProblemController extends Controller
         }
     }
 
+    public function delProblem(Request $request, $problem_id)
+    {
+        Problem::where('problem_id', $problem_id)->delete();
+        Testcase::where('pid', $problem_id)->delete();
+        $status = "Successfully Delete Problem $problem_id";
+        return Redirect::to('/dashboard/problem/')->with('status', $status);
+    }
+
+    public function addProblem(Request $request)
+    {
+        return "This is for MiaoP XD";
+    }
 }

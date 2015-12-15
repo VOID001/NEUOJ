@@ -90,6 +90,12 @@ Route::group(['middleware' => 'auth'],function(){
     ]);
     Route::match(['post', 'get'], '/dashboard/problem/{problem_id}', [
         "uses" => "ProblemController@setProblem",
+    ])->where('problem_id', '[0-9]+');
+    Route::delete('/dashboard/problem/{problem_id}', [
+        "uses" => "ProblemController@delProblem"
+    ])->where('problem_id', '[0-9]+');
+    Route::match(['post', 'get'], '/dashboard/problem/add',[
+        "uses" => "ProblemController@addProblem"
     ]);
     Route::post('/submit/{problem_id}', [
         "as" => "submit",
