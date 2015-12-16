@@ -4,9 +4,9 @@ NEUOJ
 ### Function Enabled for v1.0
 * [ ] Problem managment
  * [ ] Add Problem
- * [ ] Edit Problem
- * [ ] Delete Problem
- * [ ] Edit data
+ * [x] Edit Problem
+ * [x] Delete Problem
+ * [x] Edit data
 * [ ] Hold Contest
  * [ ] Three kind of access to contest: Private Register Public
  * [ ] Enable user register himself into the register Contest
