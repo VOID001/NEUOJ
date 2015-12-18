@@ -48,7 +48,10 @@ class AuthController extends Controller
                 {
                     /* Save ip into session before update it */
                     if($row->lastlogin_ip != "") $request->session()->put('lastlogin_ip', $row->lastlogin_ip);
-                    $userObject->where('uid', $row->uid)->update(['lastlogin_ip' => $request->ip()]);
+                    $userObject->where('uid', $row->uid)->update([
+                        'lastlogin_ip' => $request->ip(),
+                        'lastlogin_time' => date('Y-m-d h:i:s')
+                    ]);
                     $request->session()->put([
                         'username' => $row->username,
                         'uid' => $row->uid,
@@ -86,6 +89,7 @@ class AuthController extends Controller
             $userObject->username = $request->username;
             $userObject->password = Hash::make($request->pass);
             $userObject->email = $request->email;
+            $userObject->registration_time = date('Y-m-d h:i:s');
             $userObject->save();
 
             $userObject->where('username', $request->username)->update(['lastlogin_ip' => $request->ip()]);
