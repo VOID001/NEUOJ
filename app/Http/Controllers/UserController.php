@@ -20,7 +20,10 @@ class UserController extends Controller
     public function setProfile(Request $request)
     {
         $uid=$request->session()->get('uid');
-        $input=[];
+        if(!$request->session()->has('profileError'))
+            $input = [];
+        else
+            $input['profileError'] = $request->session()->get('profileError');
         if($request->method() == 'POST')
         {
             $input = $request->input();

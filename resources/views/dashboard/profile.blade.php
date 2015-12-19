@@ -15,6 +15,8 @@
         <div style="height: 20px;padding-left: 38px">
             @if(count($errors) > 0)
                 <div class="form-group" style="width: 400px;text-align: left"><div class="label label-warning" style="font-size: 13px">{{$errors->all()[0]}}</div></div>
+            @elseif(isset($profileError))
+                <div class="form-group" style="width: 400px;text-align: left"><div class="label label-warning" style="font-size: 13px">{{ $profileError }}</div></div>
             @endif
         </div>
         <table id="profileTable">
