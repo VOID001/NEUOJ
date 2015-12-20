@@ -20,6 +20,7 @@
                     <li id="status"><a href="/status">Status</a></li>
                     <li id="discuss"><a href="/discuss">Discuss</a></li>
                     <li id="rating"><a href="#">Rating</a></li>
+                    <li id="temp_"><a href="/dashboard/profile">Dashboard</a></li>
                 </ul>
 
                 @if(Request::session()->get('username')!="")

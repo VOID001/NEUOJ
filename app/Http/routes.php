@@ -74,34 +74,47 @@ Route::group(['middleware' => 'profile'],function() {
 
     /*Route group need auth middleware*/
     Route::group(['middleware' => 'auth'], function () {
+
         Route::get('/auth/logout', [
             "as" => "logout",
             "uses" => "AuthController@logoutAction"
         ]);
+
         Route::get('/dashboard/problem/', [
             "uses" => "ProblemController@showProblemDashboard",
         ]);
+
         Route::get('/dashboard/problem/p/{page_id}', [
             "as" => "dashboard.problem",
             "uses" => "ProblemController@showProblemDashboardByPageID",
         ]);
+
         Route::match(['post', 'get'], '/dashboard/profile', [
             "as" => "dashboard.profile",
             "uses" => "UserController@setProfile"
         ]);
+
         Route::match(['post', 'get'], '/dashboard/problem/{problem_id}', [
             "uses" => "ProblemController@setProblem",
         ])->where('problem_id', '[0-9]+');
+
         Route::delete('/dashboard/problem/{problem_id}', [
             "uses" => "ProblemController@delProblem"
         ])->where('problem_id', '[0-9]+');
+
         Route::match(['post', 'get'], '/dashboard/problem/add', [
             "uses" => "ProblemController@addProblem"
         ]);
+
         Route::post('/submit/{problem_id}', [
             "as" => "submit",
             "uses" => "SubmissionController@submitAction"
         ]);
+
+        Route::get('/dashboard/contest/', [
+            "uses" => "ContestController@showContestDashboard"
+        ]);
+
     });
 });
 /*
