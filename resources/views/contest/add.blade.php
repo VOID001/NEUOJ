@@ -1,6 +1,8 @@
 <h1>Add Contest</h1>
 @foreach($errors->all() as $error)
-    <ul>{{ $error }}</ul>
+    <div>
+        <ul>{{ $error }}</ul>
+    </div>
 @endforeach
 <form action="/dashboard/contest/add" method="post">
     {{ csrf_field() }}
@@ -27,8 +29,10 @@
             <input type="file" name="user_list"/>
         </div>
         <div>
-            <label>Input Allowed User ID</label>
-            <input type="text" name="user_id"/>
+            <label>Input Allowed User name</label>
+            <div>
+                <textarea name="user_list" placeholder="Input the user name , seperate each with comma"></textarea>
+            </div>
             <div id="add_user_list">
                 <!-- ID map to username -->
             </div>

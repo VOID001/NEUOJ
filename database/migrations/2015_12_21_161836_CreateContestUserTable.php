@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateContestProblemTable extends Migration
+class CreateContestUserTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,13 +12,12 @@ class CreateContestProblemTable extends Migration
      */
     public function up()
     {
-        Schema::create('contest_problems', function (Blueprint $table) {
+        Schema::create('contest_users', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('contest_id');
-            $table->integer('problem_id');
-            $table->integer('contest_problem_id');
-            $table->string('problem_title');
-            $table->integer('first_ac');
+            $table->integer('user_id');
+            $table->string('username');
+            $table->integer('is_official');
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ class CreateContestProblemTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('contest_problems');
+        Schema::dropIfExists('contest_users');
     }
 }

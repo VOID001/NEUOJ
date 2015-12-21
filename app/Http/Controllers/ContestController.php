@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Contest;
 use App\ContestProblem;
+use App\ContestUser;
 use App\Problem;
 use App\User;
 use App\Http\Controllers\Controller;
@@ -13,18 +14,16 @@ use Illuminate\Support\MessageBag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use Illuminate\Http\Response;
-//use App\Submission;
 
 class ContestController extends Controller
 {
     public function showContestDashboard(Request $request)
     {
         $contestObj = Contest::all();
-        var_dump($contestObj);
         $data = [];
         if(!$contestObj->isEmpty())
         {
-
+            $data['contests'] = $contestObj;
         }
         return View::make('contest.dashboard', $data);
     }
@@ -37,17 +36,23 @@ class ContestController extends Controller
         {
             $input = $request->all();
             $currentProblem = [];
-            //Validation Check
 
+            //Validation Check
             $beginTime = strtotime($input['begin_time']);
             $endTime = strtotime($input['end_time']);
             $vdtor = Validator::make($input, [
                 'contest_name' => 'required | unique:contest_info',
-                'problem_id' => 'exists:problems'
+                'problem_id' => 'required | exists:problems'
             ]);
             if($vdtor->fails())
             {
                 $errMsg = $vdtor->errors();
+            }
+            //No Problem Provided, Redirect Now
+            if(!isset($input['problem_id']))
+            {
+                $errMsg->add('err', "You must Provide at least one problem!");
+                return Redirect::route('contest.add')->withErrors($errMsg)->withInput($input);
             }
             if($beginTime >= $endTime)
             {
@@ -67,27 +72,59 @@ class ContestController extends Controller
                     'current_problem' => $currentProblem,
                 ]);
             }
-            $contestSaveData = [];
-            $contestSaveData['contest_name']= $input['contest_name'];
-            $contestSaveData['begin_time'] = date('Y-m-d H:i:s', $beginTime);
-            $contestSaveData['end_time'] = date('Y-m-d H:i:s', $endTime);
-            $contestSaveData['admin_id']= $request->session('uid');
-            var_dump($input);
-            var_dump($contestSaveData);
+            $contestObj = new Contest;
+            $contestObj->contest_name = $input['contest_name'];
+            $contestObj->begin_time = $input['begin_time'];
+            $contestObj->end_time = $input['end_time'];
+            $contestObj->admin_id = $request->session()->get('uid');
+            $type = 0;
+            switch($input['contest_type'])
+            {
+                case "public":
+                    $type = 0;
+                    break;
+                case "private":
+                    $type = 1;
+                    break;
+                case "register":
+                    $type = 2;
+                    break;
+            }
+            $contestObj->contest_type = $type;
+            $contestObj->save();
+
             //Check the problems, if pid is not unique, only insert one
             $checkUnique = [];
-            $contestProblemSaveData = [];
             for($i = 0; $i < count($input['problem_id']); $i++)
             {
                 $problem_id = $input['problem_id'][$i];
                 if(isset($checkUnique[$problem_id]))
                     continue;
                 $checkUnique[$problem_id] = 1;
-
+                $contestProblemObj = new ContestProblem;
+                $contestProblemObj->problem_id = $problem_id;
+                $contestProblemObj->contest_id = $contestObj->id;
+                $contestProblemObj->problem_title = $input['problem_name'][$i];
+                $contestProblemObj->contest_problem_id = $i + 1;
+                $contestProblemObj->save();
             }
-            echo $input['begin_time'];
-            $beginTime = strtotime($input['begin_time']);
-            echo date('Y-m-d H:i:s', $beginTime);
+            if($type == 1)
+            {
+                $userList = explode(',', $input['user_list']);
+                $userList = array_unique($userList);
+                foreach($userList as $user)
+                {
+                    $contestUserObj = new ContestUser;
+                    $contestUserObj->contest_id = $contestObj->id;
+                    $contestUserObj->username = $user;
+                    $userObj = User::where('username', $user)->first();
+                    if($userObj)
+                    {
+                        $contestUserObj->user_id = $userObj->uid;
+                    }
+                    $contestUserObj->save();
+                }
+            }
         }
         return View::make('contest.add', $data);
     }
