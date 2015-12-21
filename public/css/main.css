@@ -1,4 +1,7 @@
 /*导航栏式样*/
+.navbar-default .navbar-nav > li > a {
+    color: #fff;
+}
 #signin{
     position: absolute;
     top:10px;
@@ -7,12 +10,19 @@
 }
 #dashboard{
     position: absolute;
+    display: block;
     top:6px;
     right: 140px;
-    width: 70px;
+    width: 200px;
     padding-top: 10px;
     text-decoration: none;
     font-size: 18px;
+    color: #fff;
+    text-overflow: ellipsis;
+    overflow:hidden;
+}
+#dashboard:hover{
+    color: #333;
 }
 #logout,#signup{
     position: absolute;
@@ -39,8 +49,11 @@
 #problemlist > tfoot > tr > td {
     padding: 5px;
 }
+#problemlist > thead > tr > th{
+    color: #fff;
+}
 #problemlist>thead{
-    background: #a6e1ec;
+    background: #95A5A6;
 }
 /**题目内容页**/
 #promblem_submit_textarea.form-control{
@@ -79,13 +92,16 @@ body{
 }
 /*页脚*/
 .footer{
-    background: #a6e1ec;
+    background: #336699;
     width: 100%;
     line-height: 10px;
     position: absolute;
     bottom: 0;
     margin-bottom: 0px;
     overflow: hidden;
+}
+.footer span{
+    color: #fff;
 }
 .footspanclass{
     height: 20px;
@@ -113,7 +129,10 @@ body{
 #statuslist > tfoot > tr > td {
     padding: 5px;
 }
+#statuslist > thead > tr > th,#statuslist > thead > tr > td{
+    color: #fff;
+}
 #statuslist>thead{
-    background: #a6e1ec;
+    background:#95A5A6;
 }
 /**代码页**/

@@ -16,7 +16,7 @@
     <div class="main">
         <form class="form-inline">
             <span style="font-size: 18px">Search:</span><input class="form-control" style="width: 200px;" aria-controls="problemset" placeholder="请输入关键字" type="text">
-            <input type="submit" class="btn btn-info form-control" value="Go">
+            <input type="submit" class="btn btn-info form-control" value="&nbsp;&nbsp;Go&nbsp;&nbsp; ">
         </form>
 
         <table class="table table-striped table-bordered table-hover" id="problemlist" width="100%" style="margin-top: 5px">
