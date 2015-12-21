@@ -115,6 +115,11 @@ Route::group(['middleware' => 'profile'],function() {
             "uses" => "ContestController@showContestDashboard"
         ]);
 
+        Route::match(['post', 'get'], '/dashboard/contest/add/', [
+            "as" => "contest.add",
+            "uses" => "ContestController@addContest"
+        ]);
+
     });
 });
 /*
