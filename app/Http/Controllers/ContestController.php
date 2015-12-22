@@ -6,6 +6,7 @@ use App\Contest;
 use App\ContestProblem;
 use App\ContestUser;
 use App\Problem;
+use App\Submission;
 use App\User;
 use App\Http\Controllers\Controller;
 use Validator;
@@ -164,21 +165,55 @@ class ContestController extends Controller
         if($contestObj->contest_type == 1)
         {
             $contestUserObj = ContestUser::where('user_id', $uid)->first();
-            var_dump($contestUserObj);
+            //var_dump($contestUserObj);
             if($contestUserObj == NULL)
                 return Redirect::to('/contest/p/1');
         }
-        $contestProblemObj = ContestProblem::where('contest_id', $contest_id)->get();
+        $data["contest"] = $contestObj;
+        $contestProblemObj = ContestProblem::where('contest_id', $contest_id)->orderby('contest_problem_id', 'asc')->get();
+        $count = 0;
+        //var_dump($contestProblemObj);
+        // Fetch Each Problem and Get The Submission Status
+        // Get user AC status and FB Status
         foreach($contestProblemObj as $contestProblem)
         {
-            var_dump($contestProblem);
+            $data["problems"][$count] = $contestProblem;
+            $realProblemID = $contestProblem->problem_id;
+            $data["problems"][$count]->totalSubmissionCount = Submission::where([
+                "pid" => $realProblemID,
+                "cid" => $contest_id,
+            ])->count();
+
+            $data["problems"][$count]->acSubmissionCount = Submission::where([
+                "pid" => $realProblemID,
+                "cid" => $contest_id,
+                "result" => "Accepted",
+            ])->count();
+
+            $data["problems"][$count]->realProblemName = Problem::where('problem_id', $realProblemID)->first()->title;
+
+            if($uid == $contestProblem->first_ac)
+            {
+                $data["problems"][$count]->thisUserFB = true;
+            }
+
+            if(Submission::where([
+                "pid" => $realProblemID,
+                "cid" => $contest_id,
+                "uid" => $uid,
+            ])->count())
+            {
+                $data["problems"][$count]->thisUserAc = true;
+            }
+            $count++;
         }
+        //var_dump($data['problems']);
         return View::make('contest.index', $data);
     }
 
     public function getContestRanklist(Request $request, $contest_id)
     {
-        return Redirect::to("/contest/$contest_id/p/1");
+        return Redirect::to("/contest/$contest_id/ranklist/p/1");
     }
 
     public function getContestRanklistByPageID(Request $request, $contest_id, $page_id)
