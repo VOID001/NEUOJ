@@ -13,7 +13,7 @@
         <th>
             Type
         </th>
-        @if(Request::session()->get('uid') <=2)
+        @if(Request::session()->get('uid') <=2 && Request::session()->get('uid'))
             <th>
                 Management
             </th>
@@ -42,7 +42,7 @@
                         Register
                     @endif
                 </td>
-                @if(Request::session()->get('uid') <=2)
+                    @if(Request::session()->get('uid') <=2 && Request::session()->get('uid'))
                     <td>
                         <a href="/dashboard/contest/{{ $contest->contest_id }}"><button>Manage Contest</button></a>
                     </td>
