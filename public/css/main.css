@@ -135,4 +135,13 @@ body{
 #statuslist>thead{
     background:#95A5A6;
 }
-/**代码页**/
+/**dashboard**/
+.dashboard_nav{
+    background:#333C47;
+}
+.dashboard_nav>ul>li>a{
+    color: #C5D0DE;
+}
+.dashboard_body{
+
+}

@@ -27,7 +27,7 @@
                     <th class="text-center">Difficulty</th>
                     <th class="text-center">AC/Submit</th>
                     <th class="text-center">Author</th>
-                    <th class="text-center">Visibility_Lock(use for debug version)</th>
+                    {{--<th class="text-center">Visibility_Lock(use for debug version)</th>--}}
                 </tr>
             </thead>
             @if($problems != NULL)
@@ -38,7 +38,7 @@
                             <td class="text-center">{{ $problem->difficulty }}</td>
                             <td class="text-center">{{ $problem->ac_count. "/" . $problem->submission_count }}</td>
                             <td class="text-center">{{ $problem->author }}</td>
-                            <td class="text-center">{{ $problem->visibility_locks }}</td>
+                            {{--<td class="text-center">{{ $problem->visibility_locks }}</td>--}}
                         </tr>
                 @endforeach
             @endif

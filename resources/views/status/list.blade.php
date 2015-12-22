@@ -82,7 +82,17 @@
                 <td class="text-center">{{ $submission->uid }}</td>
                 <td class="text-center">{{ $submission->userName }}</td>
                 <td class="text-left">{{ $submission->problemTitle }}</td>
-                <td class="text-center">{{ $submission->result }}</td>
+                @if($submission->result=="Accepted")
+                    <td class="text-center"><span class="label label-success" style="font-size: 13px">Accepted</span></td>
+                @elseif($submission->result=="Compile Error")
+                        <td class="text-center"><span class="label label-default" style="font-size: 13px">Compile Error</span></td>
+                @elseif($submission->result=="Wrong Answer")
+                    <td class="text-center"><span class="label label-danger" style="font-size: 13px">Wrong Answer</span></td>
+                @elseif($submission->result=="Pending")
+                    <td class="text-center"><span class="label label-info" style="font-size: 13px">Pending</span></td>
+                @else
+                    <td class="text-center"><span class="label label-warning" style="font-size: 13px">{{$submission->result}}</span></td>
+                @endif
                 <td class="text-center">{{ $submission->exec_mem }}</td>
                 <td class="text-center">{{ $submission->exec_time }}</td>
                 <td class="text-center">

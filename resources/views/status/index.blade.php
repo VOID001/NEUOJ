@@ -9,7 +9,7 @@
     <script src="//cdn.bootcss.com/highlight.js/9.0.0/languages/cpp.min.js"></script>
     <script>hljs.initHighlightingOnLoad();</script>
     <script>
-        $(function(){
+        /*$(function(){
             $('pre code').each(function(){
                 var lines= $(this).text().split('\n').length;
                 var s='<table><tr><td valign="top"><div style="width: 40px;"><code class="cpp">';
@@ -17,7 +17,7 @@
                 s+='</code></div></td><td valign="top"><div><code class="cpp">'+paste.innerHTML+'</code></div></td></tr></table>';
                 paste.innerHTML=s;
             });
-        });
+        });*/
     </script>
 </head>
 <body>
