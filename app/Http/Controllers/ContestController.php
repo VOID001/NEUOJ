@@ -137,14 +137,42 @@ class ContestController extends Controller
     public function getContestListByPageID(Request $request, $page_id)
     {
         $data = [];
-
+        $contestPerPage = 20;
+        $contestObj = Contest::orderby('contest_id', 'asc')->get();
+        $contestNum = $contestObj->count();
+        for($count = 0, $i = ($page_id - 1) * $contestPerPage; $i < $contestNum && $count < $contestPerPage; $i++, $count++ )
+        {
+            $data["contests"][$count] = $contestObj[$i];
+        }
+        if($i == $contestObj->count())
+        {
+            $data["last_page"] = 1;
+        }
+        if($page_id == 1)
+        {
+            $data["first_page"] = 1;
+        }
+        $data["page_id"] = $page_id;
         return View::make('contest.list', $data);
     }
 
     public function getContestByID(Request $request, $contest_id)
     {
         $data = [];
-
+        $uid = $request->session()->get('uid');
+        $contestObj = Contest::where('contest_id', $contest_id)->first();
+        if($contestObj->contest_type == 1)
+        {
+            $contestUserObj = ContestUser::where('user_id', $uid)->first();
+            var_dump($contestUserObj);
+            if($contestUserObj == NULL)
+                return Redirect::to('/contest/p/1');
+        }
+        $contestProblemObj = ContestProblem::where('contest_id', $contest_id)->get();
+        foreach($contestProblemObj as $contestProblem)
+        {
+            var_dump($contestProblem);
+        }
         return View::make('contest.index', $data);
     }
 
@@ -168,7 +196,7 @@ class ContestController extends Controller
     public function getContestStatusByPageID(Request $request, $contest_id, $page_id)
     {
         $data = [];
-        
+
         return View::make('status.list', $data);
     }
 
