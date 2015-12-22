@@ -136,13 +136,16 @@ class ContestController extends Controller
 
     public function getContestListByPageID(Request $request, $page_id)
     {
-        return "ContestController@getContestListByPageID";
+        $data = [];
+
+        return View::make('contest.list', $data);
     }
 
     public function getContestByID(Request $request, $contest_id)
     {
+        $data = [];
 
-        return "ContestController@getContestByID";
+        return View::make('contest.index', $data);
     }
 
     public function getContestRanklist(Request $request, $contest_id)
@@ -152,7 +155,9 @@ class ContestController extends Controller
 
     public function getContestRanklistByPageID(Request $request, $contest_id, $page_id)
     {
-        return "ContestController@getContestRanklistByPageID";
+        $data = [];
+
+        return View::make('contest.ranklist', $data);
     }
 
     public function getContestStatus(Request $request, $contest_id)
@@ -162,7 +167,9 @@ class ContestController extends Controller
 
     public function getContestStatusByPageID(Request $request, $contest_id, $page_id)
     {
-        return "ContestController@getContestStatusByPageID";
+        $data = [];
+        
+        return View::make('status.list', $data);
     }
 
     public function setContest(Request $request, $contest_id)
