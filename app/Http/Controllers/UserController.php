@@ -59,4 +59,10 @@ class UserController extends Controller
             return View::make('dashboard.profile', $input);
         }
     }
+
+    public function setSettings(Request $request)
+    {
+        return "UserController@setSettings";
+    }
+
 }
