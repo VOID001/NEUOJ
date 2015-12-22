@@ -83,7 +83,7 @@
                 <td class="text-center">{{ $submission->userName }}</td>
                 <td class="text-left">{{ $submission->problemTitle }}</td>
                 @if($submission->result=="Accepted")
-                    <td class="text-center"><span class="label label-success" style="font-size: 13px">Accepted</span></td>
+                    <td class="text-center"><span class="label label-success" style="font-size: 15px"><span class="glyphicon glyphicon-ok " style="color: #000"></span>Accepted</span></td>
                 @elseif($submission->result=="Compile Error")
                         <td class="text-center"><span class="label label-default" style="font-size: 13px">Compile Error</span></td>
                 @elseif($submission->result=="Wrong Answer")
