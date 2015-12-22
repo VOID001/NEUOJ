@@ -69,7 +69,7 @@ Route::group(['middleware' => 'profile'],function() {
 
     Route::get('/status/{run_id}', [
         "uses" => "SubmissionController@getSubmissionByID",
-        "middleware" => "role",
+        "middleware" => "role:view",
     ]);
 
     Route::get('/contest', [
@@ -89,15 +89,17 @@ Route::group(['middleware' => 'profile'],function() {
         ]);
 
         Route::get('/dashboard', function(){
-            Redirect::route('dashboard.profile');
+            return Redirect::route('dashboard.profile');
         });
 
         Route::get('/dashboard/problem/', [
+            "middleware" => "role:admin",
             "uses" => "ProblemController@showProblemDashboard",
         ]);
 
         Route::get('/dashboard/problem/p/{page_id}', [
             "as" => "dashboard.problem",
+            "middleware" => "role:admin",
             "uses" => "ProblemController@showProblemDashboardByPageID",
         ]);
 
@@ -106,15 +108,23 @@ Route::group(['middleware' => 'profile'],function() {
             "uses" => "UserController@setProfile"
         ]);
 
+        Route::match(['post', 'get'], '/dashboard/settings', [
+            "as" => "dashboard.settings",
+            "uses" => "UserController@setSettings",
+        ]);
+
         Route::match(['post', 'get'], '/dashboard/problem/{problem_id}', [
             "uses" => "ProblemController@setProblem",
+            "middleware" => "role:admin",
         ])->where('problem_id', '[0-9]+');
 
         Route::delete('/dashboard/problem/{problem_id}', [
-            "uses" => "ProblemController@delProblem"
+            "uses" => "ProblemController@delProblem",
+            "middleware" => "role:admin",
         ])->where('problem_id', '[0-9]+');
 
         Route::match(['post', 'get'], '/dashboard/problem/add', [
+            "middleware" => "role:admin",
             "uses" => "ProblemController@addProblem"
         ]);
 
@@ -124,11 +134,13 @@ Route::group(['middleware' => 'profile'],function() {
         ]);
 
         Route::get('/dashboard/contest/', [
+            "middleware" => "role:admin",
             "uses" => "ContestController@showContestDashboard"
         ]);
 
         Route::match(['post', 'get'], '/dashboard/contest/add/', [
             "as" => "contest.add",
+            "middleware" => "role:admin",
             "uses" => "ContestController@addContest"
         ]);
 
@@ -161,6 +173,7 @@ Route::group(['middleware' => 'profile'],function() {
         ]);
 
         Route::match(['post', 'get'], '/dashboard/contest/{contest_id}', [
+            "middleware" => "role:admin",
             "uses" => "ContestController@setContest"
         ]);
 
