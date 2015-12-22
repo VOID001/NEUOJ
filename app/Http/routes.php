@@ -80,6 +80,14 @@ Route::group(['middleware' => 'profile'],function() {
         "uses" => "ContestController@getContestListByPageID"
     ]);
 
+    Route::get('/contest', [
+        "uses" => "ContestController@getContest"
+    ]);
+
+    Route::get('/contest/p/{page_id}', [
+        "uses" => "ContestController@getContestListByPageID"
+    ]);
+
     /*Route group need auth middleware*/
     Route::group(['middleware' => 'auth'], function () {
 

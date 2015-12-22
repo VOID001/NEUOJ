@@ -230,6 +230,7 @@ class ContestController extends Controller
             $data['contest']->status = "Ended";
         //var_dump($data['problems']);
         return View::make('contest.index', $data);
+
     }
 
     public function getContestRanklist(Request $request, $contest_id)
