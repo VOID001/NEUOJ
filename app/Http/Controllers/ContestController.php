@@ -128,6 +128,47 @@ class ContestController extends Controller
         }
         return View::make('contest.add', $data);
     }
+
+    public function getContest(Request $request)
+    {
+        return Redirect::to('/contest/p/1');
+    }
+
+    public function getContestListByPageID(Request $request, $page_id)
+    {
+        return "ContestController@getContestListByPageID";
+    }
+
+    public function getContestByID(Request $request, $contest_id)
+    {
+
+        return "ContestController@getContestByID";
+    }
+
+    public function getContestRanklist(Request $request, $contest_id)
+    {
+        return Redirect::to("/contest/$contest_id/p/1");
+    }
+
+    public function getContestRanklistByPageID(Request $request, $contest_id, $page_id)
+    {
+        return "ContestController@getContestRanklistByPageID";
+    }
+
+    public function getContestStatus(Request $request, $contest_id)
+    {
+        return Redirect::to("/contest/$contest_id/status/p/1");
+    }
+
+    public function getContestStatusByPageID(Request $request, $contest_id, $page_id)
+    {
+        return "ContestController@getContestStatusByPageID";
+    }
+
+    public function setContest(Request $request, $contest_id)
+    {
+
+    }
 }
 
 

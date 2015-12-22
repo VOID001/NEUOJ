@@ -251,4 +251,10 @@ class ProblemController extends Controller
     {
         return "This is for MiaoP XD";
     }
+
+    public function getContestProblemByContestProblemID(Request $request, $contest_id, $problem_id)
+    {
+        return "ProblemController@getContestProblemByContestProblemID";
+    }
+
 }

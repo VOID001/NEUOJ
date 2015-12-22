@@ -72,6 +72,14 @@ Route::group(['middleware' => 'profile'],function() {
         "middleware" => "role",
     ]);
 
+    Route::get('/contest', [
+        "uses" => "ContestController@getContest"
+    ]);
+
+    Route::get('/contest/p/{page_id}', [
+        "uses" => "ContestController@getContestListByPageID"
+    ]);
+
     /*Route group need auth middleware*/
     Route::group(['middleware' => 'auth'], function () {
 
@@ -79,6 +87,10 @@ Route::group(['middleware' => 'profile'],function() {
             "as" => "logout",
             "uses" => "AuthController@logoutAction"
         ]);
+
+        Route::get('/dashboard', function(){
+            Redirect::route('dashboard.profile');
+        });
 
         Route::get('/dashboard/problem/', [
             "uses" => "ProblemController@showProblemDashboard",
@@ -118,6 +130,38 @@ Route::group(['middleware' => 'profile'],function() {
         Route::match(['post', 'get'], '/dashboard/contest/add/', [
             "as" => "contest.add",
             "uses" => "ContestController@addContest"
+        ]);
+
+        Route::get('/contest/{contest_id}', [
+            "uses" => "ContestController@getContestByID"
+        ]);
+
+        Route::get('/contest/{contest_id}/problem/{problem_id}', [
+            "uses" => "ProblemController@getContestProblemByContestProblemID"
+        ]);
+
+        Route::post('/submit/{contest_id}/{problem_id}', [
+            "uses" => "SubmissionController@contestSubmitAction"
+        ]);
+
+        Route::get('/contest/{contest_id}/ranklist', [
+            "uses" => "ContestController@getContestRanklist"
+        ]);
+
+        Route::get('/contest/{contest_id}/ranklist/p/{page_id}', [
+            "uses" => "ContestController@getContestRanklistByPageID"
+        ]);
+
+        Route::get('/contest/{contest_id}/status', [
+            "uses" => "ContestController@getContestStatus"
+        ]);
+
+        Route::get('/contest/{contest_id}/status/p/{page_id}', [
+            "uses" => "ContestController@getContestStatusByPageID"
+        ]);
+
+        Route::match(['post', 'get'], '/dashboard/contest/{contest_id}', [
+            "uses" => "ContestController@setContest"
         ]);
 
     });

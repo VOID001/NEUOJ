@@ -133,4 +133,9 @@ class SubmissionController extends Controller
         return View::make('status.list', $data);
     }
 
+    public function contestSubmitAction(Requeset $request, $contest_id, $problem_id)
+    {
+        
+    }
+
 }
