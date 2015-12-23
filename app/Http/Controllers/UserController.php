@@ -79,7 +79,7 @@ class UserController extends Controller
             }
             $userObject=User::where('uid', $uid)->first();
             $passHash = $userObject->password;
-            if (Hash::check($input['pass'], $passHash)) {
+            if (Hash::check($input['old_pass'], $passHash)) {
                 $userObject->where('uid', $request->uid)->update(['password' => Hash::make($input['pass'])]);
             }
             else
