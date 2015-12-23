@@ -14,10 +14,18 @@
 </head>
 <body>
     @include("layout.header")
-
+    @if(isset($contest))
+        <a href="/contest/{{ $contest->contest_id }}">Back</a>
+        <a href="/contest/{{ $contest->contest_id }}/ranklist">Ranklist</a>
+        [JS CountDown here please]
+    @endif
     <h3 class="text-center">Status List</h3>
 <div class="status_main">
-    <form action="/status/p/1" method="GET" class="form-inline">
+    @if(!isset($contest))
+        <form action="/status/p/1" method="GET" class="form-inline">
+    @else
+        <form action="/contest/{{ $contest->contest_id }}/status/p/1" method="GET" class="form-inline">
+    @endif
         <span style="font-size: 15px">Username:</span>
         <input class="form-control" style="width: 150px;"type="text" name="username"/>
         <span style="font-size: 15px;margin-left: 10px">Problem ID:</span>
@@ -96,8 +104,12 @@
                 <td class="text-center">{{ $submission->exec_mem }}</td>
                 <td class="text-center">{{ $submission->exec_time }}</td>
                 <td class="text-center">
-                    @if(Request::session()->get('uid') == $submission->uid)
-                        <a href="/status/{{ $submission->runid }}">View Source</a>
+                    @if(Request::session()->get('uid') == $submission->uid || (session('uid') && session('uid') <= 2))
+                        @if(!isset($contest))
+                            <a href="/status/{{ $submission->runid }}">View Source</a>
+                        @else
+                            <a href="/contest/{{ $contest->contest_id }}/status/{{ $submission->runid }}">View Source</a>
+                        @endif
                     @else
                         View Source
                     @endif
@@ -109,10 +121,18 @@
 
     <ul class="pager" role="fanye">
         @if(!isset($firstPage))
-            <li ><a href="/status/p/{{ $page_id - 1 }}{{ $queryStr }}">&laquo;Previous</a></li>
+            @if(!isset($contest))
+                <li><a href="/status/p/{{ $page_id - 1 }}{{ $queryStr }}">&laquo;Previous</a></li>
+            @else
+                <li><a href="/contest/{{ $contest->contest_id }}/status/p/{{ $page_id - 1 }}{{ $queryStr }}">&laquo;Previous</a></li>
+            @endif
         @endif
         @if(!isset($lastPage))
-            <li><a href="/status/p/{{ $page_id + 1 }}{{ $queryStr }}">&nbsp;&nbsp;&nbsp;Next&nbsp;&nbsp;&nbsp;&raquo;</a></li>
+            @if(!isset($contest))
+                <li><a href="/status/p/{{ $page_id + 1 }}{{ $queryStr }}">&nbsp;&nbsp;&nbsp;Next&nbsp;&nbsp;&nbsp;&raquo;</a></li>
+            @else
+                <li><a href="/contest/{{ $contest->contest_id }}/status/p/{{ $page_id + 1 }}{{ $queryStr }}">&nbsp;&nbsp;&nbsp;Next&nbsp;&nbsp;&nbsp;&raquo;</a></li>
+            @endif
         @endif
     </ul>
 

@@ -207,6 +207,13 @@ class ContestController extends Controller
             }
             $count++;
         }
+
+        if(time() >= strtotime($contestObj->begin_time) && time() <= strtotime($contestObj->end_time))
+            $data['contest']->status = "Running";
+        if(time() < strtotime($contestObj->begin_time))
+            $data['contest']->status = "Pending";
+        if(time() > strtotime($contestObj->end_time))
+            $data['contest']->status = "Ended";
         //var_dump($data['problems']);
         return View::make('contest.index', $data);
     }
@@ -230,8 +237,70 @@ class ContestController extends Controller
 
     public function getContestStatusByPageID(Request $request, $contest_id, $page_id)
     {
+        //Almost same as getSubmissionListByPageID, will change in future
         $data = [];
 
+        $itemsPerPage = 20;
+        $data['submissions'] = NULL;
+        $input = $request->all();
+        $queryArr = [];
+        $queryArr['cid'] = $contest_id;
+        $contestObj = Contest::where('contest_id', $contest_id)->first();
+
+        $data['contest'] = $contestObj;
+
+        foreach($input as $key => $val)
+        {
+            if($val == "All" || $val == "")
+                continue;
+            if($key != "username")
+                $queryArr[$key] = $val;
+            if($key == "username")
+            {
+                $userObj = User::where('username', $val)->first();
+                if($userObj != NULL)
+                {
+                    $queryArr['uid'] = $userObj->uid;
+                }
+                else
+                {
+                    $queryArr['uid'] = "Th11EN412am#eN%o0neCanCreEte";
+                }
+            }
+        }
+        $submissionObj = Submission::where($queryArr)->orderby('runid', 'desc')->get();
+
+        for($count = 0, $i = ($page_id - 1) * $itemsPerPage; $count < $itemsPerPage && $i < $submissionObj->count(); $i++, $count++)
+        {
+            $data['submissions'][$count] = $submissionObj[$i];
+            $tmpUserObj = User::where('uid', $submissionObj[$i]->uid)->first();
+            $tmpProblemObj = ContestProblem::where([
+                "contest_id" => $contest_id,
+                "problem_id" => $submissionObj[$i]->pid
+            ])->first();
+            $problemTitle = $tmpProblemObj['problem_title'];
+            $username = $tmpUserObj['username'];
+            $data['submissions'][$count]->userName = $username;
+            $data['submissions'][$count]->problemTitle = $problemTitle;
+        }
+
+        //$data['submissions'] = $submissionObj;
+        $queryInput = $request->input();
+        $queryStr = "?";
+        foreach($queryInput as $key => $val)
+        {
+            $queryStr .= $key . "=" . $val . "&";
+        }
+        $data['page_id'] = $page_id;
+        $data['queryStr'] = $queryStr;
+        if($page_id == 1)
+        {
+            $data['firstPage'] = 1;
+        }
+        if($i >= $submissionObj->count())
+        {
+            $data['lastPage'] = 1;
+        }
         return View::make('status.list', $data);
     }
 

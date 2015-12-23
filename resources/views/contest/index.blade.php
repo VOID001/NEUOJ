@@ -9,7 +9,7 @@
     Time Remaining: [Please add a JS Countdown]
 </div>
 <div>
-    Status: [Please add Status]
+    Status: {{ $contest->status }}
 </div>
 <div>
     <a href="/contest/{{ $contest->contest_id }}/status">Status</a>
@@ -57,12 +57,16 @@
                 @if($problem->thisUserAc)
                     [AC]
                 @endif
-                {{ $problem->contest_problem_id }}
+                    {{ $problem->contest_problem_id }}
             </td>
             <td>
-                <a href="/contest/{{ $contest->contest_id }}/problem/{{ $problem->problem_id }}">
+                @if((session('uid') && session('uid') <=2) || $contest->status != "Pending")
+                    <a href="/contest/{{ $contest->contest_id }}/problem/{{ $problem->problem_id }}">
+                @endif
                     {{ $problem->problem_title }}
-                </a>
+                @if((session('uid') && session('uid') <=2) || $contest->status != "Pending")
+                    </a>
+                @endif
             </td>
             <td>
                 {{ $problem->realProblemName }}

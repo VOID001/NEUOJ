@@ -28,7 +28,9 @@
                     </a>
                 </td>
                 <td>
-                    {{ $contest->contest_name }}
+                    <a href="/contest/{{ $contest->contest_id }}">
+                        {{ $contest->contest_name }}
+                    </a>
                 </td>
                 <td>
                     {{ $contest->begin_time }}

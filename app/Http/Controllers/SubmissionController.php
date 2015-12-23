@@ -189,7 +189,7 @@ class SubmissionController extends Controller
             $submission->judge_status = 0;
             $submission->save();
             $runid = $submission->id;
-            //return Redirect::to("/contest/$contest_id/status/$runid");
+            return Redirect::to("/contest/$contest_id/status/");
         }
     }
 

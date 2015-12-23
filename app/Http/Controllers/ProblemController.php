@@ -265,6 +265,12 @@ class ProblemController extends Controller
         $data = [];
         $uid = $request->session()->get('uid');
         $contestObj = Contest::where('contest_id', $contest_id)->first();
+        if(time() < strtotime($contestObj->begin_time))
+        {
+            //Admin Special Privilege
+            if(!($request->session()->get('uid') && $request->session()->get('uid') <= 2))
+                return Redirect::to("/contest/$contest_id");
+        }
         if($contestObj->contest_type == 1)
         {
             $contestUserObj = ContestUser::where('user_id', $uid)->first();
