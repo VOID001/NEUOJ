@@ -141,9 +141,22 @@ class ContestController extends Controller
         $contestPerPage = 20;
         $contestObj = Contest::orderby('contest_id', 'asc')->get();
         $contestNum = $contestObj->count();
+        $curTime = time();
         for($count = 0, $i = ($page_id - 1) * $contestPerPage; $i < $contestNum && $count < $contestPerPage; $i++, $count++ )
         {
             $data["contests"][$count] = $contestObj[$i];
+            if($curTime < strtotime($contestObj[$i]->begin_time))
+            {
+                $data["contests"][$count]->status = "Pending";
+            }
+            else if($curTime > strtotime($contestObj[$i]->end_time))
+            {
+                $data["contests"][$count]->status = "Ended";
+            }
+            else
+            {
+                $data["contests"][$count]->status = "Running";
+            }
         }
         if($i == $contestObj->count())
         {
