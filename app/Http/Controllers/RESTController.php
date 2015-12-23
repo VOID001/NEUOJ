@@ -10,6 +10,8 @@ use App\User;
 use App\Submission;
 use App\Executable;
 use App\Testcase;
+use App\Contest;
+use App\ContestProblem;
 
 class RESTController extends Controller
 {
@@ -152,6 +154,26 @@ class RESTController extends Controller
             "timelimit" => "Time Limit Exceed",
         ];
         $input = $request->input();
+        $submissionObj = Submission::where('runid', $input['judgingid'])->first();
+        var_dump($input);
+        //Contest only
+        //Judge if it's a FB
+        if($input["runresult"] == "correct" && $submissionObj->cid != 0)
+        {
+            $contestObj = Contest::where('contest_id', $submissionObj->cid)->first();
+            $contestProblemObj = ContestProblem::where([
+                "contest_id" => $contestObj->contest_id,
+                "problem_id" => $submissionObj->pid,
+            ])->first();
+            if($contestProblemObj->first_ac == 0)
+            {
+                $first_ac = Submission::where('runid', $input['judgingid'])->first()->uid;
+                ContestProblem::where([
+                    "contest_id" => $contestObj->contest_id,
+                    "problem_id" => $submissionObj->pid,
+                ])->update(["first_ac" => $first_ac]);
+            }
+        }
         Submission::where('runid', $input["judgingid"])->update(
             [
                 "result" => $resultMapping[$input["runresult"]],
