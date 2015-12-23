@@ -32,7 +32,7 @@ class UserController extends Controller
                 "school" => "max:255",  //check school
             ]);
             $vdtor->sometimes('stu_id','required|max:255:unique',function($input){
-               return $input->school == "NEU";
+                return $input->school == "NEU";
             });
             if($vdtor->fails()) {
                 return Redirect::route('dashboard.profile')->withErrors($vdtor);
@@ -62,7 +62,36 @@ class UserController extends Controller
 
     public function setSettings(Request $request)
     {
-        return "UserController@setSettings";
+        $uid=$request->session()->get('uid');
+        if(!$request->session()->has('settingError'))
+            $input = [];
+        else
+            $input['settingError'] = $request->session()->get('settingError');
+        if($request->method() == 'POST')
+        {
+            $input = $request->input();
+            $vdtor = Validator::make($input, [
+                "old_pass" => "required|between:6,255",
+                "pass" => "required|confirmed|between:6,255",
+            ]);
+            if($vdtor->fails()) {
+                return Redirect::route('dashboard.settings')->withErrors($vdtor);
+            }
+            $userObject=User::where('uid', $uid)->first();
+            $passHash = $userObject->password;
+            if (Hash::check($input['pass'], $passHash)) {
+                $userObject->where('uid', $request->uid)->update(['password' => Hash::make($input['pass'])]);
+            }
+            else
+            {
+                $input['settingError'] = "Invalid Password";
+                return View::make('dashboard.settings', $input);
+            }
+            return Redirect::route('home');
+        }
+        else {
+            return View::make('dashboard.settings', $input);
+        }
     }
 
 }
