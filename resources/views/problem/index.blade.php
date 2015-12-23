@@ -29,8 +29,21 @@
 </head>
 <body>
     @include("layout.header")
+    @if(isset($contest))
+        <a href="/contest/{{ $contest->contest_id }}">Back</a>
+        <a href="/contest/{{ $contest->contest_id }}/ranklist">Ranklist</a>
+        <a href="/contest/{{ $contest->contest_id }}/status">Status</a>
+        [Here Please Add a count down JS plugin]
+    @endif
     <h3 class="text-center">Problem: {{ $problem->title }}</h3>
-    <div class="text-center text-primary">Time limit: {{ $problem->time_limit }}s&nbsp;&nbsp;&nbsp;&nbsp;Mem limit:{{ $problem->mem_limit }}K @if($problem->is_spj == 1) <b>Special Judge</b>@endif</div>
+    <div class="text-center text-primary">Time limit: {{ $problem->time_limit }}s&nbsp;&nbsp;&nbsp;&nbsp;Mem limit:@if($problem->mem_limit < 1000)
+            {{ $problem->mem_limit }} KB
+        @else
+            {{ $problem->mem_limit / 1000 }} MB
+        @endif
+            @if($problem->is_spj == 1) <b>Special Judge</b>@endif
+        AC/Submission: <a href="/contest/{{ $contest->contest_id }}/status/p/1?result=Accepted?pid={{ $problem->problem_id }}"/>{{ $problem->acSubmissionCount }}</a>/ <a href="/contest/{{ $contest->contest_id }}/status/p/1?pid={{ $problem->problem_id }}">{{ $problem->totalSubmissionCount }}</a>
+    </div>
     <div class="panel panel-default main">
 
         <h3>Problem Description</h3>
@@ -65,7 +78,12 @@
                     <h4 class="modal-title"style="color: white">Submit</h4>
                 </div>
                 <div class="modal-body">
-                    <form action="/submit/{{ $problem->problem_id }}" method ="POST" id="form_code">
+                    @if(!isset($contest))
+                        <form action="/submit/{{ $problem->problem_id }}" method ="POST" id="form_code">
+                    @endif
+                    @if(isset($contest))
+                        <form action="/submit/{{ $contest->contest_id }}/{{ $problem->problem_id }}" method ="POST" id="form_code">
+                    @endif
                      {{ csrf_field() }}
                         <span name="Language" style="float: left;font-size: 16px;margin-top: 8px">language:</span>
                         <select name="lang" class="form-control" style="display: inline-block;width: 100px;margin-bottom: 10px">

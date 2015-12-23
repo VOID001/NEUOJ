@@ -12,6 +12,9 @@ use App\Problem;
 use App\Submission;
 use App\Testcase;
 use Storage;
+use App\ContestProblem;
+use App\ContestUser;
+use App\Contest;
 use Symfony\Component\VarDumper\Caster\ExceptionCaster;
 
 class ProblemController extends Controller
@@ -39,6 +42,11 @@ class ProblemController extends Controller
                 $data['problem']->$key = $val;
             }
         }
+        $data['problem']->totalSubmissionCount = Submission::where('pid', $problem_id)->count();
+        $data['problem']->acSubmissionCount = Submission::where([
+            'pid' => $problem_id,
+            'result' => "Accepted"
+        ])->count();
         return View::make("problem.index", $data);
     }
 
@@ -254,7 +262,52 @@ class ProblemController extends Controller
 
     public function getContestProblemByContestProblemID(Request $request, $contest_id, $problem_id)
     {
-        return "ProblemController@getContestProblemByContestProblemID";
+        $data = [];
+        $uid = $request->session()->get('uid');
+        $contestObj = Contest::where('contest_id', $contest_id)->first();
+        if($contestObj->contest_type == 1)
+        {
+            $contestUserObj = ContestUser::where('user_id', $uid)->first();
+            //var_dump($contestUserObj);
+            if($contestUserObj == NULL)
+                return Redirect::to('/contest/p/1');
+        }
+        $contestProblemObj = ContestProblem::where([
+            "contest_id" => $contest_id,
+            "contest_problem_id" => $problem_id,
+        ])->first();
+
+        $realProblemID = $contestProblemObj->problem_id;
+
+        $problemObj = Problem::where('problem_id', $realProblemID)->first();
+
+        if($problemObj == NULL)
+        {
+
+        }
+        $jsonObj = json_decode($problemObj->description);
+        $data['problem'] = $problemObj;
+        if($jsonObj != NULL)
+        {
+            foreach ($jsonObj as $key => $val)
+            {
+                $data['problem']->$key = $val;
+            }
+        }
+        //var_dump($data['problem']);
+        $data['problem']->title = $contestProblemObj->problem_title;
+        $data['isContest'] = true;
+        $data['contest'] = $contestObj;
+        $data['problem']->totalSubmissionCount = Submission::where([
+            'pid' => $realProblemID,
+            'cid' => $contest_id,
+        ])->count();
+        $data['problem']->acSubmissionCount = Submission::where([
+            'pid' => $realProblemID,
+            'cid' => $contest_id,
+            'result' => "Accepted"
+        ])->count();
+        return View::make("problem.index", $data);
     }
 
 }
