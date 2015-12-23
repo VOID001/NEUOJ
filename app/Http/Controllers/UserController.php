@@ -94,4 +94,19 @@ class UserController extends Controller
         }
     }
 
+    public function showProfile(Request $request,$user_id)
+    {
+        $userinfoObject = Userinfo::where('uid',$user_id)->first();
+        if(isset($userinfoObject)) {
+            $input['nickname']=$userinfoObject->nickname;
+            $input['school']=$userinfoObject->school;
+            $input['stu_id']=$userinfoObject->stu_id;
+            return View::make('home.profile', $input);
+        }
+        else{
+            return Redirect::route('home');
+        }
+
+
+    }
 }

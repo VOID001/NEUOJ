@@ -21,9 +21,9 @@ Route::group(['middleware' => 'profile'],function() {
         return "This is the authenticate root";
     });
 
-    Route::get('/profile', function () {
-        return "This is the profile root";
-    });
+    Route::get('/profile/{user_id}', [
+        "uses" => "UserController@showProfile"
+    ])->where('user_id','[0-9]+');
 
     Route::get('/problem/{problem_id}', [
         "uses" => "ProblemController@getProblemByID"
