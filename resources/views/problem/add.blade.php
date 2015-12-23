@@ -9,17 +9,17 @@
 @endif
 <form action="/dashboard/problem/add" method="post" enctype="multipart/form-data">
     {{ csrf_field() }}
-    <div>Edit Problem</div>
+    <div>Add Problem</div>
     <div>Problem Title</div>
     <input type="text" value="" name="title"/>
     <div>Problem Description</div>
     <textarea name="description"></textarea>
     <div>Memory Limit</div>
-    <input type="text" name="mem_limit" value=""/>
+    <input type="text" name="mem_limit" value="65536"/>
     <div>Time Limit</div>
-    <input type="text" name="time_limit" value=""/>
+    <input type="text" name="time_limit" value="1000"/>
     <div>Output Limit</div>
-    <input type="text" name="output_limit" value=""/>
+    <input type="text" name="output_limit" value="5120"/>
     <div>Input</div>
     <textarea name="input"></textarea>
     <div>Output</div>
