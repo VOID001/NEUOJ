@@ -65,9 +65,9 @@
                     </td>
                     <td class="text-center">
                         @if($contest->status=="Running")
-                            <span class="badge contest_single_status_running">{{ $contest->status }}</span>
+                            <span class="badge contest_list_status_running">{{ $contest->status }}</span>
                         @elseif($contest->status=="Ended")
-                            <span class="badge contest_single_status_ended">{{ $contest->status }}</span>
+                            <span class="badge contest_list_status_ended">{{ $contest->status }}</span>
                         @endif
                     </td>
                     @if(Request::session()->get('uid') <=2 && Request::session()->get('uid'))

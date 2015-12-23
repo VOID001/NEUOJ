@@ -12,10 +12,12 @@
     </script>
     <script type="text/javascript">
 
-
-        var intDiff = parseInt(60);//倒计时总秒数量
+        var now=new Date().getTime();
+        var end=new Date("{{$contest->end_time}}").getTime();
+        var time=(end-now)/1000;
+        var intDiff = parseInt(time);//倒计时总秒数量
         function timer(intDiff){
-            window.setInterval(function(){
+            var Interval1=window.setInterval(function(){
                 var day=0,
                         hour=0,
                         minute=0,
@@ -50,8 +52,8 @@
             @elseif($contest->status=="Ended")
                 <span class="badge contest_single_status_ended">{{ $contest->status }}</span></h1>
             @endif
-        <span class="contest_single_begintime text-right">Begin Time: {{ $contest->begin_time }}</span>
-        <span class="contest_single_endtime text-left">End Time: {{ $contest->end_time }}</span>
+        <span class="contest_single_begintime text-right" id="contest_single_begintime">Begin Time: {{ $contest->begin_time }}</span>
+        <span class="contest_single_endtime text-left"id="contest_single_endtime">End Time: {{ $contest->end_time }}</span>
         <div class="text-center">
             Time Remaining:
             <span class="badge countdown">
