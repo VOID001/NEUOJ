@@ -17,7 +17,7 @@
         var time=(end-now)/1000;
         var intDiff = parseInt(time);//倒计时总秒数量
         function timer(intDiff){
-            var Interval1=window.setInterval(function(){
+            window.setInterval(function(){
                 var day=0,
                         hour=0,
                         minute=0,
