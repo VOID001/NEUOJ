@@ -257,7 +257,93 @@ class ProblemController extends Controller
 
     public function addProblem(Request $request)
     {
-        return "This is for MiaoP XD";
+        $data[] = NULL;
+        $data['infos'] = [];
+        $data['errors'] = [];
+        $data['testcases'] = [];
+        if($request->method() == "POST")
+        {
+            /*
+             * POST means add , Add the problem Info
+             */
+            $problemObj = new Problem();
+            $testcaseObj = new Testcase();
+            $problemObj->author_id = $request->session()->get('uid');
+            $problemObj->save();
+            $testcaseObj->save();
+            $problem_id=Problem::max('problem_id');
+            $data['testcases'] = $testcaseObj;
+            $updateProblemData = $request->input();
+            /*
+             * Description is stored in json format
+             * encode it and store it
+             * And do not store limitation info in the description
+             */
+            unset($updateProblemData['_token']);
+            foreach($updateProblemData as $key => $val)
+            {
+                if(strpos($key, "limit"))
+                {
+                    continue;
+                }
+                $jsonObj[$key] = $val;
+            }
+            unset($updateProblemData['input']);
+            unset($updateProblemData['output']);
+            unset($updateProblemData['sample_input']);
+            unset($updateProblemData['sample_output']);
+            unset($updateProblemData['source']);
+            $updateProblemData['description'] = json_encode($jsonObj);
+            //var_dump($input);
+            Problem::where('problem_id', $problem_id)->update($updateProblemData);
+            /*
+             * Check if testcase files are changed
+             */
+            $uploadInput = $request->file('input_file');
+            $uploadOutput = $request->file('output_file');
+            var_dump($uploadInput[0]);
+            if(count($uploadInput) == count($uploadOutput) && $uploadInput[0] && $uploadOutput[0])
+            {
+                Testcase::where('pid', $problem_id)->delete();
+                for($i = 0; $i < count($uploadInput); $i++)
+                {
+                    $updateTestcaseData['rank'] = $i + 1;
+                    $updateTestcaseData['input_file_name'] = $problem_id . "-" . time() . "-" . $uploadInput[$i]->getClientOriginalName();
+                    $updateTestcaseData['output_file_name'] = $problem_id . "-". time() . "-" . $uploadOutput[$i]->getClientOriginalName();
+                    $updateTestcaseData['pid'] = $problem_id;
+                    if($uploadInput[$i]->isValid() && $uploadOutput[$i]->isValid())
+                    {
+                        var_dump($updateTestcaseData);
+                        $inputContent = file_get_contents($uploadInput[$i]->getRealPath());
+                        $outputContent = file_get_contents($uploadOutput[$i]->getRealPath());
+                        $updateTestcaseData['md5sum_input'] = md5($inputContent);
+                        $updateTestcaseData['md5sum_output'] = md5($outputContent);
+                        Storage::put(
+                            'testdata/'. $updateTestcaseData['input_file_name'],
+                            $inputContent
+                        );
+                        Storage::put(
+                            'testdata/'. $updateTestcaseData['output_file_name'],
+                            $outputContent
+                        );
+                        Testcase::create($updateTestcaseData);
+                    }
+                    else
+                    {
+                        array_push($data['errors'], "File Corrupted During Upload");
+                        break;
+                    }
+                }
+                array_push($data['infos'], "Update Testcase Data!");
+            }
+            array_push($data['infos'], "Update Problem Info!");
+            // Flash the status info into session
+            return Redirect::route('dashboard.problem');
+        }
+        else
+        {
+            return View::make('problem.add',$data);
+        }
     }
 
     public function getContestProblemByContestProblemID(Request $request, $contest_id, $problem_id)

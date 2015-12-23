@@ -93,12 +93,12 @@ Route::group(['middleware' => 'profile'],function() {
         });
 
         Route::get('/dashboard/problem/', [
+            "as" => "dashboard.problem",
             "middleware" => "role:admin",
             "uses" => "ProblemController@showProblemDashboard",
         ]);
 
         Route::get('/dashboard/problem/p/{page_id}', [
-            "as" => "dashboard.problem",
             "middleware" => "role:admin",
             "uses" => "ProblemController@showProblemDashboardByPageID",
         ]);
