@@ -178,6 +178,7 @@ class ContestController extends Controller
         foreach($contestProblemObj as $contestProblem)
         {
             $data["problems"][$count] = $contestProblem;
+            $data["problems"][$count]->problem_id = $contestProblem->contest_problem_id;
             $realProblemID = $contestProblem->problem_id;
             $data["problems"][$count]->totalSubmissionCount = Submission::where([
                 "pid" => $realProblemID,
