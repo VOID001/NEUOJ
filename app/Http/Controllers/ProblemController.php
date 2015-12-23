@@ -379,6 +379,7 @@ class ProblemController extends Controller
         }
         $jsonObj = json_decode($problemObj->description);
         $data['problem'] = $problemObj;
+        $data['problem']->problem_id = $problem_id;
         if($jsonObj != NULL)
         {
             foreach ($jsonObj as $key => $val)
