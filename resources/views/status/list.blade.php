@@ -14,6 +14,7 @@
 </head>
 <body>
     @include("layout.header")
+
     @if(isset($contest))
         <a href="/contest/{{ $contest->contest_id }}">Back</a>
         <a href="/contest/{{ $contest->contest_id }}/ranklist">Ranklist</a>

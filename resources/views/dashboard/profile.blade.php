@@ -4,10 +4,16 @@
     <title>Profile</title>
     @include("layout.head")
     <link rel="stylesheet" href="/css/main.css">
+    <script type="text/javascript">
+        $(function(){
+            $("#dashboard_profile").addClass("dashboard_subnav_active");
+        })
+    </script>
 </head>
 <body>
-    @include("layout.dashboard_nav")
-    <div class="col-xs-9">
+@include("layout.dashboard_nav")
+<div class="col-xs-10 padding_10">
+
         <h3 class="text-center">Profile</h3>
         <div align="center">
             <form action="/dashboard/profile" method="POST">
@@ -41,7 +47,5 @@
         </div>
     </div>
 
-    <div style="height: 192px"></div>
-    @include("layout.footer")
 </body>
 </html>

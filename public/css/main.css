@@ -137,8 +137,10 @@ body{
 }
 /**dashboard**/
 .dashboard_nav{
+    position: fixed;
     background:#333C47;
     padding: 0;
+    min-height: 100%;
 }
 .dashboard_nav>ul>li>a{
     color: #C5D0DE;
@@ -153,12 +155,24 @@ body{
 .dashboard_username{
     color: #C5D0DE;
     margin-top: 10px;
+    width: 100%;
+    text-overflow: ellipsis;
+    overflow:hidden;
 }
 .dashboard_hr{
     border-top: 1px solid #666;
 }
 li.separate-item {
     border-top: 1px solid #666;
+}
+.dashboard_subnav>li>a:hover,
+.dashboard_subnav>li>a:focus
+{
+    text-decoration: none;
+    background-color: #24272D;
+}
+.dashboard_subnav_active{
+    background-color: #24272D;
 }
 /*contest*/
 .contest_list{
@@ -231,4 +245,45 @@ li.separate-item {
 }
 .contest_list_status_ended{
     background: #999;
+}
+/*profile*/
+#profileTable{
+    width: 350px;
+}
+#profileTable td,#profileTable td{
+    height: 50px;
+}
+.padding_10{
+    padding-top: 10%;
+}
+/*dash_problem*/
+.dashboard_problem_table{
+    margin:20px auto;
+    width: 900px;
+}
+#dashboard_problem_list > thead > tr > th,
+#dashboard_problem_list > tbody > tr > th,
+#dashboard_problem_list > tfoot > tr > th,
+#dashboard_problem_list > thead > tr > td,
+#dashboard_problem_list > tbody > tr > td,
+#dashboard_problem_list > tfoot > tr > td {
+    padding: 5px;
+}
+#dashboard_problem_list > thead > tr > th{
+    color: #fff;
+}
+#dashboard_problem_list>thead{
+    background: #95A5A6;
+}
+.dashboard_problem_table_form{
+    float: right;
+    margin-right: 15px;
+}
+.dashboard_problem_add_table{
+    width: 600px;
+    margin: 0 auto;
+    padding-top: 20px;
+}
+.dashboard_problem_add_span{
+    font-size: 20px;
 }

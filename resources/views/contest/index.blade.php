@@ -37,9 +37,9 @@
                 intDiff--;
             }, 1000);
         }
-        $(function(){
+        $(function () {
             timer(intDiff);
-        });
+        })
     </script>
 </head>
 <body class="home_body">
@@ -59,8 +59,8 @@
             <span class="badge countdown">
                 <strong id="day_show">0天</strong>
                 <strong id="hour_show">0时</strong>
-                <strong id="minute_show">0分</strong>
-                <strong id="second_show">0秒</strong>
+                <strong id="minute_show">00分</strong>
+                <strong id="second_show">00秒</strong>
             </span>
         </div>
         <div class="text-center contest_single_nav">

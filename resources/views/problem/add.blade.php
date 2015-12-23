@@ -1,52 +1,74 @@
-@if(!isset($error))
-    @foreach($infos as $info)
-        <div>{{ $info }}</div>
-    @endforeach
-@else
-    @foreach($errors as $error)
-        <div>{{ $error }}</div>
-    @endforeach
-@endif
-<form action="/dashboard/problem/add" method="post" enctype="multipart/form-data">
-    {{ csrf_field() }}
-    <div>Add Problem</div>
-    <div>Problem Title</div>
-    <input type="text" value="" name="title"/>
-    <div>Problem Description</div>
-    <textarea name="description"></textarea>
-    <div>Memory Limit</div>
-    <input type="text" name="mem_limit" value="65536"/>
-    <div>Time Limit</div>
-    <input type="text" name="time_limit" value="1000"/>
-    <div>Output Limit</div>
-    <input type="text" name="output_limit" value="5120"/>
-    <div>Input</div>
-    <textarea name="input"></textarea>
-    <div>Output</div>
-    <textarea name="output"></textarea>
-    <div>Sample Input</div>
-    <textarea name="sample_input"></textarea>
-    <div>Sample Output</div>
-    <textarea name="sample_output"></textarea>
-    <div>Source</div>
-    <textarea name="source"></textarea>
-    <!-- Now only support single testcase -->
-    @if($testcases == NULL)
-        <div>You do not have any testcase here</div>
-        <div>Upload Input File</div>
-        <input type="file" name="input_file[]"/>
-        <div>Upload Output File</div>
-        <input type="file" name="output_file[]"/>
+<!doctype html>
+<html>
+<head>
+    <title>Profile</title>
+    @include("layout.head")
+    <link rel="stylesheet" href="/css/main.css">
+    <script type="text/javascript">
+        $(function(){
+            $("#dashboard_problem").addClass("dashboard_subnav_active");
+        })
+    </script>
+</head>
+<body>
+@include("layout.dashboard_nav")
+<div class="col-xs-10">
+
+    @if(!isset($error))
+        @foreach($infos as $info)
+            <div>{{ $info }}</div>
+        @endforeach
     @else
-        @foreach($testcases as $testcase)
-            <div>Upload Input File</div>
-            <input type="file" name="input_file[]"/>
-            <div>Upload Output File</div>
-            <input type="file" name="output_file[]"/>
+        @foreach($errors as $error)
+            <div>{{ $error }}</div>
         @endforeach
     @endif
-    <div>
-        <input type="submit" value="Save"/>
-    </div>
-</form>
+        <h3 class="text-center">Add Problem</h3>
 
+    <div class="form-group dashboard_problem_add_table">
+        <form action="/dashboard/problem/add" method="post" enctype="multipart/form-data" class="form-inline">
+            {{ csrf_field() }}
+                <div class="dashboard_problem_add_span">Problem Title</div>
+                <input class="form-control"type="text" value="" name="title" style="width: 100%"/>
+                <div class="dashboard_problem_add_span">Problem Description</div>
+                <textarea class="form-control" name="description"style="width: 100%;height: 100px"></textarea>
+                <div class="dashboard_problem_add_span">Memory Limit</div>
+                <input class="form-control" type="text" name="mem_limit" value="65536"style="width: 100%"/>
+                <div class="dashboard_problem_add_span">Time Limit</div>
+                <input class="form-control" type="text" name="time_limit" value="1000"style="width: 100%"/>
+                <div class="dashboard_problem_add_span">Output Limit</div>
+                <input class="form-control" type="text" name="output_limit" value="5120"style="width: 100%"/>
+                <div class="dashboard_problem_add_span">Input</div>
+                <textarea class="form-control" name="input"style="width: 100%;height: 100px"></textarea><br>
+                <div class="dashboard_problem_add_span">Output</div>
+                <textarea class="form-control" name="output"style="width: 100%;height: 100px"></textarea><br>
+                <div class="dashboard_problem_add_span">Sample Input</div>
+                <textarea class="form-control" name="sample_input"style="width: 100%;height: 100px"></textarea><br>
+                <div class="dashboard_problem_add_span">Sample Output</div>
+                <textarea class="form-control" name="sample_output"style="width: 100%;height: 100px"></textarea><br>
+                <div class="dashboard_problem_add_span">Source</div>
+                <textarea class="form-control" name="source"style="width: 100%;height: 100px"></textarea><br><br>
+                <!-- Now only support single testcase -->
+                @if($testcases == NULL)
+                    <div class="dashboard_problem_add_span text-center" style="background: #95A5A6;">You do not have any testcase here</div>
+                    <div class="dashboard_problem_add_span">Upload Input File</div>
+                    <input class="form-control" type="file" name="input_file[]"style="width: 100%"/>
+                    <div class="dashboard_problem_add_span">Upload Output File</div>
+                    <input class="form-control"type="file" name="output_file[]"style="width: 100%"/>
+                @else
+                    @foreach($testcases as $testcase)
+                        <div class="dashboard_problem_add_span">Upload Input File</div>
+                        <input class="form-control"type="file" name="input_file[]"style="width: 100%"/>
+                        <div class="dashboard_problem_add_span">Upload Output File</div>
+                        <input class="form-control"type="file" name="output_file[]"style="width: 100%"/>
+                    @endforeach
+                @endif
+                <div style="margin-top: 10px">
+                    <input class="btn btn-default pull-right" type="submit" value="Save"/>
+                </div>
+        </form>
+    </div>
+    <div style="padding-bottom: 60px"></div>
+</div>
+</body>
+</html>
