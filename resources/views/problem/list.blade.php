@@ -12,6 +12,7 @@
 </head>
 <body>
     @include("layout.header")
+
     <h3 class="text-center">Problem List</h3>
     <div class="main">
         <form class="form-inline">

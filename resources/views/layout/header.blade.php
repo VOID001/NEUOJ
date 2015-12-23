@@ -18,7 +18,7 @@
                     <li id="home"><a href="/" >Home</a></li>
                     <li id="problem"><a href="/problem">Problem</a></li>
                     <li id="status"><a href="/status">Status</a></li>
-                    <li id="temp_"><a href="/contest">Contest</a></li>
+                    <li id="contest"><a href="/contest">Contest</a></li>
                     <li id="discuss"><a href="/discuss">Discuss</a></li>
                     <li id="rating"><a href="#">Rating</a></li>
                     <li id="temp_"><a href="/dashboard/profile">Dashboard</a></li>

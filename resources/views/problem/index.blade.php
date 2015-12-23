@@ -6,6 +6,8 @@
     <link rel="stylesheet" href="/css/main.css">
     <script>
         $(function(){
+            $("#problem").addClass("active");
+
             $("#submit").click(function(){
                 $("#mymodal").modal("toggle");
             });

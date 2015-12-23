@@ -138,7 +138,91 @@ body{
 /**dashboard**/
 .dashboard_nav{
     background:#333C47;
+    padding: 0;
 }
 .dashboard_nav>ul>li>a{
     color: #C5D0DE;
+}
+.dashboard_logo{
+    width: 80px;
+}
+.dashboard_top{
+    background: #333C44;
+    padding: 10px;
+}
+.dashboard_username{
+    color: #C5D0DE;
+    margin-top: 10px;
+}
+.dashboard_hr{
+    border-top: 1px solid #666;
+}
+li.separate-item {
+    border-top: 1px solid #666;
+}
+/*contest*/
+.contest_list{
+    margin-top: 5px
+}
+.contest_list> thead > tr > th,
+.contest_list> tbody > tr > th,
+.contest_list> tfoot > tr > th,
+.contest_list> thead > tr > td,
+.contest_list> tbody > tr > td,
+.contest_list > tfoot > tr > td {
+    padding: 5px;
+}
+.contest_list> thead > tr > th{
+    color: #fff;
+}
+.contest_list>thead{
+    background: #95A5A6;
+}
+/*contest_single*/
+.contest_list_single{
+    margin-top: 5px
+}
+.contest_list_single> thead > tr > th,
+.contest_list_single> tbody > tr > th,
+.contest_list_single> tfoot > tr > th,
+.contest_list_single> thead > tr > td,
+.contest_list_single> tbody > tr > td,
+.contest_list_single> tfoot > tr > td {
+    padding: 5px;
+}
+.contest_list_single> thead > tr > th{
+    color: #fff;
+}
+.contest_list_single>thead{
+    background: #5cb85c;
+}
+.contest_single_begintime{
+    display: inline-block;
+    width: 400px;
+    /*background: red;*/
+    padding-right: 20px;
+    margin-top: 5px;
+}
+.contest_single_endtime{
+    display: inline-block;
+    width: 300px;
+    /*background: red;*/
+    margin-left: 20px;
+    margin-top: 5px;
+}
+.countdown{
+    background: #5bc0de;
+}
+.contest_single_status_running{
+    background: #5bc0de;
+    /*display: inline-block;*/
+    font-size: 24px;
+}
+.contest_single_status_ended{
+    background: #999;
+    /*display: inline-block;*/
+    font-size: 24px;
+}
+.contest_single_nav{
+    margin-top: 20px;
 }
