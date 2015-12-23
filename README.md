@@ -2,8 +2,8 @@ NEUOJ
 ====
 
 ### Function Enabled for v1.0
-* [ ] Problem managment
- * [ ] Add Problem
+* [x] Problem managment
+ * [x] Add Problem
  * [x] Edit Problem
  * [x] Delete Problem
  * [x] Edit data
