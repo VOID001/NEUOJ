@@ -22,13 +22,13 @@ class ProblemTableSeeder extends Seeder
             ["title" => "G", "description" => "ArAA", "visibility_locks" => 0, "time_limit" => 3, "mem_limit" => 1024, "output_limit" => 10000000, "difficulty" => 1, "author_id" => 1, ],
             ["title" => "H", "description" => "ArrA", "visibility_locks" => 0, "time_limit" => 1, "mem_limit" => 1024, "output_limit" => 10000000, "difficulty" => 1, "author_id" => 1, ],
             ["title" => "I", "description" => "AArr", "visibility_locks" => 0, "time_limit" => 3, "mem_limit" => 1, "output_limit" => 10000000, "difficulty" => 1, "author_id" => 1, ],
-            ["title" => "J", "description" => "rrAA", "visibility_locks" => 0, "time_limit" => 3, "mem_limit" => 65536, "output_limit" => 10000000, "difficulty" => 1, "author_id" => 3, ],
-            ["title" => "K", "description" => "rAAr", "visibility_locks" => 0, "time_limit" => 3, "mem_limit" => 1024, "output_limit" => 10000000, "difficulty" => 1, "author_id" => 3, ],
-            ["title" => "L", "description" => "Arrr", "visibility_locks" => 0, "time_limit" => 5, "mem_limit" => 1024, "output_limit" => 10000000, "difficulty" => 1, "author_id" => 3, ],
-            ["title" => "M", "description" => "rrrA", "visibility_locks" => 1, "time_limit" => 3, "mem_limit" => 1024, "output_limit" => 10000000, "difficulty" => 1, "author_id" => 3, ],
-            ["title" => "N", "description" => "Arrr", "visibility_locks" => 0, "time_limit" => 3, "mem_limit" => 1024, "output_limit" => 10000000, "difficulty" => 1, "author_id" => 3, ],
-            ["title" => "O", "description" => "rArA", "visibility_locks" => 7, "time_limit" => 3, "mem_limit" => 1024, "output_limit" => 10000000, "difficulty" => 1, "author_id" => 3, ],
-            ["title" => "Hello World", "description" => "Just Ouput\n 'Hello World' ", "visibility_locks" => 0, "time_limit" => 3, "mem_limit" => 1024, "output_limit" => 10000000, "difficulty" => 1, "author_id" => 3, ],
+            ["title" => "J", "description" => "rrAA", "visibility_locks" => 0, "time_limit" => 3, "mem_limit" => 65536, "output_limit" => 10000000, "difficulty" => 1, "author_id" => 2, ],
+            ["title" => "K", "description" => "rAAr", "visibility_locks" => 0, "time_limit" => 3, "mem_limit" => 1024, "output_limit" => 10000000, "difficulty" => 1, "author_id" => 2, ],
+            ["title" => "L", "description" => "Arrr", "visibility_locks" => 0, "time_limit" => 5, "mem_limit" => 1024, "output_limit" => 10000000, "difficulty" => 1, "author_id" => 2, ],
+            ["title" => "M", "description" => "rrrA", "visibility_locks" => 1, "time_limit" => 3, "mem_limit" => 1024, "output_limit" => 10000000, "difficulty" => 1, "author_id" => 2, ],
+            ["title" => "N", "description" => "Arrr", "visibility_locks" => 0, "time_limit" => 3, "mem_limit" => 1024, "output_limit" => 10000000, "difficulty" => 1, "author_id" => 2, ],
+            ["title" => "O", "description" => "rArA", "visibility_locks" => 7, "time_limit" => 3, "mem_limit" => 1024, "output_limit" => 10000000, "difficulty" => 1, "author_id" => 2, ],
+            ["title" => "Hello World", "description" => "Just Ouput\n 'Hello World' ", "visibility_locks" => 0, "time_limit" => 3, "mem_limit" => 1024, "output_limit" => 10000000, "difficulty" => 1, "author_id" => 2, ],
         ];
 
         foreach($problems as $problem)
