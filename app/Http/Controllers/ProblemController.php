@@ -29,6 +29,11 @@ class ProblemController extends Controller
     public function getProblemByID(Request $request, $problem_id)
     {
         $problemObj = Problem::where("problem_id", $problem_id)->first();
+        if(session('uid') > 2)
+        {
+            if($problemObj->visibility_locks > 0)
+                return Redirect::to('/problem');
+        }
         if($problemObj == NULL)
         {
 

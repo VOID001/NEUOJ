@@ -108,6 +108,13 @@ class ContestController extends Controller
                 $contestProblemObj->problem_title = $input['problem_name'][$i];
                 $contestProblemObj->contest_problem_id = $i + 1;
                 $contestProblemObj->save();
+
+                //We should make sure this problem is disabled in normal mode
+
+                $problemObj = Problem::where('problem_id', $contestProblemObj->problem_id);
+                $problemObj->update([
+                    "visibility_locks" => $problemObj->first()->visibility_locks + 1
+                ]);
             }
             if($type == 1)
             {
