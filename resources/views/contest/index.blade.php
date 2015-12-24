@@ -4,41 +4,63 @@
     <title>Contest</title>
     @include("layout.head")
     <link rel="stylesheet" href="/css/main.css">
-
+    <meta http-equiv="Refresh" content="20">
     <script type="text/javascript">
         $(function(){
             $("#contest").addClass("active");
         })
     </script>
     <script type="text/javascript">
-
+        var begin=new Date("{{$contest->begin_time}}").getTime();
         var now=new Date().getTime();
         var end=new Date("{{$contest->end_time}}").getTime();
-        var time=(end-now)/1000;
-        var intDiff = parseInt(time);//倒计时总秒数量
-        function timer(intDiff){
+        var wholetime=(end-begin)/1000;
+        var pretime=(begin-now)/1000;
+        var remaintime=(end-now)/1000;
+        function timer(){
             window.setInterval(function(){
                 var day=0,
                         hour=0,
                         minute=0,
                         second=0;//时间默认值
-                if(intDiff > 0){
-                    day = Math.floor(intDiff / (60 * 60 * 24));
-                    hour = Math.floor(intDiff / (60 * 60)) - (day * 24);
-                    minute = Math.floor(intDiff / 60) - (day * 24 * 60) - (hour * 60);
-                    second = Math.floor(intDiff) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60);
+                if(pretime<=0){
+                    $('#contest_countdown_text').html("Time Remaining:");
+                    if(remaintime > 0){
+                        day = Math.floor(remaintime / (60 * 60 * 24));
+                        hour = Math.floor(remaintime / (60 * 60)) - (day * 24);
+                        minute = Math.floor(remaintime/ 60) - (day * 24 * 60) - (hour * 60);
+                        second = Math.floor(remaintime) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60);
+                    }
+                    if (minute <= 9) minute = '0' + minute;
+                    if (second <= 9) second = '0' + second;
+                    $('#day_show').html(day+"天");
+                    $('#hour_show').html('<s id="h"></s>'+hour+'时');
+                    $('#minute_show').html('<s></s>'+minute+'分');
+                    $('#second_show').html('<s></s>'+second+'秒');
+                    remaintime--;
                 }
-                if (minute <= 9) minute = '0' + minute;
-                if (second <= 9) second = '0' + second;
-                $('#day_show').html(day+"天");
-                $('#hour_show').html('<s id="h"></s>'+hour+'时');
-                $('#minute_show').html('<s></s>'+minute+'分');
-                $('#second_show').html('<s></s>'+second+'秒');
-                intDiff--;
+                else{
+                    $('#contest_countdown_text').html("Pending:");
+                    day = Math.floor(pretime/ (60 * 60 * 24));
+                    hour = Math.floor(pretime / (60 * 60)) - (day * 24);
+                    minute = Math.floor(pretime / 60) - (day * 24 * 60) - (hour * 60);
+                    second = Math.floor(pretime) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60);
+                    if (minute <= 9) minute = '0' + minute;
+                    if (second <= 9) second = '0' + second;
+                    $('#day_show').html(day+"天");
+                    $('#hour_show').html('<s id="h"></s>'+hour+'时');
+                    $('#minute_show').html('<s></s>'+minute+'分');
+                    $('#second_show').html('<s></s>'+second+'秒');
+                    pretime--;
+//                    if(pretime==0)
+//                    {
+//                        location.reload();
+//                    }
+                }
             }, 1000);
         }
         $(function () {
-            timer(intDiff);
+            timer();
         })
     </script>
 </head>
@@ -51,11 +73,13 @@
                 <span class="badge contest_single_status_running">{{ $contest->status }}</span></h1>
             @elseif($contest->status=="Ended")
                 <span class="badge contest_single_status_ended">{{ $contest->status }}</span></h1>
+            @else
+            <span class="badge contest_single_status_ended">{{ $contest->status }}</span></h1>
             @endif
         <span class="contest_single_begintime text-right" id="contest_single_begintime">Begin Time: {{ $contest->begin_time }}</span>
         <span class="contest_single_endtime text-left"id="contest_single_endtime">End Time: {{ $contest->end_time }}</span>
         <div class="text-center">
-            Time Remaining:
+            <span id="contest_countdown_text">Time Remaining:</span>
             <span class="badge countdown">
                 <strong id="day_show">0天</strong>
                 <strong id="hour_show">0时</strong>

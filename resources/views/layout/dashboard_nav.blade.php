@@ -11,9 +11,12 @@
             <li><a href="#">Submission</a></li>
             <li id="dashboard_profile"><a href="/dashboard/profile">Profile</a></li>
             <li id="dashboard_settings"><a href="/dashboard/settings">Settings</a></li>
+            <li><a href="/" style="font-size: 20px">NEUOJ</a></li>
             {{--<li class="separate-item"></li>--}}
         @else
             <li id="dashboard_profile"><a href="/dashboard/profile">Profile</a></li>
+            <li id="dashboard_settings"><a href="/dashboard/settings">Settings</a></li>
+            <li><a href="/"style="font-size: 20px">NEUOJ</a></li>
         @endif
     </ul>
 </div>

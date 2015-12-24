@@ -36,6 +36,9 @@
                 <th class="text-center">
                     Management
                 </th>
+                <th class="text-center">
+                    Rejudge
+                </th>
             @endif
         </thead>
         @if(isset($contests))
@@ -68,11 +71,17 @@
                             <span class="badge contest_list_status_running">{{ $contest->status }}</span>
                         @elseif($contest->status=="Ended")
                             <span class="badge contest_list_status_ended">{{ $contest->status }}</span>
+                        @else
+                            <span class="badge contest_list_status_ended">{{ $contest->status }}</span>
                         @endif
                     </td>
                     @if(Request::session()->get('uid') <=2 && Request::session()->get('uid'))
-                        <td>
-                            <a href="/dashboard/contest/{{ $contest->contest_id }}"><button>Manage Contest</button></a>
+                        <td class="text-center">
+                            <a class="btn btn-default" href="/dashboard/contest/{{ $contest->contest_id }}">manage</a>
+                        </td>
+                        <td class="text-center">
+                            <!--这个地址不太对吧-->
+                            <a class="btn btn-default" href=" /rejudge/{contest_id}/{contest_problem_id}">rejudge</a>
                         </td>
                     @endif
                 </tr>

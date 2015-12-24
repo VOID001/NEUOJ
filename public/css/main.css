@@ -239,6 +239,7 @@ li.separate-item {
 }
 .contest_single_nav{
     margin-top: 20px;
+    margin-bottom: 20px;
 }
 .contest_list_status_running{
     background: #5bc0de;
