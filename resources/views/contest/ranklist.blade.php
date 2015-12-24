@@ -20,14 +20,26 @@
                 {{ $user->username }}
             </td>
             <td>
-                {{ date('H:i:s', $user->infoObj->totalPenalty) }}
+		{{ intval($user->infoObj->totalPenalty / 60 / 60) }} :
+		{{ intval($user->infoObj->totalPenalty % 3600 / 60) }}:
+		{{ intval($user->infoObj->totalPenalty % 60)  }} 
+		{{ $user->infoObj->totalPenalty  }} 
             </td>
             @foreach($problems as $problem)
                 <td>
                     @if(isset($user->infoObj->result[$problem->contest_problem_id]) && $user->infoObj->result[$problem->contest_problem_id] == "First Blood")
-                        FB! <br/>{{ $user->infoObj->time[$problem->contest_problem_id] }}<br/>{{ $user->infoObj->penalty[$problem->contest_problem_id] }}
+                        FB! <br/>
+
+		{{ intval($user->infoObj->time[$problem->contest_problem_id] / 60 / 60) }} :
+		{{ intval($user->infoObj->time[$problem->contest_problem_id] % 3600 / 60) }}:
+		{{ intval($user->infoObj->time[$problem->contest_problem_id] % 60)  }} 
+<br/>{{ $user->infoObj->penalty[$problem->contest_problem_id] }}
                     @elseif(isset($user->infoObj->result[$problem->contest_problem_id]) && $user->infoObj->result[$problem->contest_problem_id] == "Accepted")
-                        OK! <br/>{{ $user->infoObj->time[$problem->contest_problem_id] }}<br/>{{ $user->infoObj->penalty[$problem->contest_problem_id] }}
+                        OK! <br/>
+		{{ intval($user->infoObj->time[$problem->contest_problem_id] / 60 / 60) }} :
+		{{ intval($user->infoObj->time[$problem->contest_problem_id] % 3600 / 60) }}:
+		{{ intval($user->infoObj->time[$problem->contest_problem_id] % 60)  }} 
+<br/>{{ $user->infoObj->penalty[$problem->contest_problem_id] }}
                     @elseif(isset($user->infoObj->result[$problem->contest_problem_id]) && ($user->infoObj->result[$problem->contest_problem_id] == "Rejudging" || $user->infoObj->result[$problem->contest_problem_id] == "Pending"))
                         Pending/Rejudging
                     @elseif(isset($user->infoObj->result[$problem->contest_problem_id]))
