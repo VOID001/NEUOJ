@@ -70,7 +70,6 @@ Route::group(['middleware' => 'profile'],function() {
     Route::get('/status/{run_id}', [
         "uses" => "SubmissionController@getSubmissionByID",
         "middleware" => "role:view",
-<<<<<<< bda3e691144c6b45c97767f43d0b8294976b63c4
     ]);
 
     Route::get('/contest', [
