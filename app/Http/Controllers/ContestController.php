@@ -16,6 +16,18 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use Illuminate\Http\Response;
 
+class ContestUserInfo
+{
+    public $userObj;
+    public $result = [];
+    public $time = [];
+    public $penalty = [];
+    public $realPenalty = [];
+    public $totalPenalty = 0;
+    public $totalAC = 0;
+}
+
+
 class ContestController extends Controller
 {
     public function showContestDashboard(Request $request)
@@ -242,8 +254,101 @@ class ContestController extends Controller
 
     public function getContestRanklist(Request $request, $contest_id)
     {
-        return Redirect::to("/contest/$contest_id/ranklist/p/1");
+        $data = [];
+
+        $submissionObj = Submission::where('cid', $contest_id)->get();
+        $contestObj = Contest::where('contest_id', $contest_id)->first();
+
+        $count = 0;
+
+        //fetch all user and ensure it's unique
+
+        //This is a array to check the existence of certain user
+
+        $user_exist_arr = [];
+
+        foreach($submissionObj as $submission)
+        {
+            $userObj = User::where('uid', $submission->uid)->first();
+            if(!isset($user_exist_arr[$userObj->uid]))
+            {
+                $data['users'][$count] = User::where('uid', $submission->uid)->first();
+                $user_exist_arr[$submission->uid] = 1;
+                $count++;
+            }
+        }
+
+
+        $data['problems'] = ContestProblem::where('contest_id', $contest_id)->get();
+
+        //for($i = 0; $i < $count; $i++)
+        foreach($data['users'] as $user)
+        {
+            //$user = $data['user'][$i];
+            $submissionObj = Submission::where([
+                'cid' => $contest_id,
+                'uid' => $user->uid
+            ])->orderby('runid', 'asc')->get();
+
+            $user->infoObj = new ContestUserInfo();
+            foreach($submissionObj as $submission)
+            {
+                $contestProblemObj = ContestProblem::where([
+                    "contest_id" => $contest_id,
+                    "problem_id" => $submission->pid
+                ])->first();
+                $contestProblemID = $contestProblemObj->contest_problem_id;
+                $currentResult = $submission->result;
+                if($currentResult != "Accepted" && $currentResult != "Pending" && $currentResult != "Rejudging")
+                {
+                    if(!isset($user->infoObj->penalty[$contestProblemID]))
+                        $user->infoObj->penalty[$contestProblemID] = 1;
+                    else
+                        $user->infoObj->penalty[$contestProblemID]++;
+                    $user->infoObj->result[$contestProblemID] = $submission->result;
+                }
+                if($currentResult == "Accepted")
+                {
+                    if(isset($user->infoObj->result[$contestProblemID])  && ($user->infoObj->result[$contestProblemID] == "Accepted" || $user->infoObj->result[$contestProblemID] == "First Blood"))
+                    {
+                        //Do nothing
+                    }
+                    else
+                    {
+                        //Check FB
+
+                        if (ContestProblem::where(["contest_id" => $contest_id, "contest_problem_id" => $contestProblemID,])->first()->first_ac == $user->uid)
+                        {
+                            $user->infoObj->result[$contestProblemID] = "First Blood";
+                        }
+                        else
+                        {
+                            $user->infoObj->result[$contestProblemID] = "Accepted";
+                        }
+                        $user->infoObj->time[$contestProblemID] = strtotime($submission->submit_time) - strtotime($contestObj->begin_time);
+                        $user->infoObj->time[$contestProblemID] = date('H:i:s', $user->infoObj->time[$contestProblemID]);
+                        if(!isset($user->infoObj->penalty[$contestProblemID]))
+                            $user->infoObj->penalty[$contestProblemID] = 0;
+                        $user->infoObj->realPenalty[$contestProblemID] = date('H:i:s', $user->infoObj->time[$contestProblemID] + 20 * $user->infoObj->penalty[$contestProblemID]);
+                        $user->infoObj->totalPenalty += strtotime($user->infoObj->realPenalty[$contestProblemID]);
+                        $user->infoObj->totalAC ++;
+                    }
+                }
+            }
+        }
+        usort($data['users'], ['self', "cmp"]);
+        return View::make('contest.ranklist', $data);
     }
+
+    public function cmp($userA, $userB)
+    {
+        if($userA->infoObj->totalAC == $userB->infoObj->totalAC)
+        {
+            return $userA->infoObj->totalPenalty > $userB->infoObj->totalPenalty;
+        }
+        return $userA->infoObj->totalAC < $userB->infoObj->totalAC;
+    }
+
 
     public function getContestRanklistByPageID(Request $request, $contest_id, $page_id)
     {
@@ -330,6 +435,7 @@ class ContestController extends Controller
     {
 
     }
+
 }
 
 
