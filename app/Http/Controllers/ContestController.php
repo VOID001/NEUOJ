@@ -193,13 +193,24 @@ class ContestController extends Controller
     {
         $data = [];
         $uid = $request->session()->get('uid');
+        $contestUserObj = ContestUser::where('user_id', $uid)->first();
+        if($contestUserObj)
+            $username = $contestUserObj->username;
+        else
+            $username = "";
         $contestObj = Contest::where('contest_id', $contest_id)->first();
         if($contestObj->contest_type == 1)
         {
-            $contestUserObj = ContestUser::where('user_id', $uid)->first();
-            //var_dump($contestUserObj);
-            if($contestUserObj == NULL)
-                return Redirect::to('/contest/p/1');
+            if(!(session('uid') && session('uid') <= 2))
+            {
+                $contestUserObj = ContestUser::where([
+                    'username' => $username,
+                    'contest_id' => $contest_id
+                ])->first();
+                var_dump($contestUserObj);
+                if ($contestUserObj == NULL)
+                    return Redirect::to('/contest/p/1');
+            }
         }
         $data["contest"] = $contestObj;
         $contestProblemObj = ContestProblem::where('contest_id', $contest_id)->orderby('contest_problem_id', 'asc')->get();
@@ -210,7 +221,7 @@ class ContestController extends Controller
         foreach($contestProblemObj as $contestProblem)
         {
             $data["problems"][$count] = $contestProblem;
-            $data["problems"][$count]->problem_id = $contestProblem->contest_problem_id;
+            $data["problems"][$count]->contest_problem_id = $contestProblem->contest_problem_id;
             $realProblemID = $contestProblem->problem_id;
             $data["problems"][$count]->totalSubmissionCount = Submission::where([
                 "pid" => $realProblemID,
@@ -223,6 +234,7 @@ class ContestController extends Controller
                 "result" => "Accepted",
             ])->count();
 
+
             $data["problems"][$count]->realProblemName = Problem::where('problem_id', $realProblemID)->first()->title;
 
             if($uid == $contestProblem->first_ac)
@@ -234,6 +246,7 @@ class ContestController extends Controller
                 "pid" => $realProblemID,
                 "cid" => $contest_id,
                 "uid" => $uid,
+                "result" => "Accepted",
             ])->count())
             {
                 $data["problems"][$count]->thisUserAc = true;
@@ -282,6 +295,8 @@ class ContestController extends Controller
         $data['problems'] = ContestProblem::where('contest_id', $contest_id)->get();
 
         //for($i = 0; $i < $count; $i++)
+	if(!isset($data['users'])) 
+		$data['users'] = [];
         foreach($data['users'] as $user)
         {
             //$user = $data['user'][$i];
@@ -325,12 +340,15 @@ class ContestController extends Controller
                         {
                             $user->infoObj->result[$contestProblemID] = "Accepted";
                         }
-                        $user->infoObj->time[$contestProblemID] = strtotime($submission->submit_time) - strtotime($contestObj->begin_time);
-                        $user->infoObj->time[$contestProblemID] = date('H:i:s', $user->infoObj->time[$contestProblemID]);
+                        //$user->infoObj->time[$contestProblemID] = strtotime($submission->submit_time ,strtotime($contestObj->begin_time));
+$user->infoObj->time[$contestProblemID] =  strtotime($submission->submit_time) - strtotime($contestObj->begin_time);
+//echo date('y-m-d H:i:s', $user->infoObj->time[$contestProblemID]);
+                        //$user->infoObj->time[$contestProblemID] = date('H:i:s', $user->infoObj->time[$contestProblemID]);
                         if(!isset($user->infoObj->penalty[$contestProblemID]))
                             $user->infoObj->penalty[$contestProblemID] = 0;
-                        $user->infoObj->realPenalty[$contestProblemID] = date('H:i:s', $user->infoObj->time[$contestProblemID] + 20 * $user->infoObj->penalty[$contestProblemID]);
-                        $user->infoObj->totalPenalty += strtotime($user->infoObj->realPenalty[$contestProblemID]);
+                        //$user->infoObj->realPenalty[$contestProblemID] = date('Y-m-d H:i:s', $user->infoObj->time[$contestProblemID] + 20 * $user->infoObj->penalty[$contestProblemID]);
+                        $user->infoObj->realPenalty[$contestProblemID] = $user->infoObj->time[$contestProblemID] + 20 * 60 * $user->infoObj->penalty[$contestProblemID];
+                        $user->infoObj->totalPenalty += $user->infoObj->realPenalty[$contestProblemID];
                         $user->infoObj->totalAC ++;
                     }
                 }
