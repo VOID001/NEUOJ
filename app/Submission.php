@@ -8,5 +8,7 @@ class Submission extends Model
 {
     protected $table = "submissions";
 
+    protected $primaryKey = "runid";
+
     protected $fillable = [""];
 }

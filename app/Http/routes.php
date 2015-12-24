@@ -186,6 +186,10 @@ Route::group(['middleware' => 'profile'],function() {
             "uses" => "ContestController@setContest"
         ]);
 
+        Route::get('/rejudge/{contest_id}/{problem_id}', [
+            "uses" => "SubmissionController@rejudgeSubmissionByContestIDAndProblemID"
+        ]);
+
     });
 });
 /*

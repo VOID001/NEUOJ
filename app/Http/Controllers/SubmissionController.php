@@ -193,4 +193,29 @@ class SubmissionController extends Controller
         }
     }
 
+    public function rejudgeSubmissionByContestIDAndProblemID(Request $request, $contest_id, $problem_id)
+    {
+        $contestProblemObj = ContestProblem::where([
+            'contest_id' => $contest_id,
+            'contest_problem_id' => $problem_id
+        ])->first();
+
+        $realProblemID = $contestProblemObj->problem_id;
+
+        $submissionObj = Submission::where([
+            "cid" => $contest_id,
+            "pid" => $realProblemID
+        ]);
+
+        $contestProblemObj->first_ac = 0;
+        $contestProblemObj->save();
+
+        foreach($submissionObj->get() as $submission)
+        {
+            var_dump($submission);
+            $submission->judge_status = 0;
+            $submission->result = "Rejudging";
+            $submission->save();
+        }
+    }
 }
