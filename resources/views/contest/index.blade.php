@@ -138,7 +138,7 @@
                     </td>
                     <td>
                         @if((session('uid') && session('uid') <=2) || $contest->status != "Pending")
-                            <a href="/contest/{{ $contest->contest_id }}/problem/{{ $problem->problem_id }}">
+                            <a href="/contest/{{ $contest->contest_id }}/problem/{{ $problem->contest_problem_id }}">
                         @endif
                             {{ $problem->problem_title }}
                         @if((session('uid') && session('uid') <=2) || $contest->status != "Pending")
