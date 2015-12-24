@@ -20,7 +20,7 @@ class ProfileCheck
     {
         $uid = $request->session()->get('uid');
         $userinfoObject = Userinfo::where('uid',$uid)->first();
-        if(($request->route()->getName() != "dashboard.profile") && ($uid != NULL) && (( $userinfoObject == NULL) || ($userinfoObject->school == NULL) || ($userinfoObject->stu_id == NULL)))
+        if(($request->route()->getName() != "dashboard.profile") && ($uid != NULL) && (( $userinfoObject == NULL) || ($userinfoObject->school == NULL) || ($userinfoObject->school == "NEU" && $userinfoObject->stu_id == NULL)))
         {
             $data['profileError'] = 'You need to complete your profile first.';
             return Redirect::route('dashboard.profile')->with($data);

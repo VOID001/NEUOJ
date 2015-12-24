@@ -37,7 +37,6 @@ Route::group(['middleware' => 'profile'],function() {
         "uses" => "ProblemController@getProblem"
     ]);
 
-
     Route::get('/status', [
         "uses" => "SubmissionController@getSubmission"
     ]);
@@ -87,6 +86,8 @@ Route::group(['middleware' => 'profile'],function() {
     Route::get('/contest/p/{page_id}', [
         "uses" => "ContestController@getContestListByPageID"
     ]);
+
+    Route::get('/avatar/{user_id}','UserController@showAvatar');
 
     /*Route group need auth middleware*/
     Route::group(['middleware' => 'auth'], function () {

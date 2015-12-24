@@ -10,6 +10,8 @@ use App\User;
 use App\Userinfo;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Response;
+use Storage;
 
 class UserController extends Controller
 {
@@ -21,12 +23,38 @@ class UserController extends Controller
     {
         $uid=$request->session()->get('uid');
         if(!$request->session()->has('profileError'))
-            $input = [];
+            $data = [];
         else
-            $input['profileError'] = $request->session()->get('profileError');
+            $data['profileError'] = $request->session()->get('profileError');
         if($request->method() == 'POST')
         {
             $input = $request->input();
+            $image = $request->file('image');
+            if(isset($image)){
+                //image size < 1M
+                if($image->getSize()>1048576)
+                {
+                    $data['profileError'] = "Image file is larger than 1M!";
+                    $userinfoObject = Userinfo::where('uid',$uid)->first();
+                    if(isset($userinfoObject)) {
+                        $input['nickname'] = $userinfoObject->nickname;
+                        $input['school'] = $userinfoObject->school;
+                        $input['stu_id'] = $userinfoObject->stu_id;
+                        if (!Storage::has('avatars/' . $uid . '.jpg')) {
+                            $uid = 0;
+                        }
+                        $input['uid']=$uid;
+                    }
+                    //return "Image file is larger than 1M!";
+                    return View::make('dashboard.profile', $data,$input);
+                }
+                else {
+                    Storage::put(
+                        'avatars/' . $uid. ".jpg",
+                        file_get_contents($request->file('image')->getRealPath())
+                    );
+                }
+            }
             $vdtor = Validator::make($input, [
                 "nickname" => "max:255",
                 "school" => "max:255",  //check school
@@ -47,14 +75,18 @@ class UserController extends Controller
             Userinfo::where('uid', $uid)->update(['nickname' => $request->nickname]);
             Userinfo::where('uid', $uid)->update(['school' => $request->school]);
             Userinfo::where('uid', $uid)->update(['stu_id' => $request->stu_id]);
-            return Redirect::route('home');
+            return Redirect::route('dashboard.profile');
         }
         else {
             $userinfoObject = Userinfo::where('uid',$uid)->first();
             if(isset($userinfoObject)) {
-                $input['nickname']=$userinfoObject->nickname;
-                $input['school']=$userinfoObject->school;
-                $input['stu_id']=$userinfoObject->stu_id;
+                $input['nickname'] = $userinfoObject->nickname;
+                $input['school'] = $userinfoObject->school;
+                $input['stu_id'] = $userinfoObject->stu_id;
+                if (!Storage::has('avatars/' . $uid . '.jpg')) {
+                    $uid = 0;
+                }
+                $input['uid']=$uid;
             }
             return View::make('dashboard.profile', $input);
         }
@@ -106,7 +138,18 @@ class UserController extends Controller
         else{
             return Redirect::route('home');
         }
+    }
 
-
+    public function showAvatar(Request $request,$user_id)
+    {
+        $user = User::where('uid',$user_id)->first();
+        if(!isset($user)) {
+            $user_id=0;
+        }
+        $file = Storage::get('avatars/' . $user_id . ".jpg");
+        $type = Storage::mimeType('avatars/' . $user_id . ".jpg");
+        $response = Response::make($file, 200);
+        $response->header("Content-Type", $type);
+        return $response;
     }
 }
