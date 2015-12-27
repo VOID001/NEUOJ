@@ -9,6 +9,7 @@ use App\Problem;
 use App\Submission;
 use App\User;
 use App\Http\Controllers\Controller;
+use App\Userinfo;
 use Validator;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\MessageBag;
@@ -136,7 +137,7 @@ class ContestController extends Controller
                 {
                     $contestUserObj = new ContestUser;
                     $contestUserObj->contest_id = $contestObj->id;
-                    $contestUserObj->username = $user;
+                    $contestUserObj->username = trim($user);
                     $userObj = User::where('username', $user)->first();
                     if($userObj)
                     {
@@ -193,7 +194,9 @@ class ContestController extends Controller
     {
         $data = [];
         $uid = $request->session()->get('uid');
-        $contestUserObj = ContestUser::where('user_id', $uid)->first();
+	$userObj = User::where('uid', $uid)->first();
+	//var_dump($userObj);
+        $contestUserObj = ContestUser::where('username', $userObj->username)->first();
         if($contestUserObj)
             $username = $contestUserObj->username;
         else
@@ -207,8 +210,7 @@ class ContestController extends Controller
                     'username' => $username,
                     'contest_id' => $contest_id
                 ])->first();
-                var_dump($contestUserObj);
-                if ($contestUserObj == NULL)
+                if ($contestUserObj == NULL || $contestUserObj->username == NULL)
                     return Redirect::to('/contest/p/1');
             }
         }
@@ -353,6 +355,8 @@ $user->infoObj->time[$contestProblemID] =  strtotime($submission->submit_time) -
                     }
                 }
             }
+            $userInfoObj = Userinfo::where('uid', $user->uid)->first();
+            $user->nick_name = $userInfoObj->nickname;
         }
         usort($data['users'], ['self', "cmp"]);
         return View::make('contest.ranklist', $data);
@@ -385,7 +389,7 @@ $user->infoObj->time[$contestProblemID] =  strtotime($submission->submit_time) -
         //Almost same as getSubmissionListByPageID, will change in future
         $data = [];
 
-        $itemsPerPage = 20;
+        $itemsPerPage = 50;
         $data['submissions'] = NULL;
         $input = $request->all();
         $queryArr = [];

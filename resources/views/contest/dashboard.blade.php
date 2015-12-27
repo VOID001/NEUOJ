@@ -63,6 +63,7 @@
                         <a class="btn btn-default" href="/dashboard/contest/{{ $contest->contest_id }}">Edit Contest</a>
                         <form method="post" action="/dashboard/contest/{{ $contest->contest_id }}"class="dashboard_problem_table_form">
                             {{ method_field('DELETE') }}
+			    {{ csrf_field() }}
                             <input type="submit"class="btn btn-default" value="delete contest"/>
                         </form>
 

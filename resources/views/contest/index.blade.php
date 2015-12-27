@@ -90,7 +90,7 @@
         <div class="text-center contest_single_nav">
             <a class="btn btn-default" href="/contest/{{ $contest->contest_id }}/status">Status</a>
             <a class="btn btn-default" href="/contest/{{ $contest->contest_id }}/ranklist">Ranklist</a>
-            <a class="btn btn-default" href="#">Discuss</a>
+            <a class="btn btn-default" href="#">BBS Not Available</a>
         </div>
 
         <div>
@@ -104,39 +104,37 @@
 
         <table class="table table-striped table-bordered table-hover contest_list_single" width="100%">
             <thead>
-            <th>
-                AC/Total(Ratio)
-            </th>
-            <th>
+            <th class="text-center">
+	       Status
+	    </th>
+            <th class="text-center">
                 Problem ID
             </th>
-            <th>
+            <th class="text-center">
                 Short Name
             </th>
-            <th>
+	    <th>
                 Problem Name
+            </th>
+            <th class="text-center">
+                AC/Total(Ratio)
             </th>
             </thead>
 
             @foreach($problems as $problem)
                 <tr>
-                    <td>
-                        @if($problem->acSubmissionCount != 0)
-                            {{ $problem->acSubmissionCount }} / {{ $problem->totalSubmissionCount }}({{ $problem->acSubmissionCount/$problem->totalSubmissionCount * 100 }}%)
-                        @else
-                            0 / 0()
-                        @endif
-                    </td>
-                    <td>
+                    <td class="text-center">
                         @if($problem->thisUserFB)
-                            [FB!]
+                            <span class="glyphicon glyphicon-tree-conifer" style="color: #5cb85c"></span>
+                            <span class="glyphicon glyphicon-tree-conifer"></span>
+                        @elseif($problem->thisUserAc)
+                            <span class="glyphicon glyphicon-tree-conifer"></span>
                         @endif
-                        @if($problem->thisUserAc)
-                            [AC]
-                        @endif
+                     </td>
+                    <td class="text-center">
                             {{ $problem->contest_problem_id }}
                     </td>
-                    <td>
+                    <td class="text-center">
                         @if((session('uid') && session('uid') <=2) || $contest->status != "Pending")
                             <a href="/contest/{{ $contest->contest_id }}/problem/{{ $problem->contest_problem_id }}">
                         @endif
@@ -147,6 +145,13 @@
                     </td>
                     <td>
                         {{ $problem->realProblemName }}
+                    </td>
+                    <td class="text-center">
+                        @if($problem->acSubmissionCount != 0)
+                            {{ $problem->acSubmissionCount }} / {{ $problem->totalSubmissionCount }}({{ intval($problem->acSubmissionCount/$problem->totalSubmissionCount * 100) }}%)
+                        @else
+                            0 / 0()
+                        @endif
                     </td>
                 </tr>
             @endforeach

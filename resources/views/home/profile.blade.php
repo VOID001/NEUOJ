@@ -15,6 +15,10 @@
                     <td style="padding-left: 20px"><img src="/avatar/@if(isset($uid)){{ $uid }}@else{{ 0 }}@endif" style="width:120px;height:120px;"/></td>
                 </tr>
                 <tr>
+                    <td style="padding-left: 20px">Username</td>
+                    <td><input type="text" name="nickname" value="@if(isset($nickname)){{ $username }}@endif" readonly="true" class="form-control"/></td>
+                </tr>
+                <tr>
                     <td style="padding-left: 20px">Nickname</td>
                     <td><input type="text" name="nickname" value="@if(isset($nickname)){{ $nickname }}@endif" readonly="true" class="form-control"/></td>
                 </tr>

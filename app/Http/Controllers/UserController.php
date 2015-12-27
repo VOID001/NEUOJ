@@ -22,6 +22,7 @@ class UserController extends Controller
     public function setProfile(Request $request)
     {
         $uid=$request->session()->get('uid');
+	$input = [];
         if(!$request->session()->has('profileError'))
             $data = [];
         else
@@ -129,10 +130,13 @@ class UserController extends Controller
     public function showProfile(Request $request,$user_id)
     {
         $userinfoObject = Userinfo::where('uid',$user_id)->first();
+        $userObj = User::where('uid', $user_id)->first();
         if(isset($userinfoObject)) {
             $input['nickname']=$userinfoObject->nickname;
+	    $input['uid'] = $user_id;
             $input['school']=$userinfoObject->school;
             $input['stu_id']=$userinfoObject->stu_id;
+	    $input['username'] = $userObj->username;
             return View::make('home.profile', $input);
         }
         else{
@@ -143,9 +147,11 @@ class UserController extends Controller
     public function showAvatar(Request $request,$user_id)
     {
         $user = User::where('uid',$user_id)->first();
-        if(!isset($user)) {
-            $user_id=0;
-        }
+        //if(!isset($user)) {
+        //    $user_id = 0;
+        //}
+	if(Storage::has('avatars/' . $user_id . ".jpg") == NULL)
+	    $user_id = 0;
         $file = Storage::get('avatars/' . $user_id . ".jpg");
         $type = Storage::mimeType('avatars/' . $user_id . ".jpg");
         $response = Response::make($file, 200);

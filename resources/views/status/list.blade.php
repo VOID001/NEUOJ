@@ -156,7 +156,7 @@
                 <td class="text-center">{{ $submission->submit_time }}</td>
                 <td class="text-center">{{ $submission->uid }}</td>
                 <td class="text-center">{{ $submission->userName }}</td>
-                <td class="text-left">{{ $submission->problemTitle }}</td>
+                <td class="text-left"> {{ $submission->problemTitle }}</td>
                 @if($submission->result=="Accepted")
                     <td class="text-center"><span class="label label-success" style="font-size: 15px"><span class="glyphicon glyphicon-ok " style="color: #000"></span>Accepted</span></td>
                 @elseif($submission->result=="Compile Error")
@@ -176,7 +176,7 @@
                         @if(!isset($contest))
                             <a href="/status/{{ $submission->runid }}">View Source</a>
                         @else
-                            <a href="/contest/{{ $contest->contest_id }}/status/{{ $submission->runid }}">View Source</a>
+                            <a href="/status/{{ $submission->runid }}">View Source</a>
                         @endif
                     @else
                         View Source

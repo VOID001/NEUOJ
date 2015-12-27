@@ -31,12 +31,8 @@
 </head>
 <body>
     @include("layout.header")
-    @if(isset($contest))
-        <a href="/contest/{{ $contest->contest_id }}">Back</a>
-        <a href="/contest/{{ $contest->contest_id }}/ranklist">Ranklist</a>
-        <a href="/contest/{{ $contest->contest_id }}/status">Status</a>
-        [Here Please Add a count down JS plugin]
-    @endif
+
+
     <h3 class="text-center">Problem: {{ $problem->title }}</h3>
     <div class="text-center text-primary">Time limit: {{ $problem->time_limit }}s&nbsp;&nbsp;&nbsp;&nbsp;Mem limit:@if($problem->mem_limit < 1000)
             {{ $problem->mem_limit }} KB
@@ -51,6 +47,76 @@
             AC/Submission: <a href="/status/p/1?result=Accepted&pid={{ $problem->problem_id }}"/>{{ $problem->acSubmissionCount }}</a>/ <a href="/status/p/1?pid={{ $problem->problem_id }}">{{ $problem->totalSubmissionCount }}</a>
         @endif
     </div>
+
+    @if(isset($contest))
+        <div class="contest_single_nav text-center">
+            <a class="btn btn-default" href="/contest/{{ $contest->contest_id }}">&nbsp;&nbsp;Back&nbsp;&nbsp;</a>
+            <a class="btn btn-default" href="/contest/{{ $contest->contest_id }}/ranklist">Ranklist</a>
+            <a class="btn btn-default" href="/contest/{{ $contest->contest_id }}/status">&nbsp;Status&nbsp;</a>
+            <span id="contest_countdown_text">Time Remaining:</span>
+            <span class="badge countdown">
+                <strong id="day_show">0天</strong>
+                <strong id="hour_show">0时</strong>
+                <strong id="minute_show">00分</strong>
+                <strong id="second_show">00秒</strong>
+            </span>
+        </div>
+        <script type="text/javascript">
+            var begin=new Date("{{$contest->begin_time}}").getTime();
+            var now=new Date().getTime();
+            var end=new Date("{{$contest->end_time}}").getTime();
+            var wholetime=(end-begin)/1000;
+            var pretime=(begin-now)/1000;
+            var remaintime=(end-now)/1000;
+            function timer(){
+                window.setInterval(function(){
+                    var day=0,
+                            hour=0,
+                            minute=0,
+                            second=0;//时间默认值
+                    if(pretime<=0){
+                        $('#contest_countdown_text').html("Time Remaining:");
+                        if(remaintime > 0){
+                            day = Math.floor(remaintime / (60 * 60 * 24));
+                            hour = Math.floor(remaintime / (60 * 60)) - (day * 24);
+                            minute = Math.floor(remaintime/ 60) - (day * 24 * 60) - (hour * 60);
+                            second = Math.floor(remaintime) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60);
+                        }
+                        if (minute <= 9) minute = '0' + minute;
+                        if (second <= 9) second = '0' + second;
+                        $('#day_show').html(day+"天");
+                        $('#hour_show').html('<s id="h"></s>'+hour+'时');
+                        $('#minute_show').html('<s></s>'+minute+'分');
+                        $('#second_show').html('<s></s>'+second+'秒');
+                        remaintime--;
+                    }
+                    else{
+                        $('#contest_countdown_text').html("Pending:");
+                        day = Math.floor(pretime/ (60 * 60 * 24));
+                        hour = Math.floor(pretime / (60 * 60)) - (day * 24);
+                        minute = Math.floor(pretime / 60) - (day * 24 * 60) - (hour * 60);
+                        second = Math.floor(pretime) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60);
+                        if (minute <= 9) minute = '0' + minute;
+                        if (second <= 9) second = '0' + second;
+                        $('#day_show').html(day+"天");
+                        $('#hour_show').html('<s id="h"></s>'+hour+'时');
+                        $('#minute_show').html('<s></s>'+minute+'分');
+                        $('#second_show').html('<s></s>'+second+'秒');
+                        pretime--;
+//                    if(pretime==0)
+//                    {
+//                        location.reload();
+//                    }
+                    }
+                }, 1000);
+            }
+            $(function () {
+                timer();
+            })
+        </script>
+
+    @endif
+
     <div class="panel panel-default main">
 
         <h3>Problem Description</h3>
@@ -95,9 +161,7 @@
                         <span name="Language" style="float: left;font-size: 16px;margin-top: 8px">language:</span>
                         <select name="lang" class="form-control" style="display: inline-block;width: 100px;margin-bottom: 10px">
                             <option name="c">C</option>
-                            <option name="java">Java</option>
                             <option name="cpp">C++</option>
-                            <option name="cpp11">C++11</option>
                         </select>
                         <textarea name="code" id="promblem_submit_textarea" class="form-control" placeholder="Input your code here..."></textarea>
                         <input type="reset" class="btn btn-primary pull-right" value="&nbsp;Reset&nbsp;" style="margin-left: 10px;margin-top: 10px"/>

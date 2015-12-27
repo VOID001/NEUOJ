@@ -80,7 +80,7 @@ class SubmissionController extends Controller
 
     public function getSubmissionListByPageID(Request $request, $page_id)
     {
-        $itemsPerPage = 10;
+        $itemsPerPage = 30;
         $data = [];
         $data['submissions'] = NULL;
         $input = $request->all();
@@ -150,7 +150,8 @@ class SubmissionController extends Controller
             $data['contest'] = $contestObj;
             if(time() < strtotime($contestObj->begin_time) || time() > strtotime($contestObj->end_time))
             {
-                return View::make("errors.contest_end", $data);
+                if(!(session('uid') && session('uid') <= 2))
+                    return View::make("errors.contest_end", $data);
             }
 
             $realProblemID = $contestProblemObj->problem_id;

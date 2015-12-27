@@ -29,9 +29,9 @@ class ProblemController extends Controller
     public function getProblemByID(Request $request, $problem_id)
     {
         $problemObj = Problem::where("problem_id", $problem_id)->first();
-        if(session('uid') > 2)
+        if((session('uid') == NULL) || session('uid') > 2)
         {
-            if($problemObj->visibility_locks > 0)
+            //if($problemObj->visibility_locks > 0)
                 return Redirect::to('/problem');
         }
         if($problemObj == NULL)
@@ -58,6 +58,12 @@ class ProblemController extends Controller
     public function getProblemListByPageID(Request $request, $page_id)
     {
         $problemPerPage = 20;
+	if((session('uid') == NULL) || session('uid') > 2)
+        {
+            //if($problemObj->visibility_locks > 0)
+                return Redirect::to('/');
+        }
+
         /**  Remove the customize pagination function
         if($request->method() == "GET")
         {
@@ -356,6 +362,11 @@ class ProblemController extends Controller
         $data = [];
         $uid = $request->session()->get('uid');
         $contestObj = Contest::where('contest_id', $contest_id)->first();
+	$userObj = User::where('uid', $uid)->first();
+	if($userObj)
+            $username = $userObj->username;
+        else
+	    $username = "";
         if(time() < strtotime($contestObj->begin_time))
         {
             //Admin Special Privilege
@@ -364,10 +375,13 @@ class ProblemController extends Controller
         }
         if($contestObj->contest_type == 1)
         {
-            $contestUserObj = ContestUser::where('user_id', $uid)->first();
-            //var_dump($contestUserObj);
-            if($contestUserObj == NULL)
-                return Redirect::to('/contest/p/1');
+            if(!($request->session()->get('uid') && $request->session()->get('uid') <= 2))
+	    {
+                $contestUserObj = ContestUser::where('username', $username)->first();
+                //var_dump($contestUserObj);
+                if($contestUserObj == NULL)
+                    return Redirect::to('/contest/p/1');
+	    }
         }
         $contestProblemObj = ContestProblem::where([
             "contest_id" => $contest_id,

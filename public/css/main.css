@@ -247,6 +247,37 @@ li.separate-item {
 .contest_list_status_ended{
     background: #999;
 }
+/*ranklist*/
+.contest_ranklist> thead > tr > th,
+.contest_ranklist> tbody > tr > th,
+.contest_ranklist> tfoot > tr > th,
+.contest_ranklist> thead > tr > td,
+.contest_ranklist> tbody > tr > td,
+.contest_ranklist> tfoot > tr > td {
+    padding: 0;
+}
+.contest_ranklist> thead > tr > th{
+    color: #fff;
+}
+.contest_ranklist>thead{
+    background: #5cb85c;
+}
+.contest_ranklist_table{
+    margin:20px auto;
+    width: 1200px;
+}
+.contest_ranklist_username{
+    width: 200px;
+}
+.contest_ranklist_username_td{
+    font-size:15px;
+}
+.contest_ranklist_penalty{
+    width: 150px;
+}
+.contest_ranklist_penalty_td{
+    font-size:15px;
+}
 /*profile*/
 #profileTable{
     width: 350px;
