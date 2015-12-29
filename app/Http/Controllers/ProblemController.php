@@ -58,11 +58,6 @@ class ProblemController extends Controller
     public function getProblemListByPageID(Request $request, $page_id)
     {
         $problemPerPage = 20;
-	if((session('uid') == NULL) || session('uid') > 2)
-        {
-            //if($problemObj->visibility_locks > 0)
-                return Redirect::to('/');
-        }
 
         /**  Remove the customize pagination function
         if($request->method() == "GET")
