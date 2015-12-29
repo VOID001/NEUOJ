@@ -150,7 +150,8 @@ class SubmissionController extends Controller
             $data['contest'] = $contestObj;
             if(time() < strtotime($contestObj->begin_time) || time() > strtotime($contestObj->end_time))
             {
-                if(!(session('uid') && session('uid') <= 2))
+                //if(!(session('uid') && session('uid') <= 2))
+                if(!roleCheck("admin"))
                     return View::make("errors.contest_end", $data);
             }
 

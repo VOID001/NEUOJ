@@ -1,3 +1,4 @@
+@inject('roleController', 'App\Http\Controllers\RoleController')
 <!doctype html>
 <html>
 <head>
@@ -135,11 +136,14 @@
                             {{ $problem->contest_problem_id }}
                     </td>
                     <td class="text-center">
-                        @if((session('uid') && session('uid') <=2) || $contest->status != "Pending")
+                        @if($roleController->checkAdmin())
+                        {{-- @if((session('uid') && session('uid') <=2) || $contest->status != "Pending") --}}
                             <a href="/contest/{{ $contest->contest_id }}/problem/{{ $problem->contest_problem_id }}">
+                        {{-- @endif --}}
                         @endif
                             {{ $problem->problem_title }}
-                        @if((session('uid') && session('uid') <=2) || $contest->status != "Pending")
+                        {{-- @if((session('uid') && session('uid') <=2) || $contest->status != "Pending") --}}
+                        @if($roleController->checkAdmin())
                             </a>
                         @endif
                     </td>
@@ -150,7 +154,7 @@
                         @if($problem->acSubmissionCount != 0)
                             {{ $problem->acSubmissionCount }} / {{ $problem->totalSubmissionCount }}({{ intval($problem->acSubmissionCount/$problem->totalSubmissionCount * 100) }}%)
                         @else
-                            0 / 0()
+                            0 / 0
                         @endif
                     </td>
                 </tr>

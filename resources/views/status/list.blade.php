@@ -1,3 +1,4 @@
+@inject('roleCheck', 'App\Http\Controllers\RoleController')
 <!doctype html>
 <html>
 <head>
@@ -172,7 +173,7 @@
                 <td class="text-center">{{ $submission->exec_mem }}</td>
                 <td class="text-center">{{ $submission->exec_time }}</td>
                 <td class="text-center">
-                    @if(Request::session()->get('uid') == $submission->uid || (session('uid') && session('uid') <= 2))
+                    @if(Request::session()->get('uid') == $submission->uid || $roleCheck->checkAdmin())
                         @if(!isset($contest))
                             <a href="/status/{{ $submission->runid }}">View Source</a>
                         @else

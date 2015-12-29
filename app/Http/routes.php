@@ -10,6 +10,9 @@
 | and give it the controller to call when that URI is requested.
 |
 */
+
+use Illuminate\Support\Facades\View;
+
 /*Route group need profile middleware*/
 Route::group(['middleware' => 'profile'],function() {
     Route::get('/', [

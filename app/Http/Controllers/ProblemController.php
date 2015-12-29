@@ -29,11 +29,6 @@ class ProblemController extends Controller
     public function getProblemByID(Request $request, $problem_id)
     {
         $problemObj = Problem::where("problem_id", $problem_id)->first();
-        if((session('uid') == NULL) || session('uid') > 2)
-        {
-            //if($problemObj->visibility_locks > 0)
-                return Redirect::to('/problem');
-        }
         if($problemObj == NULL)
         {
 
@@ -370,13 +365,14 @@ class ProblemController extends Controller
         }
         if($contestObj->contest_type == 1)
         {
-            if(!($request->session()->get('uid') && $request->session()->get('uid') <= 2))
-	    {
+            //if(!($request->session()->get('uid') && $request->session()->get('uid') <= 2))
+            if(!roleCheck('admin'))
+            {
                 $contestUserObj = ContestUser::where('username', $username)->first();
                 //var_dump($contestUserObj);
                 if($contestUserObj == NULL)
                     return Redirect::to('/contest/p/1');
-	    }
+            }
         }
         $contestProblemObj = ContestProblem::where([
             "contest_id" => $contest_id,

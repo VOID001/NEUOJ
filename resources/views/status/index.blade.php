@@ -21,21 +21,21 @@
     </script>
 </head>
 <body>
-    @include("layout.header")
+@include("layout.header")
 
-    <h3 class="text-center">Run ID {{ $runid }}</h3>
+<h3 class="text-center">Run ID {{ $runid }}</h3>
 
-    <div class="status_main">
-        <pre class="source_code">
-<h3>Source Code</h3>
-<label><a href="/problem/{{ $pid }}">Problem ID :<b>{{ $pid }}</b></a></label>
-<label>Result :<b>{{ $result }}</b></label>
-<label>Download Source Code</label>
-            <code class="cpp" id="paste">{{ $code }}</code>
-        </pre>
-    </div>
+<div class="status_main">
+    <pre class="source_code">
+        <h3>Source Code</h3>
+        <label><a href="/problem/{{ $pid }}">Problem ID :<b>{{ $pid }}</b></a></label>
+        <label>Result :<b>{{ $result }}</b></label>
+        <label>Download Source Code</label>
+        <code class="cpp" id="paste">{{ $code }}</code>
+    </pre>
+</div>
 
-    <div style="height: 50px"></div>
+<div style="height: 50px"></div>
     @include("layout.footer")
 </body>
 </html>

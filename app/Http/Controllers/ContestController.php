@@ -8,6 +8,7 @@ use App\ContestUser;
 use App\Problem;
 use App\Submission;
 use App\User;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\Controller;
 use App\Userinfo;
 use Validator;
@@ -192,10 +193,11 @@ class ContestController extends Controller
 
     public function getContestByID(Request $request, $contest_id)
     {
+        $roleController = new RoleController();
         $data = [];
         $uid = $request->session()->get('uid');
-	$userObj = User::where('uid', $uid)->first();
-	//var_dump($userObj);
+	    $userObj = User::where('uid', $uid)->first();
+	    //var_dump($userObj);
         $contestUserObj = ContestUser::where('username', $userObj->username)->first();
         if($contestUserObj)
             $username = $contestUserObj->username;
@@ -204,7 +206,8 @@ class ContestController extends Controller
         $contestObj = Contest::where('contest_id', $contest_id)->first();
         if($contestObj->contest_type == 1)
         {
-            if(!(session('uid') && session('uid') <= 2))
+            //if(!(session('uid') && session('uid') <= 2))
+            if($roleController->checkAdmin())
             {
                 $contestUserObj = ContestUser::where([
                     'username' => $username,
@@ -297,7 +300,7 @@ class ContestController extends Controller
         $data['problems'] = ContestProblem::where('contest_id', $contest_id)->get();
 
         //for($i = 0; $i < $count; $i++)
-	if(!isset($data['users'])) 
+	if(!isset($data['users']))
 		$data['users'] = [];
         foreach($data['users'] as $user)
         {
