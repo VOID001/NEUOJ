@@ -10,7 +10,7 @@ NEUOJ
 * [ ] Hold Contest
  * [ ] Three kind of access to contest: Private Register Public
  * [ ] Enable user register himself into the register Contest
- * [ ] Board display
+ * [x] Board display
  * [ ] Import student info from xls and xlsx etc.
 * [ ] Root Admin Panel
  * [ ] + User Managment
@@ -27,7 +27,7 @@ NEUOJ
 * [x] Judge (Current Plan: use domjudge judgedaemon to judge)
  * [x] Read domjudge judge/ code and make the Request Graph
  * [x] Implement the RESTful API with laravel
-
+* [ ] RoleCheck (pending)
 
 ### top level route
 * /profile User profile page
