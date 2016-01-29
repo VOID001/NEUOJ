@@ -20,6 +20,9 @@ class Authenticate
         if($request->session()->get('username') == NULL)
         {
             $data['loginError'] = 'You need to sign in before proceed this action';
+            $data['prevURL'] = $request->server('REQUEST_URI');
+            //Store the previous visit URL into session
+            $request->session()->put('sessiondat', $data);
             return Redirect::route('signin')->with($data);
         }
         return $next($request);

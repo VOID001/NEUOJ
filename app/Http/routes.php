@@ -28,9 +28,6 @@ Route::group(['middleware' => 'profile'],function() {
         "uses" => "UserController@showProfile"
     ])->where('user_id','[0-9]+');
 
-    Route::get('/problem/{problem_id}', [
-        "uses" => "ProblemController@getProblemByID"
-    ])->where('problem_id', '[0-9]+');
 
     Route::match(['post', 'get'], '/problem/p/{page_id}', [
         "uses" => "ProblemController@getProblemListByPageID"
@@ -99,6 +96,10 @@ Route::group(['middleware' => 'profile'],function() {
             "as" => "logout",
             "uses" => "AuthController@logoutAction"
         ]);
+
+        Route::get('/problem/{problem_id}', [
+            "uses" => "ProblemController@getProblemByID"
+        ])->where('problem_id', '[0-9]+');
 
         Route::get('/dashboard', function(){
             return Redirect::route('dashboard.profile');

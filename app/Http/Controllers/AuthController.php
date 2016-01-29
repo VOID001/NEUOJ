@@ -56,6 +56,12 @@ class AuthController extends Controller
                         'username' => $row->username,
                         'uid' => $row->uid,
                     ]);
+                    if($request->session()->get('sessiondat') != NULL)
+                    {
+                        $sessionDat = $request->session()->get('sessiondat');
+                        $prevURL = $sessionDat['prevURL'];
+                        return Redirect::to($prevURL);
+                    }
                     return Redirect::route('home');
                 }
                 $data['loginError'] = "Invalid Password";
