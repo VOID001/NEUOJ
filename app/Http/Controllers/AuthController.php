@@ -32,7 +32,8 @@ class AuthController extends Controller
             $input = $request->input();
             $vdtor = Validator::make($input, [
                 "username" => "required|max:255",
-                "pass" => "required"
+                "pass" => "required",
+                "captcha" => "required|captcha",
             ]);
             if($vdtor->fails())
             {

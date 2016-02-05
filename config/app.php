@@ -148,6 +148,11 @@ return [
          * PhpStorm IDE Helper Service Providers...
          */
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
+        /*
+         * Recaptcha Service Provider
+         */
+        Greggilbert\Recaptcha\RecaptchaServiceProvider::class,
+        Mews\Captcha\CaptchaServiceProvider::class,
 
     ],
 
@@ -197,6 +202,8 @@ return [
         'URL'       => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View'      => Illuminate\Support\Facades\View::class,
+        'Recaptcha' => Greggilbert\Recaptcha\Facades\Recaptcha::class,
+        'Captcha'   => Mews\Captcha\Facades\Captcha::class,
 
     ],
 

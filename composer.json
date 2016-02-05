@@ -7,7 +7,9 @@
     "require": {
         "php": ">=5.5.9",
         "laravel/framework": "5.1.*",
-        "barryvdh/laravel-ide-helper": "^2.1"
+        "barryvdh/laravel-ide-helper": "^2.1",
+        "greggilbert/recaptcha": "dev-master",
+        "mews/captcha": "^2.1"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
@@ -49,13 +51,13 @@
     "config": {
         "preferred-install": "dist"
     },
-	"repositories":[
-	{
-		"packagist":false
-	},
-	{
-		"type":"composer",
-		"url":"http://packagist.cn"
-	}
-	]
+    "repositories":[
+        {
+            "packagist":false
+        },
+        {
+            "type":"composer",
+            "url":"https://packagist.org"
+        }
+    ]
 }

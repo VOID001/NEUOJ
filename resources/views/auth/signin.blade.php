@@ -29,6 +29,11 @@
             <td ><input type="password" name="pass"class="form-control" tabindex="2"/></td>
             <td><div style="padding-left: 4px">Click <a href="/auth/request">here</a> to reset</div></td>
         </tr>
+            <td style="padding-left: 100px">Captcha(Ignore Case)</td>
+            <td><input type="text" name="captcha" class="form-control"/></td>
+            <td>{!! Captcha::img('flat') !!}</td>
+        <tr>
+        </tr>
         <tr>
             <td></td>
             <td class="text-right"><input type="submit" value="Sign in" class="btn btn-success"></td>
