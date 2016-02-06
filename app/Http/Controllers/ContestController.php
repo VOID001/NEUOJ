@@ -240,7 +240,7 @@ class ContestController extends Controller
             ])->count();
 
 
-            $data["problems"][$count]->realProblemName = Problem::where('problem_id', $realProblemID)->first()->title;
+            $data["problems"][$count]->realProblemName = Problem::getProblemTitle($realProblemID);
 
             if($uid == $contestProblem->first_ac)
             {

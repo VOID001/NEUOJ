@@ -136,19 +136,19 @@
                             {{ $problem->contest_problem_id }}
                     </td>
                     <td class="text-center">
-                        @if($roleController->checkAdmin())
+                        @if($problem->realProblemName !== -1 &&  ($roleController->checkAdmin() || $contest->status != "Pending"))
                         {{-- @if((session('uid') && session('uid') <=2) || $contest->status != "Pending") --}}
                             <a href="/contest/{{ $contest->contest_id }}/problem/{{ $problem->contest_problem_id }}">
                         {{-- @endif --}}
                         @endif
                             {{ $problem->problem_title }}
                         {{-- @if((session('uid') && session('uid') <=2) || $contest->status != "Pending") --}}
-                        @if($roleController->checkAdmin())
+                        @if($problem->realProblemName !== -1 &&  ($roleController->checkAdmin() || $contest->status != "Pending"))
                             </a>
                         @endif
                     </td>
                     <td>
-                        {{ $problem->realProblemName }}
+                        {{ $problem->realProblemName === -1 ? "[Error] Problem Deleted!" : $problem->realProblemName }}
                     </td>
                     <td class="text-center">
                         @if($problem->acSubmissionCount != 0)
