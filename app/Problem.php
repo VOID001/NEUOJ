@@ -27,6 +27,13 @@ class Problem extends Model
             return $tmpRes->title;
     }
 
+    /*
+     * @function problemExists
+     * @input $problem_id
+     *
+     * @return bool
+     * @description return whether the problem specified by $problem_id Exists
+     */
     public static function problemExists($problem_id)
     {
         $tmpRes = Problem::where('problem_id', $problem_id)->first();
