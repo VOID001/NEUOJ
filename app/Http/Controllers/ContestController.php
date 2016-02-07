@@ -162,19 +162,18 @@ class ContestController extends Controller
         $contestPerPage = 20;
         $contestObj = Contest::orderby('contest_id', 'asc')->get();
         $contestNum = $contestObj->count();
-        $curTime = time();
         for($count = 0, $i = ($page_id - 1) * $contestPerPage; $i < $contestNum && $count < $contestPerPage; $i++, $count++ )
         {
             $data["contests"][$count] = $contestObj[$i];
-            if($curTime < strtotime($contestObj[$i]->begin_time))
+            if($contestObj[$i]->isPending())
             {
                 $data["contests"][$count]->status = "Pending";
             }
-            else if($curTime > strtotime($contestObj[$i]->end_time))
+            else if($contestObj[$i]->isEnded())
             {
                 $data["contests"][$count]->status = "Ended";
             }
-            else
+            else if($contestObj[$i]->isRunning())
             {
                 $data["contests"][$count]->status = "Running";
             }
@@ -206,8 +205,7 @@ class ContestController extends Controller
         $contestObj = Contest::where('contest_id', $contest_id)->first();
         if($contestObj->contest_type == 1)
         {
-            //if(!(session('uid') && session('uid') <= 2))
-            if($roleController->checkAdmin())
+            if(!$roleController->is("admin"))
             {
                 $contestUserObj = ContestUser::where([
                     'username' => $username,
@@ -259,11 +257,11 @@ class ContestController extends Controller
             $count++;
         }
 
-        if(time() >= strtotime($contestObj->begin_time) && time() <= strtotime($contestObj->end_time))
+        if($contestObj->isRunning())
             $data['contest']->status = "Running";
-        if(time() < strtotime($contestObj->begin_time))
+        if($contestObj->isPending())
             $data['contest']->status = "Pending";
-        if(time() > strtotime($contestObj->end_time))
+        if($contestObj->isEnded())
             $data['contest']->status = "Ended";
         //var_dump($data['problems']);
         return View::make('contest.index', $data);

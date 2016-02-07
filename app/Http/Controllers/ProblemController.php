@@ -366,7 +366,7 @@ class ProblemController extends Controller
         if($contestObj->contest_type == 1)
         {
             //if(!($request->session()->get('uid') && $request->session()->get('uid') <= 2))
-            if(!roleCheck('admin'))
+            if(!RoleController::is('admin'))
             {
                 $contestUserObj = ContestUser::where('username', $username)->first();
                 //var_dump($contestUserObj);

@@ -136,14 +136,14 @@
                             {{ $problem->contest_problem_id }}
                     </td>
                     <td class="text-center">
-                        @if($problem->realProblemName !== -1 &&  ($roleController->checkAdmin() || $contest->status != "Pending"))
+                        @if($problem->realProblemName !== -1 &&  ($roleController->is("admin") || $contest->status != "Pending"))
                         {{-- @if((session('uid') && session('uid') <=2) || $contest->status != "Pending") --}}
                             <a href="/contest/{{ $contest->contest_id }}/problem/{{ $problem->contest_problem_id }}">
                         {{-- @endif --}}
                         @endif
                             {{ $problem->problem_title }}
                         {{-- @if((session('uid') && session('uid') <=2) || $contest->status != "Pending") --}}
-                        @if($problem->realProblemName !== -1 &&  ($roleController->checkAdmin() || $contest->status != "Pending"))
+                        @if($problem->realProblemName !== -1 &&  ($roleController->is("admin") || $contest->status != "Pending"))
                             </a>
                         @endif
                     </td>

@@ -173,7 +173,7 @@
                 <td class="text-center">{{ $submission->exec_mem }}</td>
                 <td class="text-center">{{ $submission->exec_time }}</td>
                 <td class="text-center">
-                    @if(Request::session()->get('uid') == $submission->uid || $roleCheck->checkAdmin())
+                    @if(Request::session()->get('uid') == $submission->uid || $roleCheck->is("admin"))
                         @if(!isset($contest))
                             <a href="/status/{{ $submission->runid }}">View Source</a>
                         @else

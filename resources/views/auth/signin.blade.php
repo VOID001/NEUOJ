@@ -40,14 +40,16 @@
         </tr>
     </table>
 </form>
-    <div class="panel panel-default" style="width: 400px;height: 80px">
-        <div class="panel-heading text-left">第三方登陆</div>
-        <div class="panel-body">
-            <img class="third_logo1" src="/image/qq.PNG">
-            <img class="third_logo2" src="/image/github.PNG">
-        </div>
+    <!--
+<div class="panel panel-default" style="width: 400px;height: 80px">
+    <div class="panel-heading text-left">第三方登陆</div>
+    <div class="panel-body">
+        <img class="third_logo1" src="/image/qq.PNG">
+        <img class="third_logo2" src="/image/github.PNG">
+    </div>
     </div>
 </div>
+    -->
     @include("layout.footer")
 </body>
 </html>

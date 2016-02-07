@@ -7,7 +7,7 @@
     </div>
     <ul class="nav nav-pills nav-stacked dashboard_subnav" data-spy="affix" data-offset-top="125">
         {{-- @if(session('uid') && session('uid') <=2) --}}
-        @if($roleController->checkAdmin())
+        @if($roleController->is("admin"))
             <li id="dashboard_problem"><a href="/dashboard/problem">Problem</a></li>
             <li id="dashboard_contest"><a href="/dashboard/contest">Contest</a></li>
             <li><a href="#">Submission</a></li>

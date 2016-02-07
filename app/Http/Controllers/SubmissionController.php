@@ -10,6 +10,7 @@ use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Validator;
 use Storage;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\RoleController;
 use App\Problem;
 use App\User;
 use App\Submission;
@@ -148,10 +149,10 @@ class SubmissionController extends Controller
             ])->first();
             $contestObj = Contest::where('contest_id', $contest_id)->first();
             $data['contest'] = $contestObj;
-            if(time() < strtotime($contestObj->begin_time) || time() > strtotime($contestObj->end_time))
+            if(!$contestObj->isRunning())
             {
                 //if(!(session('uid') && session('uid') <= 2))
-                if(!roleCheck("admin"))
+                if(!roleController::is("admin"))
                     return View::make("errors.contest_end", $data);
             }
 
