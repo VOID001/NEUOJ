@@ -118,7 +118,7 @@ class ContestController extends Controller
                 $checkUnique[$problem_id] = 1;
                 $contestProblemObj = new ContestProblem;
                 $contestProblemObj->problem_id = $problem_id;
-                $contestProblemObj->contest_id = $contestObj->id;
+                $contestProblemObj->contest_id = $contestObj->contest_id;
                 $contestProblemObj->problem_title = $input['problem_name'][$i];
                 $contestProblemObj->contest_problem_id = $i + 1;
                 $contestProblemObj->save();
@@ -454,9 +454,118 @@ $user->infoObj->time[$contestProblemID] =  strtotime($submission->submit_time) -
         return View::make('status.list', $data);
     }
 
+    /*
+     * @function setContest
+     * @input $request,$contest_id
+     *
+     * @return view or redirect
+     * @description edit contest, called when edit button in /dashboard/contest is clicked 
+     *  or submit button in edit page is clicked 
+     */
+
     public function setContest(Request $request, $contest_id)
     {
+        $data = [];
+        $contestObj = Contest::where('contest_id', $contest_id)->first();
+        $contestProblemObj = ContestProblem::where('contest_id',$contest_id)->get();
+        if($request->method() == "POST")
+        {
+            $input = $request->all();
+            //Validation Check
+            $vdtor = Validator::make($input, [
+                'contest_name' => 'required | unique:contest_info',
+                'problem_id' => 'required | exists:problems'
+            ]);
+            if($vdtor->fails())
+            {
+                $errMsg = $vdtor->errors();
+            }
+            //$beginTime = strtotime($input['begin_time']);
+            //$endTime = strtotime($input['end_time']);
+            $contestObj = Contest::where('contest_id', $contest_id)->first();
+            var_dump($contestObj->primaryKey);
+            $contestObj->contest_name = $input['contest_name'];
+            $contestObj->begin_time = $input['begin_time'];
+            $contestObj->end_time = $input['end_time'];
+            $contestObj->admin_id = $request->session()->get('uid');
+            $type = 0;
+            switch($input['contest_type'])
+            {
+                case "public":
+                    $type = 0;
+                    break;
+                case "private":
+                    $type = 1;
+                    break;
+                case "register":
+                    $type = 2;
+                    break;
+            }
+            $contestObj->contest_type = $type;
+            var_dump($contestObj->contest_id);
+            $contestObj->save();
 
+            for($i = 0;$i < count($contestProblemObj);$i++)
+            {
+                $problemObj = Problem::where('problem_id', $contestProblemObj[$i]->problem_id);
+                $problemObj->update([
+                    "visibility_locks" => $problemObj->first()->visibility_locks - 1
+                ]);
+            }
+            ContestProblem::where('contest_id', $contest_id)->delete();
+            $checkUnique = [];
+            for($i = 0; $i < count($input['problem_id']); $i++)
+            {
+                $problem_id = $input['problem_id'][$i];
+                if(isset($checkUnique[$problem_id]))
+                    continue;
+                $checkUnique[$problem_id] = 1;
+                $contestProblemObj = new ContestProblem;
+                $contestProblemObj->problem_id = $problem_id;
+                $contestProblemObj->contest_id = $contestObj->contest_id;
+                $contestProblemObj->problem_title = $input['problem_name'][$i];
+                $contestProblemObj->contest_problem_id = $i + 1;
+                $contestProblemObj->save();
+
+                $problemObj = Problem::where('problem_id', $contestProblemObj->problem_id);
+                $problemObj->update([
+                    "visibility_locks" => $problemObj->first()->visibility_locks + 1
+                ]);
+            }
+            if($type == 1)
+            {
+                $userList = explode(',', $input['user_list']);
+                $userList = array_unique($userList);
+                ContestUser::where('contest_id',$contest_id)->delete();
+                foreach($userList as $user)
+                {
+                    $contestUserObj = new ContestUser;
+                    $contestUserObj->contest_id = $contestObj->contest_id;
+                    $contestUserObj->username = trim($user);
+                    $userObj = User::where('username', $user)->first();
+                    if($userObj)
+                    {
+                        $contestUserObj->user_id = $userObj->uid;
+                    }
+                    $contestUserObj->save();
+                }
+            }
+            return Redirect::to("/dashboard/contest");
+
+        }
+        else
+        {
+            $data["contest"] = $contestObj;
+            $data["contestProblem"] = $contestProblemObj;
+            $data["problem_count"] = count($contestProblemObj);
+            if($contestObj->contest_type == 1)
+            {
+                $contestUserObj = ContestUser::where('contest_id',$contest_id)->get();
+                $data["contestUser"] = $contestUserObj;
+            }
+            return View::make('contest.set',$data);
+
+        }
     }
 
 }

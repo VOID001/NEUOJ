@@ -36,9 +36,9 @@
                         {{ $contest->contest_name }}
                     </td>
                     <td class="text-center">
-                        @if($contest->type == 0)
+                        @if($contest->contest_type == 0)
                             Public
-                        @elseif($contest->type == 1)
+                        @elseif($contest->contest_type == 1)
                             Private
                         @else
                             Register
