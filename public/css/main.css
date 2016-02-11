@@ -300,6 +300,7 @@ li.separate-item {
 #dashboard_problem_list > tbody > tr > td,
 #dashboard_problem_list > tfoot > tr > td {
     padding: 5px;
+    vertical-align: middle;
 }
 #dashboard_problem_list > thead > tr > th{
     color: #fff;
@@ -308,8 +309,7 @@ li.separate-item {
     background: #95A5A6;
 }
 .dashboard_problem_table_form{
-    float: right;
-    margin-right: 15px;
+    display: inline-block;
 }
 .dashboard_problem_add_table{
     width: 600px;
