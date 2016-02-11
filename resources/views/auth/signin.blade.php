@@ -4,6 +4,13 @@
     <title>Sign in</title>
     @include("layout.head")
     <link rel="stylesheet" href="/css/main.css">
+    <script>
+    	$(document).ready(function(){
+    		$('#captcha').click(function(){
+    			this.src=this.src+'?'+new Date();
+    		});
+    	});
+    </script>
 </head>
 <body>
     @include("layout.header")
@@ -30,8 +37,8 @@
             <td><div style="padding-left: 4px">Click <a href="/auth/request">here</a> to reset</div></td>
         </tr>
             <td style="padding-left: 100px">Captcha(Ignore Case)</td>
-            <td><input type="text" name="captcha" class="form-control"/></td>
-            <td>{!! Captcha::img('flat') !!}</td>
+            <td><input type="text" name="captcha" class="form-control"  tabindex="3"/></td>
+            <td><img src="{{ captcha_src() }}" alt="Captcha" id="captcha"/></td>
         <tr>
         </tr>
         <tr>
