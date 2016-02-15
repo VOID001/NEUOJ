@@ -16,7 +16,7 @@
 
         <h3 class="text-center">Profile</h3>
         <div align="center">
-            <form action="/dashboard/profile" method="POST" enctype="multipart/form-data">
+            <form action="/dashboard/profile" method="POST" enctype="multipart/form-data" id="profileForm">
             {{ csrf_field() }}
                 <div style="height: 20px;padding-left: 38px">
                     @if(count($errors) > 0)
@@ -25,10 +25,8 @@
                         <div class="form-group" style="width: 400px;text-align: left"><div class="label label-warning" style="font-size: 13px">{{ $profileError }}</div></div>
                     @endif
                 </div>
+                <img src="/avatar/@if(isset($uid)){{ $uid }}@else{{ 0 }}@endif" style="width:120px;height:120px;"/>
                 <table id="profileTable">
-                        <tr>
-                            <td style="padding-left: 20px"><img src="/avatar/@if(isset($uid)){{ $uid }}@else{{ 0 }}@endif" style="width:120px;height:120px;"/></td>
-                        </tr>
                         <tr>
                             <td style="padding-left: 20px">Avatar</td>
                             <td><input name="image" type="file" accept="image/*"></td>
