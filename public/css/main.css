@@ -184,6 +184,7 @@ li.separate-item {
 .contest_list> thead > tr > td,
 .contest_list> tbody > tr > td,
 .contest_list > tfoot > tr > td {
+    vertical-align: middle;
     padding: 5px;
 }
 .contest_list> thead > tr > th{
@@ -247,6 +248,28 @@ li.separate-item {
 .contest_list_status_ended{
     background: #999;
 }
+.contest_set_time div{
+    margin-bottom:10px;
+}
+.contest_set_lable{
+    line-height: 34px;
+}
+.contest_set_allowedUserList div{
+    margin-bottom:5px;
+}
+.contest_set_add_problem{
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+.contest_set_add_problem div{
+    margin-bottom:10px;
+}
+.contest_set_add_problem input{
+    margin-right:10px;
+}
+#contest_add_form{
+    margin-top: 60px;
+}
 /*ranklist*/
 .contest_ranklist> thead > tr > th,
 .contest_ranklist> tbody > tr > th,
@@ -279,6 +302,9 @@ li.separate-item {
     font-size:15px;
 }
 /*profile*/
+#profileForm img{
+    object-fit:cover;
+}
 #profileTable{
     width: 350px;
 }
