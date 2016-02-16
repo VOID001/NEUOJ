@@ -9,16 +9,7 @@
 
 #### Undocument Function(s) in ./Http/Controllers/ContestController.php
 
-* ` showContestDashboard(Request $request)`
-* ` addContest(Request $request)`
-* ` getContest(Request $request)`
 * ` getContestListByPageID(Request $request, $page_id)`
-* ` getContestByID(Request $request, $contest_id)`
-* ` getContestRanklist(Request $request, $contest_id)`
-* ` cmp($userA, $userB)`
-* ` getContestRanklistByPageID(Request $request, $contest_id, $page_id)`
-* ` getContestStatus(Request $request, $contest_id)`
-* ` getContestStatusByPageID(Request $request, $contest_id, $page_id)`
 
 
 #### Undocument Function(s) in ./Http/Controllers/HomeController.php

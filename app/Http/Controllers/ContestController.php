@@ -32,6 +32,14 @@ class ContestUserInfo
 
 class ContestController extends Controller
 {
+    /*
+     * @function showContestDashboard
+     * @input $request
+     *
+     * @return View
+     * description: show the ContestDashboard with all contest data
+     *
+     */
     public function showContestDashboard(Request $request)
     {
         $contestObj = Contest::all();
@@ -43,6 +51,16 @@ class ContestController extends Controller
         return View::make('contest.dashboard', $data);
     }
 
+    /*
+     * @function addContest
+     * @input $request
+     *
+     * @return View or Redirect
+     * @description Check If the input is valid
+     *              if valid , insert the contest info into database
+     *              redirect back to dashboard, else, redirect to
+     *              addContestPage with ErrMsg
+     */
     public function addContest(Request $request)
     {
         $data = [];
@@ -151,6 +169,13 @@ class ContestController extends Controller
         return View::make('contest.add', $data);
     }
 
+    /*
+     * @function getContest
+     * @input $request
+     *
+     * @return Redirect
+     * @description Just Redirect to /contest/p/1
+     */
     public function getContest(Request $request)
     {
         return Redirect::to('/contest/p/1');
@@ -190,6 +215,15 @@ class ContestController extends Controller
         return View::make('contest.list', $data);
     }
 
+    /*
+     * @function getContestByID
+     * @input $request $contest_id
+     *
+     * @return View or Redirect
+     * @description get the contest index page by given $contest_id
+     *              if the user is not supposed to access the contest
+     *              Redirect him back
+     */
     public function getContestByID(Request $request, $contest_id)
     {
         $roleController = new RoleController();
@@ -268,6 +302,14 @@ class ContestController extends Controller
 
     }
 
+    /*
+     * @function getContestRanklist
+     * @input $request $contest_id
+     *
+     * @return View
+     * @description calculate and give out the contest ranklist by $contest_id
+     *              use php-builtin usort for sorting structures
+     */
     public function getContestRanklist(Request $request, $contest_id)
     {
         $data = [];
@@ -363,6 +405,13 @@ $user->infoObj->time[$contestProblemID] =  strtotime($submission->submit_time) -
         return View::make('contest.ranklist', $data);
     }
 
+    /*
+     * @function cmp
+     * @input $userA $userB
+     *
+     * @return bool
+     * @description sort logic for usort in getContestRanklist
+     */
     public function cmp($userA, $userB)
     {
         if($userA->infoObj->totalAC == $userB->infoObj->totalAC)
@@ -372,7 +421,9 @@ $user->infoObj->time[$contestProblemID] =  strtotime($submission->submit_time) -
         return $userA->infoObj->totalAC < $userB->infoObj->totalAC;
     }
 
-
+    /*
+     * @stub getContestRanklistByPageID
+     */
     public function getContestRanklistByPageID(Request $request, $contest_id, $page_id)
     {
         $data = [];
@@ -380,11 +431,21 @@ $user->infoObj->time[$contestProblemID] =  strtotime($submission->submit_time) -
         return View::make('contest.ranklist', $data);
     }
 
+    /*
+     * @function getContestStatus
+     * @input $request $contest_id
+     *
+     * @return Redirect
+     * @description Redirect to the url given
+     */
     public function getContestStatus(Request $request, $contest_id)
     {
         return Redirect::to("/contest/$contest_id/status/p/1");
     }
 
+    /*
+     * @function getContestStatusByPageID
+     */
     public function getContestStatusByPageID(Request $request, $contest_id, $page_id)
     {
         //Almost same as getSubmissionListByPageID, will change in future
