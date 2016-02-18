@@ -20,7 +20,16 @@ use App\Contest;
 
 class SubmissionController extends Controller
 {
-
+    /*
+     * @function submitAction
+     * @input $request,$problem_id
+     *
+     * @return Redirect
+     * @description Check If the input is valid,
+     *              if valid,save submission information to database and save submitted code to file
+     *              Redirect to status page of submitted problem
+     *              else redirect to previous page with error message
+     */
     public function submitAction(Request $request, $problem_id)
     {
         if($request->method() == "POST")
@@ -63,6 +72,13 @@ class SubmissionController extends Controller
         }
     }
 
+    /*
+     * @function getSubmissionByID
+     * @input $request,$run_id
+     *
+     * @return View
+     * @description get submission information from database and show submission by given $run_id
+     */
     public function getSubmissionByID(Request $request, $run_id)
     {
         $data = [];
@@ -74,11 +90,25 @@ class SubmissionController extends Controller
         return View::make('status.index', $data);
     }
 
+    /*
+     * @function getSubmission
+     * @input $request
+     *
+     * @return Redirect 
+     * @description Just Redirect to /status/p/1
+     */
     public function getSubmission(Request $request)
     {
         return Redirect::to('/status/p/1');
     }
 
+    /*
+     * @function getSubmissionListByPageID
+     * @input $request,$page_id
+     *
+     * @return View
+     * @description get subbmistion list from database and show problems of given $page_id
+     */
     public function getSubmissionListByPageID(Request $request, $page_id)
     {
         $itemsPerPage = 30;
@@ -137,6 +167,18 @@ class SubmissionController extends Controller
         return View::make('status.list', $data);
     }
 
+    /*
+     * @function contestSubmitAction
+     * @input $request,$contest_id,$problem_id
+     *
+     * @return View or Redirect
+     * @description Check whether the contest is running,
+     *              if not running, show error/contest_end page
+     *              if is running, check if the input is valid
+     *              if valid, insert contestproblem submission information into database and save submitted code to file
+     *              redirect to contest status page
+     *              else redirect to previous page with error message
+     */
     public function contestSubmitAction(Request $request, $contest_id, $problem_id)
     {
         if($request->method() == "POST")
@@ -196,6 +238,13 @@ class SubmissionController extends Controller
         }
     }
 
+    /*
+     * @function rejudgeSubmissionByContestIDAndProblemID
+     * @input $request,$contest_id,$contest_problem_id
+     *
+     * @return null
+     * @description reset contestproblem and submmition of the problem's state
+     */
     public function rejudgeSubmissionByContestIDAndProblemID(Request $request, $contest_id, $problem_id)
     {
         $contestProblemObj = ContestProblem::where([

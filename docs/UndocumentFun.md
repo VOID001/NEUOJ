@@ -19,12 +19,6 @@
 
 #### Undocument Function(s) in ./Http/Controllers/SubmissionController.php
 
-* ` submitAction(Request $request, $problem_id)`
-* ` getSubmissionByID(Request $request, $run_id)`
-* ` getSubmission(Request $request)`
-* ` getSubmissionListByPageID(Request $request, $page_id)`
-* ` contestSubmitAction(Request $request, $contest_id, $problem_id)`
-* ` rejudgeSubmissionByContestIDAndProblemID(Request $request, $contest_id, $problem_id)`
 
 
 #### Undocument Function(s) in ./Http/Controllers/UserController.php
