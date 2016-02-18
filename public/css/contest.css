@@ -1,0 +1,25 @@
+#contest_id{
+    width:8%;
+}
+#contest_name{
+    width: 15%;
+}
+#contest_name_ex{
+    text-overflow: ellipsis;
+    overflow:hidden;
+}
+#contest_type{
+    width: 8%;
+}
+#contest_status{
+    width: 8%;
+}
+#contest_begin_time{
+    width: 15%;
+}
+#contest_end_time{
+    width: 15%;
+}
+#contest_operation{
+    width: 24%;
+}
