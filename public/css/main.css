@@ -176,7 +176,7 @@ li.separate-item {
 }
 /*contest*/
 .contest_list{
-    margin-top: 5px
+    margin-top: 5px;
 }
 .contest_list> thead > tr > th,
 .contest_list> tbody > tr > th,
@@ -247,6 +247,12 @@ li.separate-item {
 }
 .contest_list_status_ended{
     background: #999;
+}
+#contest_set_form{
+    margin-top: 60px;
+}
+.contest_set_body{
+    overflow-y: scroll;
 }
 .contest_set_time div{
     margin-bottom:10px;

@@ -10,7 +10,7 @@
         })
     </script>
 </head>
-<body>
+<body class="contest_set_body">
 @include("layout.dashboard_nav")
 <div class="col-xs-10">
 

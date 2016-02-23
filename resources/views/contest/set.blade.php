@@ -1,24 +1,28 @@
 <!doctype html>
 <html>
 <head>
-    <title>Contest</title>
+    <title>Profile</title>
     @include("layout.head")
     <link rel="stylesheet" href="/css/main.css">
-    <style>
-    </style>
+    <script type="text/javascript">
+        $(function(){
+            $("#dashboard_contest").addClass("dashboard_subnav_active");
+        })
+    </script>
 </head>
-<body>
-    @include("layout.header")
+<body class="contest_set_body">
+    @include("layout.dashboard_nav")
     @if(time()>strtotime($contest->end_time))
         <script> alert('the contest is out of date');parent.location.href='/dashboard/contest'; </script>
     @endif
-    <h1 class="text-center">Set Contest</h1>
+    <div class="col-xs-10" >
+    <h3 class="text-center">Set Contest</h3>
         @foreach($errors->all() as $error)
             <div>
                 <ul>{{ $error }}</ul>
             </div>
         @endforeach
-        <form action="/dashboard/contest/{{ $contest->contest_id }}" method="post" class="form-inline" id="ddd">
+        <form action="/dashboard/contest/{{ $contest->contest_id }}" method="post" class="form-inline" id="contest_set_form">
             {{ csrf_field() }}
             <div class="col-md-offset-4 contest_set_time">
                 <div>
@@ -84,7 +88,7 @@
                 <a href="javascript:addProblem()">Add Problem</a>
                 @for($i = 0; $i < $problem_count; $i++)
                     <div id="p_{{ $i }}">
-                        <label class='col-md-offset-3'>Problem ID</label>
+                        <label class='col-md-offset-2'>Problem ID</label>
                         <input type="text" name="problem_id[]" value="{{ $contestProblem[$i]['problem_id'] }}" readonly="true" class="form-control"/>
                         <label>Problem Title In Contest</label>
                         <input type="text" name="problem_name[]" value="{{ $contestProblem[$i]['problem_title'] }}" readonly="true" class="form-control"/>
@@ -100,12 +104,13 @@
                 <input type="submit" value="Submit"/>
             </div>
         </form>
+    </div>
     <script language="javascript">
 
         var count = {{$problem_count}};
         function addProblem()
         {
-            var problemItem = "<div class='col-md-offset-3'  id=p_" + count +" >\n" +
+            var problemItem = "<div class='col-md-offset-2'  id=p_" + count +" >\n" +
                     "<label>Problem ID</label>\n" +
                     "<input class='form-control' type='text' name=problem_id[]/>\n" +
                     "<label>Problem Title In Contest</label>\n" +
@@ -139,3 +144,4 @@
         })
     </script>
 </body>
+</html>
