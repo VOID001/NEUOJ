@@ -38,7 +38,7 @@
         </tr>
             <td style="padding-left: 100px">Captcha(Ignore Case)</td>
             <td><input type="text" name="captcha" class="form-control"  tabindex="3"/></td>
-            <td><img src="{{ captcha_src() }}" alt="Captcha" id="captcha"/></td>
+            <td><img src="{{ captcha_src("flat") }}" alt="Captcha" id="captcha"/></td>
         <tr>
         </tr>
         <tr>
