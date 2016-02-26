@@ -2,7 +2,7 @@
 <!doctype html>
 <html>
 <head>
-    <title>Problem</title>
+    <title>Status</title>
     @include("layout.head")
     <link rel="stylesheet" href="/css/main.css">
     <meta http-equiv="Refresh" content="20"> <!-- Do not refresh too frequently -->
