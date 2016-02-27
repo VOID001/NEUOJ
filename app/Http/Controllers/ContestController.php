@@ -185,7 +185,7 @@ class ContestController extends Controller
     {
         $data = [];
         $contestPerPage = 20;
-        $contestObj = Contest::orderby('contest_id', 'asc')->get();
+        $contestObj = Contest::orderby('contest_id', 'desc')->get();
         $contestNum = $contestObj->count();
         for($count = 0, $i = ($page_id - 1) * $contestPerPage; $i < $contestNum && $count < $contestPerPage; $i++, $count++ )
         {
