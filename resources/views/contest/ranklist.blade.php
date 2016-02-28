@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-    <title>Welcome come to NEU online judge</title>
+    <title>Ranklist</title>
     @include("layout.head")
     <link rel="stylesheet" href="/css/main.css">
     <script type="text/javascript">

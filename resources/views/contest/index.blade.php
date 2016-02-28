@@ -2,7 +2,7 @@
 <!doctype html>
 <html>
 <head>
-    <title>Contest</title>
+    <title>Contest {{ $contest->contest_id }}</title>
     @include("layout.head")
     <link rel="stylesheet" href="/css/main.css">
     <meta http-equiv="Refresh" content="20">

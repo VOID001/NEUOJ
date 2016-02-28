@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-    <title>Problem</title>
+    <title>Problem {{$problem->problem_id}}</title>
     @include("layout.head")
     <link rel="stylesheet" href="/css/main.css">
     <script>

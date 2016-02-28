@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-    <title>Profile</title>
+    <title>Edit Problem</title>
     @include("layout.head")
     <link rel="stylesheet" href="/css/main.css">
     <script type="text/javascript">
