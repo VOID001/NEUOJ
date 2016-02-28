@@ -351,3 +351,18 @@ li.separate-item {
 .dashboard_problem_add_span{
     font-size: 20px;
 }
+
+.word_cut{
+    display: block;
+    padding: 9.5px;
+    margin: 0 0 10px;
+    font-size: 16px;
+    font-family:"Ubuntu Mono";
+    line-height: 1.42857143;
+    color: #333;
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    white-space: pre-wrap;
+}
+

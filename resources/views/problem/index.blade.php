@@ -120,22 +120,22 @@
     <div class="panel panel-default main">
 
         <h3>Problem Description</h3>
-        <pre>{{ $problem->description }}</pre>
+        <p class="word_cut">{{ $problem->description }}</p>
         <hr>
         <h3>Input</h3>
-        <pre>{{ $problem->input }}</pre>
+        <p class="word_cut">{{ $problem->input }}</p>
         <hr>
         <h3>Output</h3>
-        <pre>{{ $problem->output }}</pre>
+        <p class="word_cut">{{ $problem->output }}</p>
         <hr>
         <h3>Sample Input</h3>
-        <pre>{{ $problem->sample_input }}</pre>
+        <p class="word_cut">{{ $problem->sample_input }}</p>
         <hr>
         <h3>Sample Output</h3>
-        <pre>{{ $problem->sample_output }}</pre>
+        <p class="word_cut">{{ $problem->sample_output }}</p>
         <hr>
         <h3>Source</h3>
-        <pre>{{ $problem->source }}</pre>
+        <p class="word_cut">{{ $problem->source }}</p>
     </div>
     @if(Request::session()->get('username') != NULL)
         <div class="text-center" style="padding-bottom: 50px"><a class="btn btn-success" id="submit">submit</a></div>
