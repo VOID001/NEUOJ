@@ -157,6 +157,11 @@ Route::group(['middleware' => 'profile'],function() {
             "uses" => "ContestController@addContest"
         ]);
 
+        Route::delete('/dashboard/contest/{contest_id}',[
+            "middleware" => "role:admin",
+            "uses" => "ContestController@deleteContest"
+        ])->where('problem_id', '[0-9]+');
+
         Route::get('/contest/{contest_id}', [
             "uses" => "ContestController@getContestByID"
         ]);

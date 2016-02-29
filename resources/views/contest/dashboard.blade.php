@@ -61,7 +61,16 @@
                     </td>
                     <td class="text-center">
                         <a class="btn btn-default" href="/dashboard/contest/{{ $contest->contest_id }}">Edit Contest</a>
-                        <form method="post" action="/dashboard/contest/{{ $contest->contest_id }}"class="dashboard_problem_table_form">
+                        <script language="Javascript">
+                            function validator()
+                            {
+                                if(confirm("确认删除")==true)
+                                    return true;
+                                else
+                                    return false;
+                            }
+                        </script>
+                        <form method="post" action="/dashboard/contest/{{ $contest->contest_id }}"class="dashboard_problem_table_form" onsubmit = "return validator()">
                             {{ method_field('DELETE') }}
 			    {{ csrf_field() }}
                             <input type="submit"class="btn btn-default" value="delete contest"/>

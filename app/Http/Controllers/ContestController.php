@@ -629,6 +629,20 @@ $user->infoObj->time[$contestProblemID] =  strtotime($submission->submit_time) -
         }
     }
 
+    /* @function deleteContest
+     * @input $request,$contest_id
+     *
+     * @return Redirect
+     * @description deleteContest
+     */
+    public function deleteContest(Request $request, $contest_id)
+    {
+        ContestUser::where('contest_id',$contest_id)->delete();
+        ContestProblem::where('contest_id',$contest_id)->delete();
+        Contest::where('contest_id',$contest_id)->delete();
+        return Redirect::to("/dashboard/contest");
+    }
+
 }
 
 
