@@ -37,17 +37,27 @@ class ContestController extends Controller
      * @input $request
      *
      * @return View
-     * description: show the ContestDashboard with all contest data
+     * @description: A redirect to /dashboard/contest/1
      *
      */
     public function showContestDashboard(Request $request)
     {
-        $contestObj = Contest::all();
+        return Redirect::to('/dashboard/contest/1');
+    }
+
+    /*
+     * @function showContestDashboardByPageID
+     * @input $request $page_id
+     *
+     * @return View
+     * @description show contest list in page, return the View
+     */
+    public function showContestDashboardByPageID(Request $request, $page_id)
+    {
         $data = [];
-        if(!$contestObj->isEmpty())
-        {
-            $data['contests'] = $contestObj;
-        }
+        $contestPerPage = 20;
+        $data = Contest::getContestItemsInPage($contestPerPage, $page_id);
+
         return View::make('contest.dashboard', $data);
     }
 
@@ -181,37 +191,20 @@ class ContestController extends Controller
         return Redirect::to('/contest/p/1');
     }
 
+    /*
+     * @function getContestListByPageID
+     * @input $request $page_id
+     *
+     * @return View
+     * @description get the contest list by given a page_id
+     *              and return a view
+     */
     public function getContestListByPageID(Request $request, $page_id)
     {
         $data = [];
         $contestPerPage = 20;
-        $contestObj = Contest::orderby('contest_id', 'desc')->get();
-        $contestNum = $contestObj->count();
-        for($count = 0, $i = ($page_id - 1) * $contestPerPage; $i < $contestNum && $count < $contestPerPage; $i++, $count++ )
-        {
-            $data["contests"][$count] = $contestObj[$i];
-            if($contestObj[$i]->isPending())
-            {
-                $data["contests"][$count]->status = "Pending";
-            }
-            else if($contestObj[$i]->isEnded())
-            {
-                $data["contests"][$count]->status = "Ended";
-            }
-            else if($contestObj[$i]->isRunning())
-            {
-                $data["contests"][$count]->status = "Running";
-            }
-        }
-        if($i == $contestObj->count())
-        {
-            $data["last_page"] = 1;
-        }
-        if($page_id == 1)
-        {
-            $data["first_page"] = 1;
-        }
-        $data["page_id"] = $page_id;
+        $data = Contest::getContestItemsInPage($contestPerPage, $page_id);
+
         return View::make('contest.list', $data);
     }
 

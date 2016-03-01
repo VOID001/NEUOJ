@@ -63,4 +63,48 @@ class Contest extends Model
     {
         return $this->getState() == env("CONTEST_ENDED", -1);
     }
+
+    /*
+     * @function getContestItemsInPage
+     * @input $itemsPerPage $page_id
+     *
+     * @return array
+     * @description each time call this function, return
+     *              an array that contain all the data needed
+     *              for the pager
+     */
+    public static function getContestItemsInPage($itemPerPage, $page_id)
+    {
+        $data = [];
+        $contestObj = Contest::orderby('contest_id', 'desc')->get();
+        $contestNum = $contestObj->count();
+
+        for($count = 0, $i = ($page_id - 1) * $itemPerPage; $i < $contestNum && $count < $itemPerPage; $i++, $count++)
+        {
+            $data["contests"][$count] = $contestObj[$i];
+            if($contestObj[$i]->isPending())
+            {
+                $data["contests"][$count]->status = "Pending";
+            }
+            else if($contestObj[$i]->isEnded())
+            {
+                $data["contests"][$count]->status = "Ended";
+            }
+            else if($contestObj[$i]->isRunning())
+            {
+                $data["contests"][$count]->status = "Running";
+            }
+        }
+        if($i == $contestNum)
+        {
+            $data["last_page"] = 1;
+        }
+        if($page_id == 1)
+        {
+            $data["first_page"] = 1;
+        }
+        $data["page_id"] = $page_id;
+        return $data;
+    }
+
 }
