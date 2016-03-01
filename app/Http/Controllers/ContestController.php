@@ -333,8 +333,8 @@ class ContestController extends Controller
         $data['problems'] = ContestProblem::where('contest_id', $contest_id)->get();
 
         //for($i = 0; $i < $count; $i++)
-	if(!isset($data['users']))
-		$data['users'] = [];
+	    if(!isset($data['users']))
+		    $data['users'] = [];
         foreach($data['users'] as $user)
         {
             //$user = $data['user'][$i];
@@ -395,6 +395,7 @@ $user->infoObj->time[$contestProblemID] =  strtotime($submission->submit_time) -
             $user->nick_name = $userInfoObj->nickname;
         }
         usort($data['users'], ['self', "cmp"]);
+        $data['contest_id'] = $contest_id;
         return View::make('contest.ranklist', $data);
     }
 

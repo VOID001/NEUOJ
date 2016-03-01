@@ -19,7 +19,7 @@
     <div class="contest_ranklist_table">
     <table class="table table-striped table-bordered table-hover contest_ranklist" style="table-layout:fixed; overflow:hidden">
         <div class="contest_ranklist_nav">
-            <a class="btn btn-info" href="/contest/{{ $problems[0]->contest_id }}">&nbsp;&nbsp;Back&nbsp;&nbsp;</a>
+            <a class="btn btn-info" href="/contest/{{ $contest_id }}">&nbsp;&nbsp;Back&nbsp;&nbsp;</a>
         </div>
         <thead>
             <th class="contest_ranklist_user text-center" style="width:5%">
