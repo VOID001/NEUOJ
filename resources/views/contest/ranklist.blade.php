@@ -4,6 +4,7 @@
     <title>Ranklist</title>
     @include("layout.head")
     <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/contest.css">
     <script type="text/javascript">
         $(function(){
             $("#contest").addClass("active");
@@ -14,8 +15,12 @@
 @include("layout.header")
 
     <h3 class="text-center">Ranklist</h3>
+
     <div class="contest_ranklist_table">
     <table class="table table-striped table-bordered table-hover contest_ranklist" style="table-layout:fixed; overflow:hidden">
+        <div class="contest_ranklist_nav">
+            <a class="btn btn-info" href="/contest/{{ $problems[0]->contest_id }}">&nbsp;&nbsp;Back&nbsp;&nbsp;</a>
+        </div>
         <thead>
             <th class="contest_ranklist_user text-center" style="width:5%">
                 Rank
