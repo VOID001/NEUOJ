@@ -43,12 +43,11 @@
                 </th>
             @endforeach
         </thead>
-        <?php $rrr = 1; ?>
         @foreach($users as $user)
             <tr>
 
                 <td class="contest_ranklist_penalty_td text-center" style="padding: 5px;">
-                    {{ $rrr++ }}
+                    {{ $counter++ }}
                 </td>
                 <td class="text-center">
                     <img src="/avatar/{{$user->uid}}" style="width:35px; height:35px"/>

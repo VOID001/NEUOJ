@@ -396,6 +396,7 @@ $user->infoObj->time[$contestProblemID] =  strtotime($submission->submit_time) -
         }
         usort($data['users'], ['self', "cmp"]);
         $data['contest_id'] = $contest_id;
+        $data['counter'] = 1;
         return View::make('contest.ranklist', $data);
     }
 
