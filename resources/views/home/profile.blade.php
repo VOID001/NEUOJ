@@ -11,9 +11,7 @@
     <div align="center">
         <h3 class="text-center">Profile</h3>
         <table id="profileTable">
-                <tr>
-                    <td style="padding-left: 20px"><img src="/avatar/@if(isset($uid)){{ $uid }}@else{{ 0 }}@endif" style="width:120px;height:120px;"/></td>
-                </tr>
+                <img src="/avatar/@if(isset($uid)){{ $uid }}@else{{ 0 }}@endif" id="profileTable_img"style="width:120px;height:120px;"/>
                 <tr>
                     <td style="padding-left: 20px">Username</td>
                     <td><input type="text" name="nickname" value="@if(isset($nickname)){{ $username }}@endif" readonly="true" class="form-control"/></td>

@@ -284,12 +284,16 @@ li.separate-item {
 .contest_ranklist> tbody > tr > td,
 .contest_ranklist> tfoot > tr > td {
     padding: 0;
+    vertical-align: middle;
 }
 .contest_ranklist> thead > tr > th{
     color: #fff;
 }
 .contest_ranklist>thead{
     background: #5cb85c;
+}
+.contest_ranklist img{
+    object-fit: cover;
 }
 .contest_ranklist_table{
     margin:20px auto;
@@ -316,6 +320,9 @@ li.separate-item {
 }
 #profileTable td,#profileTable td{
     height: 50px;
+}
+#profileTable_img{
+    object-fit:cover;
 }
 .padding_10{
     padding-top: 10%;
