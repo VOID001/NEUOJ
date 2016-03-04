@@ -73,13 +73,13 @@ class Contest extends Model
      *              an array that contain all the data needed
      *              for the pager
      */
-    public static function getContestItemsInPage($itemPerPage, $page_id)
+    public static function getContestItemsInPage($itemsPerPage, $page_id)
     {
         $data = [];
         $contestObj = Contest::orderby('contest_id', 'desc')->get();
         $contestNum = $contestObj->count();
 
-        for($count = 0, $i = ($page_id - 1) * $itemPerPage; $i < $contestNum && $count < $itemPerPage; $i++, $count++)
+        for($count = 0, $i = ($page_id - 1) * $itemsPerPage; $i < $contestNum && $count < $itemsPerPage; $i++, $count++)
         {
             $data["contests"][$count] = $contestObj[$i];
             if($contestObj[$i]->isPending())
@@ -104,7 +104,7 @@ class Contest extends Model
             $data["first_page"] = 1;
         }
         $data["page_id"] = $page_id;
+        $data["page_num"] = (int)($contestNum / $itemsPerPage + ($contestNum % $itemsPerPage == 0 ? 0 : 1));
         return $data;
     }
-
 }
