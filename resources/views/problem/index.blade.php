@@ -23,6 +23,8 @@
             $("#submit_code").click(function(){
                 if($("#promblem_submit_textarea").val().length>=50&&
                         $("#promblem_submit_textarea").val().length<=50000){
+                    $(this).attr("disabled",true);
+                    setTimeout("$('#submit_code').removeAttr('disabled');",3000);
                     $("#form_code").submit();
                 }
             });
