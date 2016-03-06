@@ -4,10 +4,19 @@
     <title>Contest List</title>
     @include("layout.head")
     <link rel="stylesheet" href="/css/main.css">
+    <script src="/js/extendPagination.js"></script>
     <script type="text/javascript">
         $(function(){
             $("#contest").addClass("active");
         })
+        $(document).ready(function(){
+            var targetHerf = "/contest/p/";
+            $('#callBackPager').extendPagination({
+                totalPage : {{ $page_num }},
+                showPage : 5,
+                pageNumber : {{ $page_id }}
+            },targetHerf);
+        });
     </script>
 </head>
 <body class="home_body">
@@ -90,14 +99,7 @@
 
     </table>
     </div>
-
-    @if(!isset($first_page))
-        <a href="/contest/p/{{ $page_id - 1 }}">Previous Page</a>
-    @endif
-    @if(!isset($last_page))
-        <a href="/contest/p/{{ $page_id + 1 }}">Next Page</a>
-    @endif
-
+    <div class="text-center" id="callBackPager"></div>
     <div style="padding-bottom: 40px">
 @include("layout.footer")
 </body>
