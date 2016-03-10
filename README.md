@@ -32,6 +32,7 @@ NEUOJ
 * [x] Judge (Current Plan: use domjudge judgedaemon to judge)
  * [x] Read domjudge judge/ code and make the Request Graph
  * [x] Implement the RESTful API with laravel
+ * [ ] Compile Error Message Return to user
 * [ ] RoleCheck (Ver 2.0)
 * [ ] Content Managment System (CMS) Use one Plugin
 
