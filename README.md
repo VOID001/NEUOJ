@@ -7,13 +7,18 @@ NEUOJ
  * [x] Edit Problem
  * [x] Delete Problem
  * [x] Edit data
+ * [ ] Visibility Lock Manual Enable
+ * [ ] Load in Problem from XML
 * [ ] Hold Contest
  * [ ] Three kind of access to contest: Private Register Public
  * [ ] Enable user register himself into the register Contest
  * [x] Board display
  * [ ] Import student info from xls and xlsx etc.
+ * [ ] Rejudge a Problem by ContestID or Submission ID
+ * [ ] Balloon System
 * [ ] Root Admin Panel
  * [ ] + User Managment
+ * [ ] Dashboard Show System Status
 * [ ] Auth module
  * [x] Register
  * [x] Login
@@ -27,7 +32,8 @@ NEUOJ
 * [x] Judge (Current Plan: use domjudge judgedaemon to judge)
  * [x] Read domjudge judge/ code and make the Request Graph
  * [x] Implement the RESTful API with laravel
-* [ ] RoleCheck (pending)
+* [ ] RoleCheck (Ver 2.0)
+* [ ] Content Managment System (CMS) Use one Plugin
 
 ### top level route
 * /profile User profile page
