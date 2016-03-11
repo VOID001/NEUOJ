@@ -162,6 +162,11 @@ Route::group(['middleware' => 'profile'],function() {
             "uses" => "ContestController@addContest"
         ]);
 
+        Route::match(['post'], '/dashboard/problem/import', [
+            "middleware" => "role:admin",
+            "uses" => "ProblemController@importProblem"
+        ]);
+
         Route::delete('/dashboard/contest/{contest_id}',[
             "middleware" => "role:admin",
             "uses" => "ContestController@deleteContest"

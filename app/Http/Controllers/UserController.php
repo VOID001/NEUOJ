@@ -22,7 +22,7 @@ class UserController extends Controller
     public function setProfile(Request $request)
     {
         $uid=$request->session()->get('uid');
-	$input = [];
+	    $input = [];
         if(!$request->session()->has('profileError'))
             $data = [];
         else

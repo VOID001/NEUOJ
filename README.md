@@ -8,7 +8,7 @@ NEUOJ
  * [x] Delete Problem
  * [x] Edit data
  * [ ] Visibility Lock Manual Enable
- * [ ] Load in Problem from XML
+ * [x] Load in Problem from XML
 * [ ] Hold Contest
  * [ ] Three kind of access to contest: Private Register Public
  * [ ] Enable user register himself into the register Contest

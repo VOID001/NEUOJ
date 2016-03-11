@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Validator;
 
 use App\User;
 use App\Problem;
@@ -275,6 +276,7 @@ class ProblemController extends Controller
             $problem_id=Problem::max('problem_id');
             $data['testcases'] = $testcaseObj;
             $updateProblemData = $request->input();
+
             /*
              * Description is stored in json format
              * encode it and store it
@@ -411,6 +413,73 @@ class ProblemController extends Controller
             'result' => "Accepted"
         ])->count();
         return View::make("problem.index", $data);
+    }
+
+    /*
+     * @function importProblem
+     * @input $request
+     *
+     * @return Redirect
+     * @description import problem from given xml file
+     *              if no file selected redirect back with err
+     *              else parse xml and add data into database
+     *              and storage
+     */
+    public function importProblem(Request $request)
+    {
+        $this->validate($request,[
+            "xml" => "required"
+        ]);
+
+        /* For file that is too big , first store it in memory */
+        $dataStr = file_get_contents($request->file('xml')->getRealPath());
+
+        /* Use SimpleXML to import Data from XML File */
+        $xmlObj = simplexml_load_string($dataStr);
+        foreach($xmlObj->item as $importData)
+        {
+            $problemObj = new Problem();
+            $testCaseObj = new Testcase();
+
+            /* Fetch The basic info of the problem */
+            $problemObj->title = $importData->title->__toString();
+            $problemObj->visibility_locks = 0;
+            $problemObj->description = $importData->description->__toString();
+            $problemObj->time_limit = $importData->time_limit * 1;
+            $problemObj->mem_limit = $importData->memory_limit * 1024;
+            $problemObj->output_limit = 10000000;
+            $problemObj->difficulty = 0;
+            $problemObj->input = $importData->input->__toString();
+            $problemObj->output = $importData->output->__toString();
+            $problemObj->sample_input = $importData->sample_input->__toString();
+            $problemObj->sample_output = $importData->sample_output->__toString();
+            $problemObj->source = "NEUOJ-old";
+            $problemObj->author_id = session('uid');
+            $jsonData = json_encode($problemObj);
+            $problemObj->description = $jsonData;
+
+            /* Unset fields that don't exist the database */
+            unset($problemObj->input);
+            unset($problemObj->output);
+            unset($problemObj->sample_input);
+            unset($problemObj->sample_output);
+            unset($problemObj->source);
+            $problemObj->save();
+
+            /* Fetch The testdata for the problem */
+            $input_data = $importData->test_input;
+            $output_data = $importData->test_output;
+            $testCaseObj->pid = $problemObj->id;
+            $testCaseObj->rank = 1;
+            $testCaseObj->input_file_name = $testCaseObj->pid . "-" . time() . "-" ."in";
+            $testCaseObj->output_file_name = $testCaseObj->pid . "-" . time() . "-" ."out";
+            $testCaseObj->md5sum_input = md5($input_data);
+            $testCaseObj->md5sum_output = md5($output_data);
+            $testCaseObj->save();
+            Storage::put('testdata/'. $testCaseObj->input_file_name, $input_data);
+            Storage::put('testdata/'. $testCaseObj->output_file_name, $output_data);
+        }
+        return Redirect::to('/dashboard/problem/');
     }
 
 }

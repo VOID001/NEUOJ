@@ -12,7 +12,27 @@
 </head>
 <body>
 @include("layout.dashboard_nav")
+
 <div class="col-xs-10">
+    <div>
+        <ul>
+            @if(!$errors->isEmpty())
+                @foreach($errors->all() as $error)
+                    <li>
+                        {{ $error }}
+                    </li>
+                @endforeach
+            @endif
+        </ul>
+    </div>
+    <div>
+        <div>Please Give the Problem XML File(From HustOJ)</div>
+        <form enctype="multipart/form-data" action="/dashboard/problem/import" method="POST">
+            {{ csrf_field() }}
+            <input type="file" name="xml" value="XML Format Data"/>
+            <input type="submit" value="Import"/>
+        </form>
+    </div>
     <div>{{ $status or "" }}</div>
     <h3 class="text-center">Problem</h3>
 
