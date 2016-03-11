@@ -5,6 +5,7 @@
     <title>Contest {{ $contest->contest_id }}</title>
     @include("layout.head")
     <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/contest.css">
     <meta http-equiv="Refresh" content="20">
     <script type="text/javascript">
         $(function(){
@@ -103,21 +104,21 @@
             -->
         </div>
 
-        <table class="table table-striped table-bordered table-hover contest_list_single" width="100%">
+        <table class="table table-striped table-bordered table-hover contest_list_single contest_index_table" width="100%">
             <thead>
-            <th class="text-center">
+            <th class="text-center" id="contest_index_status">
 	       Status
 	    </th>
-            <th class="text-center">
+            <th class="text-center" id="contest_index_problem_id">
                 Problem ID
             </th>
-            <th class="text-center">
+            <th class="text-center" id="contest_index_short_name">
                 Short Name
             </th>
-	    <th>
+            <th id="contest_index_problem_name">
                 Problem Name
             </th>
-            <th class="text-center">
+            <th class="text-center" id="contest_index_ac">
                 AC/Total(Ratio)
             </th>
             </thead>
@@ -133,22 +134,19 @@
                         @endif
                      </td>
                     <td class="text-center">
-                            {{ $problem->contest_problem_id }}
+                        <a href="/contest/{{ $contest->contest_id }}/problem/{{ $problem->contest_problem_id }}">{{ $problem->contest_problem_id }}</a>
                     </td>
                     <td class="text-center">
                         @if($problem->realProblemName !== -1 &&  ($roleController->is("admin") || $contest->status != "Pending"))
-                        {{-- @if((session('uid') && session('uid') <=2) || $contest->status != "Pending") --}}
                             <a href="/contest/{{ $contest->contest_id }}/problem/{{ $problem->contest_problem_id }}">
-                        {{-- @endif --}}
                         @endif
                             {{ $problem->problem_title }}
-                        {{-- @if((session('uid') && session('uid') <=2) || $contest->status != "Pending") --}}
                         @if($problem->realProblemName !== -1 &&  ($roleController->is("admin") || $contest->status != "Pending"))
                             </a>
                         @endif
                     </td>
-                    <td>
-                        {{ $problem->realProblemName === -1 ? "[Error] Problem Deleted!" : $problem->realProblemName }}
+                    <td id="contest_index_problem_name_el">
+                        <a href="/contest/{{ $contest->contest_id }}/problem/{{ $problem->contest_problem_id }}"><nobr>{{ $problem->realProblemName === -1 ? "[Error] Problem Deleted!" : $problem->realProblemName }}</nobr></a>
                     </td>
                     <td class="text-center">
                         @if($problem->acSubmissionCount != 0)

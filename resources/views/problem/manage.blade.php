@@ -4,6 +4,7 @@
     <title>Manage Problem</title>
     @include("layout.head")
     <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/problem.css">
     <script type="text/javascript">
         $(function(){
             $("#dashboard_problem").addClass("dashboard_subnav_active");
@@ -38,10 +39,10 @@
 
     <div class="dashboard_problem_table">
         <a class="btn btn-default" href="/dashboard/problem/add/">Add Problem</a>
-        <table class="table table-bordered table-hover" id="dashboard_problem_list">
+        <table class="table table-bordered table-hover problem_manage_table" id="dashboard_problem_list">
             <thead>
                 <tr>
-                    <th class="text-left">Title</th>
+                    <th class="text-left" id="problem_manage_title">Title</th>
                     <th class="text-center">Problem ID</th>
                     <th class="text-center">Visibility_Lock</th>
                     <th class="text-center">Created_at</th>
@@ -51,7 +52,7 @@
             </thead>
             @foreach($problems as $problem)
                 <tr>
-                    <td class="text-left">{{ $problem->title }}</td>
+                    <td class="text-left" id="problem_title_author_el"><nobr>{{ $problem->title }}</nobr></td>
                     <td class="text-center">{{ $problem->problem_id }}</td>
                     <td class="text-center">{{ $problem->visiblity_locks }}</td>
                     <td class="text-center">{{ $problem->created_at }}</td>

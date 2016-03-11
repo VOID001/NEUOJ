@@ -5,6 +5,7 @@
     <title>Status</title>
     @include("layout.head")
     <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/status.css">
     <meta http-equiv="Refresh" content="20"> <!-- Do not refresh too frequently -->
     <script type="text/javascript">
         $(function(){
@@ -115,38 +116,39 @@
             <option name="mle">Memory Limit Exceed</option>
             <option name="ole">Output Limit Exceed</option>
             <option name="je">Judge Error</option>
+            <option name="ce">Compile Error</option>
         </select>
         <input type="submit" value="Filter" class="btn btn-info form-control"/>
     </form>
 
-    <table class="table table-striped table-bordered table-hover" id="statuslist" width="100%" style="margin-top: 5px">
+    <table class="table table-striped table-bordered table-hover status_table" id="statuslist" width="100%">
     <thead>
-            <td class="text-center">Run ID</td>
-            <td class="text-center">
+            <td class="text-center" id="status_run_id">Run ID</td>
+            <td class="text-center" id="status_submit_time">
                 Submit Time
             </td>
-            <td class="text-center">
+            <td class="text-center" id="status_user_id">
                 User ID
             </td>
-            <td class="text-center">
+            <td class="text-center" id="status_username">
                 Username
             </td>
-            <td class="text-left">
+            <td class="text-left" id="status_problem_title">
                 Problem Title
             </td>
-            <td class="text-center">
+            <td class="text-center" id="status_result">
                 Result
             </td>
-            <td class="text-center">
-                Language
+            <td class="text-center" id="status_language">
+                Lang
             </td>
-            <td class="text-center">
+            <td class="text-center" id="status_exec_mem">
                 Exec_mem
             </td>
-            <td class="text-center">
+            <td class="text-center" id="status_exec_time">
                 Exec_time
             </td>
-            <td class="text-center">
+            <td class="text-center" id="status_view_code">
                 View Code
             </td>
     </thead>
@@ -156,8 +158,8 @@
                 <td class="text-center">{{ $submission->runid }}</td>
                 <td class="text-center">{{ $submission->submit_time }}</td>
                 <td class="text-center">{{ $submission->uid }}</td>
-                <td class="text-center">{{ $submission->userName }}</td>
-                <td class="text-left"> {{ $submission->problemTitle }}</td>
+                <td class="text-center" id="status_username_title_el"><nobr>{{ $submission->userName }}</nobr></td>
+                <td class="text-left" id="status_username_title_el"><nobr>{{ $submission->problemTitle }}</nobr></td>
                 @if($submission->result=="Accepted")
                     <td class="text-center"><span class="label label-success" style="font-size: 15px"><span class="glyphicon glyphicon-ok " style="color: #000"></span>Accepted</span></td>
                 @elseif($submission->result=="Compile Error")

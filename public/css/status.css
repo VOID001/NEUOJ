@@ -1,0 +1,41 @@
+.status_table{
+    margin-top:5px;
+    table-layout: fixed;
+    overflow: hidden;
+}
+
+#status_run_id{
+    width:10%;
+}
+#status_submit_time{
+    width:15%;
+}
+#status_user_id{
+    width:10%;
+}
+#status_username{
+    width:10%;
+}
+#status_username_title_el{
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+#status_problem_title{
+    width:10%;
+}
+#status_result{
+    width:11%;
+}
+#status_language{
+    width:6%;
+}
+#status_exec_mem{
+    width:8%;
+}
+#status_exec_time{
+    width:8%;
+}
+#status_view_code{
+    width:9%;
+}
+

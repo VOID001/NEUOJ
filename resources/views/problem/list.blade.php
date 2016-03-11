@@ -4,6 +4,7 @@
     <title>Problem List</title>
     @include("layout.head")
     <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/problem.css">
     <script type="text/javascript">
         $(function(){
             $("#problem").addClass("active");
@@ -20,14 +21,14 @@
             <input type="submit" class="btn btn-info form-control" value="&nbsp;&nbsp;Go&nbsp;&nbsp; ">
         </form>
 
-        <table class="table table-striped table-bordered table-hover" id="problemlist" width="100%" style="margin-top: 5px">
+        <table class="table table-striped table-bordered table-hover problem_table" id="problemlist" width="100%">
             <thead>
                 <tr>
-                    <th class="text-center">Problem ID</th>
-                    <th class="text-left">Title</th>
-                    <th class="text-center">Difficulty</th>
-                    <th class="text-center">AC/Submit</th>
-                    <th class="text-center">Author</th>
+                    <th class="text-center" id="problem_id">Problem ID</th>
+                    <th class="text-left" id="problem_title">Title</th>
+                    <th class="text-center" id="problem_difficulty">Difficulty</th>
+                    <th class="text-center" id="problem_acratio">AC/Submit</th>
+                    <th class="text-center" id="problem_author">Author</th>
                     {{--<th class="text-center">Visibility_Lock(use for debug version)</th>--}}
                 </tr>
             </thead>
@@ -35,10 +36,10 @@
                 @foreach($problems as $problem)
                         <tr>
                             <td class="text-center"><a href="/problem/{{ $problem->problem_id }}">{{ $problem->problem_id }}</a></td>
-                            <td class="text-left">{{ $problem->title }}</td>
+                            <td class="text-left" id="problem_title_author_el"><a href="/problem/{{ $problem->problem_id }}"><nobr>{{ $problem->title }}</nobr></a></td>
                             <td class="text-center">{{ $problem->difficulty }}</td>
                             <td class="text-center">{{ $problem->ac_count. "/" . $problem->submission_count }}</td>
-                            <td class="text-center">{{ $problem->author }}</td>
+                            <td class="text-center" id="problem_title_author_el"><nobr>{{ $problem->author }}</nobr></td>
                             {{--<td class="text-center">{{ $problem->visibility_locks }}</td>--}}
                         </tr>
                 @endforeach

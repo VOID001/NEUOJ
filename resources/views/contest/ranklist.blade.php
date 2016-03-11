@@ -8,37 +8,42 @@
     <script type="text/javascript">
         $(function(){
             $("#contest").addClass("active");
+//            var wid=parseInt($("#ccc").css("width"));
+//            if(wid<70){
+//                $(".contest_ranklist td div").css("font-size","12px");
+//                $(".contest_ranklist td div").css("padding","0px");
+//            }
         })
     </script>
 </head>
 <body class="home_body">
 @include("layout.header")
 
-    <h3 class="text-center">Ranklist</h3>
+    <h2 class="text-center">Ranklist</h2>
 
     <div class="contest_ranklist_table">
-    <table class="table table-striped table-bordered table-hover contest_ranklist" style="table-layout:fixed; overflow:hidden">
+    <table class="table table-striped table-bordered table-hover contest_ranklist contest_ranklist_table" >
         <div class="contest_ranklist_nav">
             <a class="btn btn-info" href="/contest/{{ $contest_id }}">&nbsp;&nbsp;Back&nbsp;&nbsp;</a>
         </div>
         <thead>
-            <th class="contest_ranklist_user text-center" style="width:5%">
+            <th class="contest_ranklist_user text-center" id="contest_ranklist_rank">
                 Rank
             </th>
-            <th class=" text-center" style="width:5%">
+            <th class=" text-center" id="contest_ranklist_avatar">
                 Avatar
             </th>
-            <th class=" text-center" style="width:10%">
+            <th class=" text-center" id="contest_ranklist_nickname">
                 Nick name
             </th>
-            <th class="contest_ranklist_username text-center" style="width:5%">
-                Solved
+            <th class="contest_ranklist_username text-center" id="contest_ranklist_solve">
+                Solve
             </th>
-            <th class="contest_ranklist_penalty text-center" style="width:5%">
+            <th class="contest_ranklist_penalty text-center" id="contest_ranklist_penalty">
                 Penalty
             </th>
             @foreach($problems as $problem)
-                <th class="contest_ranklist text-center" style="width:5%">
+                <th class="contest_ranklist text-center" id="contest_ranklist_problem">
                     {{ $problem->problem_title }}
                 </th>
             @endforeach
@@ -52,34 +57,28 @@
                 <td class="text-center">
                     <img src="/avatar/{{$user->uid}}" style="width:35px; height:35px"/>
                 </td>
-                <td class="contest_ranklist_username_td text-center">
+                <td class="contest_ranklist_username_td text-center" id="contest_index_problem_name_el">
                     <a href="/profile/{{ $user->uid }}">
-                    {{ $user->nick_name }}
+                    <nobr>{{ $user->nick_name }}</nobr>
                     </a>
                 </td>
                 <td class="contest_ranklist_username_td text-center" style="padding: 8px">
                     {{ $user->infoObj->totalAC }}
                 </td>
                 <td class="contest_ranklist_penalty_td text-center" style="padding: 5px;">
-            {{ intval($user->infoObj->totalPenalty / 60 / 60) }} :
-            {{ intval($user->infoObj->totalPenalty % 3600 / 60) }}:
-            {{ intval($user->infoObj->totalPenalty % 60)  }}
+            {{ intval($user->infoObj->totalPenalty / 60 / 60) }}<strong>:</strong>{{ intval($user->infoObj->totalPenalty % 3600 / 60) }}<strong>:</strong>{{ intval($user->infoObj->totalPenalty % 60)  }}
             {{--{{ $user->infoObj->totalPenalty  }}--}}
                 </td>
                 @foreach($problems as $problem)
                     <td>
                         @if(isset($user->infoObj->result[$problem->contest_problem_id]) && $user->infoObj->result[$problem->contest_problem_id] == "First Blood")
             <div class="btn btn-primary"style="width: 100%; font-size:12px">
-            {{ intval($user->infoObj->time[$problem->contest_problem_id] / 60 / 60) }} :
-            {{ intval($user->infoObj->time[$problem->contest_problem_id] % 3600 / 60) }}:
-            {{ intval($user->infoObj->time[$problem->contest_problem_id] % 60)  }}
+            {{ intval($user->infoObj->time[$problem->contest_problem_id] / 60 / 60) }}<strong>:</strong>{{ intval($user->infoObj->time[$problem->contest_problem_id] % 3600 / 60) }}<strong>:</strong>{{ intval($user->infoObj->time[$problem->contest_problem_id] % 60)  }}
     ({{ $user->infoObj->penalty[$problem->contest_problem_id] }})
             </div>
                         @elseif(isset($user->infoObj->result[$problem->contest_problem_id]) && $user->infoObj->result[$problem->contest_problem_id] == "Accepted")
             <div class="btn btn-success"style="width: 100%; font-size:12px">
-            {{ intval($user->infoObj->time[$problem->contest_problem_id] / 60 / 60) }} :
-            {{ intval($user->infoObj->time[$problem->contest_problem_id] % 3600 / 60) }}:
-            {{ intval($user->infoObj->time[$problem->contest_problem_id] % 60)  }}
+            {{ intval($user->infoObj->time[$problem->contest_problem_id] / 60 / 60) }}<strong>:</strong>{{ intval($user->infoObj->time[$problem->contest_problem_id] % 3600 / 60) }}<strong>:</strong>{{ intval($user->infoObj->time[$problem->contest_problem_id] % 60)  }}
     ({{ $user->infoObj->penalty[$problem->contest_problem_id] }})
             </div>
                         @elseif(isset($user->infoObj->result[$problem->contest_problem_id]) && ($user->infoObj->result[$problem->contest_problem_id] == "Rejudging" || $user->infoObj->result[$problem->contest_problem_id] == "Pending"))

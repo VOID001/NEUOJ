@@ -1,29 +1,120 @@
+/*contest.list*/
+.contest_table{
+    table-layout: fixed;
+    overflow: hidden;
+}
+
 #contest_id{
-    width:8%;
+    width:12%;
 }
 #contest_name{
-    width: 15%;
+    width: 20%;
 }
-#contest_name_ex{
+#contest_name_el{
     text-overflow: ellipsis;
     overflow:hidden;
+}
+#contest_begin_time{
+    width: 18%;
 }
 #contest_type{
     width: 8%;
 }
 #contest_status{
-    width: 8%;
-}
-#contest_begin_time{
-    width: 15%;
-}
-#contest_end_time{
-    width: 15%;
+     width: 10%;
 }
 #contest_operation{
     width: 24%;
 }
 
+/*contest.index*/
+.contest_index_table{
+    table-layout: fixed;
+    overflow: hidden;
+}
+
+#contest_index_status{
+    width:10%;
+}
+#contest_index_problem_id{
+    width:12%;
+}
+#contest_index_short_name{
+    width:13%;
+}
+#contest_index_problem_name{
+    width:20%;
+}
+#contest_index_problem_name_el{
+    text-overflow: ellipsis;
+    overflow:hidden;
+}
+#contest_index_ac{
+    width:20%;
+}
+
+/*contest_dashboard*/
+#dashboard_contest_id{
+    width:8%;
+}
+#dashboard_contest_name{
+    width: 15%;
+}
+#dashboard_contest_name_ex{
+    text-overflow: ellipsis;
+    overflow:hidden;
+}
+#dashboard_contest_type{
+    width: 8%;
+}
+#dashboard_contest_status{
+    width: 8%;
+}
+#dashboard_contest_begin_time{
+    width: 15%;
+}
+#dashboard_contest_end_time{
+    width: 15%;
+}
+#dashboard_contest_operation{
+    width: 24%;
+}
+
+.dashboard_contest_table{
+    table-layout: fixed;
+    overflow: hidden;
+}
+/*contest_ranklist*/
 .contest_ranklist_nav{
     padding-bottom: 10px;
 }
+
+.contest_ranklist_table{
+    table-layout: fixed;
+    overflow: hidden;
+}
+
+
+#contest_ranklist_rank{
+    width:4%;
+}
+#contest_ranklist_avatar{
+    width:4%;
+}
+#contest_ranklist_nickname{
+    width:8%;
+}
+#contest_ranklist_nickname_el{
+    text-overflow: ellipsis;
+    overflow:hidden;
+}
+#contest_ranklist_solve{
+    width:3%;
+}
+#contest_ranklist_penalty{
+    width:8%;
+}
+#contest_ranklist_problem{
+
+}
+

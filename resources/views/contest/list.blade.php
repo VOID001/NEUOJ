@@ -4,6 +4,7 @@
     <title>Contest List</title>
     @include("layout.head")
     <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/contest.css">
     <script src="/js/extendPagination.js"></script>
     <script type="text/javascript">
         $(function(){
@@ -24,28 +25,28 @@
 
     <h3 class="text-center">Contest List</h3>
     <div class="main">
-    <table class="table table-striped table-bordered table-hover contest_list" width="100%">
+    <table class="table table-striped table-bordered table-hover contest_list contest_table" width="100%" >
         <thead>
-            <th class="text-center">
+            <th class="text-center"id="contest_id">
                 Contest ID
             </th>
-            <th class="text-center">
+            <th class="text-center" id="contest_name">
                 Contest Title
             </th>
-            <th class="text-center">
+            <th class="text-center"id="contest_begin_time">
                 Start Time
             </th>
-            <th class="text-center">
+            <th class="text-center" id="contest_type">
                 Type
             </th>
-            <th class="text-center">
+            <th class="text-center" id="contest_status">
                 Status
             </th>
             @if(Request::session()->get('uid') <=2 && Request::session()->get('uid'))
-                <th class="text-center">
+                <th class="text-center"id="contest_management">
                     Management
                 </th>
-                <th class="text-center">
+                <th class="text-center" id="contest_rejudge">
                     Rejudge
                 </th>
             @endif
@@ -58,9 +59,9 @@
                             {{ $contest->contest_id }}
                         </a>
                     </td>
-                    <td class="text-center">
+                    <td class="text-center" id="contest_name_el">
                         <a href="/contest/{{ $contest->contest_id }}">
-                            {{ $contest->contest_name }}
+                            <nobr>{{ $contest->contest_name }}</nobr>
                         </a>
                     </td>
                     <td class="text-center">
