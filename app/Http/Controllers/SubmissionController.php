@@ -264,10 +264,35 @@ class SubmissionController extends Controller
 
         foreach($submissionObj->get() as $submission)
         {
-            var_dump($submission);
             $submission->judge_status = 0;
             $submission->result = "Rejudging";
             $submission->save();
         }
+
+        return Redirect::to($request->server('HTTP_REFERER'));
+    }
+
+    /*
+     * @function rejudgeSubmissionByRunID
+     * @input $request $run_id
+     *
+     * @return Redirect
+     * @description: A simple (stub) Rejudge by RunID Function
+     *               See comments inline for details
+     */
+    public function rejudgeSubmissionByRunID(Request $request, $run_id)
+    {
+        $submissionObj = Submission::find($run_id);
+        $submissionObj->result = "Rejudging";
+
+        /* Now just simply fake the judge host, not real rejudge */
+        $submissionObj->judge_status = 0;
+
+        /*
+         * Bugs! If this user is FB in one contest, after rejudge its result
+         * turns to error, but FB Flag will not chaged
+         */
+        $submissionObj->save();
+        return Redirect::to($request->server('HTTP_REFERER'));
     }
 }

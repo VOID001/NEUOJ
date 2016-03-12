@@ -1,3 +1,4 @@
+@inject('roleCheck', 'App\Http\Controllers\RoleController')
 <!doctype html>
 <html>
 <head>
@@ -42,12 +43,9 @@
             <th class="text-center" id="contest_status">
                 Status
             </th>
-            @if(Request::session()->get('uid') <=2 && Request::session()->get('uid'))
+            @if($roleCheck->is('admin'))
                 <th class="text-center"id="contest_management">
                     Management
-                </th>
-                <th class="text-center" id="contest_rejudge">
-                    Rejudge
                 </th>
             @endif
         </thead>
@@ -81,13 +79,9 @@
                             <span class="badge contest_list_status_ended">{{ $contest->status }}</span>
                         @endif
                     </td>
-                    @if(Request::session()->get('uid') <=2 && Request::session()->get('uid'))
+                    @if($roleCheck->is('admin'))
                         <td class="text-center">
                             <a class="btn btn-default" href="/dashboard/contest/{{ $contest->contest_id }}">manage</a>
-                        </td>
-                        <td class="text-center">
-                            <!--这个地址不太对吧-->
-                            <a class="btn btn-default" href=" /rejudge/{contest_id}/{contest_problem_id}">rejudge</a>
                         </td>
                     @endif
                 </tr>

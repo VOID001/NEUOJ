@@ -121,6 +121,9 @@
             <th class="text-center" id="contest_index_ac">
                 AC/Total(Ratio)
             </th>
+            <th class="text-center" id="contest_index_rejudge">
+                Rejudge
+            </th>
             </thead>
 
             @foreach($problems as $problem)
@@ -153,6 +156,14 @@
                             0 / 0
                         @endif
                     </td>
+                    @if($roleController->is('admin'))
+                        <td class="text-center">
+                            <form method="post" action="/rejudge/{{ $contest->contest_id }}/{{ $problem->contest_problem_id }}">
+                                {{ csrf_field() }}
+                                <input class="btn btn-danger" type="submit" value="Rejudge"/>
+                            </form>
+                        </td>
+                    @endif
                 </tr>
             @endforeach
         </table>

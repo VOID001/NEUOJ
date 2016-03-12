@@ -148,6 +148,11 @@
             <td class="text-center" id="status_exec_time">
                 Exec_time
             </td>
+            @if($roleCheck->is('admin'))
+                <td class="text-center" id="status_exec_time">
+                    Rejudge
+                </td>
+            @endif
     </thead>
     @if($submissions != NULL)
         @foreach($submissions as $submission)
@@ -181,6 +186,14 @@
                 <td class="text-center">{{ $submission->lang }}</td>
                 <td class="text-center">{{ $submission->exec_mem }}</td>
                 <td class="text-center">{{ $submission->exec_time }}</td>
+                @if($roleCheck->is('admin'))
+                    <td>
+                        <form method="post" action="/rejudge/{{ $submission->runid }}">
+                            {{ csrf_field() }}
+                            <input class="btn btn-danger" type="submit" value="Rejudge"/>
+                        </form>
+                    </td>
+                @endif
             </tr>
         @endforeach
     @endif

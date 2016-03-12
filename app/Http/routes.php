@@ -205,8 +205,14 @@ Route::group(['middleware' => 'profile'],function() {
             "uses" => "ContestController@setContest"
         ]);
 
-        Route::get('/rejudge/{contest_id}/{problem_id}', [
+        Route::post('/rejudge/{contest_id}/{problem_id}', [
+            "middleware" => "role:admin",
             "uses" => "SubmissionController@rejudgeSubmissionByContestIDAndProblemID"
+        ]);
+
+        Route::post('/rejudge/{run_id}', [
+            "middleware" => "role:admin",
+            "uses" => "SubmissionController@rejudgeSubmissionByRunID"
         ]);
 
     });
