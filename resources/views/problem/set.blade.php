@@ -50,16 +50,19 @@
         <textarea class="form-control"name="source"style="width: 100%;height: 100px">{{ $problem->source or "" }}</textarea><br><br>
         <!-- Now only support single testcase -->
         @if($testcases == NULL)
-            <div class="text-center dashboard_problem_add_span"style="background: #95A5A6;">You do not have any testcase here</div>
             <div class="dashboard_problem_add_span">Upload Input File</div>
+            <div class="form-control">No Testcase!</div>
             <input class="form-control"type="file" name="input_file[]"style="width: 100%"/>
             <div class="dashboard_problem_add_span">Upload Output File</div>
+            <div class="form-control">No Testcase!</div>
             <input class="form-control"type="file" name="output_file[]"style="width: 100%"/>
         @else
             @foreach($testcases as $testcase)
                 <div class="dashboard_problem_add_span">Upload Input File</div>
+                <div class="form-control">Input File: {{ $testcase->input_file_name }} md5sum: {{ $testcase->md5sum_input }}</div>
                 <input class="form-control"type="file" name="input_file[]"style="width: 100%"/>
                 <div class="dashboard_problem_add_span">Upload Output File</div>
+                <div class="form-control">Output File: {{ $testcase->output_file_name }} md5sum: {{ $testcase->md5sum_output }}</div>
                 <input class="form-control"type="file" name="output_file[]"style="width: 100%"/>
             @endforeach
         @endif
