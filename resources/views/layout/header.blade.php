@@ -11,7 +11,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a href="#" class="navbar-brand neuoj_theme"><img src="/image/neuacmlogo.PNG" class="neuacmlogo"/><span style="float: left;color:#99cccc">NEUOJ<span></a>
+                <a href="/" class="navbar-brand neuoj_theme"><img src="/image/neuacmlogo.PNG" class="neuacmlogo"/><span style="float: left;color:#99cccc">NEUOJ<span></a>
             </div>
             <div class="collapse navbar-collapse navbar-responsive-collapse">
                 <ul class="nav navbar-nav">
@@ -19,7 +19,7 @@
                     <li id="problem"><a href="/problem">Problem</a></li>
                     <li id="status"><a href="/status">Status</a></li>
                     <li id="contest"><a href="/contest">Contest</a></li>
-                    <li id="discuss"><a href="/discuss">Discuss</a></li>
+                    <li id="discuss"><a href="#">Discuss</a></li>
                     <li id="rating"><a href="#">Rating</a></li>
                     <li id="temp_"><a href="/dashboard/profile">Dashboard</a></li>
                 </ul>

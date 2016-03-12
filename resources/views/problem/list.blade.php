@@ -17,7 +17,7 @@
     <h3 class="text-center">Problem List</h3>
     <div class="main">
         <form class="form-inline">
-            <span style="font-size: 18px">Search:</span><input class="form-control" style="width: 200px;" aria-controls="problemset" placeholder="请输入关键字" type="text">
+            <span style="font-size: 18px">Search: </span><input class="form-control" style="width: 200px;" aria-controls="problemset" placeholder="Please input the keyword" type="text">
             <input type="submit" class="btn btn-info form-control" value="&nbsp;&nbsp;Go&nbsp;&nbsp; ">
         </form>
 
@@ -34,9 +34,9 @@
             </thead>
             @if($problems != NULL)
                 @foreach($problems as $problem)
-                        <tr>
-                            <td class="text-center"><a href="/problem/{{ $problem->problem_id }}">{{ $problem->problem_id }}</a></td>
-                            <td class="text-left" id="problem_title_author_el"><a href="/problem/{{ $problem->problem_id }}"><nobr>{{ $problem->title }}</nobr></a></td>
+                        <tr class="problem_table_row" onclick="javascript:window.location.href='/problem/{{ $problem->problem_id }}'">
+                            <td class="text-center">{{ $problem->problem_id }}</td>
+                            <td class="text-left" id="problem_title_author_el"><nobr>{{ $problem->title }}</nobr></td>
                             <td class="text-center">{{ $problem->difficulty }}</td>
                             <td class="text-center">{{ $problem->ac_count. "/" . $problem->submission_count }}</td>
                             <td class="text-center" id="problem_title_author_el"><nobr>{{ $problem->author }}</nobr></td>

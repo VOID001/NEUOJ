@@ -66,7 +66,7 @@
                     {{ $user->infoObj->totalAC }}
                 </td>
                 <td class="contest_ranklist_penalty_td text-center" style="padding: 5px;">
-            {{ intval($user->infoObj->totalPenalty / 60 / 60) }}<strong>:</strong>{{ intval($user->infoObj->totalPenalty % 3600 / 60) }}<strong>:</strong>{{ intval($user->infoObj->totalPenalty % 60)  }}
+            {{ intval($user->infoObj->totalPenalty / 60 / 60) }}<strong>:</strong>{{ substr(strval($user->infoObj->totalPenalty % 3600 / 60 + 100), 1, 2) }}<strong>:</strong>{{ substr(strval($user->infoObj->totalPenalty % 60 + 100), 1, 2)  }}
             {{--{{ $user->infoObj->totalPenalty  }}--}}
                 </td>
                 @foreach($problems as $problem)
@@ -78,8 +78,10 @@
             </div>
                         @elseif(isset($user->infoObj->result[$problem->contest_problem_id]) && $user->infoObj->result[$problem->contest_problem_id] == "Accepted")
             <div class="btn btn-success"style="width: 100%; font-size:12px">
-            {{ intval($user->infoObj->time[$problem->contest_problem_id] / 60 / 60) }}<strong>:</strong>{{ intval($user->infoObj->time[$problem->contest_problem_id] % 3600 / 60) }}<strong>:</strong>{{ intval($user->infoObj->time[$problem->contest_problem_id] % 60)  }}
+            {{ intval($user->infoObj->time[$problem->contest_problem_id] / 60 / 60) }}<strong>:</strong>{{ substr(strval($user->infoObj->time[$problem->contest_problem_id] % 3600 / 60 + 100), 1, 2) }}<strong>:</strong>{{ substr(strval($user->infoObj->time[$problem->contest_problem_id] % 60 + 100), 1, 2)  }}
+    @if($user->infoObj->penalty[$problem->contest_problem_id])
     ({{ $user->infoObj->penalty[$problem->contest_problem_id] }})
+    @endif
             </div>
                         @elseif(isset($user->infoObj->result[$problem->contest_problem_id]) && ($user->infoObj->result[$problem->contest_problem_id] == "Rejudging" || $user->infoObj->result[$problem->contest_problem_id] == "Pending"))
                             <div class="btn btn-default"style="width: 100%;font-size:12px">

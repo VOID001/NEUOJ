@@ -53,7 +53,7 @@
         </thead>
         @if(isset($contests))
             @foreach($contests as $contest)
-                <tr>
+                <tr class="contest_table_row" onclick="javascript:window.location.href='/contest/{{ $contest->contest_id }}'">
                     <td class="text-center">
                         <a href="/contest/{{ $contest->contest_id }}">
                             {{ $contest->contest_id }}
