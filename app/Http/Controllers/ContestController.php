@@ -42,7 +42,7 @@ class ContestController extends Controller
      */
     public function showContestDashboard(Request $request)
     {
-        return Redirect::to('/dashboard/contest/1');
+        return Redirect::to('/dashboard/contest/p/1');
     }
 
     /*

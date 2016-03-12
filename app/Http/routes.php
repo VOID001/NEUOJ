@@ -151,7 +151,7 @@ Route::group(['middleware' => 'profile'],function() {
             "uses" => "ContestController@showContestDashboard"
         ]);
 
-        Route::get('/dashboard/contest/{page_id}', [
+        Route::get('/dashboard/contest/p/{page_id}', [
             "middleware" => "role:admin",
             "uses" => "ContestController@showContestDashboardByPageID"
         ])->where('page_id', '[0-9]+');
