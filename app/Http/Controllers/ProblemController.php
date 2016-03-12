@@ -71,27 +71,7 @@ class ProblemController extends Controller
         }
          **/
         $data = [];
-        $data['problems'] = NULL;
-        $data['problemPerPage'] = $problemPerPage;
-        $data['page_id'] = $page_id;
-        $problemObj = Problem::where('visibility_locks', 0)->orderby('problem_id', 'asc')->get();
-        for($count = 0, $i = ($page_id - 1) * $problemPerPage; $count < $problemPerPage && $i < $problemObj->count(); $i++, $count++)
-        {
-            $data['problems'][$count] = $problemObj[$i];
-            $data['problems'][$count]->submission_count = Submission::where('pid', $problemObj[$i]->problem_id)->count();
-            $data['problems'][$count]->ac_count = Submission::where('pid', $problemObj[$i]->problem_id)
-                ->where('result', 'Accepted')->count();
-            $authorObj = User::where('uid', $problemObj[$i]->author_id)->first();
-            $data['problems'][$count]->author = $authorObj["username"];
-        }
-        if($i >= $problemObj->count())
-        {
-            $data['lastPage'] = true;
-        }
-        if($page_id == 1)
-        {
-            $data['firstPage'] = true;
-        }
+        $data = Problem::getProblemItemsInPage($problemPerPage, $page_id);
         $request->session()->put('page_id', $page_id);
         return View::make('problem.list', $data);
     }
@@ -104,29 +84,14 @@ class ProblemController extends Controller
     public function showProblemDashboardByPageID(Request $request, $page_id)
     {
         $problemPerPage = 20;
-        $problemObj = Problem::all();
-        $data[] = NULL;
+        $data = [];
+
+        $data = Problem::getProblemItemsInPage($problemPerPage, $page_id);
         if(session('status'))
         {
             $data['status'] = session('status');
         }
-        for($count = 0, $i = ($page_id - 1) * $problemPerPage; $count < $problemPerPage && $i < $problemObj->count(); $count++, $i++)
-        {
-            $data['problems'][$count] = $problemObj[$i];
-            $userObj = User::where('uid', $problemObj[$i]->author_id)->first();
-            $data['problems'][$count]->submission_count = Submission::where('pid', $problemObj[$i]->problem_id)->count();
-            $data['problems'][$count]->ac_count = Submission::where('pid', $problemObj[$i]->problem_id)
-                ->where('result', 'Accepted')->count();
-            $data['problems'][$count]->author = $userObj->username;
-        }
-        if($page_id == 1)
-        {
-            $data['firstPage'] = true;
-        }
-        if($i >= $problemObj->count())
-        {
-            $data['lastPage'] = true;
-        }
+
         return View::make('problem.manage', $data);
     }
 

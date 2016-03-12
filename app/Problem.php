@@ -3,6 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Http\Controllers\RoleController;
+use App\Submission;
 
 class Problem extends Model
 {
@@ -41,5 +43,51 @@ class Problem extends Model
             return false;
         else
             return true;
+    }
+
+    /*
+     * @function getProblemItemsInPage
+     * @input $itemsPerPage, $page_id
+     *
+     * @return Array
+     * @description fetch Problems in page, if page_id is invalid
+     *              page_id set to a valid number
+     */
+    public static function getProblemItemsInPage($itemsPerPage, $page_id)
+    {
+        $data = [];
+        if(RoleController::is('admin'))
+            $problemObj = Problem::orderby('problem_id', 'asc')->get();
+        else
+            $problemObj = Problem::orderby('problem_id', 'asc')->where('visibility_locks', 0)->get();
+
+        $problemNum = $problemObj->count();
+
+        /* If page_id > page_num then page_id set to the last page available */
+        $data["page_id"] = $page_id;
+        $data["page_num"] = (int)($problemNum / $itemsPerPage + ($problemNum % $itemsPerPage == 0 ? 0 : 1));
+        if($page_id > $data["page_num"])
+            $page_id = $data["page_num"];
+        if($page_id <= 0)
+            $page_id = 1;
+
+        for($count = 0, $i = ($page_id - 1) * $itemsPerPage; $i < $problemNum && $count < $itemsPerPage; $i++, $count++)
+        {
+            $data["problems"][$count] = $problemObj[$i];
+            $data['problems'][$count]->submission_count = Submission::where('pid', $problemObj[$i]->problem_id)->count();
+            $data['problems'][$count]->ac_count = Submission::where('pid', $problemObj[$i]->problem_id)
+                ->where('result', 'Accepted')->count();
+            $authorObj = User::where('uid', $problemObj[$i]->author_id)->first();
+            $data['problems'][$count]->author = $authorObj["username"];
+        }
+        if($i >= $problemNum)
+        {
+            $data["lastPage"] = 1;
+        }
+        if($page_id == 1)
+        {
+            $data["firstPage"] = 1;
+        }
+        return $data;
     }
 }
