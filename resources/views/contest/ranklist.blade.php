@@ -68,7 +68,7 @@
                 <td class="contest_ranklist_penalty_td text-center" style="padding: 5px;">
                     {{--the total penalty--}}
                     @if(intval($user->infoObj->totalPenalty / 60 / 60)<=9)
-                        0{{intval($user->infoObj->totalPenalty / 60 / 60)}}@else{{intval($user->infoObj->totalPenalty / 60 / 60)}}@endif<strong>:</strong>@if( substr(strval($user->infoObj->totalPenalty % 3600 / 60 + 100), 1, 2) <=9)0{{ substr(strval($user->infoObj->totalPenalty % 3600 / 60 + 100), 1, 2) }}@else{{ substr(strval($user->infoObj->totalPenalty % 3600 / 60 + 100), 1, 2) }}@endif<strong>:</strong>@if(substr(strval($user->infoObj->totalPenalty % 3600 / 60 + 100), 1, 2)<=9)0{{ substr(strval($user->infoObj->totalPenalty % 3600 / 60 + 100), 1, 2) }}@else{{ substr(strval($user->infoObj->totalPenalty % 3600 / 60 + 100), 1, 2) }}@endif
+                        0{{intval($user->infoObj->totalPenalty / 60 / 60)}}@else{{intval($user->infoObj->totalPenalty / 60 / 60)}}@endif<strong>:</strong>{{ substr(strval($user->infoObj->totalPenalty % 3600 / 60 + 100), 1, 2) }}<strong>:</strong>{{ substr(strval($user->infoObj->totalPenalty % 60 + 100), 1, 2) }}
                 </td>
                 {{--every problem's result--}}
                 @foreach($problems as $problem)
@@ -76,15 +76,15 @@
                         {{--first blood--}}
                         @if(isset($user->infoObj->result[$problem->contest_problem_id]) && $user->infoObj->result[$problem->contest_problem_id] == "First Blood")
             <div class="btn btn-primary"style="width: 100%; font-size:10px">
-            @if( intval($user->infoObj->time[$problem->contest_problem_id] / 60 / 60) <= 9)0{{ intval($user->infoObj->time[$problem->contest_problem_id] / 60 / 60) }}@else{{ intval($user->infoObj->time[$problem->contest_problem_id] / 60 / 60) }}@endif<strong>:</strong>@if( substr(strval($user->infoObj->time[$problem->contest_problem_id] % 3600 / 60 + 100), 1, 2) <= 9)0{{ substr(strval($user->infoObj->time[$problem->contest_problem_id] % 3600 / 60 + 100), 1, 2) }}@else{{ substr(strval($user->infoObj->time[$problem->contest_problem_id] % 3600 / 60 + 100), 1, 2) }}@endif<strong>:</strong>@if( substr(strval($user->infoObj->time[$problem->contest_problem_id] % 60 + 100), 1, 2)  <= 9)0{ {substr(strval($user->infoObj->time[$problem->contest_problem_id] % 60 + 100), 1, 2)  }}@else{{ substr(strval($user->infoObj->time[$problem->contest_problem_id] % 60 + 100), 1, 2)  }}@endif
+            @if( intval($user->infoObj->time[$problem->contest_problem_id] / 60 / 60) <= 9)0{{ intval($user->infoObj->time[$problem->contest_problem_id] / 60 / 60) }}@else{{ intval($user->infoObj->time[$problem->contest_problem_id] / 60 / 60) }}@endif<strong>:</strong>{{ substr(strval($user->infoObj->time[$problem->contest_problem_id] % 3600 / 60 + 100), 1, 2) }}<strong>:</strong>{{ substr(strval($user->infoObj->time[$problem->contest_problem_id] % 60 + 100), 1, 2) }}
     @if($user->infoObj->penalty[$problem->contest_problem_id])
-    ({{ $user->infoObj->penalty[$problem->contest_problem_id] }})
+        ({{ $user->infoObj->penalty[$problem->contest_problem_id] }})
     @endif
             </div>
                         {{--only accepted--}}
                         @elseif(isset($user->infoObj->result[$problem->contest_problem_id]) && $user->infoObj->result[$problem->contest_problem_id] == "Accepted")
             <div class="btn btn-success"style="width: 100%; font-size:10px">
-            @if( intval($user->infoObj->time[$problem->contest_problem_id] / 60 / 60) <=9)0{{ intval($user->infoObj->time[$problem->contest_problem_id] / 60 / 60) }}@else{{ intval($user->infoObj->time[$problem->contest_problem_id] / 60 / 60) }}@endif<strong>:</strong>@if( substr(strval($user->infoObj->time[$problem->contest_problem_id] % 3600 / 60 + 100), 1, 2)   <= 9)0{{substr(strval($user->infoObj->time[$problem->contest_problem_id] % 3600 / 60 + 100), 1, 2) }}@else{{substr(strval($user->infoObj->time[$problem->contest_problem_id] % 3600 / 60 + 100), 1, 2) }}@endif<strong>:</strong>@if( substr(strval($user->infoObj->time[$problem->contest_problem_id] % 60 + 100), 1, 2) <= 9)0{{ substr(strval($user->infoObj->time[$problem->contest_problem_id] % 60 + 100), 1, 2)  }}@else{{ substr(strval($user->infoObj->time[$problem->contest_problem_id] % 60 + 100), 1, 2)  }}@endif
+            @if( intval($user->infoObj->time[$problem->contest_problem_id] / 60 / 60) <=9)0{{ intval($user->infoObj->time[$problem->contest_problem_id] / 60 / 60) }}@else{{ intval($user->infoObj->time[$problem->contest_problem_id] / 60 / 60) }}@endif<strong>:</strong>{{ substr(strval($user->infoObj->time[$problem->contest_problem_id] % 3600 / 60 + 100), 1, 2) }}<strong>:</strong>{{ substr(strval($user->infoObj->time[$problem->contest_problem_id] % 60 + 100), 1, 2) }}
     @if($user->infoObj->penalty[$problem->contest_problem_id])
         ({{ $user->infoObj->penalty[$problem->contest_problem_id] }})
     @endif
