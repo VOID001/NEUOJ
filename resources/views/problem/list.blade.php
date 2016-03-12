@@ -5,10 +5,19 @@
     @include("layout.head")
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/problem.css">
+    <script src="/js/extendPagination.js"></script>
     <script type="text/javascript">
         $(function(){
             $("#problem").addClass("active");
         })
+        $(document).ready(function(){
+            var targetHerf = "/problem/p/";
+            $("#callBackPager").extendPagination({
+                totalPage : {{ $page_num }},
+                showPage : 5,
+                pageNumber : {{ $page_id }}
+            },targetHerf);
+        });
     </script>
 </head>
 <body>
@@ -45,25 +54,10 @@
                 @endforeach
             @endif
             </table>
-
-
-        <ul class="pager" role="fanye">
-            @if(!isset($firstPage))
-                 <li ><a href="/problem/p/{{ $page_id - 1 }}">&laquo;Previous</a></li>
-            @endif
-            @if(!isset($lastPage))
-                <li><a href="/problem/p/{{ $page_id + 1 }}">&nbsp;&nbsp;&nbsp;Next&nbsp;&nbsp;&nbsp;&raquo;</a></li>
-            @endif
-        </ul>
-
-        <div>
-
-        </div>
     </div>
-
+    <div class="text-center" id="callBackPager"></div>
     <div style="padding-bottom: 40px">
     </div>
-
     @include("layout.footer")
 </body>
 </html>

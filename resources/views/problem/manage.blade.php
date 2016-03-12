@@ -5,10 +5,19 @@
     @include("layout.head")
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/problem.css">
+    <script src="/js/extendPagination.js"></script>
     <script type="text/javascript">
         $(function(){
             $("#dashboard_problem").addClass("dashboard_subnav_active");
         })
+        $(document).ready(function(){
+            var targetHerf = "/dashboard/problem/p/";
+            $("#callBackPager").extendPagination({
+                totalPage : {{ $page_num }},
+                showPage : 5,
+                pageNumber : {{ $page_id }}
+            },targetHerf);
+        });
     </script>
 </head>
 <body>
@@ -68,6 +77,7 @@
             @endforeach
         </table>
     </div>
+    <div class="text-center" id="callBackPager"></div>
 </div>
 </body>
 </html>
