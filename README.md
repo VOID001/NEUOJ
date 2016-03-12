@@ -14,7 +14,7 @@ NEUOJ
  * [ ] Enable user register himself into the register Contest(Ver 2.0)
  * [x] Board display
  * [ ] Import student info from xls and xlsx etc.(Ver 2.0)
- * [ ] Rejudge a Problem by ContestID or Submission ID
+ * [x] Rejudge a Problem by ContestID or Submission ID
  * [ ] Balloon System
 * [ ] Root Admin Panel
  * [ ] + User Managment
