@@ -56,6 +56,7 @@ class Problem extends Model
     public static function getProblemItemsInPage($itemsPerPage, $page_id)
     {
         $data = [];
+        $data["problems"] = [];
         if(RoleController::is('admin'))
             $problemObj = Problem::orderby('problem_id', 'asc')->get();
         else
