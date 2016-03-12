@@ -86,35 +86,35 @@
 }
 /*contest_ranklist*/
 .contest_ranklist_nav{
-    padding-bottom: 10px;
+    padding-bottom: 0px;
 }
 
 .contest_ranklist_table{
     table-layout: fixed;
-    overflow: hidden;
+    /*overflow: hidden;*/
 }
 
 
 #contest_ranklist_rank{
-    width:4%;
+    width: 4%;
 }
 #contest_ranklist_avatar{
-    width:4%;
+    width: 4%;
 }
 #contest_ranklist_nickname{
-    width:8%;
+    width: 8%;
 }
 #contest_ranklist_nickname_el{
     text-overflow: ellipsis;
-    overflow:hidden;
+    overflow: hidden;
 }
 #contest_ranklist_solve{
-    width:3%;
+    width: 3%;
 }
 #contest_ranklist_penalty{
-    width:8%;
+    width: 8%;
 }
 #contest_ranklist_problem{
-
+    width: 5%;
 }
 
