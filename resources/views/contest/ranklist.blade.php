@@ -73,8 +73,10 @@
                     <td>
                         @if(isset($user->infoObj->result[$problem->contest_problem_id]) && $user->infoObj->result[$problem->contest_problem_id] == "First Blood")
             <div class="btn btn-primary"style="width: 100%; font-size:12px">
-            {{ intval($user->infoObj->time[$problem->contest_problem_id] / 60 / 60) }}<strong>:</strong>{{ intval($user->infoObj->time[$problem->contest_problem_id] % 3600 / 60) }}<strong>:</strong>{{ intval($user->infoObj->time[$problem->contest_problem_id] % 60)  }}
+            {{ intval($user->infoObj->time[$problem->contest_problem_id] / 60 / 60) }}<strong>:</strong>{{ substr(strval($user->infoObj->time[$problem->contest_problem_id] % 3600 / 60 + 100), 1, 2) }}<strong>:</strong>{{ substr(strval($user->infoObj->time[$problem->contest_problem_id] % 60 + 100), 1, 2)  }}
+    @if($user->infoObj->penalty[$problem->contest_problem_id])
     ({{ $user->infoObj->penalty[$problem->contest_problem_id] }})
+    @endif
             </div>
                         @elseif(isset($user->infoObj->result[$problem->contest_problem_id]) && $user->infoObj->result[$problem->contest_problem_id] == "Accepted")
             <div class="btn btn-success"style="width: 100%; font-size:12px">

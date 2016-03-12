@@ -43,7 +43,7 @@
             </thead>
             @if($problems != NULL)
                 @foreach($problems as $problem)
-                        <tr class="problem_table_row" onclick="javascript:window.location.href='/problem/{{ $problem->problem_id }}'">
+                        <tr class="table_row" onclick="javascript:window.location.href='/problem/{{ $problem->problem_id }}'">
                             <td class="text-center">{{ $problem->problem_id }}</td>
                             <td class="text-left" id="problem_title_author_el"><nobr>{{ $problem->title }}</nobr></td>
                             <td class="text-center">{{ $problem->difficulty }}</td>

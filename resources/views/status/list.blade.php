@@ -148,13 +148,20 @@
             <td class="text-center" id="status_exec_time">
                 Exec_time
             </td>
-            <td class="text-center" id="status_view_code">
-                View Code
-            </td>
     </thead>
     @if($submissions != NULL)
         @foreach($submissions as $submission)
-            <tr>
+            <tr
+            @if(Request::session()->get('uid') == $submission->uid)
+            class="status_table_row"
+            @endif
+            @if(Request::session()->get('uid') == $submission->uid || $roleCheck->is("admin"))
+            class="table_row"
+            onclick="javascript:window.location.href='/status/{{ $submission->runid }}'"
+            style="cursor: pointer"
+            title="View Source"
+            @endif
+            >
                 <td class="text-center">{{ $submission->runid }}</td>
                 <td class="text-center">{{ $submission->submit_time }}</td>
                 <td class="text-center">{{ $submission->uid }}</td>
@@ -174,17 +181,6 @@
                 <td class="text-center">{{ $submission->lang }}</td>
                 <td class="text-center">{{ $submission->exec_mem }}</td>
                 <td class="text-center">{{ $submission->exec_time }}</td>
-                <td class="text-center">
-                    @if(Request::session()->get('uid') == $submission->uid || $roleCheck->is("admin"))
-                        @if(!isset($contest))
-                            <a href="/status/{{ $submission->runid }}">View Source</a>
-                        @else
-                            <a href="/status/{{ $submission->runid }}">View Source</a>
-                        @endif
-                    @else
-                        View Source
-                    @endif
-                </td>
             </tr>
         @endforeach
     @endif

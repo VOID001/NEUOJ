@@ -39,6 +39,27 @@
     margin-top: -10px;
     float: left;
     margin-right: 10px;
+    border-radius: 20px;
+    transition: box-shadow 0.3s;
+}
+.neuacmlogo:hover{
+    box-shadow: 0 0 10px #FFF;
+}
+.neuacmlogo:active{
+    transition: box-shadow 0.05s;
+    box-shadow: 0 0 20px #FFF;
+}
+.neuacmlogotext{
+    float: left;
+    color: #99cccc;
+    transition: color 0.3s;
+}
+.neuacmlogotext:hover{
+    color: #FFF;
+}
+.neuacmlogotext:active{
+    transition: color 0.05s;
+    color: #66AAAA;
 }
 /*题目列表式样*/
 #problemlist > thead > tr > th,
@@ -373,3 +394,23 @@ li.separate-item {
     white-space: pre-wrap;
 }
 
+.table_row{
+    cursor: pointer;
+    transition: background-color 0.3s,color 0.3s;
+}
+.table_row:hover{
+    background-color: #ffffbb!important;
+    color: #ff6666;
+}
+.table_row:active{
+    background-color: #66afe9!important;
+    color: #fff;
+    transition: background-color 0.05s,color 0.05s;
+}
+.table tbody > tr > td{
+    transition: background-color 0.3s,color 0.3s;
+}
+.table tbody > tr > td:hover{
+    background-color: #ccc;
+    color: #66ccff;
+}

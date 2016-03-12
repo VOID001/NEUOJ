@@ -53,16 +53,12 @@
         </thead>
         @if(isset($contests))
             @foreach($contests as $contest)
-                <tr class="contest_table_row" onclick="javascript:window.location.href='/contest/{{ $contest->contest_id }}'">
+                <tr class="table_row" onclick="javascript:window.location.href='/contest/{{ $contest->contest_id }}'">
                     <td class="text-center">
-                        <a href="/contest/{{ $contest->contest_id }}">
                             {{ $contest->contest_id }}
-                        </a>
                     </td>
                     <td class="text-center" id="contest_name_el">
-                        <a href="/contest/{{ $contest->contest_id }}">
                             <nobr>{{ $contest->contest_name }}</nobr>
-                        </a>
                     </td>
                     <td class="text-center">
                         {{ $contest->begin_time }}

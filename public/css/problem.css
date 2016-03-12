@@ -4,9 +4,6 @@
     table-layout: fixed;
     overflow: hidden;
 }
-.problem_table_row{
-    cursor: pointer;
-}
 
 #problem_id{
     width:10%;

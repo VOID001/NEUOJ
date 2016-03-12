@@ -124,29 +124,27 @@
             </thead>
 
             @foreach($problems as $problem)
-                <tr>
+                <tr
+                @if($problem->realProblemName !== -1 && ($roleController->is("admin") || $contest->status != "Pending"))
+                class="table_row" onclick="javascript:window.location.href='/contest/{{ $contest->contest_id }}/problem/{{ $problem->contest_problem_id }}'"
+                @endif
+                >
                     <td class="text-center">
                         @if($problem->thisUserFB)
-                            <span class="glyphicon glyphicon-tree-conifer" style="color: #5cb85c"></span>
-                            <span class="glyphicon glyphicon-tree-conifer"></span>
+                            <span class="glyphicon glyphicon-flag" style="color: #5cb85c"></span>
+                            <span class="glyphicon glyphicon-map-marker"></span>
                         @elseif($problem->thisUserAc)
-                            <span class="glyphicon glyphicon-tree-conifer"></span>
+                            <span class="glyphicon glyphicon-map-marker"></span>
                         @endif
                      </td>
                     <td class="text-center">
-                        <a href="/contest/{{ $contest->contest_id }}/problem/{{ $problem->contest_problem_id }}">{{ $problem->contest_problem_id }}</a>
+                        {{ $problem->contest_problem_id }}
                     </td>
                     <td class="text-center">
-                        @if($problem->realProblemName !== -1 &&  ($roleController->is("admin") || $contest->status != "Pending"))
-                            <a href="/contest/{{ $contest->contest_id }}/problem/{{ $problem->contest_problem_id }}">
-                        @endif
-                            {{ $problem->problem_title }}
-                        @if($problem->realProblemName !== -1 &&  ($roleController->is("admin") || $contest->status != "Pending"))
-                            </a>
-                        @endif
+                        {{ $problem->problem_title }}
                     </td>
                     <td id="contest_index_problem_name_el">
-                        <a href="/contest/{{ $contest->contest_id }}/problem/{{ $problem->contest_problem_id }}"><nobr>{{ $problem->realProblemName === -1 ? "[Error] Problem Deleted!" : $problem->realProblemName }}</nobr></a>
+                        <nobr>{{ $problem->realProblemName === -1 ? "[Error] Problem Deleted!" : $problem->realProblemName }}</nobr>
                     </td>
                     <td class="text-center">
                         @if($problem->acSubmissionCount != 0)

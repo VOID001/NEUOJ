@@ -3,9 +3,6 @@
     table-layout: fixed;
     overflow: hidden;
 }
-.contest_table_row{
-    cursor: pointer;
-}
 
 #contest_id{
     width:12%;
