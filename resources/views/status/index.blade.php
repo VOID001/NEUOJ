@@ -32,6 +32,10 @@
         <label>Result :<b>{{ $result }}</b></label>
         <label>Download Source Code</label>
         <code class="cpp" id="paste">{{ $code }}</code>
+        @if($err_info != "")
+            <h3>Compile/Runtime Error</h3>
+            <label>{{ $err_info }}</label>
+        @endif
     </pre>
 </div>
 

@@ -104,6 +104,7 @@ class RESTController extends Controller
         {
             Submission::where('runid', $id)->update([
                 "judge_status" => 3,
+                "err_info" => base64_decode($input['output_compile']),
                 "result" => "Compile Error",
             ]);
         }
@@ -156,6 +157,7 @@ class RESTController extends Controller
         $input = $request->input();
         $submissionObj = Submission::where('runid', $input['judgingid'])->first();
         var_dump($input);
+
         //Contest only
         //Judge if it's a FB
         if($input["runresult"] == "correct" && $submissionObj->cid != 0)
@@ -182,6 +184,7 @@ class RESTController extends Controller
                 "judgeid" => $input["judgehost"]
             ]
         );
+
         var_dump($input);
     }
 }
