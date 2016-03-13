@@ -4,6 +4,7 @@
     <title>Edit Contest</title>
     @include("layout.head")
     <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/contest.css">
     <script type="text/javascript">
         $(function(){
             $("#dashboard_contest").addClass("dashboard_subnav_active");
@@ -44,7 +45,7 @@
                 </div>
                 <div>
                     <label class="col-md-3" >Contest Type</label>
-                    <input type="radio" name="contest_type" value="public" id="hideList" 
+                    <input type="radio" name="contest_type" value="public" id="hideList"
                     @if($contest->contest_type == 0) 
                     checked 
                     @endif
@@ -54,11 +55,15 @@
                     checked
                     @endif 
                     />private
+
+                    <div class="tmp_hide">
                     <input type="radio" name="contest_type" value="private" id="hideList"
+
                     @if($contest->contest_type == 2)
                     checked
                     @endif
                     />register
+                    </div>
                 </div>
                 @if($contest->contest_type == 2)
                 <div>

@@ -51,4 +51,11 @@
 #status_view_code{
     width:9%;
 }
-
+#status_rejudge{
+    width: 9%;
+}
+#status_rejudge_btn{
+    padding-top: 1px;
+    height: 25px;
+    margin:0 auto;
+}

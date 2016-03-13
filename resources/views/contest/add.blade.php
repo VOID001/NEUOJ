@@ -4,6 +4,7 @@
     <title>Add Contest</title>
     @include("layout.head")
     <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/contest.css">
     <script type="text/javascript">
         $(function(){
             $("#dashboard_contest").addClass("dashboard_subnav_active");
@@ -41,13 +42,14 @@
                 <input type="radio" name="contest_type" value="private" id="showList"/><label>private</label>
                 <input type="radio" name="contest_type" value="register" id="hideList"/><label>register</label>
             </div>
-            <div>
+            <div class="tmp_hide">
                 <label class="col-md-3 contest_set_lable">Register Begin Time</label>
-                <input type="datetime-local" name="register_begin_time" value="{{ old('register_begin_time') }}" class="form-control" required/>
+                <input type="datetime-local" name="register_begin_time" value="{{ old('register_begin_time') }}" class="form-control" />
             </div>
-            <div>
+            <div class="tmp_hide">
                 <label class="col-md-3 contest_set_lable">Register End Time</label>
-                <input type="datetime-local" name="register_end_time" value="{{ old('register_end_time') }}" class="form-control" required/>
+                <input type="datetime-local" name="register_end_time" value="{{ old('register_end_time') }}" class="form-control" />
+                {{--this is hidding 'requist'--}}
             </div>
         </div>
         <div id="allowedUserList" class="col-md-offset-4 contest_set_allowedUserList">

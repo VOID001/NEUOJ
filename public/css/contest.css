@@ -1,5 +1,7 @@
 /*contest.list*/
 .contest_table{
+    width:700px;
+    margin:0 auto;
     table-layout: fixed;
     overflow: hidden;
 }
@@ -23,8 +25,8 @@
 #contest_status{
      width: 10%;
 }
-#contest_operation{
-    width: 24%;
+#contest_management{
+    width: 18%;
 }
 
 /*contest.index*/
@@ -52,6 +54,15 @@
 #contest_index_ac{
     width:20%;
 }
+#contest_index_rejudge{
+    width:10%;
+}
+#contest_index_rejudge_btn{
+    padding-top: 0px;
+    height: 22px;
+    margin:0 auto;
+}
+
 
 /*contest_dashboard*/
 #dashboard_contest_id{
@@ -84,6 +95,11 @@
     table-layout: fixed;
     overflow: hidden;
 }
+
+.tmp_hide{
+    display: none;
+}
+
 /*contest_ranklist*/
 .contest_ranklist_nav{
     padding-bottom: 0px;
