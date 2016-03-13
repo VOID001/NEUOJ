@@ -28,6 +28,10 @@
                     $("#form_code").submit();
                 }
             });
+            $(".fixHtml").html(function(index,oldContent){
+                var newContent = oldContent.replace(/&lt;sty.+&gt;/g,'').replace(/\s/g,' ').replace(/&lt;\/div&gt;/g,'<br>').replace(/&lt;.*?&gt;/g,'');
+                $(".fixHtml").html(newContent);
+            });
         });
     </script>
 </head>
@@ -122,13 +126,13 @@
     <div class="panel panel-default main">
 
         <h3>Problem Description</h3>
-        <p class="word_cut">{{ $problem->description }}</p>
+        <p class="word_cut fixHtml">{{ $problem->description }}</p>
         <hr>
         <h3>Input</h3>
-        <p class="word_cut">{{ $problem->input }}</p>
+        <p class="word_cut fixHtml">{{ $problem->input }}</p>
         <hr>
         <h3>Output</h3>
-        <p class="word_cut">{{ $problem->output }}</p>
+        <p class="word_cut fixHtml">{{ $problem->output }}</p>
         <hr>
         <h3>Sample Input</h3>
         <p class="word_cut">{{ $problem->sample_input }}</p>
@@ -178,4 +182,4 @@
 
         @include("layout.footer")
 </body>
-<html>
+</html>
