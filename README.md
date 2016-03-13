@@ -10,8 +10,8 @@ NEUOJ
  * [ ] Visibility Lock Manual Enable
  * [x] Load in Problem from XML
 * [ ] Hold Contest
- * [ ] Three kind of access to contest: Private Register Public(Ver 2.0)
- * [ ] Enable user register himself into the register Contest(Ver 2.0)
+ * [x] Three kind of access to contest: Private Register Public(Ver 2.0)
+ * [x] Enable user register himself into the register Contest(Ver 2.0)
  * [x] Board display
  * [ ] Import student info from xls and xlsx etc.(Ver 2.0)
  * [x] Rejudge a Problem by ContestID or Submission ID
