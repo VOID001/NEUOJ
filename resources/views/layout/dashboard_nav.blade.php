@@ -1,7 +1,7 @@
 @inject('roleController', 'App\Http\Controllers\RoleController')
 <div class="col-xs-2 dashboard_nav" >
     <div class="dashboard_top text-center">
-        <div class="text-center"><img class="dashboard_logo" src="/image/neuacmlogo.PNG"/></div>
+        <div class="text-center"><img class="dashboard_logo img-circle" alt="loading" src="/avatar/{{Request::session()->get('uid')}}"/></div>
         <div class="dashboard_username text-center"><nobr>{{Request::session()->get('username')}}</nobr></div>
         <hr class="dashboard_hr"/>
     </div>

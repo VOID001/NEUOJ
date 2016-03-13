@@ -167,7 +167,8 @@ body{
     color: #C5D0DE;
 }
 .dashboard_logo{
-    width: 80px;
+     width: 100px;
+    height: 100px;
 }
 .dashboard_top{
     background: #333C44;
