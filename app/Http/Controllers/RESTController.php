@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\ContestBalloon;
+use App\ContestBalloonEvent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use Storage;
@@ -186,5 +188,66 @@ class RESTController extends Controller
         );
 
         var_dump($input);
+        /* Balloon */
+        $submissionObj = Submission::where('runid', $input['judgingid'])->first();
+        if($submissionObj->cid != 0)
+        {
+            /* Not accepted */
+            if ($resultMapping[$input["runresult"]] != "Accepted")
+            {
+                $contestBalloon = ContestBalloon::all();
+                foreach ($contestBalloon as $contestBalloonObj)
+                {
+                    //var_dump($contestBalloonObj->runid);
+                    if($contestBalloonObj->runid == $submissionObj->runid)
+                    {
+                        if ($contestBalloonObj->balloon_status == 1) /* AC rejudging */
+                        {
+                            /* discard balloon */
+                            $contestBalloonObj->delete();
+                            /* push into event queue (discard balloon) */
+                            $contestBalloonEventObj = new ContestBalloonEvent();
+                            $contestBalloonEventObj->runid = $contestBalloonObj->runid;
+                            $contestBalloonEventObj->event_status = env('BALLOON_DISCARD',2);
+                            $contestBalloonEventObj->save();
+                        }
+                        break;
+                    }
+                }
+            }
+            /* Accepted */
+            else
+            {
+                $contestBalloon = ContestBalloon::all();
+                $balloonExists = 0;
+                foreach ($contestBalloon as $contestBalloonObj)
+                {
+                    $contestBalloonSubmissionObj = Submission::where('runid', $contestBalloonObj->runid)->first();
+                    if ($submissionObj->cid == $contestBalloonSubmissionObj->cid && $submissionObj->pid == $contestBalloonSubmissionObj->pid && $submissionObj->uid == $contestBalloonSubmissionObj->uid)
+                    {
+                        if ($contestBalloonObj->balloon_status == 1) /* AC rejudging */
+                        {
+                            /* Send balloon */
+                            $contestBalloonObj->balloon_status == 0;
+                            $contestBalloonObj->save();
+                        }
+                        $balloonExists = 1;
+                        break;
+                    }
+                }
+                if ($balloonExists == 0)
+                {
+                    $contestBalloonObj = new ContestBalloon();
+                    $contestBalloonObj->runid = $submissionObj->runid;
+                    $contestBalloonObj->balloon_status = 0; /* Send balloon */
+                    $contestBalloonObj->save();
+                    /* push into event queue (send balloon) */
+                    $contestBalloonEventObj = new ContestBalloonEvent();
+                    $contestBalloonEventObj->runid = $contestBalloonObj->runid;
+                    $contestBalloonEventObj->event_status = env('BALLOON_SEND',1);
+                    $contestBalloonEventObj->save();
+                }
+            }
+        }
     }
 }

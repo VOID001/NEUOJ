@@ -176,6 +176,11 @@ Route::group(['middleware' => 'profile'],function() {
             "uses" => "ContestController@getContestByID"
         ]);
 
+        Route::get('/contest/{contest_id}/balloon', [
+            "middleware" => "role:admin",
+            "uses" => "ContestController@getBalloonlist"
+        ]);
+
         Route::get('/contest/{contest_id}/problem/{problem_id}', [
             "uses" => "ProblemController@getContestProblemByContestProblemID"
         ]);

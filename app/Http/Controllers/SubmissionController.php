@@ -17,6 +17,7 @@ use App\Submission;
 use App\ContestProblem;
 use App\ContestUser;
 use App\Contest;
+use App\ContestBalloon;
 
 class SubmissionController extends Controller
 {
@@ -264,6 +265,21 @@ class SubmissionController extends Controller
 
         foreach($submissionObj->get() as $submission)
         {
+            var_dump($submission);
+            if($submission->result == 'Accepted')
+            {
+                $contestBalloon = ContestBalloon::all();
+                foreach($contestBalloon as $contestBalloonObj)
+                {
+                    if($contestBalloonObj->runid == $submission->runid)
+                    {
+                        $contestBalloonObj->balloon_status = 1;
+                        $contestBalloonObj->save();
+                        break;
+                    }
+                }
+
+            }
             $submission->judge_status = 0;
             $submission->result = "Rejudging";
             $submission->save();

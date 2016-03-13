@@ -19,6 +19,7 @@ class CreateContestProblemTable extends Migration
             $table->integer('contest_problem_id');
             $table->string('problem_title');
             $table->integer('first_ac');
+            $table->integer('problem_color');
             $table->timestamps();
         });
     }

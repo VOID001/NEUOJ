@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Contest;
+use App\ContestBalloonEvent;
+use App\ContestBalloon;
 use App\ContestProblem;
 use App\ContestUser;
 use App\Problem;
@@ -704,6 +706,42 @@ $user->infoObj->time[$contestProblemID] =  strtotime($submission->submit_time) -
         }
         return View::make('contest.register', $data);
     }
+    /*
+     *
+     * @function getBalloonlist
+     * @input $request,$constest_id
+     *
+     * @return View
+     * @description show balloons distribution list
+     */
+    public function getBalloonlist(Request $request, $contest_id)
+    {
+        $data = [];
+        $contestBalloonEvent = ContestBalloonEvent::all();
+        $count = 0;
+        foreach($contestBalloonEvent as $contestBalloonEventObj)
+        {
+            $submissionObj = Submission::where('runid',$contestBalloonEventObj->runid)->first();
+            if($submissionObj->cid == $contest_id) {
+                $data['username'][$count] = User::where('uid', $submissionObj->uid)->first()->username;
+                $data['contest_problem_id'][$count] = ContestProblem::where([
+                    'contest_id' => $submissionObj->cid,
+                    'problem_id' => $submissionObj->pid
+                ])->first()->contest_problem_id;
+                if($contestBalloonEventObj->event_status == env('BALLOON_SEND',1))
+                {
+                    $data['event'][$count] = 'send';
+                }
+                else
+                {
+                    $data['event'][$count] = 'discard';
+                }
+                $count++;
+            }
+        }
+        return $data;
+    }
+
 }
 
 
