@@ -215,6 +215,10 @@ Route::group(['middleware' => 'profile'],function() {
             "uses" => "SubmissionController@rejudgeSubmissionByRunID"
         ]);
 
+        Route::match(['post', 'get'], '/contest/{contest_id}/register', [
+            "uses" => "ContestController@registerContest"
+        ])->where('contest_id', '[0-9]+') ;
+
     });
 });
 /*

@@ -32,15 +32,15 @@
                 <div>
                     <label class="col-md-3">Begin Time</label>
                     @if(time()<strtotime($contest->begin_time))
-                    <input type="datetime-local" name="begin_time" value="{{str_replace(" ", "T", $contest->begin_time)}}" required/>
+                    <input type="datetime-local" name="begin_time" value="{{ str_replace(" ", "T", $contest->begin_time) }}" required/>
                     @else
                     {{$contest->begin_time}}
-                    <input type="hidden" name = "begin_time" value="{{$contest->begin_time}}" class="form-control"/>
+                    <input type="hidden" name = "begin_time" value="{{ $contest->begin_time }}" class="form-control"/>
                     @endif
                 </div>
                 <div>
                     <label class="col-md-3 contest_set_lable">End Time</label>
-                    <input type="datetime-local" name="end_time" value="{{str_replace(" ", "T", $contest->end_time)}}" class="form-control" required/>
+                    <input type="datetime-local" name="end_time" value="{{ str_replace(" ", "T", $contest->end_time) }}" class="form-control" required/>
                 </div>
                 <div>
                     <label class="col-md-3" >Contest Type</label>
@@ -54,7 +54,22 @@
                     checked
                     @endif 
                     />private
+                    <input type="radio" name="contest_type" value="private" id="hideList"
+                    @if($contest->contest_type == 2)
+                    checked
+                    @endif
+                    />register
                 </div>
+                @if($contest->contest_type == 2)
+                <div>
+                    <label class="col-md-3 contest_set_lable">Register Begin Time</label>
+                    <input type="datetime-local" name="register_begin_time" value="{{ str_replace(" ", "T", $contest->register_beigin_time) }}" class="form-control" required/>
+                </div>
+                <div>
+                    <label class="col-md-3 contest_set_lable">Register End Time</label>
+                    <input type="datetime-local" name="register_end_time" value="{{ str_replace(" ", "T", $contest->register_end_time) }}" class="form-control" required/>
+                </div>
+                @endif
             </div>
             <div class="clearfix"></div>
             <div id="allowedUserList" class="col-md-offset-4 contest_set_allowedUserList">

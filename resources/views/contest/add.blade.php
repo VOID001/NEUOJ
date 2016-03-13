@@ -39,6 +39,15 @@
                 <label class="col-md-3">Contest Type</label>
                 <input type="radio" name="contest_type" value="public"  id="hideList" checked/><label>public</label>
                 <input type="radio" name="contest_type" value="private" id="showList"/><label>private</label>
+                <input type="radio" name="contest_type" value="register" id="hideList"/><label>register</label>
+            </div>
+            <div>
+                <label class="col-md-3 contest_set_lable">Register Begin Time</label>
+                <input type="datetime-local" name="register_begin_time" value="{{ old('register_begin_time') }}" class="form-control" required/>
+            </div>
+            <div>
+                <label class="col-md-3 contest_set_lable">Register End Time</label>
+                <input type="datetime-local" name="register_end_time" value="{{ old('register_end_time') }}" class="form-control" required/>
             </div>
         </div>
         <div id="allowedUserList" class="col-md-offset-4 contest_set_allowedUserList">

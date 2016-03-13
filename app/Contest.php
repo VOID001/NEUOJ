@@ -21,8 +21,12 @@ class Contest extends Model
     public function getState()
     {
         $curTime = time();
-        if($curTime < strtotime($this->begin_time))
+        if($this->contest_type != 2 && $curTime < strtotime($this->begin_time) )
             return env("CONTEST_PENDING", 0);
+        if($this->contest_type == 2 && $curTime >= strtotime($this->register_begin_time) && $curTime < strtotime($this->register_end_time))
+            return env("CONTEST_IN_REGISTER", 2);
+        if($this->contest_type == 2)
+            return env("CONTEST_NOT_IN_REGISTER", 3);
         if($curTime >= strtotime($this->begin_time) && $curTime <= strtotime($this->end_time))
             return env("CONTEST_RUNNING", 1);
         return env("CONTEST_ENDED", -1);
@@ -62,6 +66,30 @@ class Contest extends Model
     public function isEnded()
     {
         return $this->getState() == env("CONTEST_ENDED", -1);
+    }
+
+    /*
+     * @function isInRegister
+     * @input $this
+     *
+     * @return bool
+     * @description judge if the contest is in register
+     */
+    public function isInRegister()
+    {
+        return $this->getState() == env("CONTEST_IN_REGISTER", 2);
+    }
+
+    /*
+     * @function isNotInRegister
+     * @input $this
+     *
+     * @return bool
+     * @description judge if the contest is not in register
+     */
+    public function isNotInRegister()
+    {
+        return $this->getState() == env("CONTEST_NOT_IN_REGISTER", 3);
     }
 
     /*

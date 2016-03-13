@@ -83,6 +83,8 @@ class ContestController extends Controller
             //Validation Check
             $beginTime = strtotime($input['begin_time']);
             $endTime = strtotime($input['end_time']);
+            $registerBeginTime = strtotime($input['register_begin_time']);
+            $registerEndTime = strtotime($input['register_end_time']);
             $vdtor = Validator::make($input, [
                 'contest_name' => 'required | unique:contest_info',
                 'problem_id' => 'required | exists:problems'
@@ -100,6 +102,17 @@ class ContestController extends Controller
             if($beginTime >= $endTime)
             {
                 $errMsg->add('time', "Contest ends before the contest begin");
+            }
+            if($input['contest_type'] == "register")
+            {
+                if($registerBeginTime >= $registerEndTime)
+                {
+                    $errMsg->add('time', "Register ends before the register begin");
+                }
+                if($registerBeginTime >= $beginTime || $registerEndTime >= $endTime)
+                {
+                    $errMsg->add('time', "Register begins or end after the contest begin");
+                }
             }
             for($i = 0; $i < count($input['problem_id']); $i++)
             {
@@ -134,6 +147,11 @@ class ContestController extends Controller
                     break;
             }
             $contestObj->contest_type = $type;
+            if($type == 2)
+            {
+                $contestObj->register_begin_time = $input['register_begin_time'];
+                $contestObj->register_end_time = $input['register_end_time'];
+            }
             $contestObj->save();
 
             //Check the problems, if pid is not unique, only insert one
@@ -230,7 +248,7 @@ class ContestController extends Controller
         else
             $username = "";
         $contestObj = Contest::where('contest_id', $contest_id)->first();
-        if($contestObj->contest_type == 1)
+        if($contestObj->contest_type == 1 || $contestObj->contest_type == 2)
         {
             if(!$roleController->is("admin"))
             {
@@ -558,6 +576,11 @@ $user->infoObj->time[$contestProblemID] =  strtotime($submission->submit_time) -
                     break;
             }
             $contestObj->contest_type = $type;
+            if($type == 2)
+            {
+                $contestObj->register_begin_time = $input['register_begin_time'];
+                $contestObj->register_end_time = $input['register_end_time'];
+            }
             var_dump($contestObj->contest_id);
             $contestObj->save();
 
@@ -624,7 +647,8 @@ $user->infoObj->time[$contestProblemID] =  strtotime($submission->submit_time) -
         }
     }
 
-    /* @function deleteContest
+    /*
+     * @function deleteContest
      * @input $request,$contest_id
      *
      * @return Redirect
@@ -638,6 +662,48 @@ $user->infoObj->time[$contestProblemID] =  strtotime($submission->submit_time) -
         return Redirect::to("/dashboard/contest");
     }
 
+    /*
+     * @function registerContest
+     * @input $request, $contest_id
+     *
+     * @return Redirect or View
+     * @description register contest before the contest is started.
+     *              If the contest isn't a register contest, redirect to contest list page
+     */
+    public function registerContest(Request $request, $contest_id)
+    {
+        $data = [];
+        $data['contest_id'] = $contest_id;
+        $contestObj = Contest::where('contest_id', $contest_id)->first();
+        if(!isset($contestObj))
+            return Redirect::to('/contest/p/1');
+        if($contestObj->contest_type != 2)
+            return Redirect::to('/contest/p/1');
+        if(!$contestObj->isInRegister())
+            return Redirect::to('/contest/p/1') ;
+        if($request->method() == "POST")
+        {
+            $input = $request->input();
+            $this->validate($request, [
+                'captcha' => 'required|captcha'
+            ]);
+            $uid = $request->session()->get('uid');
+            $userObj = User::where('uid', $uid)->first();
+            $checkExist = ContestUser::where('contest_id', $contest_id)->where('user_id', $uid)->first();
+            if(isset($checkExist))
+            {
+                return Redirect::to('/contest/p/1');
+            }
+            $contestUserObj = new ContestUser;
+            $contestUserObj->contest_id = $contest_id;
+            $contestUserObj->user_id = $uid;
+            $contestUserObj->username = $userObj->username;
+            $contestUserObj->is_official = 0;
+            $contestUserObj->save();
+            return Redirect::to('/contest/p/1');
+        }
+        return View::make('contest.register', $data);
+    }
 }
 
 
