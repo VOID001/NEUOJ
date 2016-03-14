@@ -22,7 +22,7 @@ class CreateSubmissionTable extends Migration
             $table->integer('exec_mem');
             $table->string('lang');
             $table->string('result');
-            $table->string('err_info');
+            $table->longText('err_info');
             $table->string('assessment');
             $table->string('judgeid');
             $table->string('submit_file');
