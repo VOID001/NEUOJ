@@ -40,16 +40,18 @@
                 <label class="col-md-3">Contest Type</label>
                 <input type="radio" name="contest_type" value="public"  id="hideList" checked/><label>public</label>
                 <input type="radio" name="contest_type" value="private" id="showList"/><label>private</label>
-                <input type="radio" name="contest_type" value="register" id="hideList"/><label>register</label>
+                <input type="radio" name="contest_type" value="register" id="contest_add_register_rdo"/><label>register</label>
             </div>
-            <div class="tmp_hide">
+            <div id="contest_add_register_list">
+            <div>
                 <label class="col-md-3 contest_set_lable">Register Begin Time</label>
                 <input type="datetime-local" name="register_begin_time" value="{{ old('register_begin_time') }}" class="form-control" />
             </div>
-            <div class="tmp_hide">
+            <div>
                 <label class="col-md-3 contest_set_lable">Register End Time</label>
                 <input type="datetime-local" name="register_end_time" value="{{ old('register_end_time') }}" class="form-control" />
                 {{--this is hidding 'requist'--}}
+            </div>
             </div>
         </div>
         <div id="allowedUserList" class="col-md-offset-4 contest_set_allowedUserList">
@@ -123,11 +125,23 @@
             else{
                 $('#allowedUserList').hide();
             }
+            if($('#contest_add_register_rdo')[0].checked) {
+                $('#contest_add_register_list').show();
+            } else {
+                $('#contest_add_register_list').hide();
+            }
+
             $('#showList').click(function(){
                 $('#allowedUserList').slideDown('slow');
+                $('#contest_add_register_list').slideUp('slow');
             })
             $('#hideList').click(function(){
                 $('#allowedUserList').slideUp('slow');
+                $('#contest_add_register_list').slideUp('slow');
+            })
+            $('#contest_add_register_rdo').click(function(){
+                $('#allowedUserList').slideUp('slow');
+                $('#contest_add_register_list').slideDown('slow');
             })
         })
     </script>
