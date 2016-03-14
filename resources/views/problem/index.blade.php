@@ -7,7 +7,6 @@
     <script>
         $(function(){
             $("#problem").addClass("active");
-
             $("#submit").click(function(){
                 $("#mymodal").modal("toggle");
             });
@@ -37,8 +36,6 @@
 </head>
 <body>
     @include("layout.header")
-
-
     <h3 class="text-center">Problem: {{ $problem->title }}</h3>
     <div class="text-center text-primary">Time limit: {{ $problem->time_limit }}s&nbsp;&nbsp;&nbsp;&nbsp;Mem limit:@if($problem->mem_limit < 1000)
             {{ $problem->mem_limit }} KB
@@ -53,7 +50,6 @@
             AC/Submission: <a href="/status/p/1?result=Accepted&pid={{ $problem->problem_id }}"/>{{ $problem->acSubmissionCount }}</a>/ <a href="/status/p/1?pid={{ $problem->problem_id }}">{{ $problem->totalSubmissionCount }}</a>
         @endif
     </div>
-
     @if(isset($contest))
         <div class="contest_single_nav text-center">
             <a class="btn btn-default" href="/contest/{{ $contest->contest_id }}">&nbsp;&nbsp;Back&nbsp;&nbsp;</a>
@@ -69,7 +65,7 @@
         </div>
         <script type="text/javascript">
             var begin=new Date("{{$contest->begin_time}}").getTime();
-            var now=new Date().getTime();
+            var now = new Date("{{ date('Y-m-d H:i:s') }}").getTime();
             var end=new Date("{{$contest->end_time}}").getTime();
             var wholetime=(end-begin)/1000;
             var pretime=(begin-now)/1000;
@@ -120,11 +116,8 @@
                 timer();
             })
         </script>
-
     @endif
-
     <div class="panel panel-default main">
-
         <h3>Problem Description</h3>
         <p class="word_cut fixHtml">{{ $problem->description }}</p>
         <hr>
@@ -148,7 +141,6 @@
     @else
         <div class="text-center" style="padding-bottom: 50px"><a href="/auth/signin">Sign in</a> to Submit your code</div>
     @endif
-
     <div class="modal fade" id="mymodal">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -179,7 +171,6 @@
             </div>
         </div>
     </div>
-
         @include("layout.footer")
 </body>
 </html>

@@ -13,11 +13,9 @@
             //$('.selectpicker').selectpicker();
         })
     </script>
-
 </head>
 <body>
     @include("layout.header")
-
     <h3 class="text-center">Status List</h3>
 <div class="status_main">
     @if(isset($contest))
@@ -34,7 +32,7 @@
         </div>
         <script type="text/javascript">
             var begin=new Date("{{$contest->begin_time}}").getTime();
-            var now=new Date().getTime();
+            var now = new Date("{{ date('Y-m-d H:i:s') }}").getTime();
             var end=new Date("{{$contest->end_time}}").getTime();
             var wholetime=(end-begin)/1000;
             var pretime=(begin-now)/1000;
@@ -85,7 +83,6 @@
                 timer();
             })
         </script>
-
     @endif
     @if(!isset($contest))
         <form action="/status/p/1" method="GET" class="form-inline">
@@ -120,7 +117,6 @@
         </select>
         <input type="submit" value="Filter" class="btn btn-info form-control"/>
     </form>
-
     <table class="table table-striped table-bordered table-hover status_table" id="statuslist" width="100%">
     <thead>
             <td class="text-center" id="status_run_id">Run ID</td>
@@ -198,7 +194,6 @@
         @endforeach
     @endif
     </table>
-
     <ul class="pager" role="fanye">
         @if(!isset($firstPage))
             @if(!isset($contest))
@@ -215,9 +210,7 @@
             @endif
         @endif
     </ul>
-
     </div>
-
     <div style="padding-bottom: 40px">
     @include("layout.footer")
 </body>

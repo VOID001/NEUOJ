@@ -14,7 +14,7 @@
     </script>
     <script type="text/javascript">
         var begin=new Date("{{$contest->begin_time}}").getTime();
-        var now=new Date().getTime();
+        var now = new Date("{{ date('Y-m-d H:i:s') }}").getTime();
         var end=new Date("{{$contest->end_time}}").getTime();
         var wholetime=(end-begin)/1000;
         var pretime=(begin-now)/1000;
@@ -68,7 +68,6 @@
 </head>
 <body class="home_body">
 @include("layout.header")
-
     <div class="main">
         <h1 class="text-center">{{ $contest->contest_name }}
             @if($contest->status=="Running")
@@ -94,7 +93,6 @@
             <a class="btn btn-default" href="/contest/{{ $contest->contest_id }}/ranklist">Ranklist</a>
             <a class="btn btn-default" href="#">BBS Not Available</a>
         </div>
-
         <div>
             <!--
             We will add customize view of contest later
@@ -103,7 +101,6 @@
             </form>
             -->
         </div>
-
         <table class="table table-striped table-bordered table-hover contest_list_single contest_index_table" width="100%">
             <thead>
             <th class="text-center" id="contest_index_status">
@@ -127,7 +124,6 @@
                 </th>
             @endif
             </thead>
-
             @foreach($problems as $problem)
                 <tr
                 @if($problem->realProblemName !== -1 && ($roleController->is("admin") || $contest->status != "Pending"))
@@ -170,7 +166,6 @@
             @endforeach
         </table>
     </div>
-
 <div style="padding-bottom: 40px">
 @include("layout.footer")
 </body>
