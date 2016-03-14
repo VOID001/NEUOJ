@@ -49,18 +49,16 @@
             @endforeach
         </thead>
         @foreach($users as $user)
-            <tr>
+            <tr class="table_row">
 
                 <td class="contest_ranklist_penalty_td text-center" style="padding: 5px;">
                     {{ $counter++ }}
                 </td>
-                <td class="text-center">
+                <td class="text-center table_row_td" onclick="javascript:window.location.href='/profile/{{ $user->uid }}'">
                     <img src="/avatar/{{$user->uid}}" style="width:35px; height:35px"/>
                 </td>
-                <td class="contest_ranklist_username_td text-center" id="contest_index_problem_name_el">
-                    <a href="/profile/{{ $user->uid }}">
+                <td class="contest_ranklist_username_td text-center table_row_td" id="contest_index_problem_name_el" onclick="javascript:window.location.href='/profile/{{ $user->uid }}'">
                     <nobr>{{ $user->nick_name }}</nobr>
-                    </a>
                 </td>
                 <td class="contest_ranklist_username_td text-center" style="padding: 8px">
                     {{ $user->infoObj->totalAC }}

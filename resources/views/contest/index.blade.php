@@ -130,7 +130,7 @@
                 class="table_row" onclick="javascript:window.location.href='/contest/{{ $contest->contest_id }}/problem/{{ $problem->contest_problem_id }}'"
                 @endif
                 >
-                    <td class="text-center">
+                    <td class="text-center table_row_td">
                         @if($problem->thisUserFB)
                             <span class="glyphicon glyphicon-flag" style="color: #5cb85c"></span>
                             <span class="glyphicon glyphicon-map-marker"></span>
@@ -138,16 +138,16 @@
                             <span class="glyphicon glyphicon-map-marker"></span>
                         @endif
                      </td>
-                    <td class="text-center">
+                    <td class="text-center table_row_td">
                         {{ $problem->contest_problem_id }}
                     </td>
-                    <td class="text-center">
+                    <td class="text-center table_row_td">
                         {{ $problem->problem_title }}
                     </td>
-                    <td id="contest_index_problem_name_el">
+                    <td class="table_row_td" id="contest_index_problem_name_el">
                         <nobr>{{ $problem->realProblemName === -1 ? "[Error] Problem Deleted!" : $problem->realProblemName }}</nobr>
                     </td>
-                    <td class="text-center">
+                    <td class="text-center table_row_td">
                         @if($problem->acSubmissionCount != 0)
                             {{ $problem->acSubmissionCount }} / {{ $problem->totalSubmissionCount }}({{ intval($problem->acSubmissionCount/$problem->totalSubmissionCount * 100) }}%)
                         @else

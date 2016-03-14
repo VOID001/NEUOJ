@@ -396,22 +396,20 @@ li.separate-item {
 }
 
 .table_row{
-    cursor: pointer;
-    transition: background-color 0.3s,color 0.3s;
+    word-break: keep-all;
 }
 .table_row:hover{
-    background-color: #ffffbb!important;
-    color: #ff6666;
-}
-.table_row:active{
-    background-color: #66afe9!important;
+    background-color: #577492!important;
     color: #fff;
-    transition: background-color 0.05s,color 0.05s;
 }
-.table tbody > tr > td{
-    transition: background-color 0.3s,color 0.3s;
+.table_row_td{
+    cursor: pointer;
 }
-.table tbody > tr > td:hover{
-    background-color: #ccc;
-    color: #66ccff;
+.table_row_td:hover{
+    background-color: #445b72;
+    color: #fff;
+    font-weight: bold;
+}
+.table_row_td:active{
+    background-color: #31b0d5!important;
 }

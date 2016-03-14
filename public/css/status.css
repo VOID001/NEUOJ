@@ -4,27 +4,23 @@
     overflow: hidden;
 }
 .status_table_row{
-    cursor: pointer;
     background-color: #eeffcc;
 }
 .status_table_row:nth-of-type(odd){
     background-color: #eeffbb!important;
 }
 .status_table_row:nth-of-type(odd):hover{
-    background-color: #ffffbb!important;
-}
-.status_table_row:nth-of-type(odd):active{
-    background-color: #66afe9!important;
+    background-color: #577492!important;
 }
 
 #status_run_id{
-    width:10%;
+    width:8%;
 }
 #status_submit_time{
     width:15%;
 }
 #status_user_id{
-    width:10%;
+    width:8%;
 }
 #status_username{
     width:10%;

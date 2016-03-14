@@ -154,34 +154,75 @@
         @foreach($submissions as $submission)
             <tr
             @if(Request::session()->get('uid') == $submission->uid)
-            class="status_table_row"
+            class="status_table_row table_row"
+            @endif
+            @if($roleCheck->is("admin"))
+            class="table_row"
             @endif
             @if(Request::session()->get('uid') == $submission->uid || $roleCheck->is("admin"))
-            class="table_row"
             onclick="javascript:window.location.href='/status/{{ $submission->runid }}'"
-            style="cursor: pointer"
             title="View Source"
             @endif
             >
-                <td class="text-center">{{ $submission->runid }}</td>
-                <td class="text-center">{{ $submission->submit_time }}</td>
-                <td class="text-center">{{ $submission->uid }}</td>
-                <td class="text-center" id="status_username_title_el"><nobr>{{ $submission->userName }}</nobr></td>
-                <td class="text-left" id="status_username_title_el"><nobr>{{ $submission->problemTitle }}</nobr></td>
-                @if($submission->result=="Accepted")
-                    <td class="text-center"><span class="label label-success" style="font-size: 15px"><span class="glyphicon glyphicon-ok " style="color: #000"></span>Accepted</span></td>
-                @elseif($submission->result=="Compile Error")
-                        <td class="text-center"><span class="label label-default" style="font-size: 13px">Compile Error</span></td>
-                @elseif($submission->result=="Wrong Answer")
-                    <td class="text-center"><span class="label label-danger" style="font-size: 13px">Wrong Answer</span></td>
-                @elseif($submission->result=="Pending")
-                    <td class="text-center"><span class="label label-info" style="font-size: 13px">Pending</span></td>
-                @else
-                    <td class="text-center"><span class="label label-warning" style="font-size: 13px">{{$submission->result}}</span></td>
+                <td class="text-center
+                @if(Request::session()->get('uid') == $submission->uid || $roleCheck->is("admin"))
+                table_row_td
                 @endif
-                <td class="text-center">{{ $submission->lang }}</td>
-                <td class="text-center">{{ $submission->exec_mem }}</td>
-                <td class="text-center">{{ $submission->exec_time }}</td>
+                ">{{ $submission->runid }}</td>
+                <td class="text-center
+                @if(Request::session()->get('uid') == $submission->uid || $roleCheck->is("admin"))
+                table_row_td
+                @endif">{{ substr($submission->submit_time, 2) }}</td>
+                <td class="text-center
+                @if(Request::session()->get('uid') == $submission->uid || $roleCheck->is("admin"))
+                table_row_td
+                @endif">{{ $submission->uid }}</td>
+                <td class="text-center
+                @if(Request::session()->get('uid') == $submission->uid || $roleCheck->is("admin"))
+                table_row_td
+                @endif" id="status_username_title_el"><nobr>{{ $submission->userName }}</nobr></td>
+                <td class="text-left
+                @if(Request::session()->get('uid') == $submission->uid || $roleCheck->is("admin"))
+                table_row_td
+                @endif" id="status_username_title_el"><nobr>{{ $submission->problemTitle }}</nobr></td>
+                @if($submission->result=="Accepted")
+                    <td class="text-center
+                @if(Request::session()->get('uid') == $submission->uid || $roleCheck->is("admin"))
+                table_row_td
+                @endif"><span class="label label-success" style="font-size: 15px"><span class="glyphicon glyphicon-ok " style="color: #000"></span>Accepted</span></td>
+                @elseif($submission->result=="Compile Error")
+                        <td class="text-center
+                @if(Request::session()->get('uid') == $submission->uid || $roleCheck->is("admin"))
+                table_row_td
+                @endif"><span class="label label-default" style="font-size: 13px">Compile Error</span></td>
+                @elseif($submission->result=="Wrong Answer")
+                    <td class="text-center
+                @if(Request::session()->get('uid') == $submission->uid || $roleCheck->is("admin"))
+                table_row_td
+                @endif"><span class="label label-danger" style="font-size: 13px">Wrong Answer</span></td>
+                @elseif($submission->result=="Pending")
+                    <td class="text-center
+                @if(Request::session()->get('uid') == $submission->uid || $roleCheck->is("admin"))
+                table_row_td
+                @endif"><span class="label label-info" style="font-size: 13px">Pending</span></td>
+                @else
+                    <td class="text-center
+                @if(Request::session()->get('uid') == $submission->uid || $roleCheck->is("admin"))
+                table_row_td
+                @endif"><span class="label label-warning" style="font-size: 13px">{{$submission->result}}</span></td>
+                @endif
+                <td class="text-center
+                @if(Request::session()->get('uid') == $submission->uid || $roleCheck->is("admin"))
+                table_row_td
+                @endif">{{ $submission->lang }}</td>
+                <td class="text-center
+                @if(Request::session()->get('uid') == $submission->uid || $roleCheck->is("admin"))
+                table_row_td
+                @endif">{{ $submission->exec_mem }}</td>
+                <td class="text-center
+                @if(Request::session()->get('uid') == $submission->uid || $roleCheck->is("admin"))
+                table_row_td
+                @endif">{{ $submission->exec_time }}</td>
                 @if($roleCheck->is('admin'))
                     <td>
                         <form method="post" action="/rejudge/{{ $submission->runid }}">
