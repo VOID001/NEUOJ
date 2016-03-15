@@ -25,7 +25,7 @@ NEUOJ
  * [ ] Reset Password
  * [ ] (Future) SSO and Third party login
 * [ ] Problem Browsing
- * [ ] Search problem by id
+ * [x] Search problem by id
  * [x] View Page-splited problem list
  * [ ] Search problem by title
 * [x] Problem Submit
@@ -44,6 +44,8 @@ NEUOJ
 * /auth Authenticate interface (Register login and reset password)
 * /contest Show or get in contest
 * /discuss Route to subfunction of bbs
+* /ajax API handler for Ajax
+* /api Judgehost api entry
 
 ### Code Styling
 
