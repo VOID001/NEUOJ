@@ -6,7 +6,7 @@
     @include("layout.head")
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/status.css">
-    <meta http-equiv="Refresh" content="20"> <!-- Do not refresh too frequently -->
+    <!--<meta http-equiv="Refresh" content="20"> <!-- Do not refresh too frequently -->
     <script type="text/javascript">
         $(function(){
             $("#status").addClass("active");
@@ -253,6 +253,58 @@
     </ul>
     </div>
     <div style="padding-bottom: 40px">
+    </div>
     @include("layout.footer")
+<script type="text/javascript">
+
+    function freshResult()
+    {
+        var tableObj = window.document.getElementById("statuslist")
+        var rows = tableObj.rows;
+        for(var i = 1; i < rows.length; i++)
+        {
+            var run_id = rows[i].cells[0].innerHTML;
+            var result = rows[i].cells[5].innerHTML;
+            var resultObj = rows[i].cells[5];
+            if(result.indexOf('Pending') != -1 || result.indexOf('Rejudging') != -1)
+            {
+                fetchResult(run_id, resultObj);
+            }
+        }
+    }
+
+    function fetchResult(run_id, resultObj) {
+        console.log(resultObj);
+        $.ajax({
+            url: "/ajax/submission",
+            type: "GET",
+            data: {
+                run_id: run_id
+            },
+            dataType: "json",
+        }).done(function(json){
+            console.log(json);
+            if(json.result == "Accepted")
+            {
+                resultObj.innerHTML = "<span class='label label-success' style='font-size: 15px'><span class='glyphicon glyphicon-ok ' style='color: #000'></span>Accepted</span>"
+            }
+            else if(json.result == "Wrong Answer")
+            {
+                resultObj.innerHTML = "<span class='label label-danger' style='font-size: 13px'>Wrong Answer</span>"
+            }
+            else if(json.result == "Compile Error")
+            {
+                resultObj.innerHTML = "<span class='label label-default' style='font-size: 13px'>Compile Error</span>"
+            }
+            else
+            {
+                resultObj.innerHTML = "<span class='label label-warning' style='font-size: 13px'>" + json.result + "</span>"
+            }
+        })
+    }
+
+    setInterval("freshResult()", 1000);
+
+</script>
 </body>
 </html>
