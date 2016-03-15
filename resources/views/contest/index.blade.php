@@ -1,4 +1,4 @@
-@inject('roleController', 'App\Http\Controllers\RoleController')
+@inject('roleCheck', 'App\Http\Controllers\RoleController')
 <!doctype html>
 <html>
 <head>
@@ -91,6 +91,9 @@
         <div class="text-center contest_single_nav">
             <a class="btn btn-default" href="/contest/{{ $contest->contest_id }}/status">Status</a>
             <a class="btn btn-default" href="/contest/{{ $contest->contest_id }}/ranklist">Ranklist</a>
+            @if($roleCheck->is("admin"))
+                <a class="btn btn-default" href="/contest/{{ $contest->contest_id }}/balloon">Balloon</a>
+            @endif
             <a class="btn btn-default" href="#">BBS Not Available</a>
         </div>
         <div>
@@ -118,7 +121,7 @@
             <th class="text-center" id="contest_index_ac">
                 AC/Total(Ratio)
             </th>
-            @if($roleController->is('admin'))
+            @if($roleCheck->is('admin'))
                 <th class="text-center" id="contest_index_rejudge">
                     Rejudge
                 </th>
@@ -126,7 +129,7 @@
             </thead>
             @foreach($problems as $problem)
                 <tr
-                @if($problem->realProblemName !== -1 && ($roleController->is("admin") || $contest->status != "Pending"))
+                @if($problem->realProblemName !== -1 && ($roleCheck->is("admin") || $contest->status != "Pending"))
                 class="table_row" onclick="javascript:window.location.href='/contest/{{ $contest->contest_id }}/problem/{{ $problem->contest_problem_id }}'"
                 @endif
                 >
@@ -154,7 +157,7 @@
                             0 / 0
                         @endif
                     </td>
-                    @if($roleController->is('admin'))
+                    @if($roleCheck->is('admin'))
                         <td class="text-center">
                             <form method="post" action="/rejudge/{{ $contest->contest_id }}/{{ $problem->contest_problem_id }}">
                                 {{ csrf_field() }}

@@ -706,6 +706,7 @@ $user->infoObj->time[$contestProblemID] =  strtotime($submission->submit_time) -
         }
         return View::make('contest.register', $data);
     }
+
     /*
      *
      * @function getBalloonlist
@@ -714,32 +715,51 @@ $user->infoObj->time[$contestProblemID] =  strtotime($submission->submit_time) -
      * @return View
      * @description show balloons distribution list
      */
-    public function getBalloonlist(Request $request, $contest_id)
+    public function getBalloonlist(Request $request)
     {
         $data = [];
-        $contestBalloonEvent = ContestBalloonEvent::all();
+        $input = $request->all();
+        $contest_id = $input['cid'];
+        $contestBalloonEvent = ContestBalloonEvent::orderby('id', 'desc')->get();
         $count = 0;
+
         foreach($contestBalloonEvent as $contestBalloonEventObj)
         {
             $submissionObj = Submission::where('runid',$contestBalloonEventObj->runid)->first();
             if($submissionObj->cid == $contest_id) {
-                $data['username'][$count] = User::where('uid', $submissionObj->uid)->first()->username;
-                $data['contest_problem_id'][$count] = ContestProblem::where([
+                $data[$count]["username"] = User::where('uid', $submissionObj->uid)->first()->username;
+                $data[$count]["contest_problem_id"] = ContestProblem::where([
                     'contest_id' => $submissionObj->cid,
                     'problem_id' => $submissionObj->pid
                 ])->first()->contest_problem_id;
                 if($contestBalloonEventObj->event_status == env('BALLOON_SEND',1))
                 {
-                    $data['event'][$count] = 'send';
+                    $data[$count]["event"] = 'send';
                 }
                 else
                 {
-                    $data['event'][$count] = 'discard';
+                    $data[$count]["event"] = 'discard';
                 }
                 $count++;
             }
         }
-        return $data;
+        $data["count"] = $count;
+        return json_encode($data);
+    }
+
+    /*
+     * @function getContestBalloonView
+     * @input $request $contest_id
+     *
+     * @return View
+     * @description return the ContestBalloon Event By contest_id
+     */
+    public function getContestBalloonView(Request $request, $contest_id)
+    {
+        $data = [];
+        $data['contest_id'] = $contest_id;
+
+        return View::make('contest.balloon', $data);
     }
 
 }
