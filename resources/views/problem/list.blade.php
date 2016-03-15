@@ -25,10 +25,10 @@
 
     <h3 class="text-center">Problem List</h3>
     <div class="main">
-        <form class="form-inline">
-            <span style="font-size: 18px">Search: </span><input class="form-control" style="width: 200px;" aria-controls="problemset" placeholder="Please input the keyword" type="text">
-            <input type="submit" class="btn btn-info form-control" value="&nbsp;&nbsp;Go&nbsp;&nbsp; ">
-        </form>
+        <div class="form-inline">
+            <span style="font-size: 18px">Quick Access: </span><input class="form-control" style="width: 200px;" aria-controls="problemset" placeholder="Please input the Problem ID" type="text" id="problem_id">
+            <input type="submit" class="btn btn-info form-control" value="&nbsp;&nbsp;Go&nbsp;&nbsp;" onclick="goToProblem()">
+        </div>
 
         <table class="table table-striped table-bordered table-hover problem_table" id="problemlist" width="100%">
             <thead>
@@ -58,6 +58,12 @@
     <div class="text-center" id="callBackPager"></div>
     <div style="padding-bottom: 40px">
     </div>
+    <script type="text/javascript">
+        function goToProblem()
+        {
+            window.location.href = "/problem/" + $("#problem_id").val();
+        }
+    </script>
     @include("layout.footer")
 </body>
 </html>
