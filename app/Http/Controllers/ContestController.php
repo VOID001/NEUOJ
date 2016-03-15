@@ -185,7 +185,7 @@ class ContestController extends Controller
                 foreach($userList as $user)
                 {
                     $contestUserObj = new ContestUser;
-                    $contestUserObj->contest_id = $contestObj->id;
+                    $contestUserObj->contest_id = $contestObj->contest_id;
                     $contestUserObj->username = trim($user);
                     $userObj = User::where('username', $user)->first();
                     if($userObj)
