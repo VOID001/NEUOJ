@@ -28,8 +28,9 @@
                     <a href="/dashboard" class="text-right" id="dashboard" ><nobr>{{Request::session()->get('username')}}</nobr></a>
                     <a href="/auth/logout" class="btn btn-success" id="logout">logout</a>
                 @else
+                    <a href="/auth/ssologin" class="btn btn-success" id="ssologin">SSO</a>
                     <a href="/auth/signin" class="btn btn-success" id="signin">Sign in</a>
-                             <a href="/auth/signup" class="btn btn-success" id="signup">Sign Up</a>
+                    <a href="/auth/signup" class="btn btn-success" id="signup">Sign Up</a>
                 @endif
 
 

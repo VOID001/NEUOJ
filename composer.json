@@ -9,7 +9,8 @@
         "laravel/framework": "5.1.*",
         "barryvdh/laravel-ide-helper": "^2.1",
         "greggilbert/recaptcha": "dev-master",
-        "mews/captcha": "^2.1"
+        "mews/captcha": "^2.1",
+        "jasig/phpcas": "1.3.4"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
@@ -57,7 +58,7 @@
         },
         {
             "type":"composer",
-            "url":"https://packagist.org"
+            "url":"https://packagist.phpcomposer.com/"
         }
     ]
 }

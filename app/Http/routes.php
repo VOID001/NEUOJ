@@ -32,6 +32,11 @@ Route::group(['middleware' => 'profile'],function() {
         "uses" => "AuthController@resetPasswordAction"
     ]);
 
+    Route::get('/auth/ssologin', [
+        "sso" => "ssologin",
+        "uses" => "SsoAuthController@casloginAction"
+    ]);    
+
     Route::get('/profile/{user_id}', [
         "uses" => "UserController@showProfile"
     ])->where('user_id','[0-9]+');
