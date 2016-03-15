@@ -240,6 +240,27 @@ class SubmissionController extends Controller
     }
 
     /*
+     * @function getSubmissionJSONByRunID
+     * @input $request
+     *
+     * @return jsonObj
+     * @description API Interface for Ajax use
+     */
+    public function getSubmissionJSONByRunID(Request $request)
+    {
+        $data = [];
+        $input = $request->all();
+        if(!isset($input['run_id']))
+            return null;
+
+        $run_id = $input['run_id'];
+
+        $submissionObj = Submission::find($run_id);
+
+        return json_encode($submissionObj);
+    }
+
+    /*
      * @function rejudgeSubmissionByContestIDAndProblemID
      * @input $request,$contest_id,$contest_problem_id
      *

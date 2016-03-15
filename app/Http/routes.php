@@ -71,6 +71,10 @@ Route::group(['middleware' => 'profile'],function() {
         "middleware" => "role:view",
     ]);
 
+    Route::get('/ajax/submission', [
+        "uses" => "SubmissionController@getSubmissionJSONByRunID"
+    ]);
+
     Route::get('/contest', [
         "uses" => "ContestController@getContest"
     ]);
