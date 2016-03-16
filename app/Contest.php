@@ -25,8 +25,10 @@ class Contest extends Model
             return env("CONTEST_PENDING", 0);
         if($this->contest_type == 2 && $curTime >= strtotime($this->register_begin_time) && $curTime < strtotime($this->register_end_time))
             return env("CONTEST_IN_REGISTER", 2);
-        if($this->contest_type == 2)
+        if($this->contest_type == 2 && $curTime < strtotime($this->register_begin_time) )
             return env("CONTEST_NOT_IN_REGISTER", 3);
+        if($this->contest_type == 2 && $curTime < strtotime($this->begin_time) )
+            return env("CONTEST_PENDING", 0);
         if($curTime >= strtotime($this->begin_time) && $curTime <= strtotime($this->end_time))
             return env("CONTEST_RUNNING", 1);
         return env("CONTEST_ENDED", -1);
@@ -121,6 +123,14 @@ class Contest extends Model
             else if($contestObj[$i]->isRunning())
             {
                 $data["contests"][$count]->status = "Running";
+            }
+            else if($contestObj[$i]->isInRegister())
+            {
+                $data["contests"][$count]->status = "Registering";
+            }
+            else if($contestObj[$i]->isNotInRegister())
+            {
+                $data["contests"][$count]->status = "Register Pending";
             }
         }
         if($i == $contestNum)
