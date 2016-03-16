@@ -67,7 +67,7 @@
                 <div id="contest_set_register_list">
                 <div >
                     <label class="col-md-3 contest_set_lable">Register Begin Time</label>
-                    <input type="datetime-local" name="register_begin_time" value="{{ str_replace(" ", "T", $contest->register_beigin_time) }}" class="form-control" required/>
+                    <input type="datetime-local" name="register_begin_time" value="{{ str_replace(" ", "T", $contest->register_begin_time) }}" class="form-control" required/>
                 </div>
                 <div>
                     <label class="col-md-3 contest_set_lable">Register End Time</label>
