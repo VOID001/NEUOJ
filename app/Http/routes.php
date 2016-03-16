@@ -24,6 +24,14 @@ Route::group(['middleware' => 'profile'],function() {
         return "This is the authenticate root";
     });
 
+    Route::match(['get', 'post'], '/auth/request', [
+        "uses" => "AuthController@requestResetAction"
+    ]);
+
+    Route::match(['get', 'post'], '/auth/reset',[
+        "uses" => "AuthController@resetPasswordAction"
+    ]);
+
     Route::get('/profile/{user_id}', [
         "uses" => "UserController@showProfile"
     ])->where('user_id','[0-9]+');

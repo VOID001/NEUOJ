@@ -8,6 +8,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use App\User;
 use App\Userinfo;
+use Mail;
+use Carbon\Carbon;
+use App\PasswordReset;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 
@@ -121,6 +124,132 @@ class AuthController extends Controller
     {
         $request->session()->flush();
         return Redirect::route('home');
+    }
+
+    /*
+     * @function resetPasswordAction
+     * @input $request
+     *
+     * @return Redirect or View
+     * @description Check the token and give the form for reset password
+     *              if all input is valid then reset the password
+     *              and delete the token
+     *
+     */
+    public function resetPasswordAction(Request $request)
+    {
+        $data = [];
+        $token = $request->get('token');
+        $now = Carbon::now();
+
+        if($request->method() == "GET")
+        {
+            if ($token == NULL)
+                return Redirect::to('/');
+
+            $pwdResetObj = PasswordReset::where('token', $token)->first();
+
+            /* A series of check to ensure the token is valid and not expired */
+            if ($pwdResetObj == NULL)
+            {
+                $data['no_token'] = true;
+                return View::make('auth.reset', $data);
+            }
+            if($now->diffInMinutes($pwdResetObj->created_at) > 10)
+            {
+                $data['no_token'] = true;
+                PasswordReset::where('token', $token)->delete();
+                return View::make('auth.reset', $data);
+            }
+
+            $data['token'] = $token;
+            $data['email'] = $pwdResetObj->email;
+            $data['username'] = User::where('email', $pwdResetObj->email)->first()->username;
+            return View::make('auth.reset', $data);
+        }
+        else
+        {
+            $this->validate($request, [
+                "token" => "required",
+                "email" => "required | email",
+                "new_password" => "required | min:6 | max:255",
+                "confirm_password" => "required | same:new_password"
+            ]);
+
+            $input = $request->all();
+            $data = $input;
+
+            /* We must check if the token is correspond with the email */
+            $pwdResetObj = PasswordReset::where('token', $input['token'])->first();
+            if($pwdResetObj == NULL)
+            {
+                $data['no_token'] = true;
+                return View::make('auth.reset', $data);
+            }
+            if($pwdResetObj->email != $input['email'])
+            {
+                return View::make('auth.reset', $data)->withErrors("Email and token mismatch!");
+            }
+            $new_password = Hash::make($input['new_password']);
+
+            User::where('username', $input['username'])->update([
+                'password' => $new_password
+            ]);
+            $data['reset_ok'] = true;
+
+            /* At last we should delete the token */
+            PasswordReset::where('token', $input['token'])->delete();
+            return View::make('auth.reset', $data);
+        }
+    }
+
+    /*
+     * @function requestResetAction
+     * @input $request
+     *
+     * @return Redirect or View
+     * @description provide the form for request a password reset
+     *              check whether the input is valid and then
+     *              send the email to user
+     */
+    public function requestResetAction(Request $request)
+    {
+        $data = [];
+        if($request->method() == "POST")
+        {
+            $this->validate($request,[
+                "email" => "required | email",
+                "captcha" => "required | captcha"
+            ]);
+            $email = $request->get('email');
+            $pwdResetObj = new PasswordReset;
+            $userObj = User::where('email', $email)->get();
+            if($userObj->isEmpty())
+            {
+                $errorMsg = "Your Email address is not registered!";
+                return View::make('auth.request')->withErrors($errorMsg);
+            }
+            if(PasswordReset::where('email', $email)->first() != NULL)
+            {
+                PasswordReset::where('email', $email)->delete();
+                $errorMsg = "Your previous reset request has been canceled and new request sent to your mail";
+            }
+            $pwdResetObj->email = $email;
+            $pwdResetObj->token = sha1($email . "" . time());
+
+            Mail::send('email.request', ['passwordReset' => $pwdResetObj], function($message) use ($pwdResetObj){
+                $message->from('noreply@neuoj.com', 'NEUOJ');
+                $message->to($pwdResetObj->email);
+                $message->subject('[NEUOJ] Reset Password Confirmation');
+            });
+            $data['info'] = "You will recieve an email for password reset, check for your mailbox";
+            $pwdResetObj->save();
+        }
+
+        if(isset($errorMsg))
+            return View::make('auth.request', $data)->withErrors($errorMsg);
+        else
+            return View::make('auth.request', $data);
     }
 }
 
