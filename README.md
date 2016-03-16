@@ -19,10 +19,10 @@ NEUOJ
 * [ ] Root Admin Panel
  * [ ] + User Managment
  * [ ] Dashboard Show System Status
-* [ ] Auth module
+* [x] Auth module
  * [x] Register
  * [x] Login
- * [ ] Reset Password
+ * [x] Reset Password(Need a mail server)
  * [ ] (Future) SSO and Third party login
 * [ ] Problem Browsing
  * [x] Search problem by id
