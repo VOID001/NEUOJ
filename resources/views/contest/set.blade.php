@@ -56,7 +56,7 @@
                     @endif 
                     />private
 
-                    <input type="radio" name="contest_type" value="private" id="contest_set_register_rdo")
+                    <input type="radio" name="contest_type" value="private" id="contest_set_register_rdo"
 
                     @if($contest->contest_type == 2)
                     checked

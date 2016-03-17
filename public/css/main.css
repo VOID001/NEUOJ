@@ -277,6 +277,9 @@ li.separate-item {
 .contest_list_status_ended{
     background: #999;
 }
+.contest_list_status_registering{
+    background: #f0ad4e;
+}
 #contest_set_form{
     margin-top: 60px;
 }

@@ -26,7 +26,7 @@
      width: 10%;
 }
 #contest_management{
-    width: 18%;
+    width: 15%;
 }
 
 /*contest.index*/
@@ -134,3 +134,29 @@
     width: 5%;
 }
 
+/*contest.register*/
+#contest_register_picture{
+    margin: 0 auto;
+    width: 30%;
+    /*background: red;*/
+    margin-top: 5%;
+    height: 200px;
+}
+#contest_register_picture .panel-body{
+     height: 100px;
+}
+#contest_register_picture_text {
+    margin-top: 5%;
+    width: 50%;
+    float: left;
+}
+#contest_register_picture img {
+    margin-top: 3.5%;
+    display: inline-block;
+    float: left;
+    margin-left: 5%;
+}
+.contest_register_btn{
+    width: 20%;
+    margin-left: 19%;
+}
