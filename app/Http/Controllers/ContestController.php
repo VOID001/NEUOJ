@@ -727,11 +727,14 @@ $user->infoObj->time[$contestProblemID] =  strtotime($submission->submit_time) -
         {
             $submissionObj = Submission::where('runid',$contestBalloonEventObj->runid)->first();
             if($submissionObj->cid == $contest_id) {
-                $data[$count]["username"] = User::where('uid', $submissionObj->uid)->first()->username;
-                $data[$count]["contest_problem_id"] = ContestProblem::where([
+                $contestProblemObj = ContestProblem::where([
                     'contest_id' => $submissionObj->cid,
                     'problem_id' => $submissionObj->pid
-                ])->first()->contest_problem_id;
+                ])->first();
+                $data[$count]["username"] = User::where('uid', $submissionObj->uid)->first()->username;
+                $data[$count]["contest_problem_id"] = $contestProblemObj->contest_problem_id;
+                $data[$count]["short_name"] = $contestProblemObj->problem_title;
+                $data[$count]["color"] = $contestProblemObj->problem_color;
                 if($contestBalloonEventObj->event_status == env('BALLOON_SEND',1))
                 {
                     $data[$count]["event"] = 'send';
