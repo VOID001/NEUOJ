@@ -5,7 +5,7 @@
         <div class="dashboard_username text-center"><nobr>{{Request::session()->get('username')}}</nobr></div>
         <hr class="dashboard_hr"/>
     </div>
-    <ul class="nav nav-pills nav-stacked dashboard_subnav" data-spy="affix" data-offset-top="125">
+    <ul class="nav nav-pills nav-stacked dashboard_subnav" data-offset-top="125">
         {{-- @if(session('uid') && session('uid') <=2) --}}
         @if($roleCheck->is("admin"))
             <li id="dashboard_problem"><a href="/dashboard/problem">Problem</a></li>
