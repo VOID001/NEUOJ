@@ -23,7 +23,7 @@ NEUOJ
  * [x] Register
  * [x] Login
  * [x] Reset Password(Need a mail server)
- * [ ] (Future) SSO and Third party login
+ * [x] "Future" SSO and Third party login
 * [ ] Problem Browsing
  * [x] Search problem by id
  * [x] View Page-splited problem list
