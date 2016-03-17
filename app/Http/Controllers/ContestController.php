@@ -250,7 +250,25 @@ class ContestController extends Controller
         else
             $username = "";
         $contestObj = Contest::where('contest_id', $contest_id)->first();
-        if($contestObj->contest_type == 1 || $contestObj->contest_type == 2)
+        if($contestObj->contest_type == 2)
+        {
+            if(!$roleController->is("admin"))
+            {
+                $contestUserObj = ContestUser::where([
+                    'username' => $username,
+                    'contest_id' => $contest_id
+                ])->first();
+                if ($contestUserObj == NULL || $contestUserObj->username == NULL)
+                {
+                    if($contestObj->isInRegister())
+                    {
+                        return Redirect::to("/contest/$contest_id/register");
+                    }
+                    return Redirect::to("/contest/p/1");
+                }
+            }
+        }
+        if($contestObj->contest_type == 1)
         {
             if(!$roleController->is("admin"))
             {
@@ -702,7 +720,7 @@ $user->infoObj->time[$contestProblemID] =  strtotime($submission->submit_time) -
             $contestUserObj->username = $userObj->username;
             $contestUserObj->is_official = 0;
             $contestUserObj->save();
-            return Redirect::to('/contest/p/1');
+            return Redirect::to("/contest/$contest_id");
         }
         return View::make('contest.register', $data);
     }
