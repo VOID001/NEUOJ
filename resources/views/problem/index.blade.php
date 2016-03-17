@@ -27,10 +27,12 @@
                     $("#form_code").submit();
                 }
             });
-            $(".fixHtml").html(function(index,oldContent){
-                var newContent = oldContent.replace(/&lt;sty.+&gt;/g,'').replace(/\s/g,' ').replace(/&lt;\/div&gt;/g,'<br>').replace(/&lt;.*?&gt;/g,'');
-                $(".fixHtml").html(newContent);
-            });
+            for(var i = 0; i < 3; i++){
+                $(".fixHtml").eq(i).html(function(index,oldContent){
+                    var newContent = oldContent.replace(/&lt;sty.+&gt;/g,'').replace(/\s/g,' ').replace(/&lt;\/div&gt;/g,'<br>').replace(/&lt;.*?&gt;/g,'');
+                    $(".fixHtml").eq(i).html(newContent);
+                });
+        }
         });
     </script>
 </head>
