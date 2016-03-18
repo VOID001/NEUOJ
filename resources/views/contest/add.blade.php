@@ -105,6 +105,8 @@
                     "<input class='form-control' type='text' name=problem_id[]/>\n" +
                     "<label>Problem Title In Contest</label>\n" +
                     "<input class='form-control' type='text' name=problem_name[]/>\n" +
+                    "<label>Color</label>\n" +
+                    "<input class='form-control' style='width:5%;padding:0;' type='color' name=problem_color[]/>\n" +
                     "<a href='javascript:delProblem(" + count + ")'>Delete Problem</a>\n"  +
                     "</div>";
             document.getElementById("add_problem").insertAdjacentHTML("beforeEnd",problemItem);
