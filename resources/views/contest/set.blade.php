@@ -56,14 +56,13 @@
                     @endif 
                     />private
 
-                    <input type="radio" name="contest_type" value="private" id="contest_set_register_rdo"
+                    <input type="radio" name="contest_type" value="register" id="contest_set_register_rdo"
 
                     @if($contest->contest_type == 2)
                     checked
                     @endif
                     />register
                 </div>
-                @if($contest->contest_type == 2)
                 <div id="contest_set_register_list">
                 <div >
                     <label class="col-md-3 contest_set_lable">Register Begin Time</label>
@@ -74,7 +73,6 @@
                     <input type="datetime-local" name="register_end_time" value="{{ str_replace(" ", "T", $contest->register_end_time) }}" class="form-control" required/>
                 </div>
                 </div>
-                @endif
             </div>
             <div class="clearfix"></div>
             <div id="allowedUserList" class="col-md-offset-4 contest_set_allowedUserList">
