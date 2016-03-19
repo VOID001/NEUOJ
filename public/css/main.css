@@ -4,14 +4,14 @@
 }
 #signin{
     position: absolute;
-    top:10px;
+    top: 8px;
     right: 140px;
     width: 70px;
 }
 
 #ssologin{
     position: absolute;
-    top:10px;
+    top: 8px;
     right: 220px;
     width: 70px;
 }
@@ -21,7 +21,7 @@
     top:6px;
     right: 140px;
     width: 200px;
-    padding-top: 10px;
+    padding-top: 7px;
     text-decoration: none;
     font-size: 18px;
     color: #fff;
@@ -33,7 +33,7 @@
 }
 #logout,#signup{
     position: absolute;
-    top:10px;
+    top: 8px;
     right: 60px;
     width: 70px;
 }
@@ -115,8 +115,9 @@ body{
     position: relative;
 }
 .main{
-    margin:20px auto;
+    margin: 10px auto;
     width: 800px;
+    padding: 10px;
 }
 /*页脚*/
 .footer{
