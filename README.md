@@ -7,7 +7,7 @@ NEUOJ
  * [x] Edit Problem
  * [x] Delete Problem
  * [x] Edit data
- * [ ] Visibility Lock Manual Enable
+ * [x] Visibility Lock Manual Enable
  * [x] Load in Problem from XML
 * [ ] Hold Contest
  * [x] Three kind of access to contest: Private Register Public(Ver 2.0)
