@@ -80,6 +80,7 @@ class Problem extends Model
                 ->where('result', 'Accepted')->count();
             $authorObj = User::where('uid', $problemObj[$i]->author_id)->first();
             $data['problems'][$count]->author = $authorObj["username"];
+            $data['problems'][$count]->used_times = $problemObj[$i]->getNumberOfUsedContests();
         }
         if($i >= $problemNum)
         {
@@ -90,5 +91,43 @@ class Problem extends Model
             $data["firstPage"] = 1;
         }
         return $data;
+    }
+
+    /*
+     * @function isUsedByContest
+     * @input $this
+     *
+     * @return bool
+     * @description tell whether the problem is used by a contest or not
+     */
+    public function isUsedByContest()
+    {
+        $contestProblemList = ContestProblem::where('problem_id', $this->problem_id)->get();
+        if(isset($contestProblemList))
+            return 1;
+        else return 0;
+    }
+
+    /*
+     * @function getNumberOfUsedContests
+     * @input $this
+     *
+     * @return $i
+     * @description tell how many contests the problem is used by
+     */
+    public function  getNumberOfUsedContests()
+    {
+        $contestProblemList = ContestProblem::where('problem_id', $this->problem_id)->get();
+        $i = 0;
+        if($this->isUsedByContest())
+        {
+            foreach($contestProblemList as $contestProblem)
+            {
+                $contestObj = Contest::where('contest_id', $contestProblem->contest_id)->first();
+                if(!$contestObj->isEnded())
+                    $i++;
+            }
+        }
+        return $i;
     }
 }

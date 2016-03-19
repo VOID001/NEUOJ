@@ -453,4 +453,45 @@ class ProblemController extends Controller
         return Redirect::to('/dashboard/problem/');
     }
 
+    /*
+     * @function changeVisibility
+     * @input $request, $problem_id
+     *
+     * @return View or Redirect
+     * @description changeVisibility when visibility change button is clicked. If no contest uses the problem and the problem is locked,
+     *              unlock the problem, else show an error page
+     *              If the contest is unlock, lock the contest
+     */
+    public function changeVisibility(Request $request, $problem_id)
+    {
+        $data = [];
+        $problemObj = Problem::where('problem_id', $problem_id)->first();
+        if($problemObj->visibility_locks != 0)
+        {
+            $contestProblemList = ContestProblem::where('problem_id', $problem_id)->get();
+            if($problemObj->isUsedByContest())
+            {
+                $data['usedContestList'] = [];
+                $i = 0;
+                foreach($contestProblemList as $contestProblem)
+                {
+                    $contestObj = Contest::where('contest_id', $contestProblem->contest_id)->first();
+                    if(!$contestObj->isEnded())
+                    {
+                        $data['usedContestList'][$i] = $contestProblem->contest_id;
+                        $i++;
+                    }
+                }
+                if($i != 0)
+                {
+                    return View::make("errors.unlock_failed")->with($data);
+                }
+            }
+            Problem::where('problem_id', $problem_id)->update(['visibility_locks' => 0]);
+            return Redirect::back();
+        }
+        Problem::where('problem_id', $problem_id)->update(['visibility_locks' => 1]);
+        return Redirect::back();
+    }
+
 }

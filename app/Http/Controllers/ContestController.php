@@ -175,7 +175,7 @@ class ContestController extends Controller
 
                 $problemObj = Problem::where('problem_id', $contestProblemObj->problem_id);
                 $problemObj->update([
-                    "visibility_locks" => $problemObj->first()->visibility_locks + 1
+                    "visibility_locks" => 1
                 ]);
             }
             if($type == 1)
@@ -603,14 +603,6 @@ $user->infoObj->time[$contestProblemID] =  strtotime($submission->submit_time) -
             }
             var_dump($contestObj->contest_id);
             $contestObj->save();
-
-            for($i = 0;$i < count($contestProblemObj);$i++)
-            {
-                $problemObj = Problem::where('problem_id', $contestProblemObj[$i]->problem_id);
-                $problemObj->update([
-                    "visibility_locks" => $problemObj->first()->visibility_locks - 1
-                ]);
-            }
             ContestProblem::where('contest_id', $contest_id)->delete();
             $checkUnique = [];
             for($i = 0; $i < count($input['problem_id']); $i++)
@@ -628,7 +620,7 @@ $user->infoObj->time[$contestProblemID] =  strtotime($submission->submit_time) -
 
                 $problemObj = Problem::where('problem_id', $contestProblemObj->problem_id);
                 $problemObj->update([
-                    "visibility_locks" => $problemObj->first()->visibility_locks + 1
+                    "visibility_locks" => 1
                 ]);
             }
             if($type == 1)

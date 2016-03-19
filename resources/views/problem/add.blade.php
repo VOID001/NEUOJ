@@ -32,6 +32,9 @@
                 <input class="form-control"type="text" value="" name="title" style="width: 100%"/>
                 <div class="dashboard_problem_add_span">Problem Description</div>
                 <textarea class="form-control" name="description"style="width: 100%;height: 100px"></textarea>
+                <div class="dashboard_problem_add_span">Problem Visibility</div>
+                <input type = "radio" name = "visibility_locks" value = "0" checked/>Unlock
+                <input type = "radio" name = "visibility_locks" value = "1"/>Lock
                 <div class="dashboard_problem_add_span">Memory Limit</div>
                 <input class="form-control" type="text" name="mem_limit" value="65536"style="width: 100%"/>
                 <div class="dashboard_problem_add_span">Time Limit</div>

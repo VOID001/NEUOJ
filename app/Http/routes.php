@@ -244,7 +244,12 @@ Route::group(['middleware' => 'profile'],function() {
 
         Route::match(['post', 'get'], '/contest/{contest_id}/register', [
             "uses" => "ContestController@registerContest"
-        ])->where('contest_id', '[0-9]+') ;
+        ])->where('contest_id', '[0-9]+');
+
+        Route::get('/dashboard/problem/{problem_id}/visibility',[
+            "middleware" => "role:admin",
+            "uses" => "ProblemController@changeVisibility"
+        ])->where('problem_id', '[0-9]+');
 
     });
 });
