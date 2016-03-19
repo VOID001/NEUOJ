@@ -1,27 +1,42 @@
 @inject('roleCheck', 'App\Http\Controllers\RoleController')
 @include('layout.head')
-<h1>Contest Balloon</h1>
-<div id="">
-    <table id="">
-        <thead class="">
-            <th class="">
-                UserName
-            </th>
-            <th>
-                Problem Name
-            </th>
-            <th>
-                Color
-            </th>
-            <th>
-                Event
-            </th>
-        </thead>
-        <tbody id="balloon_list">
+<!doctype html>
+<html>
+<head>
+    <title>Contest Ballon</title>
+    @include("layout.head")
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/contest.css">
+    <script type="text/javascript">
+        $(function(){
+            $("#contest").addClass("active");
+        })
+    </script>
+</head>
+<body>
+    @include("layout.header")
+    <h3 class="text-center">Contest Balloon</h3>
+    <div class="main" >
+        <table class="table table-striped table-bordered table-hover contest_list contest_table" width="100%" >
+            <thead>
+                <th class="">
+                    UserName
+                </th>
+                <th>
+                    Problem Name
+                </th>
+                <th>
+                    Color
+                </th>
+                <th>
+                    Event
+                </th>
+            </thead>
+            <tbody id="balloon_list">
 
-        </tbody>
-    </table>
-</div>
+            </tbody>
+        </table>
+    </div>
 
 <script type="text/javascript">
     function getBalloon() {
@@ -55,5 +70,8 @@
 
     showBalloon();
 </script>
-<div style="background-color: #0000C2;"></div>
+<div style="padding-bottom: 40px">
+@include("layout.footer")
+</body>
+</html>
 
