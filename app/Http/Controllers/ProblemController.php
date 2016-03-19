@@ -12,6 +12,7 @@ use App\User;
 use App\Problem;
 use App\Submission;
 use App\Testcase;
+use Mockery\Exception;
 use Storage;
 use App\ContestProblem;
 use App\ContestUser;
@@ -33,6 +34,11 @@ class ProblemController extends Controller
         if($problemObj == NULL)
         {
 
+        }
+        $roleController = new RoleController();
+        if(!$roleController->is("admin") && $problemObj->visibility_locks != 0)
+        {
+            abort(404);
         }
         $jsonObj = json_decode($problemObj->description);
         $data['problem'] = $problemObj;
