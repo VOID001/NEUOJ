@@ -39,17 +39,17 @@
 <body>
     @include("layout.header")
     <h3 class="text-center">Problem: {{ $problem->title }}</h3>
-    <div class="text-center text-primary">Time limit: {{ $problem->time_limit }}s&nbsp;&nbsp;&nbsp;&nbsp;Mem limit:@if($problem->mem_limit < 1000)
+    <div class="text-center text-primary">Time limit: {{ $problem->time_limit }}s&nbsp;&nbsp;&nbsp;&nbsp;Mem limit:@if($problem->mem_limit < 1024)
             {{ $problem->mem_limit }} KB
         @else
-            {{ $problem->mem_limit / 1000 }} MB
+            {{ $problem->mem_limit / 1024 }} MB
         @endif
             @if($problem->is_spj == 1) <b>Special Judge</b>@endif
         @if(isset($contest))
-            AC/Submission: <a href="/contest/{{ $contest->contest_id }}/status/p/1?result=Accepted?pid={{ $problem->problem_id }}"/>{{ $problem->acSubmissionCount }}</a>/ <a href="/contest/{{ $contest->contest_id }}/status/p/1?pid={{ $problem->problem_id }}">{{ $problem->totalSubmissionCount }}</a>
+            &nbsp;&nbsp;&nbsp;AC/Submission: <a href="/contest/{{ $contest->contest_id }}/status/p/1?result=Accepted?pid={{ $problem->problem_id }}"/>{{ $problem->acSubmissionCount }}</a>/<a href="/contest/{{ $contest->contest_id }}/status/p/1?pid={{ $problem->problem_id }}">{{ $problem->totalSubmissionCount }}</a>
         @endif
         @if(!isset($contest))
-            AC/Submission: <a href="/status/p/1?result=Accepted&pid={{ $problem->problem_id }}"/>{{ $problem->acSubmissionCount }}</a>/ <a href="/status/p/1?pid={{ $problem->problem_id }}">{{ $problem->totalSubmissionCount }}</a>
+            &nbsp;&nbsp;&nbsp;AC/Submission: <a href="/status/p/1?result=Accepted&pid={{ $problem->problem_id }}"/>{{ $problem->acSubmissionCount }}</a>/<a href="/status/p/1?pid={{ $problem->problem_id }}">{{ $problem->totalSubmissionCount }}</a>
         @endif
     </div>
     @if(isset($contest))
@@ -121,25 +121,22 @@
     @endif
     <div class="panel panel-default main">
         <h3>Problem Description</h3>
-        <p class="word_cut fixHtml">{{ $problem->description }}</p>
-        <hr>
+        <p class="word_cut fixHtml">{{ $problem->description or "No Description!"}}</p>
         <h3>Input</h3>
-        <p class="word_cut fixHtml">{{ $problem->input }}</p>
-        <hr>
+        <p class="word_cut fixHtml">{{ $problem->input or "No Input!" }}</p>
         <h3>Output</h3>
-        <p class="word_cut fixHtml">{{ $problem->output }}</p>
-        <hr>
+        <p class="word_cut fixHtml">{{ $problem->output or "No Output!" }}</p>
         <h3>Sample Input</h3>
-        <p class="word_cut">{{ $problem->sample_input }}</p>
-        <hr>
+        <p class="word_cut">{{ $problem->sample_input or "No Sample Input!" }}</p>
         <h3>Sample Output</h3>
-        <p class="word_cut">{{ $problem->sample_output }}</p>
-        <hr>
+        <p class="word_cut">{{ $problem->sample_output or "No Sample Output" }}</p>
         <h3>Source</h3>
-        <p class="word_cut">{{ $problem->source }}</p>
+        <p class="word_cut">{{ $problem->source or "Source not avaliable!"}}</p>
+        <h3>Hint</h3>
+        <p class="word_cut">{{ $problem->hint or "No Hint!"}}</p>
     </div>
     @if(Request::session()->get('username') != NULL)
-        <div class="text-center" style="padding-bottom: 50px"><a class="btn btn-success" id="submit">submit</a></div>
+        <div class="text-center" style="padding-bottom: 50px"><a class="btn btn-info" id="submit">Submit</a></div>
     @else
         <div class="text-center" style="padding-bottom: 50px"><a href="/auth/signin">Sign in</a> to Submit your code</div>
     @endif

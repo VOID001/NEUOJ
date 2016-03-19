@@ -173,14 +173,8 @@
                 @if(Request::session()->get('uid') == $submission->uid || $roleCheck->is("admin"))
                 table_row_td
                 @endif">{{ substr($submission->submit_time, 2) }}</td>
-                <td class="text-center
-                @if(Request::session()->get('uid') == $submission->uid || $roleCheck->is("admin"))
-                table_row_td
-                @endif">{{ $submission->uid }}</td>
-                <td class="text-center
-                @if(Request::session()->get('uid') == $submission->uid || $roleCheck->is("admin"))
-                table_row_td
-                @endif" id="status_username_title_el"><nobr>{{ $submission->userName }}</nobr></td>
+                <td class="text-center table_row_td" onclick="javascript:window.location.href='/profile/{{ $submission->uid }}'">{{ $submission->uid }}</td>
+                <td class="text-center table_row_td" id="status_username_title_el" onclick="javascript:window.location.href='/profile/{{ $submission->uid }}'"><nobr>{{ $submission->userName }}</nobr></td>
                 <td class="text-left
                 @if(Request::session()->get('uid') == $submission->uid || $roleCheck->is("admin"))
                 table_row_td

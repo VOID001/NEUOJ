@@ -47,9 +47,8 @@
                             <td class="text-center table_row_td" onclick="javascript:window.location.href='/problem/{{ $problem->problem_id }}'">{{ $problem->problem_id }}</td>
                             <td class="text-left table_row_td" id="problem_title_author_el" onclick="javascript:window.location.href='/problem/{{ $problem->problem_id }}'"><nobr>{{ $problem->title }}</nobr></td>
                             <td class="text-center">{{ $problem->difficulty }}</td>
-                            <td class="text-center">{{ $problem->ac_count. "/" . $problem->submission_count }}</td>
+                            <td class="text-center table_row_td" onclick="javascript:window.location.href='/status/p/1?pid={{ $problem->problem_id }}'">{{ $problem->ac_count. "/" . $problem->submission_count }}</td>
                             <td class="text-center" id="problem_title_author_el"><nobr>{{ $problem->author }}</nobr></td>
-                            {{--<td class="text-center">{{ $problem->visibility_locks }}</td>--}}
                         </tr>
                 @endforeach
             @endif

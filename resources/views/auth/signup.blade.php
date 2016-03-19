@@ -36,7 +36,7 @@
                 </tr>
                 <tr>
                     <td></td>
-                    <td class="text-right"><input type="submit" value="Sign up" class="btn btn-success"></td>
+                    <td class="text-right"><input type="submit" value="Sign up" class="btn btn-info"></td>
                 </tr>
         </table>
     </form>
