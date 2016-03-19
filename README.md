@@ -9,16 +9,16 @@ NEUOJ
  * [x] Edit data
  * [x] Visibility Lock Manual Enable
  * [x] Load in Problem from XML
-* [ ] Hold Contest
+* [x] Hold Contest
  * [x] Three kind of access to contest: Private Register Public(Ver 2.0)
  * [x] Enable user register himself into the register Contest(Ver 2.0)
  * [x] Board display
  * [ ] Import student info from xls and xlsx etc.(Ver 2.0)
  * [x] Rejudge a Problem by ContestID or Submission ID
- * [ ] Balloon System
+ * [x] Balloon System(semi stub)
 * [ ] Root Admin Panel
  * [ ] + User Managment
- * [ ] Dashboard Show System Status
+ * [ ] Dashboard Show System Status(Not sure)
 * [x] Auth module
  * [x] Register
  * [x] Login
