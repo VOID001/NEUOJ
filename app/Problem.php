@@ -124,7 +124,7 @@ class Problem extends Model
             foreach($contestProblemList as $contestProblem)
             {
                 $contestObj = Contest::where('contest_id', $contestProblem->contest_id)->first();
-                if(!$contestObj->isEnded())
+                if($contestObj != NULL && !$contestObj->isEnded())
                     $i++;
             }
         }
