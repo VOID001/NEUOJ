@@ -1,45 +1,157 @@
 /*导航栏式样*/
 .navbar-default .navbar-nav > li > a {
-    color: #fff;
+    color: #fff!IMPORTANT;
+    height: 50px;
+    background-color: #3f51b5!IMPORTANT;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+.navbar-default .navbar-nav > li > a > paper-button{
+    position: relative;
+    top: -10px;
+    margin: 0;
+    padding-top: 10px;
+    padding-bottom: 5px;
+}
+.navbar .container{
+    margin: 0;
+    padding: 0 25px;
+    width: 100%;
+}
+.navbar{
+    border-radius: 0;
+    border: 0;
+    height: 50px;
+}
+.navbar-collapse{
+    padding: 0;
+}
+.navbar-header{
+    padding-right: 20px;
+}
+.active{
+}
+.activebar{
+    margin-left: 0;
+    width: 100%;
+    height: 5px;
+}
+.active .activebar{
+    background-color: #da4f49;
+}
+a:hover .activebar{
+    background-color: #5bc0de;
+}
+a:active .activebar{
+    background-color: #5bb75b;
+}
+.active > a:hover .activebar{
+    background-color: #da4f49;
+}
+.active > a:active .activebar{
+    background-color: #da4f49;
+}
+.btn{
+    padding: 6px 0;
+    min-width: 70px;
+}
+.btn-caret{
+    min-width: 10px!IMPORTANT;
+}
+.btn-grey {
+  color: #333;
+  background-color: #eee;
+  border-color: #bbb;
+}
+.btn-grey:focus,
+.btn-grey.focus {
+  color: #333;
+  background-color: #d5d5d5;
+  border-color: #7b7b7b;
+}
+.btn-grey:hover {
+  color: #333;
+  background-color: #d5d5d5;
+  border-color: #9c9c9c;
+}
+.btn-grey:active,
+.btn-grey.active,
+.open > .dropdown-toggle.btn-grey {
+  color: #333;
+  background-color: #d5d5d5;
+  border-color: #9c9c9c;
+}
+.btn-grey:active:hover,
+.btn-grey.active:hover,
+.open > .dropdown-toggle.btn-grey:hover,
+.btn-grey:active:focus,
+.btn-grey.active:focus,
+.open > .dropdown-toggle.btn-grey:focus,
+.btn-grey:active.focus,
+.btn-grey.active.focus,
+.open > .dropdown-toggle.btn-grey.focus {
+  color: #333;
+  background-color: #c3c3c3;
+  border-color: #7b7b7b;
+}
+.btn-grey:active,
+.btn-grey.active,
+.open > .dropdown-toggle.btn-grey {
+  background-image: none;
+}
+.btn-grey.disabled,
+.btn-grey[disabled],
+fieldset[disabled] .btn-grey,
+.btn-grey.disabled:hover,
+.btn-grey[disabled]:hover,
+fieldset[disabled] .btn-grey:hover,
+.btn-grey.disabled:focus,
+.btn-grey[disabled]:focus,
+fieldset[disabled] .btn-grey:focus,
+.btn-grey.disabled.focus,
+.btn-grey[disabled].focus,
+fieldset[disabled] .btn-grey.focus,
+.btn-grey.disabled:active,
+.btn-grey[disabled]:active,
+fieldset[disabled] .btn-grey:active,
+.btn-grey.disabled.active,
+.btn-grey[disabled].active,
+fieldset[disabled] .btn-grey.active {
+  background-color: #eee;
+  border-color: #bbb;
+}
+.btn-grey .badge {
+  color: #fff;
+  background-color: #222;
 }
 #signin{
     position: absolute;
-    top: 8px;
-    right: 140px;
+    top: 5.5px;
+    right: 100px;
     width: 70px;
 }
-
 #ssologin{
     position: absolute;
-    top: 8px;
-    right: 220px;
+    top: 5.5px;
+    right: 180px;
+    width: 70px;
+}
+#signup{
+    position: absolute;
+    top: 5.5px;
+    right: 20px;
     width: 70px;
 }
 #dashboard{
     position: absolute;
-    display: block;
-    top:6px;
-    right: 140px;
-    width: 200px;
-    padding-top: 7px;
-    text-decoration: none;
-    font-size: 18px;
-    color: #fff;
-    text-overflow: ellipsis;
-    overflow:hidden;
-}
-#dashboard:hover{
-    color: #333;
-}
-#logout,#signup{
-    position: absolute;
     top: 8px;
-    right: 60px;
-    width: 70px;
+    right: 20px;
+}
+#dashboard .btn{
+    min-width: 100px;
 }
 .neuoj_theme{
     font-size: 40px;
-    width: 250px;
 }
 .neuacmlogo{
     width: 40px;
@@ -49,24 +161,24 @@
     border-radius: 20px;
     transition: box-shadow 0.3s;
 }
-.neuacmlogo:hover{
+.neuoj_theme:hover .neuacmlogo{
     box-shadow: 0 0 10px #FFF;
 }
-.neuacmlogo:active{
+.neuoj_theme:active .neuacmlogo{
     transition: box-shadow 0.05s;
     box-shadow: 0 0 20px #FFF;
 }
 .neuacmlogotext{
     float: left;
-    color: #99cccc;
-    transition: color 0.3s;
+    color: #fff;
+    transition: text-shadow 0.3s;
 }
-.neuacmlogotext:hover{
-    color: #FFF;
+.neuoj_theme:hover .neuacmlogotext{
+    text-shadow: 0 0 10px #fff;
 }
-.neuacmlogotext:active{
-    transition: color 0.05s;
-    color: #66AAAA;
+.neuoj_theme:active .neuacmlogotext{
+    transition: text-shadow 0.05s;
+    text-shadow: 0 0 20px #fff;
 }
 /*题目列表式样*/
 #problemlist > thead > tr > th,
@@ -121,7 +233,7 @@ body{
 }
 /*页脚*/
 .footer{
-    background: #336699;
+    background: #3f51b5;
     width: 100%;
     line-height: 10px;
     position: absolute;
@@ -136,6 +248,7 @@ body{
     height: 20px;
     line-height: 20px;
     font-size: 13px;
+    white-space: nowrap;
 }
 /*常用全局标签*/
 .my_p{
@@ -423,4 +536,23 @@ li.separate-item {
 }
 .table_row_td:active{
     background-color: #31b0d5!important;
+}
+@font-face{
+    font-family: Roboto;
+    src: url('/fonts/Roboto/Roboto-Regular.ttf');
+}
+@font-face{
+    font-family: Roboto;
+    src: url('/fonts/Roboto/Roboto-Bold.ttf');
+    font-weight: bold;
+}
+*{
+   font-family: Roboto;
+}
+.mdbtn-white{
+    background-color: #2e87d8;
+    color: #fff;
+}
+.mdbtn-white:hover{
+    background-color: #3f98e9;
 }
