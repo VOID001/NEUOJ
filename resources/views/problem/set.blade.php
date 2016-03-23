@@ -60,10 +60,10 @@
         @else
             @foreach($testcases as $testcase)
                 <div class="dashboard_problem_add_span">Upload Input File</div>
-                <div class="form-control">Input File: {{ $testcase->input_file_name }} md5sum: {{ $testcase->md5sum_input }}</div>
+                <div class="form-control">Input File: <a href="/storage/testdata?file={{ $testcase->input_file_name }}">{{ $testcase->input_file_name }}</a> md5sum: {{ $testcase->md5sum_input }}</div>
                 <input class="form-control"type="file" name="input_file[]"style="width: 100%"/>
                 <div class="dashboard_problem_add_span">Upload Output File</div>
-                <div class="form-control">Output File: {{ $testcase->output_file_name }} md5sum: {{ $testcase->md5sum_output }}</div>
+                <div class="form-control">Output File: <a href="/storage/testdata?file={{ $testcase->output_file_name }}">{{ $testcase->output_file_name }}</a> md5sum: {{ $testcase->md5sum_output }}</div>
                 <input class="form-control"type="file" name="output_file[]"style="width: 100%"/>
             @endforeach
         @endif

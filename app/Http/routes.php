@@ -199,8 +199,7 @@ Route::group(['middleware' => 'profile'],function() {
         ]);
 
         Route::get('/contest/{contest_id}/balloon', [
-            "middleware" => "role:admin",
-            "uses" => "ContestController@getContestBalloonView"
+            "middleware" => "role:admin", "uses" => "ContestController@getContestBalloonView"
         ]);
 
         Route::get('/contest/{contest_id}/problem/{problem_id}', [
@@ -250,6 +249,11 @@ Route::group(['middleware' => 'profile'],function() {
             "middleware" => "role:admin",
             "uses" => "ProblemController@changeVisibility"
         ])->where('problem_id', '[0-9]+');
+
+        Route::get('/storage/{path_name}', [
+            "middleware" => "role:admin",
+            "uses" => "StorageController@getStoredFile"
+        ]);
 
     });
 });
