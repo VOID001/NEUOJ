@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <link rel="stylesheet" href="/css/bootstrap.css">
+<link href="/css/froala_style.min.css" rel="stylesheet" type="text/css" />
 <script src="/js/jquery.js"></script>
 <script src="/js/bootstrap.js"></script>
 <script src="/bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>

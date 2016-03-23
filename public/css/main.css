@@ -497,7 +497,7 @@ li.separate-item {
     display: inline-block;
 }
 .dashboard_problem_add_table{
-    width: 600px;
+    width: 90%;
     margin: 0 auto;
     padding-top: 20px;
 }

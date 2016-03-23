@@ -121,11 +121,11 @@
     @endif
     <div class="panel panel-default main">
         <h3>Problem Description</h3>
-        <p class="word_cut fixHtml">{{ $problem->description or "No Description!"}}</p>
+        <div class="fr-view word_cut">{!! $problem->description or "No Description!" !!}</div>
         <h3>Input</h3>
-        <p class="word_cut fixHtml">{{ $problem->input or "No Input!" }}</p>
+        <div class="fr-view word_cut">{!! $problem->input or "No Input!" !!}</div>
         <h3>Output</h3>
-        <p class="word_cut fixHtml">{{ $problem->output or "No Output!" }}</p>
+        <div class="fr-view word_cut">{!! $problem->output or "No Output!" !!}</div>
         <h3>Sample Input</h3>
         <p class="word_cut">{{ $problem->sample_input or "No Sample Input!" }}</p>
         <h3>Sample Output</h3>

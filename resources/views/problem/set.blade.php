@@ -3,6 +3,7 @@
 <head>
     <title>Edit Problem</title>
     @include("layout.head")
+    @include("layout.wysiwyg_head")
     <link rel="stylesheet" href="/css/main.css">
     <script type="text/javascript">
         $(function(){
@@ -31,7 +32,7 @@
         <div class="dashboard_problem_add_span">Problem Title</div>
         <input class="form-control"type="text" value="{{ $problem->title }}" name="title"style="width: 100%"/>
         <div class="dashboard_problem_add_span">Problem Description</div>
-        <textarea class="form-control"name="description"style="width: 100%;height: 100px">{{ $problem->description or "" }}</textarea>
+        <textarea class="form-control problem_add_wsg"name="description">{{ $problem->description or "" }}</textarea>
         <div class="dashboard_problem_add_span">Memory Limit</div>
         <input class="form-control"type="text" name="mem_limit" value="{{ $problem->mem_limit }}"style="width: 100%"/>
         <div class="dashboard_problem_add_span">Time Limit</div>
@@ -39,9 +40,9 @@
         <div class="dashboard_problem_add_span">Output Limit</div>
         <input class="form-control"type="text" name="output_limit" value="{{ $problem->output_limit }}"style="width: 100%"/>
         <div class="dashboard_problem_add_span">Input</div>
-        <textarea class="form-control"name="input"style="width: 100%;height: 100px">{{ $problem->input or "" }}</textarea>
+        <textarea class="form-control problem_add_wsg"name="input">{{ $problem->input or "" }}</textarea>
         <div class="dashboard_problem_add_span">Output</div>
-        <textarea class="form-control"name="output"style="width: 100%;height: 100px">{{ $problem->output or "" }}</textarea>
+        <textarea class="form-control problem_add_wsg"name="output">{{ $problem->output or "" }}</textarea>
         <div class="dashboard_problem_add_span">Sample Input</div>
         <textarea class="form-control"name="sample_input"style="width: 100%;height: 100px">{{ $problem->sample_input or ""}}</textarea>
         <div class="dashboard_problem_add_span">Sample Output</div>
@@ -73,5 +74,6 @@
     </div>
     <div style="padding-bottom: 60px"></div>
 </div>
+    @include('layout.wysiwyg_foot')
 </body>
 </html>
