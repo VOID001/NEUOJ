@@ -1,7 +1,51 @@
 NEUOJ
 ====
+__Ver 1.0 Released__ 2.0 Working In Progress
 
-### Function Enabled for v1.0
+### Function Enabled for v2.0
+
+* [ ] Problem
+ * [ ] Problem Database, Training System
+ * [ ] Manually define problem difficulty
+ * [ ] Add Standard Solution problem for each problem
+ * [ ] Use Tag for admin
+ * [ ] Give the statistics info of the problem
+* [ ] User
+ * [ ] Role Control (Use Entrust maybe)
+ * [ ] Add friends
+ * [ ] Detailed Profile
+ * [ ] Admin User managment panel
+ * [ ] User can add Teams
+ * [ ] Homepage give personized info
+  * [ ] Related Problems
+  * [ ] Problems working on
+  * [ ] Friends activity
+* [ ] Submission
+ * [ ] Multi Lang Submission Support
+ * [ ] SIM for check copied code
+ * [ ] A full rejudge system
+ * [ ] Wrong Answer Diff
+ * [ ] Admin Submission management panel
+ * [ ] Multiple testcase ? (Maybe)
+* [ ] Contest
+ * [ ] Each user can add contest
+ * [ ] Contest Announcement(Broadcast?)
+ * [ ] Contest BBS
+ * [ ] Export Ranklist
+ * [ ] Contest Statistics
+* [ ] CMS
+ * [ ] BBS Function
+ * [ ] Blog
+* [ ] System & Log
+ * [ ] Log System
+ * [ ] Admin Dashboard system info panel
+* [ ] File Managment
+ * [ ] Download Files
+ * [ ] Upload Files
+ * [ ] Delete Files
+ * [ ] Manage Files
+
+### Function Implmented for v1.0 (Done)
 * [x] Problem managment
  * [x] Add Problem
  * [x] Edit Problem
@@ -35,6 +79,8 @@ NEUOJ
  * [x] Compile Error Message Return to user
 * [ ] RoleCheck (Ver 2.0)
 * [ ] Content Managment System (CMS) Use one Plugin
+
+ 
 
 ### top level route
 * /profile User profile page
