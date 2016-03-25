@@ -160,6 +160,8 @@ class RESTController extends Controller
         $submissionObj = Submission::where('runid', $input['judgingid'])->first();
         var_dump($input);
 
+        $output_system = $this->parseSystemMeta($input['output_system']);
+
         //Contest only
         //Judge if it's a FB
         if($input["runresult"] == "correct" && $submissionObj->cid != 0)
@@ -181,13 +183,14 @@ class RESTController extends Controller
         Submission::where('runid', $input["judgingid"])->update(
             [
                 "result" => $resultMapping[$input["runresult"]],
-                "exec_time" => $input["runtime"],
+                "exec_time" => $output_system["wall_time"],
+                "exec_mem" => $output_system["memory_used"],
                 "judge_status" => 3,
                 "judgeid" => $input["judgehost"]
             ]
         );
 
-        var_dump($input);
+        //var_dump($input);
         /* Balloon */
         $submissionObj = Submission::where('runid', $input['judgingid'])->first();
         if($submissionObj->cid != 0)
@@ -250,4 +253,77 @@ class RESTController extends Controller
             }
         }
     }
+
+    /*
+     * @function parseSystemMeta
+     * @input String
+     *
+     * @return String
+     * @description Use to parse the system.out info
+     *              get the wall time and mem limit
+     */
+    public function parseSystemMeta($meta)
+    {
+        $result = [];
+        $result[0] = 0;
+        $result[1] = 0;
+        $result[2] = 0;
+        $dot_temp = 0;
+
+        $meta = base64_decode($meta);
+        $len = strlen($meta);
+
+        $flag = 0;
+        $dot = false;
+        $dot_count = 0;
+        for($i = 0; $i < $len; $i++)
+        {
+            if(is_numeric($meta[$i]) || $meta[$i] == '.')
+            {
+                if($meta[$i] == '.')
+                {
+                    $dot = true;
+                }
+                else
+                {
+                    if($dot)
+                    {
+                        $dot_temp = $dot_temp * 10 + ($meta[$i] - '0');
+                        $dot_count++;
+                    }
+                    else
+                    {
+                        $result[$flag] = $result[$flag] * 10 + ($meta[$i] - '0');
+                    }
+                }
+            }
+            /* First Element Parse OK */
+            else if($meta[$i] == ',')
+            {
+                $flag = 1;
+                $result[0] = $result[0] + ($dot_temp * 1.0) / pow(10, $dot_count);
+                $dot = false;
+                $dot_count = 0;
+                $dot_temp = 0;
+            }
+            /* Second Element Parse OK */
+            else if($meta[$i] == ':' && $flag == 1)
+            {
+                $flag = 2;
+                $result[1] = $result[1] + ($dot_temp * 1.0) / pow(10, $dot_count);
+                $dot = false;
+                $dot_count = 0;
+                $dot_temp = 0;
+            }
+        }
+        /* Last Element Parse OK */
+
+        $result["run_time"] = $result[0];
+        $result["wall_time"] = $result[1];
+        $result["memory_used"] = $result[2];
+
+        return $result;
+
+    }
+
 }
