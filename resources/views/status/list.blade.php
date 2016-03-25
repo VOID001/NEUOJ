@@ -212,11 +212,21 @@
                 <td class="text-center
                 @if(Request::session()->get('uid') == $submission->uid || $roleCheck->is("admin"))
                 table_row_td
-                @endif">{{ $submission->exec_mem }}</td>
+                @endif">@if($submission->exec_mem < 1024)
+                    {{ $submission->exec_mem }} Byte
+                @elseif($submission->exec_mem < 1024*1024)
+                    {{ (int)($submission->exec_mem / 1024) }} KB
+                @else
+                    {{ (int)($submission->exec_mem / 1024 / 1024) }} MB
+                @endif</td>
                 <td class="text-center
                 @if(Request::session()->get('uid') == $submission->uid || $roleCheck->is("admin"))
                 table_row_td
-                @endif">{{ $submission->exec_time }}</td>
+                @endif">@if($submission->exec_time < 1)
+                    {{ (int)($submission->exec_time * 1000) }}ms
+                @else
+                    {{ $submission->exec_time }}s
+                @endif</td>
                 @if($roleCheck->is('admin'))
                     <td>
                         <form method="post" action="/rejudge/{{ $submission->runid }}">
