@@ -53,7 +53,7 @@ class RESTController extends Controller
         $jsonObj["rejudgingid"] = "";
         $jsonObj["maxruntime"] = $problem->time_limit;
         $jsonObj["memlimit"] = $problem->mem_limit;
-        $jsonObj["outputlimit"] = 4096;
+        $jsonObj["outputlimit"] = $problem->output_limit;
         $jsonObj["run"] = "run";
         $jsonObj["compare_md5sum"] = $compareExecutable->md5sum;
         $jsonObj["run_md5sum"] = $runExecutable->md5sum;
