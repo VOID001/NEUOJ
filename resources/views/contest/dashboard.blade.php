@@ -46,13 +46,7 @@
                         @endif
                     </td>
                     <td class="text-center">
-                        @if(time() > $contest->begin_time)
-                            Pending
-                        @elseif(time() >= $contest->begin_time && time() <= $contest->end_time)
-                            Running
-                        @else
-                            Stopped
-                        @endif
+                        {{ $contest->status }}
                     </td>
                     <td class="text-center">
                         {{ $contest->begin_time }}
