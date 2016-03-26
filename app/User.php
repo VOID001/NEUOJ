@@ -31,4 +31,9 @@ class User extends Model
 
 
     protected $primaryKey = 'uid';
+
+    public function info()
+    {
+        return $this->hasOne('App\Userinfo', 'uid');
+    }
 }

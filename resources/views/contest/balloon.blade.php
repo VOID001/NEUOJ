@@ -22,6 +22,9 @@
                 <th class="">
                     UserName
                 </th>
+                <th class="">
+                    NickName
+                </th>
                 <th>
                     Problem Name
                 </th>
@@ -54,6 +57,7 @@
             for(var i = 0; i < json.count; i++) {
                 $("#balloon_list").append("<tr>" +
                         "<td>" + json[i].username + "</td>" +
+                        "<td>" + json[i].nickname + "</td>" +
                         "<td>" + json[i].short_name + "</td>" +
                         "<td>" + "<div style='height:10px; width:100px; background-color:#00" + json[i].color + "00'></div>" + "</td>" +
                         "<td>" + json[i].event + "</td>" +

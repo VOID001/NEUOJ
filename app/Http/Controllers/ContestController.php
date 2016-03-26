@@ -773,6 +773,7 @@ $user->infoObj->time[$contestProblemID] =  strtotime($submission->submit_time) -
                 $data[$count]["contest_problem_id"] = $contestProblemObj->contest_problem_id;
                 $data[$count]["short_name"] = $contestProblemObj->problem_title;
                 $data[$count]["color"] = $contestProblemObj->problem_color;
+                $data[$count]["nickname"] = User::find($submissionObj->uid)->info->nickname;
                 if($contestBalloonEventObj->event_status == env('BALLOON_SEND',1))
                 {
                     $data[$count]["event"] = 'send';
