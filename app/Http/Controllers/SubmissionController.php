@@ -82,11 +82,19 @@ class SubmissionController extends Controller
      */
     public function getSubmissionByID(Request $request, $run_id)
     {
+        $input = $request->all();
         $data = [];
         $submissionObj = Submission::where('runid', $run_id)->first();
-        $fileContent = Storage::get("submissions/".$submissionObj->submit_file);
+        $fileContent = Storage::get("submissions/" . $submissionObj->submit_file);
         $data = $submissionObj;
         $data->code = $fileContent;
+        /* It's in contest */
+        if(isset($input['c']))
+        {
+            $contestObj = Contest::where('contest_id', $input['c'])->first();
+            $data->contest = $contestObj;
+            $data->contestProblemId = $input['p'];
+        }
 
         return View::make('status.index', $data);
     }

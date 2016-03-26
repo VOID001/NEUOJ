@@ -526,6 +526,7 @@ $user->infoObj->time[$contestProblemID] =  strtotime($submission->submit_time) -
             $username = $tmpUserObj['username'];
             $data['submissions'][$count]->userName = $username;
             $data['submissions'][$count]->problemTitle = $problemTitle;
+            $data['submissions'][$count]->contestProblemId = $tmpProblemObj['contest_problem_id'];
         }
 
         //$data['submissions'] = $submissionObj;

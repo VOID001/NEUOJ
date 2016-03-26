@@ -28,9 +28,13 @@
 <div class="status_main">
     <pre class="source_code">
         <h3>Source Code</h3>
-        <label><a href="/problem/{{ $pid }}">Problem ID :<b>{{ $pid }}</b></a></label>
-        <label>Result :<b>{{ $result }}</b></label>
-        <label>Download Source Code</label>
+        @if(!isset($contest))
+        <div><a href="/problem/{{ $pid }}">Problem ID :<b>{{ $pid }}</b></a></div>
+        @else
+        <div><a href="/contest/{{ $contest->contest_id }}/problem/{{ $contestProblemId }}">Problem ID :<b>{{ $contestProblemId }}</b></a></div>
+        @endif
+        <div>Result :<b>{{ $result }}</b></div>
+        <div>Download Source Code</div>
         <code class="cpp" id="paste">{{ $code }}</code>
         @if($result == "Compile Error" && $err_info != "")
             <h3>Compile/Runtime Error</h3>

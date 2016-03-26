@@ -160,7 +160,7 @@
             class="table_row"
             @endif
             @if(Request::session()->get('uid') == $submission->uid || $roleCheck->is("admin"))
-            onclick="javascript:window.location.href='/status/{{ $submission->runid }}'"
+            onclick="javascript:window.location.href='/status/{{ $submission->runid }}@if(isset($contest))?c={{ $contest->contest_id }}&p={{ $submission->contestProblemId }} @endif'"
             title="View Source"
             @endif
             >
