@@ -269,7 +269,7 @@
         {
             var run_id = rows[i].cells[0].innerHTML;
             var result = rows[i].cells[5].innerHTML;
-            var resultObj = rows[i].cells[5];
+            var resultObj = rows[i].cells;
             if(result.indexOf('Pending') != -1 || result.indexOf('Rejudging') != -1)
             {
                 fetchResult(run_id, resultObj);
@@ -290,20 +290,33 @@
             console.log(json);
             if(json.result == "Accepted")
             {
-                resultObj.innerHTML = "<span class='label label-success' style='font-size: 15px'><span class='glyphicon glyphicon-ok ' style='color: #000'></span>Accepted</span>"
+                resultObj[5].innerHTML = "<span class='label label-success' style='font-size: 15px'><span class='glyphicon glyphicon-ok ' style='color: #000'></span>Accepted</span>"
             }
             else if(json.result == "Wrong Answer")
             {
-                resultObj.innerHTML = "<span class='label label-danger' style='font-size: 13px'>Wrong Answer</span>"
+                resultObj[5].innerHTML = "<span class='label label-danger' style='font-size: 13px'>Wrong Answer</span>"
             }
             else if(json.result == "Compile Error")
             {
-                resultObj.innerHTML = "<span class='label label-default' style='font-size: 13px'>Compile Error</span>"
+                resultObj[5].innerHTML = "<span class='label label-default' style='font-size: 13px'>Compile Error</span>"
             }
             else
             {
-                resultObj.innerHTML = "<span class='label label-warning' style='font-size: 13px'>" + json.result + "</span>"
+                resultObj[5].innerHTML = "<span class='label label-warning' style='font-size: 13px'>" + json.result + "</span>"
             }
+            if(json.exec_mem > 1024 && json.exec_mem < 1024 * 1024)
+                json.exec_mem = json.exec_mem / 1024 + "KB";
+            else if(json.exec_mem >= 1024 * 1024)
+                json.exec_mem = parseInt(json.exec_mem / 1024 / 1024 | 0) + "MB";
+            else
+                json.exec_mem = parseInt(json.exec_mem | 0) + "Byte";
+
+            if(json.exec_time < 1)
+                json.exec_time = json.exec_time * 1000 + "ms";
+            else
+                json.exec_time = json.exec_time + "s";
+            resultObj[7].innerHTML = json.exec_mem;
+            resultObj[8].innerHTML = json.exec_time;
         })
     }
 
