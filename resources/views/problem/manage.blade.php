@@ -63,10 +63,12 @@
                 <tr>
                     <td class="text-left" id="problem_title_author_el"><nobr>{{ $problem->title }}</nobr></td>
                     <td class="text-center">{{ $problem->problem_id }}</td>
-                    <td class="text-center"><a class="btn btn-default" href="/dashboard/problem/{{ $problem->problem_id }}/visibility">&nbsp;&nbsp;
+                    <td class="text-center">
                     @if($problem->visibility_locks == 0)
+                    <a class="btn btn-success" href="/dashboard/problem/{{ $problem->problem_id }}/visibility">&nbsp;&nbsp;
                     Lock({{ $problem->used_times }})
                     @else
+                    <a class="btn btn-danger" href="/dashboard/problem/{{ $problem->problem_id }}/visibility">&nbsp;&nbsp;
                     Unlock({{ $problem->used_times }})
                     @endif
                     &nbsp;&nbsp;</a></td>

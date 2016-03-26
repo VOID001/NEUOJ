@@ -33,11 +33,11 @@
         <input class="form-control"type="text" value="{{ $problem->title }}" name="title"style="width: 100%"/>
         <div class="dashboard_problem_add_span">Problem Description</div>
         <textarea class="form-control problem_add_wsg"name="description">{{ $problem->description or "" }}</textarea>
-        <div class="dashboard_problem_add_span">Memory Limit</div>
+        <div class="dashboard_problem_add_span">Memory Limit (KB)</div>
         <input class="form-control"type="text" name="mem_limit" value="{{ $problem->mem_limit }}"style="width: 100%"/>
-        <div class="dashboard_problem_add_span">Time Limit</div>
+        <div class="dashboard_problem_add_span">Time Limit (S)</div>
         <input class="form-control"type="text" name="time_limit" value="{{ $problem->time_limit }}"style="width: 100%"/>
-        <div class="dashboard_problem_add_span">Output Limit</div>
+        <div class="dashboard_problem_add_span">Output Limit (KB)</div>
         <input class="form-control"type="text" name="output_limit" value="{{ $problem->output_limit }}"style="width: 100%"/>
         <div class="dashboard_problem_add_span">Input</div>
         <textarea class="form-control problem_add_wsg"name="input">{{ $problem->input or "" }}</textarea>
