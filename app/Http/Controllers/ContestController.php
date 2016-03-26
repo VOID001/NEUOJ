@@ -561,6 +561,7 @@ $user->infoObj->time[$contestProblemID] =  strtotime($submission->submit_time) -
     public function setContest(Request $request, $contest_id)
     {
         $data = [];
+        $errMsg = new MessageBag;
         $contestObj = Contest::where('contest_id', $contest_id)->first();
         $contestProblemObj = ContestProblem::where('contest_id',$contest_id)->get();
         if($request->method() == "POST")
@@ -568,15 +569,41 @@ $user->infoObj->time[$contestProblemID] =  strtotime($submission->submit_time) -
             $input = $request->all();
             //Validation Check
             $vdtor = Validator::make($input, [
-                'contest_name' => 'required | unique:contest_info',
                 'problem_id' => 'required | exists:problems'
             ]);
             if($vdtor->fails())
             {
                 $errMsg = $vdtor->errors();
             }
-            //$beginTime = strtotime($input['begin_time']);
-            //$endTime = strtotime($input['end_time']);
+            $beginTime = strtotime($input['begin_time']);
+            $endTime = strtotime($input['end_time']);
+            $registerBeginTime = strtotime($input['register_begin_time']);
+            $registerEndTime = strtotime($input['register_end_time']);
+            if(!isset($input['problem_id']))
+            {
+                $errMsg->add('err', "You must Provide at least one problem!");
+                return Redirect::to("/dashboard/contest/$contest_id")->withErrors($errMsg)->withInput($input);
+            }
+            if($beginTime >= $endTime)
+            {
+                $errMsg->add('time', "Contest ends before the contest begin");
+            }
+            if($input['contest_type'] == "register")
+            {
+                if($registerBeginTime >= $registerEndTime)
+                {
+                    $errMsg->add('time', "Register ends before the register begin");
+                }
+                if($registerBeginTime >= $beginTime || $registerEndTime >= $endTime)
+                {
+                    $errMsg->add('time', "Register begins or end after the contest begin");
+                }
+            }
+            if(!$errMsg->isEmpty())
+            {
+                var_dump($errMsg);
+                return Redirect::to("/dashboard/contest/$contest_id")->withErrors($errMsg)->withInput($input);
+            }
             $contestObj = Contest::where('contest_id', $contest_id)->first();
             var_dump($contestObj->primaryKey);
             $contestObj->contest_name = $input['contest_name'];
