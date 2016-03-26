@@ -238,7 +238,7 @@ class AuthController extends Controller
             $pwdResetObj->token = sha1($email . "" . time());
 
             Mail::send('email.request', ['passwordReset' => $pwdResetObj], function($message) use ($pwdResetObj){
-                $message->from('noreply@neuoj.com', 'NEUOJ');
+                $message->from('neu_oj@163.com', 'NEUOJ');
                 $message->to($pwdResetObj->email);
                 $message->subject('[NEUOJ] Reset Password Confirmation');
             });
