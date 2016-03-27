@@ -129,6 +129,9 @@
             <td class="text-center" id="status_username">
                 Username
             </td>
+            <td class="text-center" id="status_username">
+                Nickname
+            </td>
             <td class="text-left" id="status_problem_title">
                 Problem Title
             </td>
@@ -175,6 +178,7 @@
                 @endif">{{ substr($submission->submit_time, 2) }}</td>
                 <td class="text-center table_row_td" onclick="javascript:window.location.href='/profile/{{ $submission->uid }}'">{{ $submission->uid }}</td>
                 <td class="text-center table_row_td" id="status_username_title_el" onclick="javascript:window.location.href='/profile/{{ $submission->uid }}'"><nobr>{{ $submission->userName }}</nobr></td>
+                <td class="text-center table_row_td" id="status_username_title_el" onclick="javascript:window.location.href='/profile/{{ $submission->uid }}'"><nobr>{{ $submission->nickname }}</nobr></td>
                 <td class="text-left
                 @if(Request::session()->get('uid') == $submission->uid || $roleCheck->is("admin"))
                 table_row_td

@@ -155,6 +155,7 @@ class SubmissionController extends Controller
             $problemTitle = $tmpProblemObj['title'];
             $username = $tmpUserObj['username'];
             $data['submissions'][$count]->userName = $username;
+            $data['submissions'][$count]->nickname = $tmpUserObj->info->nickname;
             $data['submissions'][$count]->problemTitle = $problemTitle;
         }
         $queryInput = $request->input();
