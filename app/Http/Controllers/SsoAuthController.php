@@ -124,7 +124,8 @@ class SsoAuthController extends Controller
             ]);
             return Redirect::route('dashboard.profile');
         }
-        else{
+        else
+        {
             // dump($user_id);
             $request->session()->put([
                 'username' => $username->username,
