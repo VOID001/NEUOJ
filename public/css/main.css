@@ -204,11 +204,17 @@ fieldset[disabled] .btn-grey.active {
 #signinTable{
     width: 600px;
 }
-#signinTable td,#signupTable td{
+#signinTable td,#signupTable td,#resetTable td{
     height: 50px;
 }
 #signupTable{
     width: 400px;
+}
+#resetTable{
+    margin-left:36%;
+}
+#resetForm{
+    margin-top:2%;
 }
 .third_logo1{
     width: 40px;
