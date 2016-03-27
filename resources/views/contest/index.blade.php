@@ -145,10 +145,18 @@
                         {{ $problem->contest_problem_id }}
                     </td>
                     <td class="text-center table_row_td">
-                        {{ $problem->problem_title }}
+                        @if(!$roleCheck->is("admin") && !($contest->isRunning() || $contest->isEnded()))
+                            (╯‵A′)╯︵┻━┻
+                        @else
+                            {{ $problem->problem_title }}
+                        @endif
                     </td>
                     <td class="table_row_td" id="contest_index_problem_name_el">
-                        <nobr>{{ $problem->realProblemName === -1 ? "[Error] Problem Deleted!" : $problem->realProblemName }}</nobr>
+                        @if(!$roleCheck->is("admin") && !($contest->isRunning() || $contest->isEnded()))
+                            <nobr>(╯‵A′)╯︵┻━┻ </nobr>
+                        @else
+                            <nobr>{{ $problem->realProblemName === -1 ? "[Error] Problem Deleted!" : $problem->realProblemName }}</nobr>
+                        @endif
                     </td>
                     <td class="text-center table_row_td">
                         @if($problem->acSubmissionCount != 0)
