@@ -145,4 +145,28 @@ class Contest extends Model
         $data["page_num"] = (int)($contestNum / $itemsPerPage + ($contestNum % $itemsPerPage == 0 ? 0 : 1));
         return $data;
     }
+
+    /*
+     * @function getFirstacList
+     * @input $this
+     *
+     * @return $firstac
+     * @description find the first ac submission of every problem of the contest
+     */
+    public function getFirstacList()
+    {
+        $contestProblemObj = ContestProblem::where('contest_id', $this->contest_id)->get();
+        $firstac = [];
+        foreach($contestProblemObj as $problem)
+        {
+            $submissionObj = Submission::where([
+                'cid' => $this->contest_id,
+                'pid' => $problem->problem_id,
+                'result' => 'Accepted'
+            ])->orderby('runid','asc')->first();
+            if(isset($submissionObj))
+                $firstac[$problem->problem_id] = $submissionObj->uid;
+        }
+        return $firstac;
+    }
 }

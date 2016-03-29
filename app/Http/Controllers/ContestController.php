@@ -305,7 +305,8 @@ class ContestController extends Controller
 
             $data["problems"][$count]->realProblemName = Problem::getProblemTitle($realProblemID);
 
-            if($uid == $contestProblem->first_ac)
+            $firstac = $contestObj->getFirstacList();
+            if($uid == $firstac[$contestProblem->problem_id])
             {
                 $data["problems"][$count]->thisUserFB = true;
             }
@@ -369,17 +370,7 @@ class ContestController extends Controller
 
 
         $data['problems'] = ContestProblem::where('contest_id', $contest_id)->get();
-        $firstac = [];
-        foreach($data['problems'] as $problem)
-        {
-            $submissionObj = Submission::where([
-                'cid' => $contest_id,
-                'pid' => $problem->problem_id,
-                'result' => 'Accepted'
-            ])->orderby('runid','asc')->first();
-            if(isset($submissionObj))
-                $firstac[$problem->problem_id] = $submissionObj->uid;
-        }
+        $firstac = $contestObj->getFirstacList();
         if(!isset($data['users']))
             $data['users'] = [];
         foreach($data['users'] as $user)
