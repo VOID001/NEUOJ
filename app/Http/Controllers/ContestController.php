@@ -369,10 +369,19 @@ class ContestController extends Controller
 
 
         $data['problems'] = ContestProblem::where('contest_id', $contest_id)->get();
-
-        //for($i = 0; $i < $count; $i++)
-	    if(!isset($data['users']))
-		    $data['users'] = [];
+        $firstac = [];
+        foreach($data['problems'] as $problem)
+        {
+            $submissionObj = Submission::where([
+                'cid' => $contest_id,
+                'pid' => $problem->problem_id,
+                'result' => 'Accepted'
+            ])->orderby('runid','asc')->first();
+            if(isset($submissionObj))
+                $firstac[$problem->problem_id] = $submissionObj->uid;
+        }
+        if(!isset($data['users']))
+            $data['users'] = [];
         foreach($data['users'] as $user)
         {
             //$user = $data['user'][$i];
@@ -407,8 +416,7 @@ class ContestController extends Controller
                     else
                     {
                         //Check FB
-
-                        if (ContestProblem::where(["contest_id" => $contest_id, "contest_problem_id" => $contestProblemID,])->first()->first_ac == $user->uid)
+                        if ($firstac[$submission->pid] == $user->uid)
                         {
                             $user->infoObj->result[$contestProblemID] = "First Blood";
                         }
