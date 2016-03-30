@@ -392,11 +392,18 @@ class ContestController extends Controller
                 $currentResult = $submission->result;
                 if($currentResult != "Accepted" && $currentResult != "Pending" && $currentResult != "Rejudging")
                 {
-                    if(!isset($user->infoObj->penalty[$contestProblemID]))
-                        $user->infoObj->penalty[$contestProblemID] = 1;
+                    if(isset($user->infoObj->result[$contestProblemID]) && ($user->infoObj->result[$contestProblemID] == "First Blood" || $user->infoObj->result[$contestProblemID] == "Accepted"))
+                    {
+                        //Donothing
+                    }
                     else
-                        $user->infoObj->penalty[$contestProblemID]++;
-                    $user->infoObj->result[$contestProblemID] = $submission->result;
+                    {
+                        if(!isset($user->infoObj->penalty[$contestProblemID]))
+                            $user->infoObj->penalty[$contestProblemID] = 1;
+                        else
+                            $user->infoObj->penalty[$contestProblemID]++;
+                        $user->infoObj->result[$contestProblemID] = $submission->result;
+                    }
                 }
                 if($currentResult == "Accepted")
                 {
