@@ -166,6 +166,8 @@ class Contest extends Model
             ])->orderby('runid','asc')->first();
             if(isset($submissionObj))
                 $firstac[$problem->problem_id] = $submissionObj->uid;
+            else
+                $firstac[$problem->problem_id] = -1;
         }
         return $firstac;
     }

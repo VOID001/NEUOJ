@@ -306,7 +306,7 @@ class ContestController extends Controller
             $data["problems"][$count]->realProblemName = Problem::getProblemTitle($realProblemID);
 
             $firstac = $contestObj->getFirstacList();
-            if($uid == $firstac[$contestProblem->problem_id])
+            if(isset($firstac[$contestProblem->problem_id]) && $uid == $firstac[$contestProblem->problem_id])
             {
                 $data["problems"][$count]->thisUserFB = true;
             }
