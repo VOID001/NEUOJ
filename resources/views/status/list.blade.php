@@ -272,7 +272,7 @@
         for(var i = 1; i < rows.length; i++)
         {
             var run_id = rows[i].cells[0].innerHTML;
-            var result = rows[i].cells[5].innerHTML;
+            var result = rows[i].cells[6].innerHTML;
             var resultObj = rows[i].cells;
             if(result.indexOf('Pending') != -1 || result.indexOf('Rejudging') != -1)
             {
@@ -294,19 +294,19 @@
             console.log(json);
             if(json.result == "Accepted")
             {
-                resultObj[5].innerHTML = "<span class='label label-success' style='font-size: 15px'><span class='glyphicon glyphicon-ok ' style='color: #000'></span>Accepted</span>"
+                resultObj[6].innerHTML = "<span class='label label-success' style='font-size: 15px'><span class='glyphicon glyphicon-ok ' style='color: #000'></span>Accepted</span>"
             }
             else if(json.result == "Wrong Answer")
             {
-                resultObj[5].innerHTML = "<span class='label label-danger' style='font-size: 13px'>Wrong Answer</span>"
+                resultObj[6].innerHTML = "<span class='label label-danger' style='font-size: 13px'>Wrong Answer</span>"
             }
             else if(json.result == "Compile Error")
             {
-                resultObj[5].innerHTML = "<span class='label label-default' style='font-size: 13px'>Compile Error</span>"
+                resultObj[6].innerHTML = "<span class='label label-default' style='font-size: 13px'>Compile Error</span>"
             }
             else
             {
-                resultObj[5].innerHTML = "<span class='label label-warning' style='font-size: 13px'>" + json.result + "</span>"
+                resultObj[6].innerHTML = "<span class='label label-warning' style='font-size: 13px'>" + json.result + "</span>"
             }
             if(json.exec_mem > 1024 && json.exec_mem < 1024 * 1024)
                 json.exec_mem = json.exec_mem / 1024 + "KB";
@@ -319,8 +319,8 @@
                 json.exec_time = json.exec_time * 1000 + "ms";
             else
                 json.exec_time = json.exec_time + "s";
-            resultObj[7].innerHTML = json.exec_mem;
-            resultObj[8].innerHTML = json.exec_time;
+            resultObj[8].innerHTML = json.exec_mem;
+            resultObj[9].innerHTML = json.exec_time;
         })
     }
 
