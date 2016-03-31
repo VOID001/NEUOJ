@@ -14,6 +14,7 @@ use App\Executable;
 use App\Testcase;
 use App\Contest;
 use App\ContestProblem;
+use App\Sim;
 
 class RESTController extends Controller
 {
@@ -162,8 +163,15 @@ class RESTController extends Controller
 
         $output_system = $this->parseSystemMeta($input['output_system']);
 
-        //Contest only
-        //Judge if it's a FB
+
+        /*
+         * Judge Whether the code is copied from another code
+         * Judge this only when the result is AC
+         */
+        if($input["runresult"] == "correct")
+            $this->checkSIM($input['judgingid']);
+
+        /* Contest Only, Judge for First Blood */
         if($input["runresult"] == "correct" && $submissionObj->cid != 0)
         {
             $contestObj = Contest::where('contest_id', $submissionObj->cid)->first();
@@ -324,6 +332,88 @@ class RESTController extends Controller
 
         return $result;
 
+    }
+
+    /*
+     * @function CheckSIM
+     * @input $run_id
+     *
+     * @return NULL
+     * @description Given a run_id, Check If there is code similar to
+     *              this submission(sim >= 80%) Store the similarity in DB
+     *              if not, Just Add a Simdiff File to storage
+     */
+    public function checkSIM($run_id)
+    {
+        $simLangMapArr = [
+            'C' => 'sim_c',
+            'C++' => 'sim_c',
+            /* Now only support two langs */
+        ];
+        $currentSubmissionObj = Submission::find($run_id);
+
+        $relatedSubmissionObj = Submission::where([
+            'pid' => $currentSubmissionObj->pid,
+            'lang' => $currentSubmissionObj->lang
+        ])->get();
+        $lang = $currentSubmissionObj->lang;
+        $max_similarity = 0;
+        $max_similarity_runid = -1;
+
+        $SIMDIR = env('SIMDIR', './sim');
+        $SUBMISSIONSDIR = env('SUBMISSIONSDIR', './storage/app/submissoins');
+        $SIMEXEC = $SIMDIR . '/' . $simLangMapArr[$lang];
+
+        foreach($relatedSubmissionObj as $relatedSubmission)
+        {
+            /* Run SIM Check Here */
+            unset($result);
+            /* First Do Similarity Percentage Check */
+
+            $SIM_PERCENTAGE_COMMAND = $SIMEXEC . ' -p ' . $SUBMISSIONSDIR.'/'. $currentSubmissionObj->submit_file . ' ' . $SUBMISSIONSDIR . '/' . $relatedSubmission->submit_file . " > /tmp/sim";
+            exec($SIM_PERCENTAGE_COMMAND, $result);
+
+            /* The first Percentage in the output is what we need */
+            $sim_data = file_get_contents('/tmp/sim');
+            //echo $SIM_PERCENTAGE_COMMAND . '<br/>';
+            $pos = strpos($sim_data, "consists for");
+
+            if($pos != NULL)
+            {
+                $pos_end = strpos($sim_data, "%");
+                $tmpstr = substr($sim_data, $pos, $pos_end - $pos + 1);
+                $pattern = "/\d+/";
+                $resultarr = [];
+                preg_match($pattern, $tmpstr, $resultarr);
+                $similarity = intval($resultarr[0]);
+                if($max_similarity < $similarity)
+                {
+                    $max_similarity = $similarity;
+                    $max_similarity_runid = $relatedSubmission->runid;
+                }
+            }
+        }
+        if($max_similarity >= 80)
+        {
+            $simObj = new Sim;
+            $simObj->runid = $currentSubmissionObj->runid;
+            $simObj->sim_runid = $max_similarity_runid;
+            $simObj->similarity = $max_similarity;
+            if(Sim::where('runid', $currentSubmissionObj->runid)->first() == NULL)
+                $simObj->save();
+
+            $sim_file_name = Submission::find($max_similarity_runid)->submit_file;
+
+            $SIM_DIFF_COMMAND = $SIMEXEC . ' ' . $SUBMISSIONSDIR.'/'. $currentSubmissionObj->submit_file . ' ' . $SUBMISSIONSDIR . '/' . $sim_file_name . " > /tmp/sim_diff";
+            exec($SIM_DIFF_COMMAND);
+            $sim_diff = file_get_contents('/tmp/sim_diff');
+            Storage::put('sim/' . $simObj->runid . '_' . $simObj->sim_runid . '.sim', $sim_diff);
+        }
+
+        /* Cleanup the temp file */
+        exec('rm -rf /tmp/sim');
+        exec('rm -rf /tmp/sim_diff');
+        return ;
     }
 
 }

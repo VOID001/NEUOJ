@@ -11,4 +11,9 @@ class Submission extends Model
     protected $primaryKey = "runid";
 
     protected $fillable = [""];
+
+    public function sim()
+    {
+        return $this->hasOne('App\Sim', 'runid');
+    }
 }
