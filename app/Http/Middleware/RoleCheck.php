@@ -43,7 +43,7 @@ class RoleCheck
                 return $next($request);
             }
             $session = $request->session();
-            var_dump($session);
+            //var_dump($session);
             return Redirect::to('/');
         }
     }
