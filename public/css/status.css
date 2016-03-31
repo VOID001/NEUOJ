@@ -17,7 +17,7 @@
     width:8%;
 }
 #status_submit_time{
-    width:15%;
+    width:13%;
 }
 #status_user_id{
     width:8%;
@@ -33,7 +33,7 @@
     width:10%;
 }
 #status_result{
-    width:13%;
+    width:16%;
 }
 #status_language{
     width:6%;
@@ -54,4 +54,7 @@
     padding-top: 1px;
     height: 25px;
     margin:0 auto;
+}
+#status_list_sim_a {
+    font-size: 13px;
 }
