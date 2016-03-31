@@ -352,9 +352,11 @@ class RESTController extends Controller
         ];
         $currentSubmissionObj = Submission::find($run_id);
 
+        /* Only Accepted results are considered */
         $relatedSubmissionObj = Submission::where([
             'pid' => $currentSubmissionObj->pid,
-            'lang' => $currentSubmissionObj->lang
+            'lang' => $currentSubmissionObj->lang,
+            'result' => "Accepted"
         ])->get();
         $lang = $currentSubmissionObj->lang;
         $max_similarity = 0;
@@ -368,6 +370,11 @@ class RESTController extends Controller
         {
             /* Run SIM Check Here */
             unset($result);
+
+            /* Do not check with itself */
+            if($relatedSubmission->runid == $currentSubmissionObj->runid)
+                continue;
+
             /* First Do Similarity Percentage Check */
 
             $SIM_PERCENTAGE_COMMAND = $SIMEXEC . ' -p ' . $SUBMISSIONSDIR.'/'. $currentSubmissionObj->submit_file . ' ' . $SUBMISSIONSDIR . '/' . $relatedSubmission->submit_file . " > /tmp/sim";
@@ -376,6 +383,7 @@ class RESTController extends Controller
             /* The first Percentage in the output is what we need */
             $sim_data = file_get_contents('/tmp/sim');
             //echo $SIM_PERCENTAGE_COMMAND . '<br/>';
+            //echo $sim_data;
             $pos = strpos($sim_data, "consists for");
 
             if($pos != NULL)
@@ -400,7 +408,17 @@ class RESTController extends Controller
             $simObj->sim_runid = $max_similarity_runid;
             $simObj->similarity = $max_similarity;
             if(Sim::where('runid', $currentSubmissionObj->runid)->first() == NULL)
+            {
                 $simObj->save();
+            }
+            else
+            {
+                /* Whether this code is buggy or not remains unsure */
+                Sim::where('runid', $currentSubmissionObj->runid)->update([
+                    'sim_runid' => $max_similarity_runid,
+                    'similarity' => $max_similarity
+                ]);
+            }
 
             $sim_file_name = Submission::find($max_similarity_runid)->submit_file;
 
