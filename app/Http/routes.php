@@ -82,7 +82,7 @@ Route::group(['middleware' => 'profile'],function() {
     Route::get('/status/{run_id}', [
         "uses" => "SubmissionController@getSubmissionByID",
         "middleware" => "role:view",
-    ]);
+    ])->where('run_id', '[0-9]+');
 
     Route::get('/ajax/submission', [
         "uses" => "SubmissionController@getSubmissionJSONByRunID"
@@ -253,6 +253,11 @@ Route::group(['middleware' => 'profile'],function() {
         Route::get('/storage/{path_name}', [
             "middleware" => "role:admin",
             "uses" => "StorageController@getStoredFile"
+        ]);
+
+        Route::get('/status/sim', [
+            "middleware" => "role:admin",
+            "uses" => "SubmissionController@getSim"
         ]);
 
     });

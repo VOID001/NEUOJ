@@ -341,4 +341,33 @@ class SubmissionController extends Controller
         $submissionObj->save();
         return Redirect::to($request->server('HTTP_REFERER'));
     }
+
+    public function getSim(Request $request)
+    {
+        $input = $request->all();
+        if(!isset($input['left']) || !isset($input['right']))
+            abort(404);
+        $left = $input['left'];
+        $right = $input['right'];
+        $submissionObj = Submission::find($left);
+        if($submissionObj != NULL)
+        {
+            $leftUserObj = User::find($submissionObj->uid);
+            $rightUserObj = User::find(Submission::find($submissionObj->sim->sim_runid)->uid);
+            $data['leftUser'] = $leftUserObj;
+            $data['rightUser'] = $rightUserObj;
+
+            /* left and right is very Similar */
+            if($submissionObj->sim != NULL && $submissionObj->sim->sim_runid == $right)
+            {
+                $data['sim'] = $submissionObj->sim;
+                $data['sim_diff'] = Storage::get('sim/' . $left . '_' . $right . '.sim');
+            }
+            return View::make('status.sim', $data);
+        }
+        else
+        {
+            abort(404);
+        }
+    }
 }
