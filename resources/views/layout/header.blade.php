@@ -46,6 +46,4 @@
         </div>
     </div>
 </header>
-<div  class="container" style="height: 20px">
-    <!--marquee  scrollamount=1 direction=left onMouseOver='this.stop()' onMouseOut='this.start()' class="text-muted">Welcome come to NEU online judge</marquee-->
-</div>
+

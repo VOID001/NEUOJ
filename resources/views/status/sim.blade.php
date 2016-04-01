@@ -4,6 +4,7 @@
     @include("layout.head")
     <link rel="stylesheet" href="/css/main.css">
     <link href="//cdn.bootcss.com/highlight.js/9.0.0/styles/monokai-sublime.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/status.css">
     <link rel="stylesheet" href="/js/mergely/mergely.css">
     <link rel="stylesheet" href="/js/mergely/codemirror.css">
     <script src="//cdn.bootcss.com/highlight.js/9.0.0/highlight.min.js"></script>
@@ -13,29 +14,40 @@
 </head>
 <body>
 @include("layout.header")
-<div>
-    <div>Left User:</div>
-    <div>Userid: {{ $leftUser->uid }}</div>
-    <div>Username: {{ $leftUser->username }}</div>
-    <div>Nickname: {{ $leftUser->info->nickname }}</div>
+<h3 class="text-center">Code Similarity Check
+    @if(isset($sim))
+        <span class="label label-danger " style="font-size: 12px">Similarity <b>{{ $sim->similarity }}%</b></span>
+    @else
+        <span class="label label-success" style="font-size: 12px">No sim</span>
+    @endif
+</h3>
+<br>
+<div class="panel panel-danger status_sim_pnl">
+    <div class="panel-heading">Userid: {{ $leftUser->uid }}</div>
+    <div class="panel-body">
+      <div>Username: {{ $leftUser->username }}</div>
+      <div>Nickname: {{ $leftUser->info->nickname }}</div>
+      <div>学号: {{ $leftUser->info->stu_id }}</div>
+      <div>真实姓名: {{ $leftUser->info->realname }}</div>
+    </div>
 </div>
-<div>
-    <div>Right User:</div>
-    <div>Userid: {{ $rightUser->uid }}</div>
-    <div>Username: {{ $rightUser->username }}</div>
-    <div>Nickname: {{ $rightUser->info->nickname }}</div>
+<div class="panel panel-info status_sim_pnl" id="status_sim_rpnl">
+    <div class="panel-heading">Userid: {{ $rightUser->uid }}</div>
+    <div class="panel-body">
+        <div>Username: {{ $rightUser->username }}</div>
+        <div>Nickname: {{ $rightUser->info->nickname }}</div>
+        <div>学号: {{ $rightUser->info->stu_id }}</div>
+        <div>真实姓名: {{ $rightUser->info->realname }}</div>
+    </div>
 </div>
+
 @if(isset($sim))
-    <div>Similarity <b>{{ $sim->similarity }}%</b></div>
-    <div>Sim_Diff</div>
     <div id="compare"></div>
 @else
-    <div>No sim</div>
     <div id="compare"></div>
 @endif
+<div style="height: 350px"></div>
 @include("layout.footer")
-</body>
-
 <script type="text/javascript">
     /* This function is used for create a multi-line string(code segment) */
     function multi_string_init(str)
@@ -52,7 +64,7 @@
             cmsettings: {
                 readOnly: true,
                 lineNumbers: true,
-                editor_height: 1000,
+                editor_height: 300,
                 fadein: true,
                 sidebar: false,
                 viewport: true,
@@ -64,5 +76,14 @@
                 setValue(rcode);
             }
         });
+        $("#compare-editor-lhs").css("width","45%");
+        $("#compare-editor-lhs").css("height","300px");
+        $("#compare-editor-rhs").css("width","45%");
+        $("#compare-editor-rhs").css("height","300px");
+        $(".mergely-canvas").css("height","300px");
+        $(".mergely-margin").css("height","300px");
     });
 </script>
+</body>
+</html>
+

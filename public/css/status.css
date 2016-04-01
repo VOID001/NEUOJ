@@ -58,3 +58,21 @@
 #status_list_sim_a {
     font-size: 13px;
 }
+/*status.sim*/
+.status_sim_pnl {
+    width:20%;
+    float: left;
+    margin-left: 5%;
+    font-size: 16px;
+    border-color: #00b8d4;
+    overflow: hidden;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+#status_sim_rpnl {
+    margin-left: 26%;
+}
+#compare{
+    background-color: #00b8d4;
+    margin-left: 5%;
+}

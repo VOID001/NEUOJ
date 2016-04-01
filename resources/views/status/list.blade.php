@@ -188,8 +188,10 @@
                 @if(Request::session()->get('uid') == $submission->uid || $roleCheck->is("admin"))
                 table_row_td
                 @endif"><span class="label label-success" style="font-size: 14px"><span class="glyphicon glyphicon-ok " style="color: #000"></span>Accepted</span>
-                        @if(isset($submission->sim->similarity))
+                        @if(isset($submission->sim->similarity) && $roleCheck->is("admin"))
                             <a class="label label-primary" id="status_list_sim_a" title="runid:{{ $submission->sim->sim_runid }}" href="/status/sim?left={{ $submission->sim->runid }}&right={{ $submission->sim->sim_runid }}">{{ $submission->sim->similarity }}%</a>
+                        @elseif(isset($submission->sim->similarity))
+                            <label class="label label-primary" id="status_list_sim_a" title="runid:{{ $submission->sim->sim_runid }}">{{ $submission->sim->similarity }}%</label>
                         @endif
                     </td>
                 @elseif($submission->result=="Compile Error")
