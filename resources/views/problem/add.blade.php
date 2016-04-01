@@ -40,7 +40,7 @@
                 <div class="dashboard_problem_add_span">Memory Limit (KB)</div>
                 <input class="form-control" type="text" name="mem_limit" value="65536"style="width: 100%"/>
                 <div class="dashboard_problem_add_span">Time Limit (S)</div>
-                <input class="form-control" type="text" name="time_limit" value="1000"style="width: 100%"/>
+                <input class="form-control" type="text" name="time_limit" value="1"style="width: 100%"/>
                 <div class="dashboard_problem_add_span">Output Limit (KB)</div>
                 <input class="form-control" type="text" name="output_limit" value="5120"style="width: 100%"/>
                 <div class="dashboard_problem_add_span">Input</div>

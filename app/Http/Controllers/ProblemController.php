@@ -239,6 +239,14 @@ class ProblemController extends Controller
             /*
              * POST means add , Add the problem Info
              */
+
+            /* We need to validate some input */
+            $this->validate($request, [
+                "title" => "required",
+                "input_file" => "required",
+                "output_file" => "required",
+            ]);
+
             $problemObj = new Problem();
             $testcaseObj = new Testcase();
             $problemObj->author_id = $request->session()->get('uid');
@@ -275,6 +283,10 @@ class ProblemController extends Controller
              */
             $uploadInput = $request->file('input_file');
             $uploadOutput = $request->file('output_file');
+            $max_output_size =  $request->file('input_file')[0]->getClientSize() / 1000 + 4096;
+            Problem::where('problem_id', $problem_id)->update([
+                'output_limit' => $max_output_size
+            ]);
             var_dump($uploadInput[0]);
             if(count($uploadInput) == count($uploadOutput) && $uploadInput[0] && $uploadOutput[0])
             {
