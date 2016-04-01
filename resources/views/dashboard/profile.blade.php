@@ -27,26 +27,30 @@
                 </div>
                 <img src="/avatar/@if(isset($uid)){{ $uid }}@else{{ 0 }}@endif" style="width:120px;height:120px;"/>
                 <table id="profileTable">
-                        <tr>
-                            <td style="padding-left: 20px">Avatar</td>
-                            <td><input name="image" type="file" accept="image/*"></td>
-                        </tr>
-                        <tr>
-                            <td style="padding-left: 20px">Nickname</td>
-                            <td><input type="text" name="nickname" value="@if(isset($nickname)){{ $nickname }}@endif" class="form-control"/></td>
-                        </tr>
-                        <tr>
-                            <td style="padding-left: 20px">School</td>
-                            <td><input type="text" name="school" value="@if(isset($school)){{ $school }}@endif" class="form-control"/></td>
-                        </tr>
-                        <tr>
-                            <td style="padding-left: 20px">学号</td>
-                            <td><input type="text" name="stu_id" value="@if(isset($stu_id)){{ $stu_id }}@endif" class="form-control"/></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td class="text-right"><input type="submit" value="Save" class="btn btn-success"></td>
-                        </tr>
+                    <tr>
+                        <td style="padding-left: 20px">Avatar</td>
+                        <td><input name="image" type="file" accept="image/*"></td>
+                    </tr>
+                    <tr>
+                        <td style="padding-left: 20px">真实姓名(NEU必填)</td>
+                        <td><input type="text" name="realname" value="@if(isset($realname)){{ $realname }}@endif" class="form-control" placeholder="This will be shown only to admin"/></td>
+                    </tr>
+                    <tr>
+                        <td style="padding-left: 20px">Nickname</td>
+                        <td><input type="text" name="nickname" value="@if(isset($nickname)){{ $nickname }}@endif" class="form-control"/></td>
+                    </tr>
+                    <tr>
+                        <td style="padding-left: 20px">School</td>
+                        <td><input type="text" name="school" value="@if(isset($school)){{ $school }}@endif" class="form-control"/></td>
+                    </tr>
+                    <tr>
+                        <td style="padding-left: 20px">学号</td>
+                        <td><input type="text" name="stu_id" value="@if(isset($stu_id)){{ $stu_id }}@endif" class="form-control"/></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td class="text-right"><input type="submit" value="Save" class="btn btn-success"></td>
+                    </tr>
                 </table>
                 <p>Note: Please make sure your image file is less than 1M!</p>
             </form>

@@ -1,3 +1,4 @@
+@inject('roleCheck', 'App\Http\Controllers\RoleController')
 <!doctype html>
 <html>
 <head>
@@ -31,10 +32,18 @@
                 Rank
             </th>
             <th class=" text-center" id="contest_ranklist_avatar">
-                Avatar
+                @if($roleCheck->is("admin"))
+                    学号
+                @else
+                    Avatar
+                @endif
             </th>
             <th class=" text-center" id="contest_ranklist_nickname">
-                Nick name
+                @if($roleCheck->is("admin"))
+                    真实姓名
+                @else
+                    Nick name
+                @endif
             </th>
             <th class="contest_ranklist_username text-center" id="contest_ranklist_solve">
                 Solve
@@ -55,10 +64,18 @@
                     {{ $counter++ }}
                 </td>
                 <td class="text-center table_row_td" onclick="javascript:window.location.href='/profile/{{ $user->uid }}'">
-                    <img src="/avatar/{{$user->uid}}" style="width:35px; height:35px"/>
+                    @if($roleCheck->is("admin"))
+                        {{ $user->info->stu_id }}
+                    @else
+                        <img src="/avatar/{{$user->uid}}" style="width:35px; height:35px"/>
+                    @endif
                 </td>
                 <td class="contest_ranklist_username_td text-center table_row_td" id="contest_index_problem_name_el" onclick="javascript:window.location.href='/profile/{{ $user->uid }}'">
-                    <nobr>{{ $user->nick_name }}</nobr>
+                    @if($roleCheck->is("admin"))
+                        <nobr>{{ $user->info->realname }}</nobr>
+                    @else
+                        <nobr>{{ $user->info->nickname }}</nobr>
+                    @endif
                 </td>
                 <td class="contest_ranklist_username_td text-center" style="padding: 8px">
                     {{ $user->infoObj->totalAC }}

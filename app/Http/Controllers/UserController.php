@@ -76,6 +76,7 @@ class UserController extends Controller
             Userinfo::where('uid', $uid)->update(['nickname' => $request->nickname]);
             Userinfo::where('uid', $uid)->update(['school' => $request->school]);
             Userinfo::where('uid', $uid)->update(['stu_id' => $request->stu_id]);
+            Userinfo::where('uid', $uid)->update(['realname' => $request->realname]);
             return Redirect::route('dashboard.profile');
         }
         else {
@@ -84,6 +85,7 @@ class UserController extends Controller
                 $input['nickname'] = $userinfoObject->nickname;
                 $input['school'] = $userinfoObject->school;
                 $input['stu_id'] = $userinfoObject->stu_id;
+                $input['realname'] = $userinfoObject->realname;
                 if (!Storage::has('avatars/' . $uid . '.jpg')) {
                     $uid = 0;
                 }

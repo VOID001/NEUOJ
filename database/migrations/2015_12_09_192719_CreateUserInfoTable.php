@@ -16,6 +16,7 @@ class CreateUserInfoTable extends Migration
             $table->increments("info_id");
             $table->integer("uid")->unique();
             $table->string("nickname");
+            $table->string("realname");
             $table->string("school");
             $table->string("stu_id");
             $table->integer("submit_count");
