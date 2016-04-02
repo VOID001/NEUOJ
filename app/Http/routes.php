@@ -312,6 +312,26 @@ Route::group(['middleware' => 'profile'],function() {
             'page_id' => '[0-9]+'
         ]);
 
+        Route::get('/dashboard/training/p/1', [
+            "middleware" => "role:admin",
+            "uses" => "TrainingController@showTrainingDashboard"
+        ]);
+
+        Route::get('/training', [
+            "uses" => "TrainingController@getTrainingList"
+        ]);
+        Route::get('/training/p/1',[
+            "uses" => "TrainingController@getTrainingList"
+        ]);
+
+        Route::get('/training/{train_id}', [
+            "uses" => "TrainingController@getTrainingByID"
+        ]);
+
+        Route::get('/training/{train_id}/chepter{chepter_id}/{train_problem_id}', [
+            "uses" => "ProblemController@blablabla"
+        ]);
+
     });
 });
 /*
