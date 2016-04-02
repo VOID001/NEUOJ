@@ -22,7 +22,7 @@ __Ver 1.0 Released__ 2.0 Working In Progress
   * [ ] Friends activity
 * [ ] Submission
  * [ ] Multi Lang Submission Support
- * [ ] SIM for check copied code
+ * [x] SIM for check copied code
  * [ ] A full rejudge system
  * [ ] Wrong Answer Diff
  * [ ] Admin Submission management panel
