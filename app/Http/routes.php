@@ -104,7 +104,6 @@ Route::group(['middleware' => 'profile'],function() {
         "uses" => "ContestController@getContestListByPageID"
     ]);
 
-    Route::get('/avatar/{user_id}','UserController@showAvatar');
 
     /*Route group need auth middleware*/
     Route::group(['middleware' => 'auth'], function () {
@@ -322,4 +321,12 @@ Route::get('api/testcase_files',[
 
 Route::post('/api/judging_runs',[
     "uses" => "RESTController@postJudgingRuns"
+]);
+
+/*
+ * Show avatars route
+ */
+
+Route::get('/avatar/{user_id}',[
+    "uses" => "UserController@showAvatar"
 ]);
