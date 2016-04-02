@@ -260,6 +260,11 @@ Route::group(['middleware' => 'profile'],function() {
             "uses" => "SubmissionController@getSim"
         ]);
 
+        Route::get('/dashboard/system', [
+            "middleware" => "role:admin",
+            "uses" => "SystemController@getSystemSummary"
+        ]);
+
     });
 });
 /*
