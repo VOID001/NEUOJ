@@ -265,6 +265,23 @@ Route::group(['middleware' => 'profile'],function() {
             "uses" => "SystemController@getSystemSummary"
         ]);
 
+        Route::get('/discuss/{contest_id}/{problem_id}',[
+            "uses" => "ThreadController@getThreadByContestIDAndProblemID"
+        ]);
+
+        Route::get('/discuss/{thread_id}',[
+            "uses" => "ThreadController@getThreadByThreadID"
+        ]);
+
+        Route::post('/discuss/add/{contest_id}/{problem_id}',[
+            "uses" => "ThreadController@addThreadByContestIDAndProblemID"
+        ]);
+
+        Route::post('/discuss/delete/{thread_id}',[
+            "middleware" => "role:admin",
+            "uses" => "ThreadController@deleteThreadByThreadID"
+        ]);
+
     });
 });
 /*
