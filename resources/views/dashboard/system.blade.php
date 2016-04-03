@@ -11,10 +11,6 @@
     </script>
 </head>
 <body>
-@include("layout.dashboard_nav")
-<div class="col-xs-10 padding_10">
     {!! phpinfo() !!}
-    <div style="height: 192px"></div>
-</div>
 </body>
 </html>
