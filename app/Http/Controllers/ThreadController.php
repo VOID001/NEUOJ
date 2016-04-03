@@ -36,7 +36,7 @@ class ThreadController extends Controller
         }
         $author_id = $request->session()->get('uid');
         $threads = Thread::where("author_id",$author_id);
-        if($threads != NULL)
+        if(!$threads->get()->isEmpty())
         {
             $last_send_time = Thread::find($threads->max('id'))->created_at;
             $now = Carbon::now();
