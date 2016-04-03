@@ -47,9 +47,10 @@
             @if($problem->is_spj == 1) <b>Special Judge</b>@endif
         @if(isset($contest))
             &nbsp;&nbsp;&nbsp;AC/Submission: <a href="/contest/{{ $contest->contest_id }}/status/p/1?result=Accepted?pid={{ $problem->problem_id }}"/>{{ $problem->acSubmissionCount }}</a>/<a href="/contest/{{ $contest->contest_id }}/status/p/1?pid={{ $problem->problem_id }}">{{ $problem->totalSubmissionCount }}</a>
-        @endif
-        @if(!isset($contest))
+            &nbsp;&nbsp;&nbsp;<a href="/discuss/{{ $contest->contest_id }}/{{ $problem->problem_id }}"><b>Discuss</b></a>
+        @else
             &nbsp;&nbsp;&nbsp;AC/Submission: <a href="/status/p/1?result=Accepted&pid={{ $problem->problem_id }}"/>{{ $problem->acSubmissionCount }}</a>/<a href="/status/p/1?pid={{ $problem->problem_id }}">{{ $problem->totalSubmissionCount }}</a>
+            &nbsp;&nbsp;&nbsp;<a href="/discuss/0/{{ $problem->problem_id }}"><b>Discuss</b></a>
         @endif
     </div>
     @if(isset($contest))

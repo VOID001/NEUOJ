@@ -26,7 +26,7 @@ class ThreadController extends Controller
         /* We need to validate some input */
         $input = $request->input();
         $vdtor = Validator::make($input, [
-            'content' => "required | min:20"
+            'content' => "required | min:20 | max:1000"
         ]);
         if($vdtor->fails())
         {

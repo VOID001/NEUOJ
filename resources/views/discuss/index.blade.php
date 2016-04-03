@@ -6,53 +6,83 @@
     @include("layout.head")
     <link rel="stylesheet" href="/css/main.css">
 </head>
-<body>
+<body style="background-color: #ecf0f5">
 @include("layout.header")
-<h3 class="text-center">Discuss {{$contest_id}} {{$problem_id}}</h3>
-<div class="main">
-    <table class="table table-striped table-bordered table-hover problem_table" id="threadlist" width="100%">
-        @if(session('info'))
-            <div class="form-group" style="width: 400px;text-align: left"><div class="label label-warning" style="font-size: 13px">{{ session('info') }}</div></div>
-        @elseif(count($errors) > 0)
-            <div class="form-group" style="width: 400px;text-align: left"><div class="label label-warning" style="font-size: 13px">{{$errors->all()[0]}}</div></div>
+<div class="panel panel-default discuss_index_pnl">
+    <div class="panel-heading">
+        @if($contest_id != 0)
+            <a href="#">Contest {{$contest_id}} </a> >
+            <a href="/contest/{{ $contest_id }}/problem/{{ $problem_id }}">Problem {{$problem_id}} </a>
+        @else
+            <a href="/problem/{{ $problem_id }}">Problem {{$problem_id}} </a>
         @endif
-        <thead>
-        <tr>
-            <th class="text-center" id="thread_id">Thread ID</th>
-            <th class="text-left" id="author_id">Author ID</th>
-            <th class="text-center" id="thread_content">Content</th>
-            <th class="text-center" id="created_at">Time</th>
-            @if($roleCheck->is("admin"))
-            <th class="text-center" id="delete">Delete</th>
+    </div>
+    @if(session('info'))
+        <div class="form-group" style="width: 400px;text-align: left"><div class="label label-warning" style="font-size: 13px">{{ session('info') }}</div></div>
+    @elseif(count($errors) > 0)
+        <div class="form-group" style="width: 400px;text-align: left"><div class="label label-warning" style="font-size: 13px">{{$errors->all()[0]}}</div></div>
+    @endif
+    <div class="panel-body">
+        <ul class="list-group">
+            @if(isset($threads) && $threads != NULL)
+                @foreach($threads as $thread)
+                    <li class="list-group-item">
+                        <div class="col-md-2 text-center">
+                                <a href="/profile/{{ $thread->author_id }}"><img src="/avatar/{{ $thread->author_id }}" class="img-circle" style="width: 50px;height: 50px"></a>
+                            <br/>
+                            @if($thread->author_id <= 2)
+                                <span><a class="admin_href" href="/profile/{{ $thread->author_id }}"><b>{{ $thread->info->nickname }}</b>@if($roleCheck->is("admin"))<br/>({{ $thread->info->realname }})@endif</a></span>
+                            @else
+                                <span><a href="/profile/{{ $thread->author_id }}">{{ $thread->info->nickname }}@if($roleCheck->is("admin"))<br/>({{ $thread->info->realname }})@endif</a></span>
+                            @endif
+                        </div>
+                        <div class="col-md-10">
+                            <p style="white-space: pre-wrap">{{$thread->content}}</p>
+                        </div>
+                        @if($roleCheck->is("admin"))
+                            <form class="col-md-2" action="/discuss/delete/{{$thread->id}}" method ="POST">
+                                {{csrf_field()}}
+                                <input type="submit" class="form-control btn btn-default discuss_index_delete_btn" value="delete"/>
+                            </form>
+                        @endif
+                        <span style="float: left;font-size: 12px;color: #9d9d9d;" class="pull-right"><a style="cursor: pointer" onclick="replyTo({{ $thread->id }})">#{{ $thread->id }}</a> at {{$thread->created_at}}</span>
+                    </li>
+                @endforeach
+            @else
+                <li class="list-group-item">
+                    还没有人回复呢, 快来抢沙发0.0
+                </li>
             @endif
-            {{--<th class="text-center">Visibility_Lock(use for debug version)</th>--}}
-        </tr>
-        </thead>
-        @if(isset($threads) && $threads != NULL)
-            @foreach($threads as $thread)
-                <tr class="table_row">
-                    <th class="text-center" id="thread_id">{{$thread->id}}</th>
-                    <th class="text-left" id="author_id">{{$thread->author_id}}</th>
-                    <th class="text-center" id="thread_content">{{$thread->content}}</th>
-                    <th class="text-center" id="thread_content">{{$thread->created_at}}</th>
-                    @if($roleCheck->is("admin"))
-                    <th>
-                        <form action="/discuss/delete/{{$thread->id}}" method ="POST">
-                            {{ csrf_field() }}
-                            <input type="submit" value="delete"/>
-                        </form>
-                    </th>
-                    @endif
-                </tr>
-            @endforeach
-        @endif
-    </table>
-    <form action="/discuss/add/{{ $contest_id }}/{{ $problem_id }}" method ="POST" enctype="multipart/form-data">
-        {{ csrf_field() }}
-        <input type="text" name="content"/>
-        <input type="submit" value="add"/>
-    </form>
+        </ul>
+    </div>
+    <div id="bottom"></div>
+    <div class="panel-footer">
+        <form action="/discuss/add/{{ $contest_id }}/{{ $problem_id }}" method ="POST" enctype="multipart/form-data">
+            {{ csrf_field() }}
+            <textarea id="replybox" type="text" class="form-control" rows="3" name="content" placeholder="在这里输入你想说的0.0"/></textarea>
+            <input type="submit" class="form-control btn-success pull-right" value="发出去了喵~" style="width: 15%;margin-top: 1%"/>
+        </form>
+    </div>
 </div>
+<div style="height: 50px"></div>
 @include("layout.footer")
+
+<script type="text/javascript">
+    function replyTo(thread_id)
+    {
+        var content = $('#replybox').val();
+        content = ">> No." + thread_id + "\r\n" + content;
+        var doc_height = $(document).height();
+        var scroll_top = $(document).scrollTop();
+        var window_height = $(window).height();
+        /* If not at the bottom of the page, then scroll to the bottom to reply */
+        if(scroll_top + window_height < doc_height)
+        {
+            $("html,body").animate({scrollTop: $(document).height()}, 1000);
+        }
+        $('#replybox').val(content);
+        $('#replybox').focus();
+    }
+</script>
 </body>
 </html>

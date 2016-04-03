@@ -562,3 +562,75 @@ li.separate-item {
 .mdbtn-white:hover{
     background-color: #3f98e9;
 }
+/*discuss.index*/
+.discuss_index_pnl {
+    width: 70%;
+    margin: 0 auto;
+}
+.discuss_index_pnl .panel-heading {
+    background-color: #00b8d4;
+    border-radius: 0px;
+}
+.discuss_index_pnl .panel-heading a {
+    color: #ecf0f5;
+    text-decoration: none;
+}
+.discuss_index_pnl .panel-heading a:hover {
+    color: blue;
+}
+.discuss_index_pnl .panel-body ul li {
+    min-height: 100px;
+}
+.discuss_index_pnl .panel-body ul li:after{
+    content: "";
+    display: block;
+    clear: both;
+}
+.discuss_index_pnl .panel-footer textarea {
+    border-radius: 0px;
+}
+.discuss_index_pnl .panel-footer:after {
+    content: "";
+    clear: both;
+    display: block;
+}
+.discuss_index_delete_btn {
+    padding: 0;
+    display: block;
+    font-size: 10px;
+    width: 20px;
+    height: 20%;
+    clear: both;
+}
+.discuss_index_pnl .panel-body form {
+    clear: both;
+    width: 10%;
+    float: left;
+}
+.discuss_index_user_div {
+    width: 15%;
+    float: left;
+}
+
+/*
+  This is only remain for temporary use ,
+  frontend developers please fix this
+*/
+
+.admin_href:link{
+    color: purple;
+}
+
+.admin_href:hover{
+    color: purple;
+}
+
+.admin_href:visited{
+    color: purple;
+    text-decoration: none;
+}
+
+.admin_href:active{
+    color: purple;
+    text-decoration: none;
+}
