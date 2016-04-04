@@ -312,10 +312,15 @@ Route::group(['middleware' => 'profile'],function() {
             'page_id' => '[0-9]+'
         ]);
 
-        Route::get('/dashboard/training/p/1', [
+        Route::get('/dashboard/training', [
             "middleware" => "role:admin",
             "uses" => "TrainingController@showTrainingDashboard"
         ]);
+
+        Route::get('/dashboard/training/p/{page_id}', [
+            "middleware" => "role:admin",
+            "uses" => "TrainingController@showTrainingDashboard"
+        ])->where('page_id', '[0-9]+');
 
         Route::get('/training', [
             "uses" => "TrainingController@getTrainingList"
@@ -326,10 +331,19 @@ Route::group(['middleware' => 'profile'],function() {
 
         Route::get('/training/{train_id}', [
             "uses" => "TrainingController@getTrainingByID"
-        ]);
+        ])->where('train_id', '[0-9]+');
 
         Route::get('/training/{train_id}/chepter{chepter_id}/{train_problem_id}', [
             "uses" => "ProblemController@blablabla"
+        ])->where([
+            'train_id' => '[0-9]+',
+            'chepter_id' => '[0-9]+',
+            'train_problem_id' => '[0-9]+'
+        ]);
+
+        Route::match(['post','get'], '/dashboard/training/add', [
+            "middleware" => "role:admin",
+            "uses" => "TrainingController@addTraining"
         ]);
 
     });
