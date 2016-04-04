@@ -266,19 +266,36 @@ Route::group(['middleware' => 'profile'],function() {
 
         Route::get('/discuss/{contest_id}/{problem_id}',[
             "uses" => "ThreadController@getThreadByContestIDAndProblemID"
+        ])->where([
+            'contest_id' => '[0-9]+',
+            'problem_id' => '[0-9]+'
         ]);
 
-        Route::get('/discuss/{thread_id}',[
+        Route::get('/discuss/t/{thread_id}',[
             "uses" => "ThreadController@getThreadByThreadID"
-        ]);
+        ])->where('thread_id', '[0-9]+');
 
         Route::post('/discuss/add/{contest_id}/{problem_id}',[
             "uses" => "ThreadController@addThreadByContestIDAndProblemID"
+        ])->where([
+            'contest_id' => '[0-9]+',
+            'problem_id' => '[0-9]+'
         ]);
 
         Route::post('/discuss/delete/{thread_id}',[
             "middleware" => "role:admin",
             "uses" => "ThreadController@deleteThreadByThreadID"
+        ])->where('thread_id', '[0-9]+');
+
+        Route::get('/discuss/{contest_id}',[
+            "uses" => "ThreadController@getThreadByContestID"
+        ])->where('contest_id', '[0-9]+');
+
+        Route::get('/discuss/{contest_id}/p/{page_id}',[
+            "uses" => "ThreadController@getThreadByContestIDAndPageID"
+        ])->where([
+            'contest_id' => '[0-9]+',
+            'page_id' => '[0-9]+'
         ]);
 
     });

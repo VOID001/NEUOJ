@@ -76,8 +76,8 @@ class ThreadController extends Controller
     {
         $data = [];
 
-        $data['contest_id']=$contest_id;
-        $data['problem_id']=$problem_id;
+        $data['contest_id'] = $contest_id;
+        $data['problem_id'] = $problem_id;
         $threadObj = Thread::where([
             'cid' => $contest_id,
             'pid' => $problem_id
@@ -85,7 +85,8 @@ class ThreadController extends Controller
         $count=0;
         foreach($threadObj as $thread)
         {
-            $data['threads'][$count]=$thread;
+            var_dump($thread->info);
+            $data['threads'][$count] = $thread;
             $count++;
         }
         return View::make("discuss.index",$data);
@@ -103,7 +104,7 @@ class ThreadController extends Controller
         $data = [];
 
         $threadObj = Thread::find($thread_id);
-        $data['thread']=$threadObj;
+        $data['thread'] = $threadObj;
         return $data;
     }
 
@@ -116,14 +117,54 @@ class ThreadController extends Controller
      */
     public function deleteThreadByThreadID(Request $request, $thread_id)
     {
-        $thread=Thread::find($thread_id);
+        $thread = Thread::find($thread_id);
         if($thread != NULL)
         {
-            $contest_id=$thread->cid;
-            $problem_id=$thread->pid;
+            $contest_id = $thread->cid;
+            $problem_id = $thread->pid;
             Thread::where('id',$thread_id)->delete();
             return Redirect::to('/discuss/'.$contest_id.'/'.$problem_id);
         }
-        return Redirect::to('/discuss');
+        return Redirect::to('/discuss/0');
+    }
+
+    /*
+     * @function getThreadByContestID
+     * @input $contest_id
+     *
+     * @return Redirect
+     * @description redirect to /discuss/$contest_id/p/1
+     */
+    public function getThreadByContestID(Request $request, $contest_id)
+    {
+        return Redirect::to("/discuss/$contest_id/p/1");
+    }
+
+    /*
+     * @function getThreadByContestIDAndPageID
+     * @input $contest_id, $page_id
+     *
+     * @return View
+     * @description get threads list by $contest_id and $page_id
+     */
+    public function getThreadByContestIDAndPageID(Request $request, $contest_id, $page_id)
+    {
+        $data = [];
+        $itemsPerPage = 5;
+
+        $data['contest_id'] = $contest_id;
+        $threads = Thread::where('cid', $contest_id)->orderby('id', 'desc')->get();
+        $threads_num = $threads->count();
+        $data["page_num"] = (int)($threads_num / $itemsPerPage + ($threads_num % $itemsPerPage == 0 ? 0 : 1));
+        $data['page_id'] = $page_id;
+        if($page_id > $data["page_num"])
+            $page_id = $data["page_num"];
+        if($page_id <= 0)
+            $page_id = 1;
+        for($count = 0, $i = ($page_id - 1) * $itemsPerPage; $count < $itemsPerPage && $i < $threads->count(); $i++, $count++)
+        {
+            $data['threads'][$count] = $threads[$i];
+        }
+        return View::make("discuss.list",$data);
     }
 }
