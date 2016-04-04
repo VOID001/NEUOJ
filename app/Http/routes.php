@@ -20,9 +20,9 @@ Route::group(['middleware' => 'profile'],function() {
         "uses" => "HomeController@showHome",
     ]);
 
-    Route::get('/auth', function () {
-        return "This is the authenticate root";
-    });
+    //Route::get('/auth', function () {
+    //    return "This is the authenticate root";
+    //});
 
     Route::match(['get', 'post'], '/auth/request', [
         "uses" => "AuthController@requestResetAction"
@@ -54,13 +54,13 @@ Route::group(['middleware' => 'profile'],function() {
         "uses" => "SubmissionController@getSubmission"
     ]);
 
-    Route::get('/contest', function () {
-        return "This is the contest root";
-    });
+    //Route::get('/contest', function () {
+    //    return "This is the contest root";
+    //});
 
-    Route::get('/discuss', function () {
-        return "This is the BBS root";
-    });
+    //Route::get('/discuss', function () {
+    //    return "This is the BBS root";
+    //});
 
     Route::match(['post', 'get'], '/auth/signin', [
         "as" => "signin",
@@ -117,9 +117,9 @@ Route::group(['middleware' => 'profile'],function() {
             "uses" => "ProblemController@getProblemByID"
         ])->where('problem_id', '[0-9]+');
 
-        Route::get('/dashboard', function(){
-            return Redirect::route('dashboard.profile');
-        });
+        Route::get('/dashboard', [
+            "uses" => "UserController@getDashboardIndex"
+        ]);
 
         Route::get('/dashboard/problem/', [
             "as" => "dashboard.problem",

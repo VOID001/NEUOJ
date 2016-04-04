@@ -152,12 +152,25 @@ class UserController extends Controller
         //if(!isset($user)) {
         //    $user_id = 0;
         //}
-	if(Storage::has('avatars/' . $user_id . ".jpg") == NULL)
-	    $user_id = 0;
+        if(Storage::has('avatars/' . $user_id . ".jpg") == NULL)
+            $user_id = 0;
         $file = Storage::get('avatars/' . $user_id . ".jpg");
         $type = Storage::mimeType('avatars/' . $user_id . ".jpg");
         $response = Response::make($file, 200);
         $response->header("Content-Type", $type);
         return $response;
+    }
+
+    /*
+     * @function getDashboardIndex
+     * @input $request
+     *
+     * @return Redirect
+     * @description Helper function used for replace the Closure
+     *              in the route to optimize performance
+     */
+    public function getDashboardIndex(Request $request)
+    {
+        return Redirect::route('dashboard.profile');
     }
 }
