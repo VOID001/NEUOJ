@@ -201,6 +201,63 @@ fieldset[disabled] .btn-grey.active {
     width: 100%;
 }
 /*登陆注册表*/
+/*通用表单模板*/
+
+.signin_box {
+    width: 33%;
+    background: #fff;
+    color: #666;
+    padding-bottom: 20px;
+}
+.signin_box_msg {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin: 0;
+    text-align: center;
+}
+.signin_box_userbox {
+    position: relative;
+    border: solid 1px #d2d6de;
+    height: 30px;
+    width: 80%;
+    text-align: left;
+}
+.signin_box_cptbox {
+    width: 40%;
+    margin-right: 40%;
+}
+.signin_box_gly {
+    position: absolute;
+    top:5px;
+    left:8px;
+    z-index: 2;
+}
+.signin_box_user {
+    display: inline-block;
+    outline: none;
+    border: none;
+    height: 28px;
+    padding-left: 40px;
+    float: left;
+}
+.signin_box_cpt_p {
+    width: 70%;
+    position: absolute;
+    right: -100%;
+}
+.signin_box_row {
+    width: 80%;
+}
+.signin_box_row .btn{
+    border-radius: 0px;
+    height: 28px;
+}
+.signin_box a:hover {
+    text-decoration: none;
+}
+.signin_box_warning {
+    text-align: left;
+}
 #signinTable{
     width: 600px;
 }
