@@ -130,10 +130,10 @@
             @foreach($problems as $problem)
                 <tr
                 @if($problem->realProblemName !== -1 && ($roleCheck->is("admin") || $contest->status != "Pending"))
-                class="table_row" onclick="javascript:window.location.href='/contest/{{ $contest->contest_id }}/problem/{{ $problem->contest_problem_id }}'"
+                class="table_row"
                 @endif
                 >
-                    <td class="text-center table_row_td">
+                    <td class="text-center">
                         @if($problem->thisUserFB)
                             <span class="glyphicon glyphicon-flag" style="color: #5cb85c"></span>
                             <span class="glyphicon glyphicon-map-marker"></span>
@@ -141,29 +141,37 @@
                             <span class="glyphicon glyphicon-map-marker"></span>
                         @endif
                      </td>
-                    <td class="text-center table_row_td">
+                    <td>
+						<a href="/contest/{{ $contest->contest_id }}/problem/{{ $problem->contest_problem_id }}" class="text-center table_row_td">
                         {{ $problem->contest_problem_id }}
+						</a>
                     </td>
-                    <td class="text-center table_row_td">
+                    <td>
+						<a href="/contest/{{ $contest->contest_id }}/problem/{{ $problem->contest_problem_id }}" class="text-center table_row_td">
                         @if(!$roleCheck->is("admin") && !($contest->isRunning() || $contest->isEnded()))
-                            (╯‵A′)╯︵┻━┻
+                            &nbsp;(╯‵A′)╯︵┻━┻
                         @else
-                            {{ $problem->problem_title }}
+                            &nbsp;{{ $problem->problem_title }}
                         @endif
+						</a>
                     </td>
-                    <td class="table_row_td" id="contest_index_problem_name_el">
+                    <td id="contest_index_problem_name_el">
+						<a href="/contest/{{ $contest->contest_id }}/problem/{{ $problem->contest_problem_id }}" class="text-left table_row_td">
                         @if(!$roleCheck->is("admin") && !($contest->isRunning() || $contest->isEnded()))
-                            <nobr>(╯‵A′)╯︵┻━┻ </nobr>
+                            <nobr>&nbsp;(╯‵A′)╯︵┻━┻ </nobr>
                         @else
-                            <nobr>{{ $problem->realProblemName === -1 ? "[Error] Problem Deleted!" : $problem->realProblemName }}</nobr>
+                            <nobr>&nbsp;{{ $problem->realProblemName === -1 ? "[Error] Problem Deleted!" : $problem->realProblemName }}</nobr>
                         @endif
+						</a>
                     </td>
-                    <td class="text-center table_row_td">
+                    <td>
+						<a href="/contest/{{ $contest->contest_id }}/status/p/{{ $problem->contest_problem_id }}" class="text-center table_row_td">
                         @if($problem->acSubmissionCount != 0)
                             {{ $problem->acSubmissionCount }} / {{ $problem->totalSubmissionCount }}({{ intval($problem->acSubmissionCount/$problem->totalSubmissionCount * 100) }}%)
                         @else
                             0 / 0
                         @endif
+						</a>
                     </td>
                     @if($roleCheck->is('admin'))
                         <td class="text-center">

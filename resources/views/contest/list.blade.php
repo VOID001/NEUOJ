@@ -51,17 +51,23 @@
         </thead>
         @if(isset($contests))
             @foreach($contests as $contest)
-                <tr class="table_row" onclick="javascript:window.location.href='/contest/{{ $contest->contest_id }}'">
-                    <td class="text-center table_row_td">
+                <tr class="table_row">
+                    <td>
+						<a href="/contest/{{ $contest->contest_id }}" class="text-center table_row_td">
                             {{ $contest->contest_id }}
+						</a>
                     </td>
-                    <td class="text-center table_row_td" id="contest_name_el">
-                            <nobr>{{ $contest->contest_name }}</nobr>
+                    <td id="contest_name_el">
+						<a href="/contest/{{ $contest->contest_id }}" class="text-center table_row_td">
+                            <nobr>&nbsp;{{ $contest->contest_name }}</nobr>
+						</a>
                     </td>
-                    <td class="text-center table_row_td">
+                    <td>
+						<a href="/contest/{{ $contest->contest_id }}" class="text-center table_row_td">
                         {{ $contest->begin_time }}
+						</a>
                     </td>
-                    <td class="text-center table_row_td">
+                    <td class="text-center">
                         @if($contest->contest_type == 0)
                             Public
                         @elseif($contest->contest_type == 1)
@@ -70,7 +76,7 @@
                             Register
                         @endif
                     </td>
-                    <td class="text-center table_row_td">
+                    <td class="text-center">
                         @if($contest->status=="Running")
                             <span class="badge contest_list_status_running">{{ $contest->status }}</span>
                         @elseif($contest->status=="Ended")

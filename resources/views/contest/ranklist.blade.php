@@ -59,23 +59,26 @@
         </thead>
         @foreach($users as $user)
             <tr class="table_row">
-
                 <td class="contest_ranklist_penalty_td text-center" style="padding: 5px;">
                     {{ $counter++ }}
                 </td>
-                <td class="text-center table_row_td" onclick="javascript:window.location.href='/profile/{{ $user->uid }}'">
+                <td>
+					<a href="/profile/{{ $user->uid }}" class="text-center table_row_td">
                     @if($roleCheck->is("admin"))
                         {{ $user->info->stu_id }}
                     @else
                         <img src="/avatar/{{$user->uid}}" style="width:35px; height:35px"/>
                     @endif
+					</a>
                 </td>
-                <td class="contest_ranklist_username_td text-center table_row_td" id="contest_index_problem_name_el" onclick="javascript:window.location.href='/profile/{{ $user->uid }}'">
+                <td class="contest_ranklist_username_td" id="contest_index_problem_name_el" onclick="javascript:window.location.href=''">
+					<a href="/profile/{{ $user->uid }}" class="text-center table_row_td">
                     @if($roleCheck->is("admin"))
                         <nobr>{{ $user->info->realname }}</nobr>
                     @else
                         <nobr>{{ $user->info->nickname }}</nobr>
                     @endif
+					</a>
                 </td>
                 <td class="contest_ranklist_username_td text-center" style="padding: 8px">
                     {{ $user->infoObj->totalAC }}
