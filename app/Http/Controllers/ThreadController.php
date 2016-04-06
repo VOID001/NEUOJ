@@ -85,7 +85,7 @@ class ThreadController extends Controller
         $count=0;
         foreach($threadObj as $thread)
         {
-            var_dump($thread->info);
+            //var_dump($thread->info);
             $data['threads'][$count] = $thread;
             $count++;
         }
