@@ -117,6 +117,11 @@ Route::group(['middleware' => 'profile'],function() {
             "uses" => "ProblemController@getProblemByID"
         ])->where('problem_id', '[0-9]+');
 
+
+        Route::get('/problem/quick_access', [
+            "uses" => "ProblemController@quickAccess"
+        ]);
+
         Route::get('/dashboard', [
             "uses" => "UserController@getDashboardIndex"
         ]);

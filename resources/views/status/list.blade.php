@@ -316,7 +316,6 @@
         for(var i = 1; i < rows.length; i++)
         {
             var run_id = rows[i].cells[0].title;
-            console.log(run_id);
             var result = rows[i].cells[6].innerHTML;
             var resultObj = rows[i].cells;
             if(result.indexOf('Pending') != -1 || result.indexOf('Rejudging') != -1)

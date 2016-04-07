@@ -506,4 +506,52 @@ class ProblemController extends Controller
         return Redirect::back();
     }
 
+    /*
+     * @function quickAccess
+     * @input $request (use query)
+     *
+     * @return Redirect or View
+     * @description Process the query and redirect to
+     *              certain problem or list
+     */
+    public function quickAccess(Request $request)
+    {
+        $data = [];
+        $query = $request->input('query');
+
+        /* If it's a problem id, just jump to the problem */
+        if(is_numeric($query))
+        {
+            return Redirect::to("/problem/$query");
+        }
+        else
+        {
+            if(RoleController::is('admin'))
+            {
+                $data['problems'] = Problem::where('title', 'like', "%$query%")->get();
+            }
+            else
+            {
+                /* Only problems with no visibility_lock can be access by normal user */
+                $data['problems'] = Problem::where('visibility_locks', 0)->
+                                    where('title', 'like', "%$query%")->get();
+            }
+
+            /* This code is duplicated now, need to encapsulate it */
+            foreach ($data['problems'] as $problem)
+            {
+                $problem->submission_count = Submission::where('pid', $problem->problem_id)->count();
+                $problem->ac_count = Submission::where('pid', $problem->problem_id)
+                    ->where('result', 'Accepted')->count();
+                $authorObj = User::where('uid', $problem->author_id)->first();
+                $problem->author = $authorObj["username"];
+                $problem->used_times = $problem->getNumberOfUsedContests();
+            }
+            $data['firstPage'] = 1;
+            $data["lastPage"] = 1;
+            $data['page_id'] = 1;
+            $data['page_num'] = 1;
+            return View::make('problem.list', $data);
+        }
+    }
 }
