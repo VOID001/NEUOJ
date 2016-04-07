@@ -164,7 +164,7 @@
 			class="table_row_nohl"
 			@endif
             >
-				<td class="text-center">
+				<td class="text-center" title="{{ $submission->runid }}">
                 @if(Request::session()->get('uid') == $submission->uid || $roleCheck->is("admin"))
                 <a href="/status/{{ $submission->runid }}@if(isset($contest))?c={{ $contest->contest_id }}&p={{ $submission->contestProblemId }} @endif" class="table_row_td">
                 @endif
@@ -315,7 +315,8 @@
         var rows = tableObj.rows;
         for(var i = 1; i < rows.length; i++)
         {
-            var run_id = rows[i].cells[0].innerHTML;
+            var run_id = rows[i].cells[0].title;
+            console.log(run_id);
             var result = rows[i].cells[6].innerHTML;
             var resultObj = rows[i].cells;
             if(result.indexOf('Pending') != -1 || result.indexOf('Rejudging') != -1)
@@ -326,7 +327,7 @@
     }
 
     function fetchResult(run_id, resultObj) {
-        console.log(resultObj);
+        console.log("run_id = " + run_id);
         $.ajax({
             url: "/ajax/submission",
             type: "GET",
@@ -353,11 +354,11 @@
                 resultObj[6].innerHTML = "<span class='label label-warning' style='font-size: 13px'>" + json.result + "</span>"
             }
             if(json.exec_mem > 1024 && json.exec_mem < 1024 * 1024)
-                json.exec_mem = json.exec_mem / 1024 + "KB";
+                json.exec_mem = json.exec_mem / 1024 + " KB";
             else if(json.exec_mem >= 1024 * 1024)
                 json.exec_mem = parseInt(json.exec_mem / 1024 / 1024 | 0) + "MB";
             else
-                json.exec_mem = parseInt(json.exec_mem | 0) + "Byte";
+                json.exec_mem = parseInt(json.exec_mem | 0) + " Byte";
 
             if(json.exec_time < 1)
                 json.exec_time = json.exec_time * 1000 + "ms";
