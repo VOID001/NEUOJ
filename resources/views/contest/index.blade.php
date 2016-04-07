@@ -166,7 +166,7 @@
                     </td>
                     <td>
 						<a href="/contest/{{ $contest->contest_id }}/status/p/{{ $problem->contest_problem_id }}" class="text-center table_row_td">
-                        @if($problem->acSubmissionCount != 0)
+                        @if($problem->totalSubmissionCount != 0)
                             {{ $problem->acSubmissionCount }} / {{ $problem->totalSubmissionCount }}({{ intval($problem->acSubmissionCount/$problem->totalSubmissionCount * 100) }}%)
                         @else
                             0 / 0
