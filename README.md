@@ -34,7 +34,7 @@ __Ver 1.0 Released__ 2.0 Working In Progress
  * [ ] Export Ranklist
  * [ ] Contest Statistics
 * [ ] CMS
- * [ ] BBS Function
+ * [x] BBS Function
  * [ ] Blog
 * [ ] System & Log
  * [ ] Log System
