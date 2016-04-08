@@ -19,7 +19,7 @@
                     <li id="problem"><a href="/problem"><paper-button>Problem<div class="activebar"></div></paper-button></a></li>
                     <li id="status"><a href="/status"><paper-button>Status<div class="activebar"></div></paper-button></a></li>
                     <li id="contest"><a href="/contest"><paper-button>Contest<div class="activebar"></div></paper-button></a></li>
-                    <li id="discuss"><a href="#"><paper-button>Discuss<div class="activebar"></div></paper-button></a></li>
+                    <li id="discuss"><a href="/discuss/0"><paper-button>Discuss<div class="activebar"></div></paper-button></a></li>
                     <li id="rating"><a href="#"><paper-button>Rating<div class="activebar"></div></a></paper-button></li>
                 </ul>
 

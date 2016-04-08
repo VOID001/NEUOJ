@@ -25,7 +25,7 @@
 <div class="panel panel-default discuss_index_pnl">
     <div class="panel-heading">
         @if($contest_id != 0)
-            <a href="#">Contest {{$contest_id}} </a>
+            <a href="/contest/{{$contest_id}}">Contest {{$contest_id}} </a>
         @endif
     </div>
     @if(session('info'))
@@ -48,7 +48,11 @@
                             @endif
                         </div>
                         <div class="col-md-10">
-                            <a href="/contest/{{$contest_id}}/problem/{{$thread->pid}}" class="discuss_list_panelbody_a">@Problem {{$thread->pid}}: </a>
+                            @if($contest_id != 0)
+                                <a href="/contest/{{$contest_id}}/problem/{{$thread->pid}}" class="discuss_list_panelbody_a">@Problem {{$thread->pid}}: </a>
+                            @else
+                                <a href="/problem/{{$thread->pid}}" class="discuss_list_panelbody_a">@Problem {{$thread->pid}}: </a>
+                            @endif
                             <p style="white-space: pre-wrap">{{$thread->content}}</p>
                         </div>
                         @if($roleCheck->is("admin"))

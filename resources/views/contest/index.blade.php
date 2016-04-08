@@ -94,7 +94,7 @@
             @if($roleCheck->is("admin"))
                 <a class="btn btn-default" href="/contest/{{ $contest->contest_id }}/balloon">Balloon</a>
             @endif
-            <a class="btn btn-default" href="#">BBS Not Available</a>
+            <a class="btn btn-default" href="/discuss/{{$contest->contest_id}}">BBS</a>
         </div>
         <div>
             <!--

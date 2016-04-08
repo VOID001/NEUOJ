@@ -12,7 +12,7 @@
     <div class="panel-heading">
         @if($contest_id != 0)
             <a href="/discuss/{{$contest_id}}/p/1">Contest {{$contest_id}} </a> >
-            <a href="#">Problem {{$problem_id}} </a>
+            <a href="/contest/{{$contest_id}}/problem/{{$problem_id}}">Problem {{$problem_id}} </a>
         @else
             <a href="/problem/{{ $problem_id }}">Problem {{$problem_id}} </a>
         @endif
