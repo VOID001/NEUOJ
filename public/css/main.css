@@ -644,6 +644,13 @@ li.separate-item {
     background-color: #3f98e9;
 }
 /*discuss.index*/
+.discuss_username {
+    display: inline-block;
+    width: 100px;
+    white-space:nowrap;
+    text-overflow: ellipsis;
+    overflow:hidden;
+}
 .discuss_index_pnl {
     width: 70%;
     margin: 0 auto;
@@ -698,27 +705,13 @@ li.separate-item {
     text-decoration: none;
 }
 .discuss_list_li:hover {
-    background-color: #00e5ff;
+    background-color: #d2d6de;
 }
-/*
-  This is only remain for temporary use ,
-  frontend developers please fix this
-*/
-
-.admin_href:link{
-    color: purple;
+.admin_href {
+    color:#3f51b5;
 }
-
-.admin_href:hover{
-    color: purple;
-}
-
-.admin_href:visited{
-    color: purple;
+.admin_href:hover {
+    color: #3f51b5;
     text-decoration: none;
 }
 
-.admin_href:active{
-    color: purple;
-    text-decoration: none;
-}

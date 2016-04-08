@@ -26,13 +26,13 @@
                                 <a href="/profile/{{ $thread->author_id }}"><img src="/avatar/{{ $thread->author_id }}" class="img-circle" style="width: 50px;height: 50px"></a>
                             <br/>
                             @if($thread->author_id <= 2)
-                                <span><a class="admin_href" href="/profile/{{ $thread->author_id }}"><b>{{ $thread->info->nickname }}</b>@if($roleCheck->is("admin"))<br/>({{ $thread->info->realname }})@endif</a></span>
+                                <span><a class="admin_href" href="/profile/{{ $thread->author_id }}"><b class="discuss_username"><span class="glyphicon glyphicon-fire" style="color: red"></span>&nbsp;{{ $thread->info->nickname }}</b>@if($roleCheck->is("admin"))<br/>({{ $thread->info->realname }})@endif</a></span>
                             @else
-                                <span><a href="/profile/{{ $thread->author_id }}">{{ $thread->info->nickname }}@if($roleCheck->is("admin"))<br/>({{ $thread->info->realname }})@endif</a></span>
+                                <span><a style="color: green" href="/profile/{{ $thread->author_id }}"><span class="discuss_username">{{ $thread->info->nickname }}</span>@if($roleCheck->is("admin"))<br/><span class="discuss_username">({{ $thread->info->realname }})</span>@endif</a></span>
                             @endif
                         </div>
                         <div class="col-md-10">
-                            <p style="white-space: pre-wrap">{{$thread->content}}</p>
+                            <p style="white-space: pre-wrap;word-break: break-all">{{$thread->content}}</p>
                         </div>
                         @if($roleCheck->is("admin"))
                             <form class="col-md-2" action="/discuss/delete/{{$thread->id}}" method ="POST">

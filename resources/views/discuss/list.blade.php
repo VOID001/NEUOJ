@@ -37,14 +37,14 @@
         <ul class="list-group">
             @if(isset($threads) && $threads != NULL)
                 @foreach($threads as $thread)
-                    <li class="list-group-item discuss_list_li" onclick="javascript:window.location.href='/discuss/{{$contest_id}}/{{$thread->pid}}'">
+                    <li class="list-group-item discuss_list_li" style="cursor: pointer" onclick="javascript:window.location.href='/discuss/{{$contest_id}}/{{$thread->pid}}'">
                         <div class="col-md-2 text-center">
                             <a href="/profile/{{ $thread->author_id }}"><img src="/avatar/{{ $thread->author_id }}" class="img-circle" style="width: 50px;height: 50px"></a>
                             <br/>
                             @if($thread->author_id <= 2)
-                                <span><a class="admin_href" href="/profile/{{ $thread->author_id }}"><b>{{ $thread->info->nickname }}</b>@if($roleCheck->is("admin"))<br/>({{ $thread->info->realname }})@endif</a></span>
+                                <span><a class="admin_href" href="/profile/{{ $thread->author_id }}"><b class="discuss_username"><span class="glyphicon glyphicon-fire" style="color: red"></span>&nbsp;{{ $thread->info->nickname }}</b>@if($roleCheck->is("admin"))<br/>({{ $thread->info->realname }})@endif</a></span>
                             @else
-                                <span><a href="/profile/{{ $thread->author_id }}">{{ $thread->info->nickname }}@if($roleCheck->is("admin"))<br/>({{ $thread->info->realname }})@endif</a></span>
+                                <span><a style="color: green;" href="/profile/{{ $thread->author_id }}"><span class="discuss_username">{{ $thread->info->nickname }}</span>@if($roleCheck->is("admin"))<br/><span class="discuss_username">({{ $thread->info->realname }})</span>@endif</a></span>
                             @endif
                         </div>
                         <div class="col-md-10">
@@ -53,7 +53,7 @@
                             @else
                                 <a href="/problem/{{$thread->pid}}" class="discuss_list_panelbody_a">@Problem {{$thread->pid}}: </a>
                             @endif
-                            <p style="white-space: pre-wrap">{{$thread->content}}</p>
+                            <p style="white-space: pre-wrap;word-break:break-all;">{{$thread->content}}</p>
                         </div>
                         @if($roleCheck->is("admin"))
                             <form class="col-md-2" action="/discuss/delete/{{$thread->id}}" method ="POST">
