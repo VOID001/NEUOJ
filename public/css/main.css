@@ -682,6 +682,7 @@ li.separate-item {
     width: 20px;
     height: 20%;
     clear: both;
+    margin-left: 30%;
 }
 .discuss_index_pnl .panel-body form {
     clear: both;
@@ -692,7 +693,13 @@ li.separate-item {
     width: 15%;
     float: left;
 }
-
+/*discuss.list*/
+.discuss_list_panelbody_a:hover {
+    text-decoration: none;
+}
+.discuss_list_li:hover {
+    background-color: #00e5ff;
+}
 /*
   This is only remain for temporary use ,
   frontend developers please fix this

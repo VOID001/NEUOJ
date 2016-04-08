@@ -25,7 +25,7 @@
 <div class="panel panel-default discuss_index_pnl">
     <div class="panel-heading">
         @if($contest_id != 0)
-            <a href="#">Contest {{$contest_id}} </a> >
+            <a href="#">Contest {{$contest_id}} </a>
         @endif
     </div>
     @if(session('info'))
@@ -37,7 +37,7 @@
         <ul class="list-group">
             @if(isset($threads) && $threads != NULL)
                 @foreach($threads as $thread)
-                    <li class="list-group-item">
+                    <li class="list-group-item discuss_list_li" onclick="javascript:window.location.href='/discuss/{{$contest_id}}/{{$thread->pid}}'">
                         <div class="col-md-2 text-center">
                             <a href="/profile/{{ $thread->author_id }}"><img src="/avatar/{{ $thread->author_id }}" class="img-circle" style="width: 50px;height: 50px"></a>
                             <br/>
@@ -48,6 +48,7 @@
                             @endif
                         </div>
                         <div class="col-md-10">
+                            <a href="/contest/{{$contest_id}}/problem/{{$thread->pid}}" class="discuss_list_panelbody_a">@Problem {{$thread->pid}}: </a>
                             <p style="white-space: pre-wrap">{{$thread->content}}</p>
                         </div>
                         @if($roleCheck->is("admin"))

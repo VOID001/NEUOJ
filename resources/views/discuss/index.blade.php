@@ -11,17 +11,12 @@
 <div class="panel panel-default discuss_index_pnl">
     <div class="panel-heading">
         @if($contest_id != 0)
-            <a href="#">Contest {{$contest_id}} </a> >
-            <a href="/contest/{{ $contest_id }}/problem/{{ $problem_id }}">Problem {{$problem_id}} </a>
+            <a href="/discuss/{{$contest_id}}/p/1">Contest {{$contest_id}} </a> >
+            <a href="#">Problem {{$problem_id}} </a>
         @else
             <a href="/problem/{{ $problem_id }}">Problem {{$problem_id}} </a>
         @endif
     </div>
-    @if(session('info'))
-        <div class="form-group" style="width: 400px;text-align: left"><div class="label label-warning" style="font-size: 13px">{{ session('info') }}</div></div>
-    @elseif(count($errors) > 0)
-        <div class="form-group" style="width: 400px;text-align: left"><div class="label label-warning" style="font-size: 13px">{{$errors->all()[0]}}</div></div>
-    @endif
     <div class="panel-body">
         <ul class="list-group">
             @if(isset($threads) && $threads != NULL)
@@ -60,6 +55,12 @@
         <form action="/discuss/add/{{ $contest_id }}/{{ $problem_id }}" method ="POST" enctype="multipart/form-data">
             {{ csrf_field() }}
             <textarea id="replybox" type="text" class="form-control" rows="3" name="content" placeholder="在这里输入你想说的0.0"/></textarea>
+            <div style="height: 3px"></div>
+            @if(session('info'))
+                <div class="form-group"><div class="label label-danger" style="font-size: 12px"><span class="glyphicon glyphicon-remove-sign"></span>&nbsp;{{ session('info') }}</div></div>
+            @elseif(count($errors) > 0)
+                <div class="form-group"><div class="label label-danger" style="font-size: 12px"><span class="glyphicon glyphicon-remove-sign"></span>&nbsp;{{$errors->all()[0]}}</div></div>
+            @endif
             <input type="submit" class="form-control btn-success pull-right" value="发出去了喵~" style="width: 15%;margin-top: 1%"/>
         </form>
     </div>
