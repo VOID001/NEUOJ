@@ -49,11 +49,11 @@ class ProblemController extends Controller
                 $data['problem']->$key = $val;
             }
         }
-        $data['problem']->totalSubmissionCount = Submission::where('pid', $problem_id)->count();
+        $data['problem']->totalSubmissionCount = Submission::getValidSubmissionCount(0, $problem_id);
         $data['problem']->acSubmissionCount = Submission::where([
             'pid' => $problem_id,
             'result' => "Accepted"
-        ])->count();
+        ])->get()->unique('uid')->count();
         return View::make("problem.index", $data);
     }
 
@@ -386,15 +386,12 @@ class ProblemController extends Controller
         $data['problem']->title = $contestProblemObj->problem_title;
         $data['isContest'] = true;
         $data['contest'] = $contestObj;
-        $data['problem']->totalSubmissionCount = Submission::where([
-            'pid' => $realProblemID,
-            'cid' => $contest_id,
-        ])->count();
         $data['problem']->acSubmissionCount = Submission::where([
             'pid' => $realProblemID,
             'cid' => $contest_id,
             'result' => "Accepted"
-        ])->count();
+        ])->get()->unique('uid')->count();
+        $data['problem']->totalSubmissionCount = Submission::getValidSubmissionCount($contest_id, $realProblemID);
         return View::make("problem.index", $data);
     }
 

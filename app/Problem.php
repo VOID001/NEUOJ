@@ -75,9 +75,9 @@ class Problem extends Model
         for($count = 0, $i = ($page_id - 1) * $itemsPerPage; $i < $problemNum && $count < $itemsPerPage; $i++, $count++)
         {
             $data["problems"][$count] = $problemObj[$i];
-            $data['problems'][$count]->submission_count = Submission::where('pid', $problemObj[$i]->problem_id)->count();
+            $data['problems'][$count]->submission_count = Submission::getValidSubmissionCount(0, $problemObj[$i]->problem_id);
             $data['problems'][$count]->ac_count = Submission::where('pid', $problemObj[$i]->problem_id)
-                ->where('result', 'Accepted')->count();
+                ->where('result', 'Accepted')->get()->unique('uid')->count();
             $authorObj = User::where('uid', $problemObj[$i]->author_id)->first();
             $data['problems'][$count]->author = $authorObj["username"];
             $data['problems'][$count]->used_times = $problemObj[$i]->getNumberOfUsedContests();
