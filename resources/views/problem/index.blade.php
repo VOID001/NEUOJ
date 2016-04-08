@@ -132,9 +132,9 @@
         <h3>Sample Output</h3>
         <p class="word_cut">{{ $problem->sample_output or "No Sample Output" }}</p>
         <h3>Source</h3>
-        <p class="word_cut">{{ $problem->source or "Source not avaliable!"}}</p>
+        <p class="fr-view word_cut">{{ $problem->source or "Source not avaliable!"}}</p>
         <h3>Hint</h3>
-        <p class="word_cut">{{ $problem->hint or "No Hint!"}}</p>
+        <p class="fr-view word_cut">{{ $problem->hint or "No Hint!"}}</p>
     </div>
     @if(Request::session()->get('username') != NULL)
         <div class="text-center" style="padding-bottom: 50px"><a class="btn btn-info" id="submit">Submit</a></div>

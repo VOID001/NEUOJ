@@ -12,7 +12,7 @@
     margin: 0;
     padding-top: 10px;
     padding-bottom: 5px;
-	width: 100%;
+    width: 100%;
 }
 .navbar .container{
     margin: 0;
@@ -161,24 +161,28 @@ fieldset[disabled] .btn-grey.active {
     margin-right: 10px;
     border-radius: 20px;
     transition: box-shadow 0.3s;
+    transition-timing-function: ease-in-out;
 }
 .neuoj_theme:hover .neuacmlogo{
     box-shadow: 0 0 10px #FFF;
 }
 .neuoj_theme:active .neuacmlogo{
     transition: box-shadow 0.05s;
+    transition-timing-function: ease-in-out;
     box-shadow: 0 0 20px #FFF;
 }
 .neuacmlogotext{
     float: left;
     color: #fff;
     transition: text-shadow 0.3s;
+    transition-timing-function: ease-in-out;
 }
 .neuoj_theme:hover .neuacmlogotext{
     text-shadow: 0 0 10px #fff;
 }
 .neuoj_theme:active .neuacmlogotext{
     transition: text-shadow 0.05s;
+    transition-timing-function: ease-in-out;
     text-shadow: 0 0 20px #fff;
 }
 /*题目列表式样*/
@@ -574,8 +578,7 @@ li.separate-item {
     padding: 9.5px;
     margin: 0 0 10px;
     font-size: 16px;
-    font-family:"Ubuntu Mono";
-	line-height: 1.42857143;
+    /*line-height: 1.42857143;*/
     color: #333;
     background-color: #f5f5f5;
     border: 1px solid #ccc;
@@ -594,32 +597,40 @@ li.separate-item {
 .table_row > td {
     padding: 0!IMPORTANT;
     height: 33px;
-	line-height: 33px!IMPORTANT;
+    line-height: 33px!IMPORTANT;
 }
 .table_row_nohl > td {
     padding: 0!IMPORTANT;
     height: 33px;
-	line-height: 33px!IMPORTANT;
+    line-height: 33px!IMPORTANT;
 }
 .table_row_td{
     color: inherit;
     display: block;
     height: 100%;
     width: 100%;
-	line-height: 33px;
-	text-decoration: none!IMPORTANT;
+    line-height: 33px;
+    text-decoration: none!IMPORTANT;
 }
 .table_row_td:hover{
     background-color: #445b72;
     color: #fff!IMPORTANT;
-	font-weight: bold;
+    font-weight: bold;
 }
 .table_row_td:active{
-    background-color: #31b0d5!important;
+    /*background-color: #31b0d5!important;*/
     color: #fff!IMPORTANT;
 }
 .table_row_td:visited{
-	color: inherit;
+    color: inherit;
+}
+.table_row_td > paper-button{
+    margin: 0;
+    padding: 0;
+    width: inherit;
+    height: inherit;
+    min-width: 0;
+    text-transform: none;
 }
 @font-face{
     font-family: Roboto;
@@ -631,10 +642,13 @@ li.separate-item {
     font-weight: bold;
 }
 *{
-   font-family: Roboto;
+    font-family: Roboto;
 }
 .text-center{
-   font-family: Roboto;
+    font-family: Roboto;
+}
+span[class^="hljs"]{
+    font-family: "Courier New";
 }
 .mdbtn-white{
     background-color: #2e87d8;

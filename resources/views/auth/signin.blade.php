@@ -5,11 +5,11 @@
     @include("layout.head")
     <link rel="stylesheet" href="/css/main.css">
     <script>
-    	$(document).ready(function(){
-    		$('#captcha').click(function(){
-    			this.src=this.src+'?'+new Date();
-    		});
-    	});
+        $(document).ready(function(){
+            $('#captcha').click(function(){
+                this.src=this.src+'?'+new Date();
+            });
+        });
     </script>
 </head>
 <body style="background-color: #d2d6de">
@@ -34,7 +34,7 @@
             <div class="form-group signin_box_userbox signin_box_cptbox">
                 <span class="glyphicon glyphicon-exclamation-sign signin_box_gly"></span>
                 <input type="text" name="captcha" class="form-control signin_box_user" placeholder="captcha" tabindex="3"/>
-                <img src="{{ captcha_src("flat") }}" class="signin_box_cpt_p" alt="Captcha" id="captcha"/>
+                <img src="{{ captcha_src("flat") }}" class="signin_box_cpt_p" alt="Captcha" id="captcha" style="cursor:pointer"/>
             </div>
             <div class="row signin_box_row signin_box_warning">
                 @if(count($errors) > 0 )

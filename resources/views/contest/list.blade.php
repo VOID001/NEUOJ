@@ -53,19 +53,19 @@
             @foreach($contests as $contest)
                 <tr class="table_row">
                     <td>
-						<a href="/contest/{{ $contest->contest_id }}" class="text-center table_row_td">
+						<a href="/contest/{{ $contest->contest_id }}" class="text-center table_row_td"><paper-button>
                             {{ $contest->contest_id }}
-						</a>
+						</paper-button></a>
                     </td>
                     <td id="contest_name_el">
-						<a href="/contest/{{ $contest->contest_id }}" class="text-center table_row_td">
+						<a href="/contest/{{ $contest->contest_id }}" class="text-center table_row_td"><paper-button>
                             <nobr>&nbsp;{{ $contest->contest_name }}</nobr>
-						</a>
+						</paper-button></a>
                     </td>
                     <td>
-						<a href="/contest/{{ $contest->contest_id }}" class="text-center table_row_td">
+						<a href="/contest/{{ $contest->contest_id }}" class="text-center table_row_td"><paper-button>
                         {{ $contest->begin_time }}
-						</a>
+						</paper-button></a>
                     </td>
                     <td class="text-center">
                         @if($contest->contest_type == 0)

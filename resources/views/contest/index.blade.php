@@ -142,36 +142,36 @@
                         @endif
                      </td>
                     <td>
-						<a href="/contest/{{ $contest->contest_id }}/problem/{{ $problem->contest_problem_id }}" class="text-center table_row_td">
+						<a href="/contest/{{ $contest->contest_id }}/problem/{{ $problem->contest_problem_id }}" class="text-center table_row_td"><paper-button>
                         {{ $problem->contest_problem_id }}
-						</a>
+						</paper-button></a>
                     </td>
                     <td>
-						<a href="/contest/{{ $contest->contest_id }}/problem/{{ $problem->contest_problem_id }}" class="text-center table_row_td">
+						<a href="/contest/{{ $contest->contest_id }}/problem/{{ $problem->contest_problem_id }}" class="text-center table_row_td"><paper-button>
                         @if(!$roleCheck->is("admin") && !($contest->isRunning() || $contest->isEnded()))
                             &nbsp;(╯‵A′)╯︵┻━┻
                         @else
                             &nbsp;{{ $problem->problem_title }}
                         @endif
-						</a>
+						</paper-button></a>
                     </td>
                     <td id="contest_index_problem_name_el">
-						<a href="/contest/{{ $contest->contest_id }}/problem/{{ $problem->contest_problem_id }}" class="text-left table_row_td">
+						<a href="/contest/{{ $contest->contest_id }}/problem/{{ $problem->contest_problem_id }}" class="text-left table_row_td"><paper-button>
                         @if(!$roleCheck->is("admin") && !($contest->isRunning() || $contest->isEnded()))
                             <nobr>&nbsp;(╯‵A′)╯︵┻━┻ </nobr>
                         @else
                             <nobr>&nbsp;{{ $problem->realProblemName === -1 ? "[Error] Problem Deleted!" : $problem->realProblemName }}</nobr>
                         @endif
-						</a>
+						</paper-button></a>
                     </td>
                     <td>
-						<a href="/contest/{{ $contest->contest_id }}/status/p/{{ $problem->contest_problem_id }}" class="text-center table_row_td">
+						<a href="/contest/{{ $contest->contest_id }}/status/p/1username=&pid={{ $problem->contest_problem_id }}&lang=All&result=All" class="text-center table_row_td"><paper-button>
                         @if($problem->totalSubmissionCount != 0)
                             {{ $problem->acSubmissionCount }} / {{ $problem->totalSubmissionCount }}({{ intval($problem->acSubmissionCount/$problem->totalSubmissionCount * 100) }}%)
                         @else
                             0 / 0
                         @endif
-						</a>
+						</paper-button></a>
                     </td>
                     @if($roleCheck->is('admin'))
                         <td class="text-center">

@@ -161,94 +161,76 @@
             @elseif($roleCheck->is("admin"))
             class="table_row table_row_nohl"
             @else
-			class="table_row_nohl"
-			@endif
+            class="table_row_nohl"
+            @endif
             >
-				<td class="text-center" title="{{ $submission->runid }}">
+                <td class="text-center" title="{{ $submission->runid }}">
                 @if(Request::session()->get('uid') == $submission->uid || $roleCheck->is("admin"))
-                <a href="/status/{{ $submission->runid }}@if(isset($contest))?c={{ $contest->contest_id }}&p={{ $submission->contestProblemId }} @endif" class="table_row_td">
+                <a href="/status/{{ $submission->runid }}@if(isset($contest))?c={{ $contest->contest_id }}&p={{ $submission->contestProblemId }} @endif" class="table_row_td"><paper-button>
                 @endif
-				{{ $submission->runid }}
+                {{ $submission->runid }}
                 @if(Request::session()->get('uid') == $submission->uid || $roleCheck->is("admin"))
-				</a>
+                </paper-button></a>
                 @endif
                 </td>
                 <td class="text-center">
                 @if(Request::session()->get('uid') == $submission->uid || $roleCheck->is("admin"))
-                <a href="/status/{{ $submission->runid }}@if(isset($contest))?c={{ $contest->contest_id }}&p={{ $submission->contestProblemId }} @endif" class="table_row_td">
+                <a href="/status/{{ $submission->runid }}@if(isset($contest))?c={{ $contest->contest_id }}&p={{ $submission->contestProblemId }} @endif" class="table_row_td"><paper-button>
                 @endif
                 {{ substr($submission->submit_time, 2) }}
                 @if(Request::session()->get('uid') == $submission->uid || $roleCheck->is("admin"))
-                </a>
+                </paper-button></a>
                 @endif
                 </td>
-                <td><a href="/profile/{{ $submission->uid }}" class="text-center table_row_td">{{ $submission->uid }}</a></td>
-                <td><a href="/profile/{{ $submission->uid }}" class="text-center table_row_td"><nobr>{{ $submission->userName }}</nobr></a></td>
-                <td id="status_username_title_el"><a href="/profile/{{ $submission->uid }}" class="text-center table_row_td"><nobr>{{ $submission->nickname }}</nobr></a></td>
+                <td><a href="/profile/{{ $submission->uid }}" class="text-center table_row_td"><paper-button>{{ $submission->uid }}</paper-button></a></td>
+                <td><a href="/profile/{{ $submission->uid }}" class="text-center table_row_td"><paper-button><nobr>{{ $submission->userName }}</nobr></paper-button></a></td>
+                <td id="status_username_title_el"><a href="/profile/{{ $submission->uid }}" class="text-center table_row_td"><paper-button><nobr>{{ $submission->nickname }}</nobr></paper-button></a></td>
                 <td class="text-left" id="status_username_title_el"><nobr>&nbsp;{{ $submission->problemTitle }}</nobr></td>
-                @if($submission->result=="Accepted")
-                    <td class="text-center">
-                    @if(Request::session()->get('uid') == $submission->uid || $roleCheck->is("admin"))
-				    <a href="/status/{{ $submission->runid }}@if(isset($contest))?c={{ $contest->contest_id }}&p={{ $submission->contestProblemId }} @endif" class="label label-success" style="font-size: 14px"><span class="glyphicon glyphicon-ok " style="color: #000"></span>Accepted</a>
-                    @else
-				    <span class="label label-success" style="font-size: 14px"><span class="glyphicon glyphicon-ok " style="color: #000"></span>Accepted</span>
-				    @endif
-                        @if(isset($submission->sim->similarity) && $roleCheck->is("admin"))
-                            <a class="label label-primary" id="status_list_sim_a" title="runid:{{ $submission->sim->sim_runid }}" href="/status/sim?left={{ $submission->sim->runid }}&right={{ $submission->sim->sim_runid }}">{{ $submission->sim->similarity }}%</a>
-                        @elseif(isset($submission->sim->similarity))
-                            <label class="label label-primary" id="status_list_sim_a" title="runid:{{ $submission->sim->sim_runid }}">{{ $submission->sim->similarity }}%</label>
-                        @endif
-                    </td>
-                @elseif($submission->result=="Compile Error")
-                    <td class="text-center">
-                    @if(Request::session()->get('uid') == $submission->uid || $roleCheck->is("admin"))
-				    <a href="/status/{{ $submission->runid }}@if(isset($contest))?c={{ $contest->contest_id }}&p={{ $submission->contestProblemId }} @endif" class="table_row_td">
-                    @endif<span class="label label-default" style="font-size: 13px">Compile Error</span>
-                    @if(Request::session()->get('uid') == $submission->uid || $roleCheck->is("admin"))
-                    </a>
-                    @endif
-					</td>
-                @elseif($submission->result=="Wrong Answer")
-                    <td class="text-center">
-                    @if(Request::session()->get('uid') == $submission->uid || $roleCheck->is("admin"))
-				    <a href="/status/{{ $submission->runid }}@if(isset($contest))?c={{ $contest->contest_id }}&p={{ $submission->contestProblemId }} @endif" class="table_row_td">
-                    @endif<span class="label label-danger" style="font-size: 13px">Wrong Answer</span>
-                    @if(Request::session()->get('uid') == $submission->uid || $roleCheck->is("admin"))
-                    </a>
-                    @endif
-					</td>
-                @elseif($submission->result=="Pending")
-                    <td class="text-center">
-                    @if(Request::session()->get('uid') == $submission->uid || $roleCheck->is("admin"))
-				    <a href="/status/{{ $submission->runid }}@if(isset($contest))?c={{ $contest->contest_id }}&p={{ $submission->contestProblemId }} @endif" class="table_row_td">
-                    @endif<span class="label label-info" style="font-size: 13px">Pending</span>
-                    @if(Request::session()->get('uid') == $submission->uid || $roleCheck->is("admin"))
-                    </a>
-                    @endif
-					</td>
-                @else
-                    <td class="text-center">
-                    @if(Request::session()->get('uid') == $submission->uid || $roleCheck->is("admin"))
-				    <a href="/status/{{ $submission->runid }}@if(isset($contest))?c={{ $contest->contest_id }}&p={{ $submission->contestProblemId }} @endif" class="table_row_td">
-                    @endif<span class="label label-warning" style="font-size: 13px">{{$submission->result}}</span>
-                    @if(Request::session()->get('uid') == $submission->uid || $roleCheck->is("admin"))
-                    </a>
-                    @endif
-					</td>
-                @endif
                 <td class="text-center">
                 @if(Request::session()->get('uid') == $submission->uid || $roleCheck->is("admin"))
-				<a href="/status/{{ $submission->runid }}@if(isset($contest))?c={{ $contest->contest_id }}&p={{ $submission->contestProblemId }} @endif" class="table_row_td">
-                @endif{{ $submission->lang }}
+                <a href="/status/{{ $submission->runid }}@if(isset($contest))?c={{ $contest->contest_id }}&p={{ $submission->contestProblemId }} @endif" style="font-size: 14px"
+                @else
+                <span style="font-size: 14px"
+                @endif
+                @if($submission->result=="Accepted")
+                        class="label label-success"><span class="glyphicon glyphicon-ok " style="color: #000"></span>Accepted
+                @elseif($submission->result=="Compile Error")
+                    class="label label-default">Compile Error
+                @elseif($submission->result=="Wrong Answer")
+                    class="label label-danger">Wrong Answer
+                @elseif($submission->result=="Pending")
+                    class="label label-info">Pending
+                @elseif($submission->result=="Rejudging")
+                    class="label label-info">Rejudging
+                @else
+                    class="label label-warning">{{$submission->result}}
+                @endif
                 @if(Request::session()->get('uid') == $submission->uid || $roleCheck->is("admin"))
                 </a>
+                @else
+                </span>
                 @endif
-				</td>
+                @if($submission->result=="Accepted")
+                    @if(isset($submission->sim->similarity) && $roleCheck->is("admin"))
+                        <a class="label label-primary" id="status_list_sim_a" title="runid:{{ $submission->sim->sim_runid }}" href="/status/sim?left={{ $submission->sim->runid }}&right={{ $submission->sim->sim_runid }}" style="margin-left:5px">{{ $submission->sim->similarity }}%</a>
+                    @elseif(isset($submission->sim->similarity))
+                        <label class="label label-primary" id="status_list_sim_a" title="runid:{{ $submission->sim->sim_runid }}" style="margin-left:5px">{{ $submission->sim->similarity }}%</label>
+                    @endif
+                @endif
+                </td>
                 <td class="text-center">
                 @if(Request::session()->get('uid') == $submission->uid || $roleCheck->is("admin"))
-				<a href="/status/{{ $submission->runid }}@if(isset($contest))?c={{ $contest->contest_id }}&p={{ $submission->contestProblemId }} @endif" class="table_row_td">
+                <a href="/status/{{ $submission->runid }}@if(isset($contest))?c={{ $contest->contest_id }}&p={{ $submission->contestProblemId }} @endif" class="table_row_td"><paper-button>
+                @endif{{ $submission->lang }}
+                @if(Request::session()->get('uid') == $submission->uid || $roleCheck->is("admin"))
+                </paper-button></a>
                 @endif
-				@if($submission->exec_mem < 1024)
+                </td>
+                <td class="text-center">
+                @if(Request::session()->get('uid') == $submission->uid || $roleCheck->is("admin"))
+                <a href="/status/{{ $submission->runid }}@if(isset($contest))?c={{ $contest->contest_id }}&p={{ $submission->contestProblemId }} @endif" class="table_row_td"><paper-button>
+                @endif
+                @if($submission->exec_mem < 1024)
                     {{ $submission->exec_mem }} Byte
                 @elseif($submission->exec_mem < 1024*1024)
                     {{ (int)($submission->exec_mem / 1024) }} KB
@@ -256,22 +238,22 @@
                     {{ (int)($submission->exec_mem / 1024 / 1024) }} MB
                 @endif
                 @if(Request::session()->get('uid') == $submission->uid || $roleCheck->is("admin"))
-                </a>
+                </paper-button></a>
                 @endif
-				</td>
+                </td>
                 <td class="text-center">
                 @if(Request::session()->get('uid') == $submission->uid || $roleCheck->is("admin"))
-				<a href="/status/{{ $submission->runid }}@if(isset($contest))?c={{ $contest->contest_id }}&p={{ $submission->contestProblemId }} @endif" class="table_row_td">
+                <a href="/status/{{ $submission->runid }}@if(isset($contest))?c={{ $contest->contest_id }}&p={{ $submission->contestProblemId }} @endif" class="table_row_td"><paper-button>
                 @endif
-				@if($submission->exec_time < 1)
+                @if($submission->exec_time < 1)
                     {{ (int)($submission->exec_time * 1000) }}ms
                 @else
                     {{ $submission->exec_time }}s
                 @endif
                 @if(Request::session()->get('uid') == $submission->uid || $roleCheck->is("admin"))
-                </a>
+                </paper-button></a>
                 @endif
-				</td>
+                </td>
                 @if($roleCheck->is('admin'))
                     <td>
                         <form method="post" action="/rejudge/{{ $submission->runid }}">
@@ -280,9 +262,9 @@
                         </form>
                     </td>
                 @endif
-			@if(Request::session()->get('uid') == $submission->uid || $roleCheck->is("admin"))
-            </a>
-            @endif
+                @if(Request::session()->get('uid') == $submission->uid || $roleCheck->is("admin"))
+                </a>
+                @endif
             </tr>
         @endforeach
     @endif
@@ -336,22 +318,34 @@
             dataType: "json",
         }).done(function(json){
             console.log(json);
-            if(json.result == "Accepted")
-            {
-                resultObj[6].innerHTML = "<span class='label label-success' style='font-size: 15px'><span class='glyphicon glyphicon-ok ' style='color: #000'></span>Accepted</span>"
-            }
-            else if(json.result == "Wrong Answer")
-            {
-                resultObj[6].innerHTML = "<span class='label label-danger' style='font-size: 13px'>Wrong Answer</span>"
-            }
-            else if(json.result == "Compile Error")
-            {
-                resultObj[6].innerHTML = "<span class='label label-default' style='font-size: 13px'>Compile Error</span>"
-            }
+            var tmpResult;
+            var tmpObj = resultObj[6].innerHTML;
+            /* if it's a span, then do not add anchor, else add anchor href */
+            if(tmpObj.charAt(1)=='s')
+                tmpResult = "<span style=\"font-size: 14px\"";
             else
-            {
-                resultObj[6].innerHTML = "<span class='label label-warning' style='font-size: 13px'>" + json.result + "</span>"
-            }
+                tmpResult = "<a href=\"/status/{{ $submission->runid }}@if(isset($contest))?c={{ $contest->contest_id }}&p={{ $submission->contestProblemId }} @endif\" style=\"font-size: 14px\"";
+
+            if(json.result == "Accepted")
+                tmpResult = tmpResult + "class=\"label label-success\"><span class='glyphicon glyphicon-ok ' style='color: #000'></span>Accepted";
+            else if(json.result == "Wrong Answer")
+                tmpResult = tmpResult + "class=\"label label-danger\">Wrong Answer";
+            else if(json.result == "Compile Error")
+                tmpResult = tmpResult + "class=\"label label-default\">Compile Error";
+            else if(json.result == "Pending")
+                tmpResult = tmpResult + "class=\"label label-info\">Pending";
+            else if(json.result == "Rejudging")
+                tmpResult = tmpResult + "class=\"label label-info\">Rejudging";
+            else
+                tmpResult = tmpResult + "class=\"label label-warning\">" + json.result;
+
+            if(tmpObj.charAt(1)=='s')
+                tmpResult = tmpResult + "</span>";
+            else
+                tmpResult = tmpResult + "</a>";
+
+            resultObj[6].innerHTML = tmpResult;
+
             if(json.exec_mem > 1024 && json.exec_mem < 1024 * 1024)
                 json.exec_mem = json.exec_mem / 1024 + " KB";
             else if(json.exec_mem >= 1024 * 1024)

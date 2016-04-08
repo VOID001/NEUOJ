@@ -46,10 +46,10 @@
             @if($problems != NULL)
                 @foreach($problems as $problem)
                         <tr class="table_row">
-                            <td><a href="/problem/{{ $problem->problem_id }}" class="text-center table_row_td">{{ $problem->problem_id }}</a></td>
-                            <td id="problem_title_author_el"><a href="/problem/{{ $problem->problem_id }}" class="text-left table_row_td"><nobr>&nbsp;{{ $problem->title }}</nobr></a></td>
+                            <td><a href="/problem/{{ $problem->problem_id }}" class="text-center table_row_td"><paper-button>{{ $problem->problem_id }}</paper-button></a></td>
+                            <td id="problem_title_author_el"><a href="/problem/{{ $problem->problem_id }}" class="text-left table_row_td"><paper-button><nobr>&nbsp;{{ $problem->title }}</nobr></paper-button></a></td>
                             <td class="text-center">{{ $problem->difficulty }}</td>
-                            <td><a href="/status/p/1?pid={{ $problem->problem_id }}" class="text-center table_row_td">{{ $problem->ac_count. "/" . $problem->submission_count }}</a></td>
+                            <td><a href="/status/p/1?pid={{ $problem->problem_id }}" class="text-center table_row_td"><paper-button>{{ $problem->ac_count. "/" . $problem->submission_count }}</paper-button></a></td>
                             <td class="text-center" id="problem_title_author_el"><nobr>{{ $problem->author }}</nobr></td>
                         </tr>
                 @endforeach

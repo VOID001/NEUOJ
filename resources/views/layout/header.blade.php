@@ -25,12 +25,10 @@
 
                 @if(Request::session()->get('username')!="")
                     <div class="btn-group" id="dashboard">
-                        <button class="btn btn-grey" onclick="javascript:window.location.href='/dashboard'">{{Request::session()->get('username')}}</button>
-                        <button class="btn btn-grey dropdown-toggle btn-caret" type="button" data-toggle="dropdown""><span class="caret"></span></button>
+                        <button class="btn btn-info" onclick="javascript:window.location.href='/dashboard'">{{Request::session()->get('username')}}</button>
+                        <button class="btn btn-info dropdown-toggle btn-caret" type="button" data-toggle="dropdown""><span class="caret"></span></button>
                         <ul class="dropdown-menu dropdown-menu-right">
-                            <li><a href="/dashboard"><img src="/avatar/{{Request::session()->get('uid')}}" style="width:118px;height:118px;"/></a></li>
-                            <li role="presentation" class="divider"></li>
-                            <li><a href="/dashboard">Dashboard</a></li>
+                            <li><a href="/dashboard"><img src="/avatar/{{Request::session()->get('uid')}}" style="width:118px;height:118px;object-fit:cover;"/></a></li>
                             <li role="presentation" class="divider"></li>
                             <li><a href="/auth/logout">Log Out</a></li>
                         <ul>

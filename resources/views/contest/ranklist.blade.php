@@ -63,22 +63,22 @@
                     {{ $counter++ }}
                 </td>
                 <td>
-					<a href="/profile/{{ $user->uid }}" class="text-center table_row_td">
+					<a href="/profile/{{ $user->uid }}" class="text-center table_row_td"><paper-button>
                     @if($roleCheck->is("admin"))
                         {{ $user->info->stu_id }}
                     @else
                         <img src="/avatar/{{$user->uid}}" style="width:35px; height:35px"/>
                     @endif
-					</a>
+					</paper-button></a>
                 </td>
                 <td class="contest_ranklist_username_td" id="contest_index_problem_name_el" onclick="javascript:window.location.href=''">
-					<a href="/profile/{{ $user->uid }}" class="text-center table_row_td">
+					<a href="/profile/{{ $user->uid }}" class="text-center table_row_td"><paper-button>
                     @if($roleCheck->is("admin"))
                         <nobr>{{ $user->info->realname }}</nobr>
                     @else
                         <nobr>{{ $user->info->nickname }}</nobr>
                     @endif
-					</a>
+					</paper-button></a>
                 </td>
                 <td class="contest_ranklist_username_td text-center" style="padding: 8px">
                     {{ $user->infoObj->totalAC }}
