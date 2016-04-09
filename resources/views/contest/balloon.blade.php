@@ -34,6 +34,9 @@
                 <th>
                     Event
                 </th>
+                <th>
+                    Status
+                </th>
             </thead>
             <tbody id="balloon_list">
 
@@ -55,13 +58,26 @@
         .done(function(json){
             $("#balloon_list").html("");
             for(var i = 0; i < json.count; i++) {
-                $("#balloon_list").append("<tr>" +
-                        "<td>" + json[i].username + "</td>" +
-                        "<td>" + json[i].nickname + "</td>" +
-                        "<td>" + json[i].short_name + "</td>" +
-                        "<td>" + "<div style='height:10px; width:100px; background-color:#00" + json[i].color + "00'></div>" + "</td>" +
-                        "<td>" + json[i].event + "</td>" +
-                        "</tr>");
+                if(json[i].status == "Done"){
+                    $("#balloon_list").append("<tr>" +
+                            "<td>" + json[i].username + "</td>" +
+                            "<td>" + json[i].nickname + "</td>" +
+                            "<td>" + json[i].short_name + "</td>" +
+                            "<td>" + "<div style='height:10px; width:100px; background-color:#00" + json[i].color + "00'></div>" + "</td>" +
+                            "<td>" + json[i].event + "</td>" +
+                            "<td>" + json[i].status + "</td>" +
+                            "</tr>");
+                }
+                else {
+                    $("#balloon_list").append("<tr>" +
+                            "<td>" + json[i].username + "</td>" +
+                            "<td>" + json[i].nickname + "</td>" +
+                            "<td>" + json[i].short_name + "</td>" +
+                            "<td>" + "<div style='height:10px; width:100px; background-color:#00" + json[i].color + "00'></div>" + "</td>" +
+                            "<td>" + json[i].event + "</td>" +
+                            "<td>" + "<a class='btn btn-default' href = '/contest/{{ $contest_id }}/balloon/" + json[i].id + "'>confirm</a>" + "</td>" +
+                            "</tr>");
+                }
                 console.log(json[i]);
             }
         })

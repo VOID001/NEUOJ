@@ -198,12 +198,21 @@ Route::group(['middleware' => 'profile'],function() {
         ]);
 
         Route::get('/ajax/contest/balloon', [
-            "middleware" => "role:admin",
+            "middleware" => "role:balloon",
             "uses" => "ContestController@getBalloonlist"
         ]);
 
         Route::get('/contest/{contest_id}/balloon', [
-            "middleware" => "role:admin", "uses" => "ContestController@getContestBalloonView"
+            "middleware" => "role:balloon",
+            "uses" => "ContestController@getContestBalloonView"
+        ]);
+
+        Route::get('/contest/{contest_id}/balloon/{id}',[
+            "middleware" => "role:balloon",
+            "uses" =>"ContestController@changeContestBalloonStatus"
+        ])->where([
+            "contest_id" => "[0-9]+",
+            "id" => "[0-9]+"
         ]);
 
         Route::get('/contest/{contest_id}/problem/{problem_id}', [

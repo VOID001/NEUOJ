@@ -16,6 +16,7 @@ class CreateContestBalloonEventTable extends Migration
             $table->increments('id');
             $table->integer('event_status'); //0 for send 1 for withdraw
             $table->integer('runid');
+            $table->integer('send_status'); //0 for done 1 for pending
             $table->timestamps();
         });
     }

@@ -91,7 +91,7 @@
         <div class="text-center contest_single_nav">
             <a class="btn btn-default" href="/contest/{{ $contest->contest_id }}/status">Status</a>
             <a class="btn btn-default" href="/contest/{{ $contest->contest_id }}/ranklist">Ranklist</a>
-            @if($roleCheck->is("admin"))
+            @if($roleCheck->is("admin")||$roleCheck->is("balloon")) <!-- tmp role check for balloon -->
                 <a class="btn btn-default" href="/contest/{{ $contest->contest_id }}/balloon">Balloon</a>
             @endif
             <a class="btn btn-default" href="/discuss/{{$contest->contest_id}}">BBS</a>

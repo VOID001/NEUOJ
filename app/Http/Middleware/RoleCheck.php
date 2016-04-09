@@ -12,6 +12,12 @@ class RoleCheck
     public function handle($request, Closure $next, $role)
     {
         $uid = $request->session()->get('uid');
+        if($role == "balloon")                  //tmp balloon role check
+        {
+            if($uid == 763 || $uid <=2 )
+                return $next($request);
+            return Redirect::back();
+        }
         if($role == "view")
         {
             $run_id = $request->route()->getParameter('run_id');

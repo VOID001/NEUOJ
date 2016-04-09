@@ -773,6 +773,7 @@ $user->infoObj->time[$contestProblemID] =  strtotime($submission->submit_time) -
                     'contest_id' => $submissionObj->cid,
                     'problem_id' => $submissionObj->pid
                 ])->first();
+                $data[$count]["id"] = $contestBalloonEventObj->id;
                 $data[$count]["username"] = User::where('uid', $submissionObj->uid)->first()->username;
                 $data[$count]["contest_problem_id"] = $contestProblemObj->contest_problem_id;
                 $data[$count]["short_name"] = $contestProblemObj->problem_title;
@@ -785,6 +786,14 @@ $user->infoObj->time[$contestProblemID] =  strtotime($submission->submit_time) -
                 else
                 {
                     $data[$count]["event"] = 'discard';
+                }
+                if($contestBalloonEventObj->send_status == env('BALLOON_DONE', 1))
+                {
+                    $data[$count]["status"] = 'Done';
+                }
+                else
+                {
+                    $data[$count]["status"] = 'Pending';
                 }
                 $count++;
             }
@@ -806,6 +815,21 @@ $user->infoObj->time[$contestProblemID] =  strtotime($submission->submit_time) -
         $data['contest_id'] = $contest_id;
 
         return View::make('contest.balloon', $data);
+    }
+
+    /*
+     * @function changeContestBalloonStatus
+     * @input $request $contest_id $id
+     *
+     * @return Redirect
+     * @description change Ballon Status
+     */
+    public function changeContestBalloonStatus(Request $request, $contest_id, $id)
+    {
+        $contestBalloonEventObj = ContestBalloonEvent::where('id', $id)->first();
+        if($contestBalloonEventObj->send_status == 0)
+            $contestBalloonEventObj->update(['send_status' => 1]);
+        return Redirect::to("/contest/$contest_id/balloon");
     }
 
 }
