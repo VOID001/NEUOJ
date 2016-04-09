@@ -291,16 +291,13 @@ class ContestController extends Controller
             $data["problems"][$count] = $contestProblem;
             $data["problems"][$count]->contest_problem_id = $contestProblem->contest_problem_id;
             $realProblemID = $contestProblem->problem_id;
-            $data["problems"][$count]->totalSubmissionCount = Submission::where([
-                "pid" => $realProblemID,
-                "cid" => $contest_id,
-            ])->count();
+            $data["problems"][$count]->totalSubmissionCount = Submission::getValidSubmissionCount($contest_id, $realProblemID);
 
             $data["problems"][$count]->acSubmissionCount = Submission::where([
                 "pid" => $realProblemID,
                 "cid" => $contest_id,
                 "result" => "Accepted",
-            ])->count();
+            ])->get()->unique('uid')->count();
 
 
             $data["problems"][$count]->realProblemName = Problem::getProblemTitle($realProblemID);
