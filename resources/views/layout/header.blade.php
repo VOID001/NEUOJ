@@ -15,12 +15,42 @@
             </div>
             <div class="collapse navbar-collapse navbar-responsive-collapse">
                 <ul class="nav navbar-nav">
-                    <li id="home"><a href="/"><paper-button>Home<div class="activebar"></div></paper-button></a></li>
-                    <li id="problem"><a href="/problem"><paper-button>Problem<div class="activebar"></div></paper-button></a></li>
-                    <li id="status"><a href="/status"><paper-button>Status<div class="activebar"></div></paper-button></a></li>
-                    <li id="contest"><a href="/contest"><paper-button>Contest<div class="activebar"></div></paper-button></a></li>
-                    <li id="discuss"><a href="/discuss/0"><paper-button>Discuss<div class="activebar"></div></paper-button></a></li>
-                    <li id="rating"><a href="#"><paper-button>Rating<div class="activebar"></div></a></paper-button></li>
+                    <li id="home" class="three-d">
+                        <a href="/">
+                            HOME
+                            <span class="three-d-box"><span class="nav-front" >HOME</span><span class="nav-back">HOME</span></span>
+                        </a>
+                    </li>
+                    <li id="problem" class="three-d">
+                        <a href="/problem">
+                            PROBLEM
+                            <span class="three-d-box"><span class="nav-front">PROBLEM</span><span class="nav-back">PROBLEM</span></span>
+                        </a>
+                    </li>
+                    <li id="status" class="three-d">
+                        <a href="/status">
+                            STATUS
+                            <span class="three-d-box"><span class="nav-front">STATUS</span><span class="nav-back">STATUS</span></span>
+                        </a>
+                    </li>
+                    <li id="contest" class="three-d">
+                        <a href="/contest">
+                            CONTEST
+                            <span class="three-d-box"><span class="nav-front">CONTEST</span><span class="nav-back">CONTEST</span></span>
+                        </a>
+                    </li>
+                    <li id="discuss" class="three-d">
+                        <a href="/discuss/0">
+                            DISCUSS
+                            <span class="three-d-box"><span class="nav-front">DISCUSS</span><span class="nav-back">DISCUSS</span></span>
+                        </a>
+                    </li>
+                    <li ID="rating" class="three-d">
+                        <a href="#">
+                            RATING
+                            <span class="three-d-box"><span class="nav-front">RATING</span><span class="nav-back">RATING</span></span>
+                        </a>
+                    </li>
                 </ul>
 
                 @if(Request::session()->get('username')!="")

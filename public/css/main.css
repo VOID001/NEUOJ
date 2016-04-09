@@ -1,10 +1,46 @@
 /*导航栏式样*/
-.navbar-default .navbar-nav > li > a {
-    color: #fff!IMPORTANT;
-    height: 50px;
-    background-color: #3f51b5!IMPORTANT;
-    padding-left: 5px;
-    padding-right: 5px;
+.navbar-default{
+    background-color: #3F51B5;
+}
+.navbar-default .navbar-nav li{
+    background-color: #3F51B5;
+    font-size: 15px;
+    width : 16%;
+}
+.three-d:not(.nav-active):hover .three-d-box,
+.three-d:not(.nav-active):focus .three-d-box{
+    transform:translateZ(-25px) rotateX(90deg);
+}
+.three-d-box{
+    transition:all .3s ease-out;
+    transform-style: preserve-3d;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+.nav-front{
+    transform:rotateX(0deg) translateZ(25px);
+    background: #3F51B5;
+}
+.nav-back{
+    transform:rotateX(-90deg) translateZ(25px);
+    background: #2E87D8;
+}
+.active .nav-front{
+    background: #2E87D8;
+}
+.nav-front, .nav-back{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width:100%;
+    text-align: center;
+    padding-top:17%;
+    color: white;
+    font-family: 'Roboto';
 }
 .navbar-default .navbar-nav > li > a > paper-button{
     position: relative;
