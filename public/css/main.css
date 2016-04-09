@@ -432,7 +432,7 @@ li.separate-item {
 .contest_list> tbody > tr > td,
 .contest_list > tfoot > tr > td {
     vertical-align: middle;
-    padding: 5px;
+    padding: 0px;
 }
 .contest_list> thead > tr > th{
     color: #fff;
@@ -450,7 +450,7 @@ li.separate-item {
 .contest_list_single> thead > tr > td,
 .contest_list_single> tbody > tr > td,
 .contest_list_single> tfoot > tr > td {
-    padding: 5px;
+    padding: 0px;
 }
 .contest_list_single> thead > tr > th{
     color: #fff;
@@ -667,6 +667,7 @@ li.separate-item {
     height: inherit;
     min-width: 0;
     text-transform: none;
+    text-align: inherit;
 }
 @font-face{
     font-family: Roboto;

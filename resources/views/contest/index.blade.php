@@ -116,7 +116,7 @@
                 Short Name
             </th>
             <th id="contest_index_problem_name">
-                Problem Name
+                &nbsp;Problem Name
             </th>
             <th class="text-center" id="contest_index_ac">
                 AC/Total(Ratio)
@@ -128,11 +128,9 @@
             @endif
             </thead>
             @foreach($problems as $problem)
-                <tr
-                @if($problem->realProblemName !== -1 && ($roleCheck->is("admin") || $contest->status != "Pending"))
-                class="table_row"
-                @endif
-                >
+                <tr class="table_row">
+                <!--@if($problem->realProblemName !== -1 && ($roleCheck->is("admin") || $contest->status != "Pending"))-->
+                <!--@endif-->
                     <td class="text-center">
                         @if($problem->thisUserFB)
                             <span class="glyphicon glyphicon-flag" style="color: #5cb85c"></span>
@@ -164,15 +162,21 @@
                         @endif
 						</paper-button></a>
                     </td>
-                    <td>
-						<a href="/contest/{{ $contest->contest_id }}/status/p/1username=&pid={{ $problem->contest_problem_id }}&lang=All&result=All" class="text-center table_row_td"><paper-button>
+                        @if(!$roleCheck->is("admin") && !($contest->isRunning() || $contest->isEnded()))
+                        <td class="text-center" style="vertical-align:middle;">
+                        @else
+						<td><a href="/contest/{{ $contest->contest_id }}/status/p/1username=&pid={{ $problem->contest_problem_id }}&lang=All&result=All" class="text-center table_row_td"><paper-button>
+                        @endif
                         @if($problem->totalSubmissionCount != 0)
                             {{ $problem->acSubmissionCount }} / {{ $problem->totalSubmissionCount }}({{ intval($problem->acSubmissionCount/$problem->totalSubmissionCount * 100) }}%)
                         @else
                             0 / 0
                         @endif
-						</paper-button></a>
-                    </td>
+                        @if(!($contest->isRunning() || $contest->isEnded()))
+                        </td>
+                        @else
+                        </paper-button></a></td>
+                        @endif
                     @if($roleCheck->is('admin'))
                         <td class="text-center">
                             <form method="post" action="/rejudge/{{ $contest->contest_id }}/{{ $problem->contest_problem_id }}">

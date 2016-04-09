@@ -119,38 +119,38 @@
     </form>
     <table class="table table-striped table-bordered table-hover status_table" id="statuslist" width="100%">
     <thead>
-            <td class="text-center" id="status_run_id">Run ID</td>
-            <td class="text-center" id="status_submit_time">
+            <th class="text-center" id="status_run_id">Run ID</th>
+            <th class="text-center" id="status_submit_time">
                 Submit Time
-            </td>
-            <td class="text-center" id="status_user_id">
+            </th>
+            <th class="text-center" id="status_user_id">
                 User ID
-            </td>
-            <td class="text-center" id="status_username">
+            </th>
+            <th class="text-center" id="status_username">
                 Username
-            </td>
-            <td class="text-center" id="status_username">
+            </th>
+            <th class="text-center" id="status_username">
                 Nickname
-            </td>
-            <td class="text-left" id="status_problem_title">
+            </th>
+            <th class="text-left" id="status_problem_title">
                 Problem Title
-            </td>
-            <td class="text-center" id="status_result">
+            </th>
+            <th class="text-center" id="status_result">
                 Result
-            </td>
-            <td class="text-center" id="status_language">
+            </th>
+            <th class="text-center" id="status_language">
                 Lang
-            </td>
-            <td class="text-center" id="status_exec_mem">
+            </th>
+            <th class="text-center" id="status_exec_mem">
                 Ex_mem
-            </td>
-            <td class="text-center" id="status_exec_time">
+            </th>
+            <th class="text-center" id="status_exec_time">
                 Ex_time
-            </td>
+            </th>
             @if($roleCheck->is('admin'))
-                <td class="text-center" id="status_rejudge">
+                <th class="text-center" id="status_rejudge">
                     Rejudge
-                </td>
+                </th>
             @endif
     </thead>
     @if($submissions != NULL)
@@ -324,7 +324,7 @@
             if(tmpObj.charAt(1)=='s')
                 tmpResult = "<span style=\"font-size: 14px\"";
             else
-                tmpResult = "<a href=\"/status/{{ $submission->runid }}@if(isset($contest))?c={{ $contest->contest_id }}&p={{ $submission->contestProblemId }} @endif\" style=\"font-size: 14px\"";
+                tmpResult = "<a href=\"/status/" + run_id + "@if(isset($contest))?c={{ $contest->contest_id }}&p={{ $submission->contestProblemId }} @endif\" style=\"font-size: 14px\"";
 
             if(json.result == "Accepted")
                 tmpResult = tmpResult + "class=\"label label-success\"><span class='glyphicon glyphicon-ok ' style='color: #000'></span>Accepted";
@@ -357,8 +357,20 @@
                 json.exec_time = json.exec_time * 1000 + "ms";
             else
                 json.exec_time = json.exec_time + "s";
-            resultObj[8].innerHTML = json.exec_mem;
-            resultObj[9].innerHTML = json.exec_time;
+            if(tmpObj.charAt(1)!='s'){
+                tmpResult = "<a href=\"/status/" + run_id + "@if(isset($contest))?c={{ $contest->contest_id }}&p={{ $submission->contestProblemId }} @endif\" class=\"table_row_td\">" + json.exec_mem + "</a>";
+            }
+            else{
+                tmpResult = json.exec_mem;
+            }
+            resultObj[8].innerHTML = tmpResult;
+            if(tmpObj.charAt(1)!='s'){
+                tmpResult = "<a href=\"/status/" + run_id + "@if(isset($contest))?c={{ $contest->contest_id }}&p={{ $submission->contestProblemId }} @endif\" class=\"table_row_td\">" + json.exec_time + "</a>";
+            }
+            else{
+                tmpResult = json.exec_time;
+            }
+            resultObj[9].innerHTML = tmpResult;
         })
     }
 

@@ -34,7 +34,7 @@
             <th class="text-center" id="contest_name">
                 Contest Title
             </th>
-            <th class="text-center"id="contest_begin_time">
+            <th class="text-center" id="contest_begin_time">
                 Start Time
             </th>
             <th class="text-center" id="contest_type">
@@ -44,7 +44,7 @@
                 Status
             </th>
             @if($roleCheck->is('admin'))
-                <th class="text-center"id="contest_management">
+                <th class="text-center" id="contest_management">
                     Management
                 </th>
             @endif
@@ -87,13 +87,12 @@
                     </td>
                     @if($roleCheck->is('admin'))
                         <td class="text-center">
-                            <a class="btn btn-default" href="/dashboard/contest/{{ $contest->contest_id }}">manage</a>
+                            <a class="btn btn-default" href="/dashboard/contest/{{ $contest->contest_id }}">Manage</a>
                         </td>
                     @endif
                 </tr>
             @endforeach
         @endif
-
     </table>
     </div>
     <div class="text-center" id="callBackPager"></div>

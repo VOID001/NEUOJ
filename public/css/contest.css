@@ -24,8 +24,11 @@
 #contest_status{
      width: 10%;
 }
+#contest_ranklist{
+    width: 12%;
+}
 #contest_management{
-    width: 15%;
+    width: 12%;
 }
 
 /*contest.index*/

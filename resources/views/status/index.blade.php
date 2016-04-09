@@ -33,7 +33,7 @@
         @else
         <div><a href="/contest/{{ $contest->contest_id }}/problem/{{ $contestProblemId }}">Problem ID :<b>{{ $contestProblemId }}</b></a></div>
         @endif
-        <div>Result :<b>{{ $result }}</b></div>
+        <div>Result: <b>{{ $result }}</b></div>
         <div>Download Source Code</div>
         <code class="cpp" id="paste">{{ $code }}</code>
         @if($result == "Compile Error" && $err_info != "")
