@@ -29,6 +29,7 @@ class RESTController extends Controller
 
     public function postJudgings(Request $request)
     {
+        $input = $request->input();
         $langsufix = [
                 "C" => "c",
                 "Java" => "java",
@@ -70,7 +71,12 @@ class RESTController extends Controller
          */
         //$judgingRun = new JudgingRun;
         //$judgingRun->judgingid =
-        Submission::where('runid', $submission->runid)->update(["judge_status" => 1]);
+
+        Submission::where('runid', $submission->runid)->update([
+            "judge_status" => 1,
+            /* Sometime domjudge call judgehost judgehost , sometime call it hostname  = = */
+            "judgeid" => $input['judgehost']
+        ]);
         return response()->json($jsonObj);
     }
 
@@ -85,11 +91,25 @@ class RESTController extends Controller
         return response()->json($jsonObj);
     }
 
+    /*
+     * @function postJudgeHosts
+     * @input $request POST data
+     *
+     * @return JSON(null)
+     * @description When A judgehost register itself to NEUOJ
+     *              First give all the unfinished judge own by him back
+     *              Then return json null to judgehost
+     */
     public function postJudgeHosts(Request $request)
     {
-        /*
-         * Pretend there is no submissions not judged
-         */
+        $input = $request->input();
+
+        Submission::where([
+            /* Sometime domjudge call judgehost judgehost , sometime call it hostname  = = */
+            'judgeid' => $input['hostname'],
+            'judge_status' => 1,
+
+        ])->update(['judge_status' => 0]);
         return response()->json(NULL);
     }
 
@@ -103,6 +123,7 @@ class RESTController extends Controller
     public function putJudgings(Request $request, $id)
     {
         $input = $request->input();
+
         if($input["compile_success"] != "1")
         {
             Submission::where('runid', $id)->update([
@@ -194,7 +215,6 @@ class RESTController extends Controller
                 "exec_time" => $output_system["wall_time"],
                 "exec_mem" => $output_system["memory_used"],
                 "judge_status" => 3,
-                "judgeid" => $input["judgehost"]
             ]
         );
 
