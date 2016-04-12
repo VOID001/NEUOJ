@@ -324,7 +324,7 @@
             if(tmpObj.charAt(1)=='s')
                 tmpResult = "<span style=\"font-size: 14px\"";
             else
-                tmpResult = "<a href=\"/status/" + run_id + "@if(isset($contest))?c={{ $contest->contest_id }}&p={{ $submission->contestProblemId }} @endif\" style=\"font-size: 14px\"";
+                tmpResult = "<a href=\"/status/" + run_id + "@if(isset($contest))?c={{ $contest->contest_id }}&p=" + json.cpid + " @endif\" style=\"font-size: 14px\"";
 
             if(json.result == "Accepted")
                 tmpResult = tmpResult + "class=\"label label-success\"><span class='glyphicon glyphicon-ok ' style='color: #000'></span>Accepted";
@@ -358,14 +358,14 @@
             else
                 json.exec_time = json.exec_time + "s";
             if(tmpObj.charAt(1)!='s'){
-                tmpResult = "<a href=\"/status/" + run_id + "@if(isset($contest))?c={{ $contest->contest_id }}&p={{ $submission->contestProblemId }} @endif\" class=\"table_row_td\">" + json.exec_mem + "</a>";
+                tmpResult = "<a href=\"/status/" + run_id + "@if(isset($contest))?c={{ $contest->contest_id }}&p=" + json.cpid + " @endif\" class=\"table_row_td\">" + json.exec_mem + "</a>";
             }
             else{
                 tmpResult = json.exec_mem;
             }
             resultObj[8].innerHTML = tmpResult;
             if(tmpObj.charAt(1)!='s'){
-                tmpResult = "<a href=\"/status/" + run_id + "@if(isset($contest))?c={{ $contest->contest_id }}&p={{ $submission->contestProblemId }} @endif\" class=\"table_row_td\">" + json.exec_time + "</a>";
+                tmpResult = "<a href=\"/status/" + run_id + "@if(isset($contest))?c={{ $contest->contest_id }}&p=" + json.cpid + " @endif\" class=\"table_row_td\">" + json.exec_time + "</a>";
             }
             else{
                 tmpResult = json.exec_time;

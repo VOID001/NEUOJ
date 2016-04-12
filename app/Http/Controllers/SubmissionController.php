@@ -265,6 +265,14 @@ class SubmissionController extends Controller
         $run_id = $input['run_id'];
 
         $submissionObj = Submission::find($run_id);
+        if($submissionObj->cid != 0)
+        {
+            $submissionObj->cpid = ContestProblem::where([
+                "contest_id" => $submissionObj->cid,
+                "problem_id" => $submissionObj->pid
+            ])->first()->contest_problem_id;
+        }
+
 
         return json_encode($submissionObj);
     }
