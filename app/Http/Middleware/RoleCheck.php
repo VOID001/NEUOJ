@@ -40,6 +40,7 @@ class RoleCheck
             }
             return $next($request);
         }
+
         if($role == "admin")
         {
             $userObj = User::where('uid', $uid)->first();
@@ -51,6 +52,24 @@ class RoleCheck
             $session = $request->session();
             //var_dump($session);
             return Redirect::to('/');
+        }
+
+        if($role == "judge")
+        {
+            $judge_username = $request->server('PHP_AUTH_USER');
+            $judge_password = $request->server('PHP_AUTH_PW');
+            /* Query Judge Account From Database Stub Now */
+            if($judge_username != NULL)
+            {
+                // Do nothing now
+            }
+            if($judge_password == env('JUDGE_PW', 'neuoj') && $judge_username == env('JUDGE_USER', 'neuoj'))
+                return $next($request);
+
+            if(env('APP_DEBUG') == 'true')
+                return "\n[ERROR] Judge name or password wrong";
+            else
+                abort(404);
         }
     }
 }
