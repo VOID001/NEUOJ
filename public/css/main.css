@@ -620,6 +620,8 @@ li.separate-item {
     border: 1px solid #ccc;
     border-radius: 4px;
     white-space: pre-wrap;
+    -ms-word-break: break-all;
+    word-break: break-all;
 }
 
 .table_row{
