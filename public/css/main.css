@@ -5,7 +5,7 @@
 .navbar-default .navbar-nav li{
     background-color: #3F51B5;
     font-size: 15px;
-    width : 16%;
+    width : 13%;
 }
 .three-d:not(.nav-active):hover .three-d-box,
 .three-d:not(.nav-active):focus .three-d-box{
@@ -767,4 +767,50 @@ span[class^="hljs"]{
     color: #3f51b5;
     text-decoration: none;
 }
-
+/*hackme*/
+.hackme_header {
+    width: 100%;
+    height:300px;
+    background: linear-gradient(20deg, #3f51b5, #159957);
+}
+.hackme_header:nth-child(1) {
+    font-size: 50px;
+    color: wheat;
+    text-align: center;
+    padding-top: 4%;
+}
+.hackme_header_hint {
+    font-size: 20px;
+    opacity: 0.5;
+}
+.hackme_header a {
+    background: transparent;
+    border: solid 1px;
+    border-radius: 2px;
+    font-size: 23px;
+    padding: 5px;
+    color: antiquewhite;
+}
+.hackme_header a:hover {
+    background: transparent;
+    color: wheat;
+    padding: 6px;
+    font-size: 24px;
+    text-decoration: none;
+    background-color: rgba(255, 255, 255, 0.2);
+}
+.hackme_body {
+    width: 70%;
+    margin-left: 15%;
+}
+.hackme_body h1 {
+    color: #001f3f;
+    opacity: 0.5;
+}
+.hackme_body p {
+    font-family: "Ubuntu Mono";
+    color: #001f3f;
+    opacity: 0.8;
+    font-size: 17px;
+    text-indent: 2em;
+}

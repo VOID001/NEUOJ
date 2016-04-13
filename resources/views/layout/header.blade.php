@@ -51,6 +51,12 @@
                             <span class="three-d-box"><span class="nav-front">RATING</span><span class="nav-back">RATING</span></span>
                         </a>
                     </li>
+                    <li ID="rating" class="three-d">
+                        <a href="/hackme.html">
+                            HACKME
+                            <span class="three-d-box"><span class="nav-front">HACKME</span><span class="nav-back">HACKME</span></span>
+                        </a>
+                    </li>
                 </ul>
 
                 @if(Request::session()->get('username')!="")
