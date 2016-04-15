@@ -12,7 +12,7 @@ class CreateTrainProblemTable extends Migration
      */
     public function up()
     {
-        Schema::create('train_problem', function(Blueprint $table){
+        Schema::create('train_problems', function(Blueprint $table){
             $table->increments('id');
             $table->integer('train_id');
             $table->integer('problem_id');
@@ -31,6 +31,6 @@ class CreateTrainProblemTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('train_problem');
+        Schema::dropIfExists('train_problems');
     }
 }

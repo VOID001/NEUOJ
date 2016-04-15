@@ -1,3 +1,8 @@
+@foreach($errors->all() as $error)
+        <div>
+            <ul>{{ $error }}</ul>
+        </div>
+@endforeach
 <form action="/dashboard/training/add" method='post'>
 {{ csrf_field() }}
 <label>Train Name</label>
@@ -7,6 +12,7 @@
 <a href="javascript:deleteChapter()">Delete The Last Chapter</a>
 <br>
 </div>
+<input type="hidden" name="train_chapter" id="train_chapter" value=0 />
 <input type="submit" value="Submit"/>
 </form>
 
@@ -22,6 +28,7 @@
 	{
 		var chapterItem = "<div id = 'chapter_" + chapterCount + "'><br>Chapter" + chapterCount + "<a href = \"javascript:addProblem(" + chapterCount + ")\">Add Problem</a><br></div>";
 		document.getElementById("add_contest").insertAdjacentHTML("beforeEnd", chapterItem);
+        document.getElementById("train_chapter").value = chapterCount;
 		chapterCount++;
 	}
 
@@ -29,6 +36,7 @@
     {
         document.getElementById("add_contest").removeChild(document.getElementById("chapter_" + (chapterCount-1)));
         chapterCount--;
+        document.getElementById("train_chapter").value = chapterCount-1;
     }
 
 	function addProblem(chapter_id)

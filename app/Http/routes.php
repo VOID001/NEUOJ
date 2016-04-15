@@ -346,6 +346,11 @@ Route::group(['middleware' => 'profile'],function() {
             "uses" => "TrainingController@addTraining"
         ]);
 
+        Route::delete('/dashboard/training/{train_id}', [
+            "middleware" => "role:admin",
+            "uses" => "TrainingController@deleteTraining"
+        ]);
+
     });
 });
 /*

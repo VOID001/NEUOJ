@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\MessageBag;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
@@ -32,12 +33,45 @@ class TrainingController extends Controller
 
     public function addTraining(Request $request)
     {
+        $data = [];
+        $errMsg = new MessageBag;
         if($request->method() == "POST")
         {
+            $this->validate($request, [
+                'train_name' => 'required | unique:train_info',
+                'problem_id' => 'required | exists:problems'
+            ]);
+            //check each chapter has at least one problem
             $input = $request->all();
+            $checkChapterProblem = 0;
+            for($i = 1; $i <= $input['train_chapter']; $i++)
+            {
+                $chapterProblem = 0;
+                foreach($input['problem_chapter'] as $chapter)
+                {
+                    if($chapter == $i)
+                        $chapterProblem++;
+                }
+                var_dump($chapterProblem);
+                var_dump($i);
+                if($chapterProblem == 0)
+                {
+                    $checkChapterProblem = 1;
+                    break;
+                }
+            }
+            if($checkChapterProblem)
+            {
+                $errMsg->add('err', 'Chapter must has at least one problem');
+            }
+            if(!$errMsg->isEmpty())
+            {
+                var_dump($errMsg);
+                return Redirect::to('/dashboard/training/add')->withErrors($errMsg)->withInput($input);
+            }
             $trainingObj = new Train;
             $trainingObj->train_name = $input['train_name'];
-            $trainingObj->train_chepter = $input['train_chepter'];
+            $trainingObj->train_chapter = $input['train_chapter'];
             $trainingObj->description = " ";
             $trainingObj->train_type = 0;
             $trainingObj->auth_id = $request->session()->get('uid');
@@ -48,8 +82,8 @@ class TrainingController extends Controller
                 $trainingProblemObj = new TrainProblem;
                 $trainingProblemObj->train_id = $trainingObj->train_id;
                 $trainingProblemObj->problem_id = $input['problem_id'][$i];
-                $trainingProblemObj->chepter_id = $input['problem_chepter'][$i];
-                $trainingProblemObj->train_problem_id = count(TrainProblem::where('chepter_id', $input['problem_chepter'][$i])->get())+1;
+                $trainingProblemObj->chapter_id = $input['problem_chapter'][$i];
+                $trainingProblemObj->train_problem_id = count(TrainProblem::where('chapter_id', $input['problem_chapter'][$i])->get())+1;
                 $trainingProblemObj->problem_title = $input['problem_name'][$i];
                 $trainingProblemObj->problem_level = 0;
                 $trainingProblemObj->save();
@@ -59,7 +93,7 @@ class TrainingController extends Controller
         return View::make("training.add");
     }
 
-    public function deleteTraining(Requset $request, $train_id)
+    public function deleteTraining(Request $request, $train_id)
     {
         Train::where('train_id', $train_id)->delete();
         TrainProblem::where('train_id', $train_id)->delete();
