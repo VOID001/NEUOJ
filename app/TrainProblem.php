@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class TrainProblem extends Model
 {
-    protected $table = "train_problem";
+    protected $table = "train_problems";
 
     /*
      *@function problem
