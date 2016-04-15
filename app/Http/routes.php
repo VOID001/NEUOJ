@@ -333,11 +333,11 @@ Route::group(['middleware' => 'profile'],function() {
             "uses" => "TrainingController@getTrainingByID"
         ])->where('train_id', '[0-9]+');
 
-        Route::get('/training/{train_id}/chepter{chepter_id}/{train_problem_id}', [
+        Route::get('/training/{train_id}/chapter{chapter_id}/{train_problem_id}', [
             "uses" => "ProblemController@blablabla"
         ])->where([
             'train_id' => '[0-9]+',
-            'chepter_id' => '[0-9]+',
+            'chapter_id' => '[0-9]+',
             'train_problem_id' => '[0-9]+'
         ]);
 

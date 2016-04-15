@@ -15,7 +15,7 @@ class CreateTrainInfoTable extends Migration
         Schema::create('train_info', function(Blueprint $table){
             $table->increments('train_id');
             $table->string('train_name');
-            $table->integer('train_chepter');
+            $table->integer('train_chapter');
             $table->longText('description');
             $table->integer('train_type');
             $table->integer('auth_id');

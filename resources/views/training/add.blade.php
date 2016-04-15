@@ -34,7 +34,7 @@
 	function addProblem(chapter_id)
 	{
 		var problemItem =  "<div id = p_" + problemCount + "><label>Problem ID</label>"+
-						   "<input type = \"hidden\" name = \"problem_chepter[]\" value = " + chapter_id + "/>"+
+						   "<input type = \"hidden\" name = \"problem_chapter[]\" value = " + chapter_id + "/>"+
 						   "<input type = \"text\" name = \"problem_id[]\" />"+
 						   "<label>Problem Name</label>"+
 						   "<input type = \"text\" name = \"problem_name[]\"/>"+
