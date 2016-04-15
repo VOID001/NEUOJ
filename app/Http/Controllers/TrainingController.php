@@ -85,20 +85,20 @@ class TrainingController extends Controller
     public function getTrainingByID(Request $request, $train_id)
     {
         $data = [];
-        $data['chepterac'] = [];
+        $data['chapterac'] = [];
         $uid = $request->session()->get('uid');
         $trainingObj = Train::where('train_id', $train_id)->first();
         $data['training'] = $trainingObj;
-        //chepter_in is to find which chepter is user in
-        $chepter_in = 1 ;
-        for($i = 1; $i <= $trainingObj->train_chepter; $i++)
+        //chapter_in is to find which chapter is user in
+        $chapter_in = 1 ;
+        for($i = 1; $i <= $trainingObj->train_chapter; $i++)
         {
             $trainingProblemObj = TrainProblem::where([
                 'train_id' => $train_id,
-                'chepter_id' => $i
+                'chapter_id' => $i
             ])->get();
-            //checkChepterAc is to find whether user has finished this chepter
-            $checkChepterAc = 0;
+            //checkChapterAc is to find whether user has finished this chapter
+            $checkChapterAc = 0;
             $problem_num = 0;
             foreach($trainingProblemObj as $trainingProblem)
             {
@@ -108,16 +108,16 @@ class TrainingController extends Controller
                     'result' => 'Accepted'
                 ])->orderby('runid','asc')->first();
                 if(!isset($submissionObj))
-                    $checkChepterAc = 0;
+                    $checkChapterAc = 0;
                 else
-                    $checkChepterAc = 1;
-                $data['chepter'][$i][$problem_num] = $trainingProblem->problem;
-                $data['chepter'][$i][$problem_num++]['ac'] = $checkChepterAc;
+                    $checkChapterAc = 1;
+                $data['chapter'][$i][$problem_num] = $trainingProblem->problem;
+                $data['chapter'][$i][$problem_num++]['ac'] = $checkChapterAc;
             }
-            if($checkChepterAc == 1)
-                $chepter_in = $i+1;
+            if($checkChapterAc == 1)
+                $chapter_in = $i+1;
         }
-        $data['chepter_in'] = $chepter_in;
+        $data['chapter_in'] = $chapter_in;
         return View::make('training.index')->with($data);
     }
 }

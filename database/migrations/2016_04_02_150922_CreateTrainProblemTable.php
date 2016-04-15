@@ -16,7 +16,7 @@ class CreateTrainProblemTable extends Migration
             $table->increments('id');
             $table->integer('train_id');
             $table->integer('problem_id');
-            $table->integer('chepter_id');
+            $table->integer('chapter_id');
             $table->integer('train_problem_id');
             $table->string('problem_title');
             $table->integer('problem_level');

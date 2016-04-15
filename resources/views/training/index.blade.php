@@ -2,15 +2,15 @@
 <p>
 {{ $training->description }}
 <p>
-{{ $training->train_chepter }}
+{{ $training->train_chapter }}
 <p>
-{{ $chepter_in }}
+{{ $chapter_in }}
 <br>
-@for($i = 1; $i <= $training->train_chepter; $i++)
-	chepter{{ $i }}
+@for($i = 1; $i <= $training->train_chapter; $i++)
+	chapter{{ $i }}
 	<br>
-	@foreach($chepter[$i] as $problem)
-		@if($i <= $chepter_in)
+	@foreach($chapter[$i] as $problem)
+		@if($i <= $chapter_in)
 		<a href = '/problem/{{ $problem->problem_id }}'> {{ $problem->title }} </a>
 		{{ $problem->problem_id }}
 		{{ $problem->title }}
