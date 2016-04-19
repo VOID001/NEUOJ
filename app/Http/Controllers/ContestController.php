@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Cache;
+use Carbon\Carbon;
 use App\Contest;
 use App\ContestBalloonEvent;
 use App\ContestBalloon;
@@ -341,6 +343,14 @@ class ContestController extends Controller
      */
     public function getContestRanklist(Request $request, $contest_id)
     {
+        /* Check for cache, if have then load cache*/
+        $timestamp = (int)(time() / 5);
+        if(Cache::has("contest-$contest_id.ranklist.$timestamp"))
+        {
+            $data = Cache::get("contest-$contest_id.ranklist.$timestamp");
+            return View::make('contest.ranklist', $data);
+        }
+
         $data = [];
 
         $contestObj = Contest::where('contest_id', $contest_id)->first();
@@ -417,6 +427,8 @@ class ContestController extends Controller
         usort($data['users'], ['self', "cmp"]);
         $data['contest_id'] = $contest_id;
         $data['counter'] = 1;
+        /* Cache the result for a better performance when multiple visit at the same time */
+        Cache::put("contest-$contest_id.ranklist.$timestamp", $data, Carbon::now()->addMinutes(1));
         return View::make('contest.ranklist', $data);
     }
 
