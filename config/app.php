@@ -145,6 +145,10 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         /*
+         * Laravel Debugbar Service Provider
+         */
+        Barryvdh\Debugbar\ServiceProvider::class,
+        /*
          * PhpStorm IDE Helper Service Providers...
          */
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
@@ -153,7 +157,6 @@ return [
          */
         Greggilbert\Recaptcha\RecaptchaServiceProvider::class,
         Mews\Captcha\CaptchaServiceProvider::class,
-
     ],
 
     /*
@@ -204,6 +207,7 @@ return [
         'View'      => Illuminate\Support\Facades\View::class,
         'Recaptcha' => Greggilbert\Recaptcha\Facades\Recaptcha::class,
         'Captcha'   => Mews\Captcha\Facades\Captcha::class,
+        'Debugbar'  => Barryvdh\Debugbar\Facade::class,
 
     ],
 

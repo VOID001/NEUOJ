@@ -343,98 +343,77 @@ class ContestController extends Controller
     {
         $data = [];
 
-        $submissionObj = Submission::where('cid', $contest_id)->get();
         $contestObj = Contest::where('contest_id', $contest_id)->first();
 
+        /* retrive the count of the active user in the contest */
         $count = 0;
 
-        //fetch all user and ensure it's unique
-
-        //This is a array to check the existence of certain user
-
-        $user_exist_arr = [];
-
-        foreach($submissionObj as $submission)
-        {
-            $userObj = User::where('uid', $submission->uid)->first();
-            if(!isset($user_exist_arr[$userObj->uid]))
-            {
-                $data['users'][$count] = User::where('uid', $submission->uid)->first();
-                $user_exist_arr[$submission->uid] = 1;
-                $count++;
-            }
-        }
-
-
         $data['problems'] = ContestProblem::where('contest_id', $contest_id)->get();
-        $firstac = $contestObj->getFirstacList();
-        if(!isset($data['users']))
-            $data['users'] = [];
-        foreach($data['users'] as $user)
-        {
-            //$user = $data['user'][$i];
-            $submissionObj = Submission::where([
-                'cid' => $contest_id,
-                'uid' => $user->uid
-            ])->orderby('runid', 'asc')->get();
 
-            $user->infoObj = new ContestUserInfo();
-            foreach($submissionObj as $submission)
+        /* Create a mapping from problem id to contest problem id */
+        $problemIDToContestProblemID = [];
+        foreach($data['problems'] as $contestProblemObj)
+        {
+            $problemIDToContestProblemID[$contestProblemObj->problem_id] = $contestProblemObj->contest_problem_id;
+        }
+
+
+        $allSubmissions = Submission::select('uid', 'result', 'pid', 'cid', 'submit_time')->where('cid', $contest_id)->orderby('uid', 'asc')->get();
+
+        $firstac = $contestObj->getFirstacList();
+        $preuid = -1;
+        $curUserAcList = [];
+        $data["users"] = [];
+
+        foreach($allSubmissions as $submission)
+        {
+            $contestProblemID = $problemIDToContestProblemID[$submission->pid];
+            if ($submission->uid != $preuid)
             {
-                $contestProblemObj = ContestProblem::where([
-                    "contest_id" => $contest_id,
-                    "problem_id" => $submission->pid
-                ])->first();
-                $contestProblemID = $contestProblemObj->contest_problem_id;
-                $currentResult = $submission->result;
-                if($currentResult != "Accepted" && $currentResult != "Pending" && $currentResult != "Rejudging")
+                /* A new user found */
+                $count++;
+                $data["users"][$count] = User::limit(1)->where('uid', $submission->uid)->first();
+                $data["users"][$count]->infoObj = new ContestUserInfo();
+                $data["users"][$count]->nick_name = $data["users"][$count]->info->nickname;
+                $preuid = $submission->uid;
+                $curUserAcList = [];
+
+            }
+
+            /* Give current userObj an alias for easy to use */
+            $user = &$data["users"][$count];
+
+            /* Only calculate the submission when the user does not AC the problem */
+            if(!isset($curUserAcList[$contestProblemID]))
+            {
+                if($submission->result != "Accepted")
                 {
-                    if(isset($user->infoObj->result[$contestProblemID]) && ($user->infoObj->result[$contestProblemID] == "First Blood" || $user->infoObj->result[$contestProblemID] == "Accepted"))
-                    {
-                        //Donothing
-                    }
+                    if(!isset($user->infoObj->penalty[$contestProblemID]))
+                        $user->infoObj->penalty[$contestProblemID] = 1;
                     else
-                    {
-                        if(!isset($user->infoObj->penalty[$contestProblemID]))
-                            $user->infoObj->penalty[$contestProblemID] = 1;
-                        else
-                            $user->infoObj->penalty[$contestProblemID]++;
-                        $user->infoObj->result[$contestProblemID] = $submission->result;
-                    }
+                        $user->infoObj->penalty[$contestProblemID]++;
+                    $user->infoObj->result[$contestProblemID] = $submission->result;
                 }
-                if($currentResult == "Accepted")
+                else
                 {
-                    if(isset($user->infoObj->result[$contestProblemID])  && ($user->infoObj->result[$contestProblemID] == "Accepted" || $user->infoObj->result[$contestProblemID] == "First Blood"))
+                    if($firstac[$submission->pid] == $user->uid)
                     {
-                        //Do nothing
-                    }
-                    else
+                        $user->infoObj->result[$contestProblemID] = "First Blood";
+                    } else
                     {
-                        //Check FB
-                        if ($firstac[$submission->pid] == $user->uid)
-                        {
-                            $user->infoObj->result[$contestProblemID] = "First Blood";
-                        }
-                        else
-                        {
-                            $user->infoObj->result[$contestProblemID] = "Accepted";
-                        }
-                        //$user->infoObj->time[$contestProblemID] = strtotime($submission->submit_time ,strtotime($contestObj->begin_time));
-$user->infoObj->time[$contestProblemID] =  strtotime($submission->submit_time) - strtotime($contestObj->begin_time);
-//echo date('y-m-d H:i:s', $user->infoObj->time[$contestProblemID]);
-                        //$user->infoObj->time[$contestProblemID] = date('H:i:s', $user->infoObj->time[$contestProblemID]);
-                        if(!isset($user->infoObj->penalty[$contestProblemID]))
-                            $user->infoObj->penalty[$contestProblemID] = 0;
-                        //$user->infoObj->realPenalty[$contestProblemID] = date('Y-m-d H:i:s', $user->infoObj->time[$contestProblemID] + 20 * $user->infoObj->penalty[$contestProblemID]);
-                        $user->infoObj->realPenalty[$contestProblemID] = $user->infoObj->time[$contestProblemID] + 20 * 60 * $user->infoObj->penalty[$contestProblemID];
-                        $user->infoObj->totalPenalty += $user->infoObj->realPenalty[$contestProblemID];
-                        $user->infoObj->totalAC ++;
+                        $user->infoObj->result[$contestProblemID] = "Accepted";
                     }
+                    $curUserAcList[$contestProblemID] = 1;
+                    $user->infoObj->time[$contestProblemID] = strtotime($submission->submit_time) - strtotime($contestObj->begin_time);
+                    if(!isset($user->infoObj->penalty[$contestProblemID]))
+                        $user->infoObj->penalty[$contestProblemID] = 0;
+                    $user->infoObj->realPenalty[$contestProblemID] = $user->infoObj->time[$contestProblemID] + 20 * 60 * $user->infoObj->penalty[$contestProblemID];
+                    $user->infoObj->totalPenalty += $user->infoObj->realPenalty[$contestProblemID];
+                    $user->infoObj->totalAC++;
                 }
             }
-            $userInfoObj = Userinfo::where('uid', $user->uid)->first();
-            $user->nick_name = $userInfoObj->nickname;
         }
+
         usort($data['users'], ['self', "cmp"]);
         $data['contest_id'] = $contest_id;
         $data['counter'] = 1;

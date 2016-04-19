@@ -159,11 +159,11 @@ class Contest extends Model
         $firstac = [];
         foreach($contestProblemObj as $problem)
         {
-            $submissionObj = Submission::where([
+            $submissionObj = Submission::select('uid')->where([
                 'cid' => $this->contest_id,
                 'pid' => $problem->problem_id,
                 'result' => 'Accepted'
-            ])->orderby('runid','asc')->first();
+            ])->orderby('runid','asc')->limit(1)->first();
             if(isset($submissionObj))
                 $firstac[$problem->problem_id] = $submissionObj->uid;
             else
