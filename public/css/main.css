@@ -16,7 +16,7 @@
 .navbar-default .navbar-nav li{
     background-color: #3F51B5;
     font-size: 15px;
-    width : 13%;
+    width : 12%;
 }
 .three-d:not(.nav-active):hover .three-d-box,
 .three-d:not(.nav-active):focus .three-d-box{
@@ -419,6 +419,7 @@ body{
 }
 .dashboard_hr{
     border-top: 1px solid #666;
+    margin: 5px 0px 0px 0px;
 }
 li.separate-item {
     border-top: 1px solid #666;
@@ -824,4 +825,36 @@ span[class^="hljs"]{
     opacity: 0.8;
     font-size: 17px;
     text-indent: 2em;
+}
+/* training */
+.list_hover:hover{
+    background-color: #F5F5F5;
+}
+.training_group{
+    width: 60%;
+    margin: 0 auto;
+    background-color: white;
+    padding: 20px;
+}
+.body_grey{
+    background-color: #F5F5F5;
+}
+.img_fit{
+    width:160px;
+    height: 160px;
+    object-fit: cover;
+    float: left;
+}
+.glyphicon_right{
+    float: right;
+}
+.training_title{
+    display: inline-block;
+    margin-left:20px;
+    width: 70%;
+}
+#training_container{
+    width: 60%;
+    background-color: #B8B7A8;
+    color : white;
 }
