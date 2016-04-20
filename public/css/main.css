@@ -1,3 +1,14 @@
+/*global*/
+.btn,.form-control{
+    border-radius: 0;
+}
+.warning_box {
+    width: 900px;
+    margin: 0 auto;
+    background-color: #f39c12;
+    font-size: 18px;
+    opacity: 0.8;
+}
 /*导航栏式样*/
 .navbar-default{
     background-color: #3F51B5;

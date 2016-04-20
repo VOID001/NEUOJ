@@ -16,7 +16,7 @@
 <div class="col-xs-10">
     <h3 class="text-center">Contest</h3>
     <div class="dashboard_problem_table">
-    <a class="btn btn-default" href="/dashboard/contest/add">New Contest</a>
+    <a class="btn btn-grey" href="/dashboard/contest/add">New Contest</a>
     @if(isset($contests))
         <table class="table table-bordered table-hover dashboard_contest_table" id="dashboard_problem_list">
             <thead>
@@ -55,7 +55,7 @@
                         {{ $contest->end_time }}
                     </td>
                     <td class="text-center">
-                        <a class="btn btn-default" href="/dashboard/contest/{{ $contest->contest_id }}">Edit Contest</a>
+                        <a class="btn btn-grey" href="/dashboard/contest/{{ $contest->contest_id }}">Edit Contest</a>
                         <script language="Javascript">
                             function validator()
                             {
@@ -68,7 +68,7 @@
                         <form method="post" action="/dashboard/contest/{{ $contest->contest_id }}"class="dashboard_problem_table_form" onsubmit = "return validator()">
                             {{ method_field('DELETE') }}
 			    {{ csrf_field() }}
-                            <input type="submit"class="btn btn-default" value="delete contest"/>
+                            <input type="submit"class="btn btn-grey" value="delete contest"/>
                         </form>
 
                     </td>
