@@ -158,6 +158,7 @@ class UserController extends Controller
         $type = Storage::mimeType('avatars/' . $user_id . ".jpg");
         $response = Response::make($file, 200);
         $response->header("Content-Type", $type);
+        $response->header("Cache-Control", "max-age=60000");
         return $response;
     }
 

@@ -4,6 +4,7 @@
 <head>
     <title>Ranklist</title>
     @include("layout.head")
+    <script type="text/javascript" src="/js/jquery.imageloader.js"></script>
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/contest.css">
     <script type="text/javascript">
@@ -67,7 +68,7 @@
                     @if($roleCheck->is("admin"))
                         {{ $user->info->stu_id }}
                     @else
-                        <img src="/avatar/{{$user->uid}}" style="width:35px; height:35px"/>
+                        <img class="loader" src="/image/loading.gif" data-src="/avatar/{{$user->uid}}" style="width:35px; height:35px"/>
                     @endif
 					</paper-button></a>
                 </td>
@@ -124,6 +125,22 @@
     </div>
 
 <div style="padding-bottom: 40px"></div>
+<script type="text/javascript">
+    $.imageloader.queueInterval = 300;
+    $(document).ready(function () {
+        console.log("Loading..");
+        console.log($(".home_body"));
+        $('.home_body').imageloader(
+                {
+                    selector: '.loader',
+                    callback: function (elm) {
+                        $(elm).fadeIn()
+                    }
+                }
+        );
+    });
+
+</script>
 @include("layout.footer")
 </body>
 </html>
