@@ -39,7 +39,8 @@ class TrainingController extends Controller
         {
             $this->validate($request, [
                 'train_name' => 'required | unique:train_info',
-                'problem_id' => 'required | exists:problems'
+                'problem_id' => 'required | exists:problems',
+                'description' => 'required'
             ]);
             //check each chapter has at least one problem
             $input = $request->all();
@@ -52,8 +53,6 @@ class TrainingController extends Controller
                     if($chapter == $i)
                         $chapterProblem++;
                 }
-                var_dump($chapterProblem);
-                var_dump($i);
                 if($chapterProblem == 0)
                 {
                     $checkChapterProblem = 1;
@@ -72,7 +71,7 @@ class TrainingController extends Controller
             $trainingObj = new Train;
             $trainingObj->train_name = $input['train_name'];
             $trainingObj->train_chapter = $input['train_chapter'];
-            $trainingObj->description = " ";
+            $trainingObj->description = $input['description'];
             $trainingObj->train_type = 0;
             $trainingObj->auth_id = $request->session()->get('uid');
             $trainingObj->save();
@@ -83,7 +82,7 @@ class TrainingController extends Controller
                 $trainingProblemObj->train_id = $trainingObj->train_id;
                 $trainingProblemObj->problem_id = $input['problem_id'][$i];
                 $trainingProblemObj->chapter_id = $input['problem_chapter'][$i];
-                $trainingProblemObj->train_problem_id = count(TrainProblem::where('chapter_id', $input['problem_chapter'][$i])->get())+1;
+                $trainingProblemObj->train_problem_id = $i+1;
                 $trainingProblemObj->problem_title = $input['problem_name'][$i];
                 $trainingProblemObj->problem_level = 0;
                 $trainingProblemObj->save();
@@ -100,9 +99,67 @@ class TrainingController extends Controller
         return Redirect::to('/dashboard/training/p/1');
     }
 
-    public function setTraining(Request $request)
+    public function setTraining(Request $request, $train_id)
     {
-
+        $data = [];
+        $errMsg = new MessageBag;
+        $trainingObj = Train::where('train_id', $train_id)->first();
+        $trainingProblemObj = TrainProblem::where('train_id', $train_id)->get();
+        if($request->method()=="POST")
+        {
+            $this->validate($request, [
+                'train_name' => 'required',
+                'problem_id' => 'required | exists:problems',
+                'description' => 'required'
+            ]);
+            //check each chapter has at least one problem
+            $input = $request->all();
+            $checkChapterProblem = 0;
+            for($i = 1; $i <= $input['train_chapter']; $i++)
+            {
+                $chapterProblem = 0;
+                foreach($input['problem_chapter'] as $chapter)
+                {
+                    if($chapter == $i)
+                        $chapterProblem++;
+                }
+                if($chapterProblem == 0)
+                {
+                    $checkChapterProblem = 1;
+                    break;
+                }
+            }
+            if($checkChapterProblem)
+            {
+                $errMsg->add('err', 'Chapter must has at least one problem');
+            }
+            if(!$errMsg->isEmpty())
+            {
+                var_dump($errMsg);
+                return Redirect::to("/dashboard/training/$train_id")->withErrors($errMsg);
+            }
+            $trainingObj->train_name = $input['train_name'];
+            $trainingObj->train_chapter = $input['train_chapter'];
+            $trainingObj->description = $input['description'];
+            $trainingObj->save();
+            TrainProblem::where('train_id', $train_id)->delete();
+            for($i = 0; $i < count($input['problem_id']); $i++)
+            {
+                $trainingProblemObj = new TrainProblem;
+                $trainingProblemObj->train_id = $trainingObj->train_id;
+                $trainingProblemObj->problem_id = $input['problem_id'][$i];
+                $trainingProblemObj->chapter_id = $input['problem_chapter'][$i];
+                $trainingProblemObj->train_problem_id = $i+1;
+                $trainingProblemObj->problem_title = $input['problem_name'][$i];
+                $trainingProblemObj->problem_level = 0;
+                $trainingProblemObj->save();
+            }
+            return Redirect::to("/dashboard/training/$train_id");
+        }
+        $data['train_info'] = $trainingObj;
+        $data['train_problem'] = $trainingProblemObj;
+        $data['train_problem_count'] = count($trainingProblemObj);
+        return View::make("training.set")->with($data);
     }
 
     public function getTrainingList(Request $request)
@@ -119,7 +176,7 @@ class TrainingController extends Controller
     public function getTrainingByID(Request $request, $train_id)
     {
         $data = [];
-        $data['chapterac'] = [];
+        $data['chapter'] = [];
         $uid = $request->session()->get('uid');
         $trainingObj = Train::where('train_id', $train_id)->first();
         $data['training'] = $trainingObj;
@@ -132,21 +189,24 @@ class TrainingController extends Controller
                 'chapter_id' => $i
             ])->get();
             //checkChapterAc is to find whether user has finished this chapter
-            $checkChapterAc = 0;
+            $checkChapterAc = 1;
             $problem_num = 0;
             foreach($trainingProblemObj as $trainingProblem)
             {
-                $submissionObj = Submission::where([
-                    'uid' => $uid,
-                    'pid' => $trainingProblem->problem_id,
-                    'result' => 'Accepted'
-                ])->orderby('runid','asc')->first();
-                if(!isset($submissionObj))
-                    $checkChapterAc = 0;
-                else
-                    $checkChapterAc = 1;
-                $data['chapter'][$i][$problem_num] = $trainingProblem->problem;
-                $data['chapter'][$i][$problem_num++]['ac'] = $checkChapterAc;
+                if(!$trainingProblem->problem->getNumberOfUsedContests() || RoleController::is('admin'))
+                {
+                    $submissionObj = Submission::where([
+                        'uid' => $uid,
+                        'pid' => $trainingProblem->problem_id,
+                        'result' => 'Accepted'
+                    ])->orderby('runid','asc')->first();
+                    if(isset($submissionObj) && $checkChapterAc == 1)
+                        $checkChapterAc = 1;
+                    else
+                        $checkChapterAc = 0;
+                    $data['chapter'][$i][$problem_num] = $trainingProblem->problem;
+                    $data['chapter'][$i][$problem_num++]['ac'] = isset($submissionObj)?1:0;
+                }
             }
             if($checkChapterAc == 1)
                 $chapter_in = $i+1;

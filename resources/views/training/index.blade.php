@@ -51,15 +51,21 @@ $(function(){
 		<div id="collapse_{{ $i }}" class="panel-collapse collapse in">
 			<div class="panel-body">
 				<ul class="list-group">
-				@foreach($chapter[$i] as $problem)
-					<li class="list_hover list-group-item" onClick="window.location.href = '/problem/{{ $problem->problem_id }}';">
-						<span>ID : {{ $problem->problem_id }}&nbsp;&nbsp;&nbsp;&nbsp;TITLE : {{ $problem->title }}
-							@if($problem->ac)
-							<i class="glyphicon glyphicon-ok"></i>
-							@endif
-						</span>
-					</li>
-				@endforeach
+				@if(isset($chapter[$i]))
+					@foreach($chapter[$i] as $problem)
+						<li class="list_hover list-group-item" onClick="window.location.href = '/problem/{{ $problem->problem_id }}';">
+							<span>ID : {{ $problem->problem_id }}&nbsp;&nbsp;&nbsp;&nbsp;TITLE : {{ $problem->title }}
+								@if($problem->ac)
+								<i class="glyphicon glyphicon-ok"></i>
+								@endif
+							</span>
+						</li>
+					@endforeach
+					@else
+						<li class = "list_hover list-group-item">
+							<span>All the problems of this chapter are being used by contest, please wait until the contest ends</span>
+						</li>
+					@endif
 				</ul>
 			</div>
 	@else

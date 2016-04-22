@@ -28,7 +28,7 @@ $(function(){
 			<a href="/training/{{ $training[$i]->train_id }}">Training-Title : {{ $training[$i]->train_name }}</a>
 		</div>
 		<div class="panel-body">
-			Description :
+			Description :{{ $training[$i]->description }}
 		</div>
 	</div>
 @endfor

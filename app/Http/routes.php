@@ -346,10 +346,15 @@ Route::group(['middleware' => 'profile'],function() {
             "uses" => "TrainingController@addTraining"
         ]);
 
+        Route::match(['post','get'], '/dashboard/training/{train_id}', [
+            "middleware" => "role:admin",
+            "uses" => "TrainingController@setTraining"
+        ])->where('train_id', '[0-9]+');
+
         Route::delete('/dashboard/training/{train_id}', [
             "middleware" => "role:admin",
             "uses" => "TrainingController@deleteTraining"
-        ]);
+        ])->where('train_id', '[0-9]+');
 
     });
 });
