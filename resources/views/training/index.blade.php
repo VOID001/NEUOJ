@@ -61,11 +61,11 @@ $(function(){
 							</span>
 						</li>
 					@endforeach
-					@else
-						<li class = "list_hover list-group-item">
-							<span>All the problems of this chapter are being used by contest, please wait until the contest ends</span>
-						</li>
-					@endif
+				@else
+					<li class = "list_hover list-group-item">
+						<span>Problems of this chapter have not been set or are used by a contest</span>
+					</li>
+				@endif
 				</ul>
 			</div>
 	@else
