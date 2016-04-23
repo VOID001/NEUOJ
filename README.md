@@ -5,7 +5,7 @@ __Ver 1.0 Released__ 2.0 Working In Progress
 ### Function Enabled for v2.0
 
 * [ ] Problem
- * [ ] Problem Database, Training System
+ * [x] Problem Database, Training System
  * [ ] Manually define problem difficulty
  * [ ] Add Standard Solution problem for each problem
  * [ ] Use Tag for admin
@@ -30,7 +30,7 @@ __Ver 1.0 Released__ 2.0 Working In Progress
 * [ ] Contest
  * [ ] Each user can add contest
  * [ ] Contest Announcement(Broadcast?)
- * [ ] Contest BBS
+ * [x] Contest BBS
  * [ ] Export Ranklist
  * [ ] Contest Statistics
 * [ ] CMS
