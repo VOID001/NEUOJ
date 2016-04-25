@@ -1,6 +1,6 @@
 NEUOJ
 ====
-__Ver 1.0 Released__ 2.0 Working In Progress
+__Ver 1.1 Released__ 2.0 Working In Progress
 
 ### Function Enabled for v2.0
 
