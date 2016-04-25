@@ -17,6 +17,8 @@ use Storage;
 use App\ContestProblem;
 use App\ContestUser;
 use App\Contest;
+use App\Train;
+use App\TrainProblem;
 use Symfony\Component\VarDumper\Caster\ExceptionCaster;
 
 class ProblemController extends Controller
@@ -550,5 +552,47 @@ class ProblemController extends Controller
             $data['page_num'] = 1;
             return View::make('problem.list', $data);
         }
+    }
+
+    public function getTrainProblemByTrainProblemID(Request $request, $train_id, $chapter_id, $train_problem_id)
+    {
+        $data = [];
+        $uid = $request->session()->get('uid');
+        $trainingObj = Train::where('train_id', $train_id)->first();
+        $trainProblemObj = TrainProblem::where([
+            "train_id" => $train_id,
+            "train_problem_id" => $train_problem_id,
+        ])->first();
+
+        if($trainingObj->getUserChapter($uid) < $chapter_id && !RoleController::is('admin'))
+        {
+            return Redirect::to("/training/$train_id");
+        }
+
+        $realProblemID = $trainProblemObj->problem_id;
+        $problemObj = Problem::where('problem_id', $realProblemID)->first();
+        $jsonObj = json_decode($problemObj->description);
+        $data['problem'] = $problemObj;
+        $data['problem']->problem_id = $train_problem_id;
+        if($jsonObj != NULL)
+        {
+            foreach ($jsonObj as $key => $val)
+            {
+                $data['problem']->$key = $val;
+            }
+        }
+        if($trainProblemObj->problem_title == "")
+            $data['problem']->title = $trainProblemObj->problem->title;
+        else
+            $data['problem']->title = $trainProblemObj->problem_title;
+        $data['training'] = $trainingObj;
+
+        $data['problem']->acSubmissionCount = Submission::where([
+            'pid' => $realProblemID,
+            'result' => "Accepted"
+        ])->get()->unique('uid')->count();
+
+        $data['problem']->totalSubmissionCount = Submission::getValidSubmissionCount(0, $realProblemID);
+        return View::make("problem.index", $data);
     }
 }

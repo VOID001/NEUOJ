@@ -143,7 +143,7 @@ class TrainingController extends Controller
             $problem_num = 0;
             foreach($trainingProblemObj as $trainingProblem)
             {
-                if(!$trainingProblem->problem->getNumberOfUsedContests() || RoleController::is('admin'))
+                if(!$trainingProblem->problem->getNumberOfUsedContests())
                 {
                     $submissionObj = Submission::where([
                         'uid' => $uid,
@@ -154,13 +154,19 @@ class TrainingController extends Controller
                         $checkChapterAc = 1;
                     else
                         $checkChapterAc = 0;
-                    $data['chapter'][$i][$problem_num] = $trainingProblem->problem;
+                    $data['chapter'][$i][$problem_num] = $trainingProblem;
+                    if($trainingProblem->problem_title == "")
+                        $data['chapter'][$i][$problem_num]['title'] = $trainingProblem->problem->title;
+                    else
+                        $data['chapter'][$i][$problem_num]['title'] = $trainingProblem->problem_title;
                     $data['chapter'][$i][$problem_num++]['ac'] = isset($submissionObj) ? 1 : 0;
                 }
             }
             if($checkChapterAc == 1)
                 $chapter_in = $i + 1;
         }
+        if(RoleController::is('admin'))
+            $chapter_in = $trainingObj->train_chapter+1;
         $data['chapter_in'] = $chapter_in;
         return View::make('training.index')->with($data);
     }

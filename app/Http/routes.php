@@ -334,7 +334,7 @@ Route::group(['middleware' => 'profile'],function() {
         ])->where('train_id', '[0-9]+');
 
         Route::get('/training/{train_id}/chapter{chapter_id}/{train_problem_id}', [
-            "uses" => "ProblemController@blablabla"
+            "uses" => "ProblemController@getTrainProblemByTrainProblemID"
         ])->where([
             'train_id' => '[0-9]+',
             'chapter_id' => '[0-9]+',
