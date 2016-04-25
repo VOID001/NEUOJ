@@ -136,6 +136,6 @@
         <span>
             <script>document.write(randCode)</script>
             <br>
-            All Copyright&copy;Reserved 2013-2016 NEU-ACM TEAM&nbsp;&nbsp;&nbsp;Ver 1.0
+            All Copyright&copy;Reserved 2013-2016 NEU-ACM TEAM&nbsp;&nbsp;&nbsp;Ver {{ env('APP_VER', 'NULL') }}
         </span>
 </footer>
