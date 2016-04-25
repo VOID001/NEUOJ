@@ -61,7 +61,8 @@ class TrainingController extends Controller
                 $trainingProblemObj->problem_level = 0;
                 $trainingProblemObj->save();
             }
-            return Redirect::to('/dashboard/training/p/1');
+            $train_id = $trainingObj->train_id;
+            return Redirect::to("/dashboard/training/$train_id");
         }
         return View::make("training.add");
     }
