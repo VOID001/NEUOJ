@@ -40,7 +40,7 @@
                             <label>Problem ID</label>
                             <input type = "text" name = "problem_id[]" value = {{ $problem->problem_id }} />
                             <label>Problem Name</label>
-                            <input type = "text" name = "problem_name[]" value = "{{ $problem->problem_name }}" />
+                            <input type = "text" name = "problem_name[]" value = "{{ $problem->problem_title }}" />
                             <a href = "javascript:deleteProblem({{ $i }}, {{ $problem->problem_id }})">Delete Problem</a>
                             </div>
                         @endif

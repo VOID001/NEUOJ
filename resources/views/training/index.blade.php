@@ -54,7 +54,7 @@ $(function(){
 				@if(isset($chapter[$i]))
 					@foreach($chapter[$i] as $problem)
 						<li class="list_hover list-group-item" onClick="window.location.href = '/training/{{ $problem->train_id }}/chapter{{ $problem->chapter_id }}/{{ $problem->train_problem_id }}';">
-							<span>ID : {{ $problem->problem_id }}&nbsp;&nbsp;&nbsp;&nbsp;TITLE : {{ $problem->title }}
+							<span>ID : {{ $problem->train_problem_id }}&nbsp;&nbsp;&nbsp;&nbsp;TITLE : {{ $problem->title }}
 								@if($problem->ac)
 								<i class="glyphicon glyphicon-ok"></i>
 								@endif
