@@ -573,7 +573,6 @@ class ProblemController extends Controller
         $problemObj = Problem::where('problem_id', $realProblemID)->first();
         $jsonObj = json_decode($problemObj->description);
         $data['problem'] = $problemObj;
-        $data['problem']->problem_id = $train_problem_id;
         if($jsonObj != NULL)
         {
             foreach ($jsonObj as $key => $val)
