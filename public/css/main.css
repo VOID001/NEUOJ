@@ -1,5 +1,29 @@
-/*global*/
-.btn,.form-control{
+/*全局样式*/
+html {
+    height: 100%;
+}
+body {
+    min-width: 980px;
+    min-height: 100%;
+    position: relative;
+}
+img {
+    object-fit: cover;
+}
+/*常用全局标签*/
+.label {
+    font-size: 13px;
+}
+.custom-heading {
+    margin-bottom: 50px;
+}
+.custom-table {
+    margin: 0px auto;
+}
+.custom-table td {
+    padding: 10px;
+}
+.btn, .form-control {
     border-radius: 0;
 }
 .warning_box {
@@ -8,103 +32,6 @@
     background-color: #f39c12;
     font-size: 18px;
     opacity: 0.8;
-}
-/*导航栏式样*/
-.navbar-default{
-    background-color: #3F51B5;
-}
-.navbar-default .navbar-nav li{
-    background-color: #3F51B5;
-    font-size: 15px;
-    width : 12%;
-}
-.three-d:not(.nav-active):hover .three-d-box,
-.three-d:not(.nav-active):focus .three-d-box{
-    transform:translateZ(-25px) rotateX(90deg);
-}
-.three-d-box{
-    transition:all .3s ease-out;
-    transform-style: preserve-3d;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-}
-.nav-front{
-    transform:rotateX(0deg) translateZ(25px);
-    background: #3F51B5;
-}
-.nav-back{
-    transform:rotateX(-90deg) translateZ(25px);
-    background: #2E87D8;
-}
-.active .nav-front{
-    background: #2E87D8;
-}
-.nav-front, .nav-back{
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width:100%;
-    text-align: center;
-    padding-top:17%;
-    color: white;
-    font-family: 'Roboto';
-}
-.navbar-default .navbar-nav > li > a > paper-button{
-    position: relative;
-    top: -10px;
-    margin: 0;
-    padding-top: 10px;
-    padding-bottom: 5px;
-    width: 100%;
-}
-.navbar .container{
-    margin: 0;
-    padding: 0 25px;
-    width: 100%;
-}
-.navbar{
-    border-radius: 0;
-    border: 0;
-    height: 50px;
-}
-.navbar-collapse{
-    padding: 0;
-}
-.navbar-header{
-    padding-right: 20px;
-}
-.active{
-}
-.activebar{
-    margin-left: 0;
-    width: 100%;
-    height: 5px;
-}
-.active .activebar{
-    background-color: #da4f49;
-}
-a:hover .activebar{
-    background-color: #5bc0de;
-}
-a:active .activebar{
-    background-color: #5bb75b;
-}
-.active > a:hover .activebar{
-    background-color: #da4f49;
-}
-.active > a:active .activebar{
-    background-color: #da4f49;
-}
-.btn{
-    padding: 6px 0;
-    min-width: 70px;
-}
-.btn-caret{
-    min-width: 10px!IMPORTANT;
 }
 .btn-grey {
   color: #333;
@@ -172,65 +99,149 @@ fieldset[disabled] .btn-grey.active {
   color: #fff;
   background-color: #222;
 }
-#signin{
-    position: absolute;
-    top: 5.5px;
-    right: 100px;
-    width: 70px;
+/*导航条*/
+.navbar {
+    border-radius: 0;
+    border: 0;
+    height: 50px;
+    background-color: #3f51b5;
 }
-#ssologin{
-    position: absolute;
-    top: 5.5px;
-    right: 180px;
-    width: 70px;
+/*导航条logo*/
+#navbar-logo {
+    padding: 5px;
 }
-#signup{
-    position: absolute;
-    top: 5.5px;
-    right: 20px;
-    width: 70px;
-}
-#dashboard{
-    position: absolute;
-    top: 8px;
-    right: 20px;
-}
-#dashboard .btn{
-    min-width: 100px;
-}
-.neuoj_theme{
-    font-size: 40px;
-}
-.neuacmlogo{
+#navbar-logo img {
     width: 40px;
-    margin-top: -10px;
-    float: left;
-    margin-right: 10px;
     border-radius: 20px;
+    margin-left: 15px;
+    display: inline;
     transition: box-shadow 0.3s;
     transition-timing-function: ease-in-out;
 }
-.neuoj_theme:hover .neuacmlogo{
-    box-shadow: 0 0 10px #FFF;
-}
-.neuoj_theme:active .neuacmlogo{
-    transition: box-shadow 0.05s;
-    transition-timing-function: ease-in-out;
-    box-shadow: 0 0 20px #FFF;
-}
-.neuacmlogotext{
-    float: left;
+#navbar-logo span {
+    font-size: 40px;
+    vertical-align: middle;
+    margin-left: 10px;
+    margin-right: 10px;
     color: #fff;
     transition: text-shadow 0.3s;
     transition-timing-function: ease-in-out;
 }
-.neuoj_theme:hover .neuacmlogotext{
+#navbar-logo:hover img {
+    box-shadow: 0 0 10px #FFF;
+}
+#navbar-logo:hover span {
     text-shadow: 0 0 10px #fff;
 }
-.neuoj_theme:active .neuacmlogotext{
-    transition: text-shadow 0.05s;
-    transition-timing-function: ease-in-out;
-    text-shadow: 0 0 20px #fff;
+@media  screen and (max-width: 1200px) {
+    #navbar-logo img {
+        margin-left: 5px;
+    }
+    #navbar-logo span {
+        margin-right: 0;
+        margin-left: 5px;
+        font-size: 25px;
+    }
+}
+/*导航条菜单*/
+#navbar-meau {
+    width: 50%;
+    float: left;
+    height: 50px;
+}
+.three-d {
+    float: left;
+    font-size: 15px;
+    width: 12.5%;
+    height: 100%;
+    color: #fff;
+    cursor: pointer;
+}
+.three-d-box {
+    transition:all .3s ease-out;
+    transform-style: preserve-3d;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+.three-d:hover .three-d-box {
+    transform:rotateX(90deg);
+}
+.nav-front, .nav-back {
+    position: absolute;
+    width:100%;
+    height: 100%;
+    text-align: center;
+    line-height: 50px;
+}
+.nav-front {
+    transform:rotateX(0deg) translateZ(25px);
+    background: #3F51B5;
+}
+.nav-back {
+    transform:rotateX(-90deg) translateZ(25px);
+    background: #2E87D8;
+}
+.active .nav-front {
+    background: #2E87D8;
+}
+@media  screen and (max-width: 1200px) {
+    #navbar-meau {
+        width: 560px;
+    }
+    .nav-front, .nav-back {
+        font-size: 13px;
+        height: 49px;
+    }
+    .nav-front {
+        transform:rotateX(0deg) translateZ(0px);
+    }
+    .nav-back {
+        transform:rotateX(-90deg) translateZ(0px);
+    }
+    .three-d:hover .three-d-box {
+        transform:rotateX(0deg);
+    }
+}
+/*导航条按钮*/
+#sign-button-group {
+    float: right;
+    margin-top: 5px;
+    margin-right: 10px;
+}
+.sign-button {
+    background-color: #2e87d8;
+    color: #fff;
+}
+.sign-button:hover {
+    background-color: #3f98e9;
+}
+#personal-button {
+    float: right;
+    margin-top: 8px;
+    margin-right: 20px;
+}
+#personal-button img {
+    width: 120px;
+    height: 120px;
+}
+/*页脚*/
+.footer {
+    background: #3f51b5;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    color: #fff;
+    font-size: 14px;
+}
+/*首页*/
+#homepage {
+    margin: 10px auto;
+    width: 800px;
+    padding: 10px;
+    text-indent: 2em;
+    font-size: 20px;
+    line-height: 30px;
 }
 /*题目列表式样*/
 #problemlist > thead > tr > th,
@@ -253,71 +264,44 @@ fieldset[disabled] .btn-grey.active {
     width: 100%;
 }
 /*登陆注册表*/
-/*通用表单模板*/
-
-.signin_box {
+#signin-body {
+    background: #d2d6de;
+    padding-top: 50px;
+}
+#signin-box {
+    margin: 0px auto;
     width: 33%;
     background: #fff;
     color: #666;
-    padding-bottom: 20px;
+    padding: 2%;
 }
-.signin_box_msg {
-    padding-top: 20px;
-    padding-bottom: 20px;
-    margin: 0;
-    text-align: center;
-}
-.signin_box_userbox {
+.signin-box-userbox {
     position: relative;
-    border: solid 1px #d2d6de;
-    height: 30px;
-    width: 80%;
-    text-align: left;
 }
-.signin_box_cptbox {
-    width: 40%;
-    margin-right: 40%;
-}
-.signin_box_gly {
+.signin-box-gly {
     position: absolute;
-    top:5px;
-    left:8px;
-    z-index: 2;
+    top:10px;
+    left:10px;
 }
-.signin_box_user {
+.signin-box-user {
     display: inline-block;
-    outline: none;
-    border: none;
-    height: 28px;
     padding-left: 40px;
-    float: left;
 }
-.signin_box_cpt_p {
-    width: 70%;
-    position: absolute;
-    right: -100%;
+#signin-box-captcha span {
+    top: 15px;
 }
-.signin_box_row {
-    width: 80%;
+#signin-box-captcha input {
+    width: 40%;
+    margin-right: 18%;
 }
-.signin_box_row .btn{
-    border-radius: 0px;
-    height: 28px;
+#signin-box-captcha img {
+    width: 40%;
 }
-.signin_box a:hover {
-    text-decoration: none;
+#signin-btn {
+    float: right;
 }
-.signin_box_warning {
-    text-align: left;
-}
-#signinTable{
-    width: 600px;
-}
-#signinTable td,#signupTable td,#resetTable td{
-    height: 50px;
-}
-#signupTable{
-    width: 400px;
+#signin-text {
+    margin-top: 50px;
 }
 #resetTable{
     margin-left:36%;
@@ -334,44 +318,10 @@ fieldset[disabled] .btn-grey.active {
     margin-top: -18px;
 }
 /*body整个屏幕*/
-html{
-    height: 100%;
-}
-body{
-    min-height: 100%;
-    position: relative;
-}
 .main{
     margin: 10px auto;
     width: 800px;
     padding: 10px;
-}
-/*页脚*/
-.footer{
-    background: #3f51b5;
-    width: 100%;
-    line-height: 10px;
-    position: absolute;
-    bottom: 0;
-    margin-bottom: 0px;
-    overflow: hidden;
-}
-.footer span{
-    color: #fff;
-}
-.footspanclass{
-    height: 20px;
-    line-height: 20px;
-    font-size: 13px;
-    white-space: nowrap;
-}
-/*常用全局标签*/
-.my_p{
-    width: 800px;
-    word-break: break-all;
-    text-indent: 2em;
-    font-size: 20px;
-    line-height: 30px;
 }
 /**status**/
 .status_main{

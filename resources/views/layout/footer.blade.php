@@ -132,7 +132,10 @@
     var rand2 = Math.floor(Math.random()*codes.length);
     var randCode = codes[rand2]
 </script>
-<footer role="contentinfo" class="text-center footer">
-        <span class="footspanclass"><script>document.write(randCode)</script><br>
-        All Copyright&copy;Reserved 2013-2016 NEU-ACM TEAM&nbsp;&nbsp;&nbsp;Ver 1.0</span>
+<footer class="text-center footer">
+        <span>
+            <script>document.write(randCode)</script>
+            <br>
+            All Copyright&copy;Reserved 2013-2016 NEU-ACM TEAM&nbsp;&nbsp;&nbsp;Ver 1.0
+        </span>
 </footer>
