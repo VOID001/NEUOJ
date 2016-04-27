@@ -1,6 +1,6 @@
 NEUOJ
 ====
-[![Build Status](http://219.216.96.47/api/badges/Lbyang/NEUOJ/status.svg)](http://219.216.96.47/Lbyang/NEUOJ)
+[![Build Status](http://202.118.31.226:3322/api/badges/Lbyang/NEUOJ/status.svg)](http://202.118.31.226:3322/Lbyang/NEUOJ)
 __Ver 1.1 Released__ 2.0 Working In Progress
 
 ### Function Enabled for v2.0
