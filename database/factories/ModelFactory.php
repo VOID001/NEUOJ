@@ -13,9 +13,17 @@
 
 $factory->define(App\User::class, function (Faker\Generator $faker) {
     return [
-        'name' => $faker->name,
+        'username' => $faker->name,
+        'gid' => $faker->numberBetween(0, 5),
         'email' => $faker->email,
         'password' => bcrypt(str_random(10)),
-        'remember_token' => str_random(10),
+    ];
+});
+
+$factory->defineAs(App\User::class, 'admin', function(){
+    return [
+        'username' => "admin",
+        'email' => "admin@noreply.com",
+        'password' => bcrypt("admin"),
     ];
 });

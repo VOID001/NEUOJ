@@ -7,7 +7,7 @@ compose:
         privileged: true
         environment:
             - MYSQL_ROOT_PASSWORD=password
-            - MYSQL_DATABASE=neuoj
+            - MYSQL_DATABASE=neuoj_test
             - MYSQL_USER=neuoj
             - MYSQL_PASSWORD=neuoj
         volumes:
@@ -41,6 +41,6 @@ build:
         - echo "========================== Installing NEUOJ ======================"
         - php composer.phar install -vvv
         - echo "************************* Install NEUOJ Composer Dependencies Done ********************************"
-        - php artisan migrate
+          #- php artisan migrate
         - php artisan key:generate
         - ./vendor/bin/phpunit
