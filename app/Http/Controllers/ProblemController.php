@@ -394,6 +394,7 @@ class ProblemController extends Controller
             'result' => "Accepted"
         ])->get()->unique('uid')->count();
         $data['problem']->totalSubmissionCount = Submission::getValidSubmissionCount($contest_id, $realProblemID);
+        $data['problem']->realProblemID = $realProblemID;
         return View::make("problem.index", $data);
     }
 
