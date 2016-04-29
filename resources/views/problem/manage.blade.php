@@ -66,7 +66,7 @@
                     <a class="btn btn-success problem_manage_lock_size" href="/dashboard/problem/{{ $problem->problem_id }}/visibility">&nbsp;&nbsp;
                     Lock({{ $problem->used_times }})
                     @else
-                    <a class="btn btn-danger problem_manage_lock_size" href="/dashboard/problem/{{ $problem->problem_id }}/visibility">&nbsp;&nbsp;
+                    <a class="btn btn-danger problem_manage_lock_size" href="/dashboard/problem/{{ $problem->problem_id }}/visibility">
                     Unlock({{ $problem->used_times }})
                     @endif
                     &nbsp;&nbsp;</a></td>

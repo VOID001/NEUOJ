@@ -53,7 +53,7 @@ $(function(){
 				<ul class="list-group">
 				@if(isset($chapter[$i]))
 					@foreach($chapter[$i] as $problem)
-						<li class="list_hover list-group-item" onClick="window.location.href = '/training/{{ $problem->train_id }}/chapter{{ $problem->chapter_id }}/{{ $problem->train_problem_id }}';">
+						<li class="list_hover list-group-item" onClick="window.location.href = '/training/{{ $problem->train_id }}/chapter{{ $problem->chapter_id }}/{{ $problem->train_problem_id }}';"style="cursor: pointer;">
 							<span>ID : {{ $problem->train_problem_id }}&nbsp;&nbsp;&nbsp;&nbsp;TITLE : {{ $problem->title }}
 								@if($problem->ac)
 								<i class="glyphicon glyphicon-ok"></i>

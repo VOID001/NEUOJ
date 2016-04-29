@@ -64,16 +64,16 @@
                     {{ $counter++ }}
                 </td>
                 <td>
-					<a href="/profile/{{ $user->uid }}" class="text-center table_row_td"><paper-button>
+					<a href="/profile/{{ $user->uid }}" class="text-center table_row_td my_ellipsis"><paper-button class="my_ellipsis">
                     @if($roleCheck->is("admin"))
-                        {{ $user->info->stu_id }}
+                        <nobr>{{ $user->info->stu_id }}</nobr>
                     @else
                         <img class="loader" src="/image/loading.gif" data-src="/avatar/{{$user->uid}}" style="width:35px; height:35px"/>
                     @endif
 					</paper-button></a>
                 </td>
                 <td class="contest_ranklist_username_td" id="contest_index_problem_name_el" onclick="javascript:window.location.href=''">
-					<a href="/profile/{{ $user->uid }}" class="text-center table_row_td"><paper-button>
+					<a href="/profile/{{ $user->uid }}" class="text-center table_row_td my_ellipsis"><paper-button class="my_ellipsis">
                     @if($roleCheck->is("admin"))
                         <nobr>{{ $user->info->realname }}</nobr>
                     @else

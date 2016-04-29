@@ -607,10 +607,14 @@ li.separate-item {
 .table_row_td{
     color: inherit;
     display: block;
-    height: 100%;
     width: 100%;
-    line-height: 33px;
+    height: 30px;
     text-decoration: none!IMPORTANT;
+}
+.my_ellipsis {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
 .table_row_td:hover{
     background-color: #445b72;

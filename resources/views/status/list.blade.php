@@ -183,8 +183,8 @@
                 @endif
                 </td>
                 <td><a href="/profile/{{ $submission->uid }}" class="text-center table_row_td"><paper-button>{{ $submission->uid }}</paper-button></a></td>
-                <td><a href="/profile/{{ $submission->uid }}" class="text-center table_row_td"><paper-button><nobr>{{ $submission->userName }}</nobr></paper-button></a></td>
-                <td id="status_username_title_el"><a href="/profile/{{ $submission->uid }}" class="text-center table_row_td"><paper-button><nobr>{{ $submission->nickname }}</nobr></paper-button></a></td>
+                <td><a href="/profile/{{ $submission->uid }}" class="text-center table_row_td"><paper-button class="my_ellipsis"><nobr>{{ $submission->userName }}</nobr></paper-button></a></td>
+                <td id="status_username_title_el"><a href="/profile/{{ $submission->uid }}" class="text-center table_row_td"><paper-button class="my_ellipsis"><nobr>{{ $submission->nickname }}</nobr></paper-button></a></td>
                 <td class="text-left" id="status_username_title_el"><nobr>&nbsp;{{ $submission->problemTitle }}</nobr></td>
                 <td class="text-center">
                 @if(Request::session()->get('uid') == $submission->uid || $roleCheck->is("admin"))
