@@ -88,6 +88,10 @@ Route::group(['middleware' => 'profile'],function() {
         "uses" => "SubmissionController@getSubmissionJSONByRunID"
     ]);
 
+    Route::get('/ajax/problem_title', [
+        "uses" => "ProblemController@getAllProblemTitleJSON"
+    ]);
+
     Route::get('/contest', [
         "uses" => "ContestController@getContest"
     ]);

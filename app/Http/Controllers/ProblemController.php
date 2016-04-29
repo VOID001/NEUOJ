@@ -595,4 +595,18 @@ class ProblemController extends Controller
         $data['problem']->totalSubmissionCount = Submission::getValidSubmissionCount(0, $realProblemID);
         return View::make("problem.index", $data);
     }
+
+    /*
+     * @function getAllProblemTitleJSON
+     * @input Request
+     *
+     * @return JSON
+     * @description give all the problem_id => problem_title mapping
+     *              in JSON format
+     */
+    public function getAllProblemTitleJSON(Request $request)
+    {
+        $problemObj = Problem::select('problem_id', 'title')->get();
+        return $problemObj->toJson();
+    }
 }
