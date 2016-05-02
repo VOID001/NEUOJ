@@ -6,11 +6,19 @@
     @include("layout.head")
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/status.css">
-    <!--<meta http-equiv="Refresh" content="20"> <!-- Do not refresh too frequently -->
+    <script src="/js/searchFunction.js"></script>
     <script type="text/javascript">
         $(function(){
             $("#status").addClass("active");
-            //$('.selectpicker').selectpicker();
+            $.ajax({
+                url: '/ajax/problem_title',
+                type: 'GET',
+                async: true,
+                dataType: 'json',
+                success: function(result) {
+                    bindSearchFunction(result);
+                }
+            });
         })
     </script>
 </head>
@@ -92,7 +100,10 @@
         <span style="font-size: 15px">Username:</span>
         <input class="form-control" style="width: 150px;"type="text" name="username"/>
         <span style="font-size: 15px;margin-left: 10px">Problem ID:</span>
-        <input class="form-control" style="width: 150px;"type="text" name="pid"/>
+        <div class="search-container">
+            <input class="form-control search-title problem-id" style="width: 150px;"type="text" name="pid" autocomplete="off" />
+            <div class="search-option hidden"></div>
+        </div>
         <span style="font-size: 15px;margin-left: 10px">Language:</span>
         <select name="lang" class="form-control">
             <option name="all">All</option>

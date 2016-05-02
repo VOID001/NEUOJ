@@ -6,18 +6,26 @@
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/problem.css">
     <script src="/js/extendPagination.js"></script>
-    <script type="text/javascript">
+    <script src="/js/searchFunction.js"></script>
+    <script>
         $(function(){
             $("#problem").addClass("active");
-        })
-        $(document).ready(function(){
             var targetHerf = "/problem/p/";
             $("#callBackPager").extendPagination({
                 totalPage : {{ $page_num }},
                 showPage : 5,
                 pageNumber : {{ $page_id }}
             },targetHerf);
-        });
+            $.ajax({
+                url: '/ajax/problem_title',
+                type: 'GET',
+                async: true,
+                dataType: 'json',
+                success: function(result) {
+                    bindSearchFunction(result);
+                }
+            });
+        })
     </script>
 </head>
 <body>
@@ -27,7 +35,11 @@
     <div class="main">
         <div class="form-inline">
             <form action="/problem/quick_access">
-                <span style="font-size: 18px">Quick Access: </span><input class="form-control" name="query" style="width: 320px;" aria-controls="problemset" placeholder="Input ProblemID or Problem Title to Search" type="text">
+                <span style="font-size: 18px">Quick Access: </span>
+                <div class="search-container">
+                    <input class="form-control search-title problem-id" name="query" style="width: 320px;" aria-controls="problemset" placeholder="Input ProblemID or Problem Title to Search" type="text" autocomplete="off" />
+                    <div class="search-option hidden"></div>
+                </div>
                 <input type="submit" class="btn btn-info form-control" value="&nbsp;&nbsp;Go&nbsp;&nbsp;">
             </form>
         </div>

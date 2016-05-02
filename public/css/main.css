@@ -462,6 +462,7 @@ li.separate-item {
 }
 #contest_set_form{
     margin-top: 60px;
+    margin-bottom: 200px;
 }
 .contest_set_body{
     overflow-y: scroll;
@@ -487,6 +488,7 @@ li.separate-item {
 }
 #contest_add_form{
     margin-top: 60px;
+    margin-bottom: 200px;
 }
 /*ranklist*/
 .contest_ranklist> thead > tr > th,
@@ -811,4 +813,33 @@ span[class^="hljs"]{
     width: 60%;
     background-color: #B8B7A8;
     color : white;
+}
+/*searching*/
+.search-container {
+    display: inline-block;
+    position: relative;
+}
+.search-option {
+    position: absolute;
+    margin-top: 10px;
+    border:1px solid #D4D4D5;
+    background: #fff;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);
+    z-index: 1000;
+    max-height: 240px;
+    width: 240px;
+    overflow-x: hidden;
+}
+.search-result{
+    white-space: nowrap;
+    display: block;
+    padding: 8px;
+    font-size: 15px;
+    border-bottom: 1px solid rgba(34,36,38,.1);
+    cursor: pointer;
+    height: 40px;
+    text-decoration: none;
+}
+.search-result:hover{
+    background-color: #F5F5F5;
 }

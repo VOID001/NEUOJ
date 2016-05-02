@@ -4,6 +4,7 @@
     <title>Set Training</title>
     @include("layout.head")
     <link rel="stylesheet" href="/css/main.css">
+    <script src="/js/searchFunction.js"></script>
     <script type="text/javascript">
         $(function(){
             $("#dashboard_training").addClass("dashboard_subnav_active");
@@ -38,9 +39,12 @@
                             <div id = "p_{{ $problem->train_problem_id+1 }}">
                             <input type = "hidden" name = "problem_chapter[]" value = {{ $i }} />
                             <label>Problem ID</label>
-                            <input type = "text" name = "problem_id[]" value = {{ $problem->problem_id }} />
+                            <div class="search-container">
+                                <input class="search-title problem-id" type = "text" name = "problem_id[]" value = "{{ $problem->problem_id }}" autocomplete="off" />
+                                <div class="search-option hidden"></div>
+                            </div>
                             <label>Problem Name</label>
-                            <input type = "text" name = "problem_name[]" value = "{{ $problem->problem_title }}" />
+                            <input class="problem-title" type = "text" name = "problem_name[]" value = "{{ $problem->problem_title }}" autocomplete="off" />
                             <a href = "javascript:deleteProblem({{ $i }}, {{ $problem->problem_id }})">Delete Problem</a>
                             </div>
                         @endif
@@ -62,6 +66,17 @@
 
 
 <script language="javascript">
+    var titleData = [];
+    $.ajax({
+        url: '/ajax/problem_title',
+        type: 'GET',
+        async: true,
+        dataType: 'json',
+        success: function(result) {
+            bindSearchFunction(result);
+            titleData = result;
+        }
+    });
     var chapterCount = {{ $train_info->train_chapter }} + 1;
     var problemCount = {{ $train_problem_count }};
     function addChapter()
@@ -81,14 +96,18 @@
 
     function addProblem(chapter_id)
     {
-        var problemItem =  "<div id = \"p_" + problemCount + "\"><label>Problem ID</label>"+
+        var problemItem =  "<div id = p_" + problemCount + "><label>Problem ID</label>"+
                            "<input type = \"hidden\" name = \"problem_chapter[]\" value = " + chapter_id + "/>"+
-                           "<input type = \"text\" name = \"problem_id[]\" />"+
+                           "<div class='search-container'>"+
+                           "<input class=\"search-title problem-id\" type = \"text\" name = \"problem_id[]\" autocomplete=\"off\" />"+
+                           "<div class=\"search-option hidden\"></div>"+
+                           "</div>"+
                            "<label>Problem Name</label>"+
-                           "<input type = \"text\" name = \"problem_name[]\"/>"+
+                           "<input class=\"problem-title\" type = \"text\" name = \"problem_name[]\" autocomplete=\"off\" />"+
                            "<a href=\"javascript:deleteProblem("+chapter_id+","+problemCount+")\">Delete Problem</a><br></div>";
         document.getElementById("chapter_"+chapter_id).insertAdjacentHTML("beforeEnd", problemItem);
         problemCount++;
+        bindSearchFunction(titleData);
     }
 
     function deleteProblem(chapter_id, div_id)

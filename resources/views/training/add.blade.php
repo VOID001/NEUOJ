@@ -4,6 +4,7 @@
     <title>Add Training</title>
     @include("layout.head")
     <link rel="stylesheet" href="/css/main.css">
+    <script src="/js/searchFunction.js"></script>
     <script type="text/javascript">
         $(function(){
             $("#dashboard_training").addClass("dashboard_subnav_active");
@@ -44,6 +45,17 @@
 
 
 <script language="javascript">
+    var titleData = [];
+    $.ajax({
+        url: '/ajax/problem_title',
+        type: 'GET',
+        async: true,
+        dataType: 'json',
+        success: function(result) {
+            bindSearchFunction(result);
+            titleData = result;
+        }
+    });
     var chapterCount = 1;
     var problemCount = 0;
     function addChapter()
@@ -65,12 +77,16 @@
     {
         var problemItem =  "<div id = p_" + problemCount + "><label>Problem ID</label>"+
                            "<input type = \"hidden\" name = \"problem_chapter[]\" value = " + chapter_id + "/>"+
-                           "<input type = \"text\" name = \"problem_id[]\" />"+
+                           "<div class='search-container'>"+
+                           "<input class=\"search-title problem-id\" type = \"text\" name = \"problem_id[]\" autocomplete=\"off\" />"+
+                           "<div class=\"search-option hidden\"></div>"+
+                           "</div>"+
                            "<label>Problem Name</label>"+
-                           "<input type = \"text\" name = \"problem_name[]\"/>"+
+                           "<input class=\"problem-title\" type = \"text\" name = \"problem_name[]\" autocomplete=\"off\" />"+
                            "<a href=\"javascript:deleteProblem("+chapter_id+","+problemCount+")\">Delete Problem</a><br></div>";
         document.getElementById("chapter_"+chapter_id).insertAdjacentHTML("beforeEnd", problemItem);
         problemCount++;
+        bindSearchFunction(titleData);
     }
 
     function deleteProblem(chapter_id, div_id)

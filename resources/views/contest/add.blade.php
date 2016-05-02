@@ -5,6 +5,7 @@
     @include("layout.head")
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/contest.css">
+    <script src="/js/searchFunction.js"></script>
     <script type="text/javascript">
         $(function(){
             $("#dashboard_contest").addClass("dashboard_subnav_active");
@@ -80,9 +81,9 @@
                 @for($i = 0, $problem = session('current_problem'); $i < session('problem_count'); $i++)
                     <div id="p_{{ $i }}" >
                         <label class='col-md-offset-2'>Problem ID</label>
-                        <input class="form-control" type="text" name="problem_id[]" value="{{ $problem[$i]['problem_id'] }}"/>
+                        <input class="form-control" type="text" name="problem_id[]" value="{{ $problem[$i]['problem_id'] }}" autocomplete="off" />
                         <label>Problem Title In Contest</label>
-                        <input class="form-control" type="text" name="problem_name[]" value="{{ $problem[$i]['problem_name'] }}"/>
+                        <input class="form-control" type="text" name="problem_name[]" value="{{ $problem[$i]['problem_name'] }}" autocomplete="off" />
                         <a href="javascript:delProblem({{ $i }})">Delete Problem</a>
                     </div>
                 @endfor
@@ -96,24 +97,35 @@
     </form>
 </div>
     <script language="javascript">
-      //      hideAllowedUserList();
+        var titleData = [];
+        $.ajax({
+            url: '/ajax/problem_title',
+            type: 'GET',
+            async: true,
+            dataType: 'json',
+            success: function(result) {
+                bindSearchFunction(result);
+                titleData = result;
+            }
+        });
         var count = 0;
-        function addProblem()
-        {
-            var problemItem = "<div class='col-md-offset-2' id=p_" + count +" >\n" +
+        function addProblem(){
+            var problemItem = "<div class='col-md-offset-2' id=p_" + count + ">\n" +
                     "<label>Problem ID</label>\n" +
-                    "<input class='form-control' type='text' name=problem_id[]/>\n" +
+                    "<div class='search-container'>\n" +
+                    "<input class='form-control search-title problem-id' type='text' name='problem_id[]' autocomplete='off' />\n" +
+                    "<div class='search-option hidden'></div>\n" +
+                    "</div>\n" +
                     "<label>Problem Title In Contest</label>\n" +
-                    "<input class='form-control' type='text' name=problem_name[]/>\n" +
+                    "<input class='form-control problem-title' type='text' name='problem_name[]' autocomplete='off' />\n" +
                     "<label>Color</label>\n" +
-                    "<input class='form-control' style='width:5%;padding:0;' type='color' name=problem_color[]/>\n" +
-                    "<a href='javascript:delProblem(" + count + ")'>Delete Problem</a>\n"  +
+                    "<input class='form-control' style='width:5%;padding:0;' type='color' name=problem_color[] />\n" +
+                    "<a href='javascript:delProblem(" + count + ")'>Delete Problem</a>\n" +
                     "</div>";
             document.getElementById("add_problem").insertAdjacentHTML("beforeEnd",problemItem);
             count++;
-
+            bindSearchFunction(titleData);
         }
-
         function delProblem(div_id)
         {
             document.getElementById("add_problem").removeChild(document.getElementById("p_" + div_id));
