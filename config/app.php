@@ -157,6 +157,10 @@ return [
          */
         Greggilbert\Recaptcha\RecaptchaServiceProvider::class,
         Mews\Captcha\CaptchaServiceProvider::class,
+        /*
+         * Laravel Excel Service Provider
+         */
+        Maatwebsite\Excel\ExcelServiceProvider::class,
     ],
 
     /*
@@ -208,6 +212,7 @@ return [
         'Recaptcha' => Greggilbert\Recaptcha\Facades\Recaptcha::class,
         'Captcha'   => Mews\Captcha\Facades\Captcha::class,
         'Debugbar'  => Barryvdh\Debugbar\Facade::class,
+        'Excel'		=> Maatwebsite\Excel\Facades\Excel::class,
 
     ],
 

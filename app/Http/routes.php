@@ -231,6 +231,11 @@ Route::group(['middleware' => 'profile'],function() {
             "uses" => "ContestController@getContestRanklist"
         ]);
 
+        Route::get('/contest/{contest_id}/ranklist/export', [
+            "middleware" => "role:admin",
+            "uses" => "ContestController@exportContestRanklist"
+        ]);
+
         Route::get('/contest/{contest_id}/ranklist/p/{page_id}', [
             "uses" => "ContestController@getContestRanklistByPageID"
         ]);

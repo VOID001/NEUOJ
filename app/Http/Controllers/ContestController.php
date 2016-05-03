@@ -21,6 +21,7 @@ use Illuminate\Support\MessageBag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use Illuminate\Http\Response;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ContestUserInfo
 {
@@ -343,6 +344,12 @@ class ContestController extends Controller
      */
     public function getContestRanklist(Request $request, $contest_id)
     {
+        /* Check for contest status and cache, if contest end and have then load cache*/
+        if(Cache::has("contest-$contest_id.ranklist.final"))
+        {
+            $data = Cache::get("contest-$contest_id.ranklist.final");
+            return View::make('contest.ranklist', $data);
+        }
         /* Check for cache, if have then load cache*/
         $timestamp = (int)(time() / 5);
         if(Cache::has("contest-$contest_id.ranklist.$timestamp"))
@@ -428,7 +435,14 @@ class ContestController extends Controller
         $data['contest_id'] = $contest_id;
         $data['counter'] = 1;
         /* Cache the result for a better performance when multiple visit at the same time */
-        Cache::put("contest-$contest_id.ranklist.$timestamp", $data, Carbon::now()->addMinutes(1));
+        if(Contest::where('contest_id', $contest_id)->first()->isEnded())
+        {
+            Cache::put("contest-$contest_id.ranklist.final", $data, Carbon::now()->addDay());
+        }
+        else
+        {
+            Cache::put("contest-$contest_id.ranklist.$timestamp", $data, Carbon::now()->addMinutes(1));
+        }
         return View::make('contest.ranklist', $data);
     }
 
@@ -823,6 +837,123 @@ class ContestController extends Controller
         return Redirect::to("/contest/$contest_id/balloon");
     }
 
+    /*
+     * @function ContestRanklistExport
+     * @input $request $contest_id
+     *
+     * @return excel file
+     * @description export contest ranklist excel file
+     */
+    public function exportContestRanklist(Request $request, $contest_id)
+    {
+        $contestObj = Contest::where('contest_id', $contest_id)->first();
+        if($contestObj->isEnded() && Cache::has("contest-$contest_id.ranklist.final"))
+        {
+            $data = Cache::get("contest-$contest_id.ranklist.final");
+            Excel::create
+            (
+                "ranklist_$contest_id",
+                function ($excel) use($data)
+                {
+                    $excel->sheet('Ranklist',
+                        function ($sheet) use ($data)
+                        {
+                            $problems = $data['problems'];
+                            $titleRow = array('Rank', '学号', '真实姓名', 'Solve', 'Penalty');
+                            foreach($problems as $contestProblemObj)
+                            {
+                                $titleRow[] = $contestProblemObj->problem_title;
+                            }
+                            $sheet->prependRow(1, $titleRow);
+                            $sheet->setSize(array('A1' => array('width' => 10, 'height' => 20)));
+                            $sheet->row(1, function($row)
+                            {
+                               $row->setBackground('#95a5a6');
+                               $row->setFontColor('#ffffff');
+                            });
+                            $i = 1;
+                            foreach($data['users'] as $user)
+                            {
+                                $row = array
+                                (
+                                    $i++,
+                                    $user->info->stu_id,
+                                    $user->info->realname,
+                                    $user->infoObj->totalAC,
+                                );
+                                $totalPenalty = "";
+                                $totalHour = intval($user->infoObj->totalPenalty / 60 / 60);
+                                $totalPenalty = $totalHour <= 9 ? "0$totalHour" : "$totalHour";
+                                $totalPenalty = $totalPenalty . ":" . substr(strval($user->infoObj->totalPenalty % 3600 / 60 + 100), 1, 2);
+                                $totalPenalty = $totalPenalty . ":" . substr(strval($user->infoObj->totalPenalty % 60 + 100), 1, 2);
+                                $row[] = $totalPenalty;
+                                foreach($problems as $problem)
+                                {
+                                    $problem_result = "";
+                                    if (isset($user->infoObj->result[$problem->contest_problem_id]))
+                                    {
+                                        $result = $user->infoObj->result[$problem->contest_problem_id];
+                                        if($result == "Rejudging" || $result == "Pending")
+                                        {
+                                            $problem_result = "Pending/Rejudging";
+                                        }
+                                        elseif($result != 'Accepted' && $result != 'First Blood')
+                                        {
+                                            $problem_result = "(" . strval($user->infoObj->penalty[$problem->contest_problem_id]) . ")";
+                                            $sheet->cell
+                                            (
+                                                strval(chr(ord('A') + count($row))) . strval($i),
+                                                function($cell)
+                                                {
+                                                    $cell->setBackground('#c9302c');
+                                                }
+                                            );
+                                        }
+                                        else
+                                        {
+                                            $problemPenalty = "";
+                                            $accepted_time = $user->infoObj->time[$problem->contest_problem_id];
+                                            $hour = intval($accepted_time / 60 / 60);
+                                            $problemPenalty = $hour <= 9 ? "0$hour" : "$hour";
+                                            $problemPenalty = $problemPenalty . ":" . substr(strval($accepted_time % 3600 / 60 + 100), 1, 2);
+                                            $problemPenalty = $problemPenalty . ":" . substr(strval($accepted_time % 60 + 100), 1, 2);
+                                            $problem_result = $problemPenalty;
+                                            if($result == "First Blood")
+                                            {
+                                                $sheet->cell
+                                                (
+                                                    strval(chr(ord('A') + count($row))) . strval($i),
+                                                    function ($cell)
+                                                    {
+                                                        $cell->setBackground('#337ab7');
+                                                    }
+                                                );
+                                            }
+                                            else
+                                            {
+                                                $sheet->cell
+                                                (
+                                                    strval(chr(ord('A') + count($row))) . strval($i),
+                                                    function ($cell)
+                                                    {
+                                                        $cell->setBackground('#5cb85c');
+                                                    }
+                                                );
+                                            }
+                                        }
+                                    }
+                                    $row[] = $problem_result;
+                                }
+                                $sheet->row($i, $row);
+                            }
+                            /* end fo r*/
+                        });
+                        /* end sheet */
+                }
+            )->download('xls');
+        }
+        return Redirect::to("/contest/$contest_id/ranklist");
+    }
 }
 
 
