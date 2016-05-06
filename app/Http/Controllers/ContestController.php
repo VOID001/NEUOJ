@@ -375,7 +375,8 @@ class ContestController extends Controller
         }
 
 
-        $allSubmissions = Submission::select('uid', 'result', 'pid', 'cid', 'submit_time')->where('cid', $contest_id)->orderby('uid', 'asc')->get();
+        $allSubmissions = Submission::select('uid', 'result', 'pid', 'cid', 'submit_time')->where('cid', $contest_id)
+            ->orderby('uid', 'asc')->orderby('runid', 'asc')->get();
 
         $firstac = $contestObj->getFirstacList();
         $preuid = -1;
