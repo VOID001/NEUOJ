@@ -10,11 +10,15 @@ body {
 img {
     object-fit: cover;
 }
-/*常用全局标签*/
 .label {
     font-size: 13px;
 }
+.btn, .form-control {
+    border-radius: 0;
+}
+/*常用全局标签*/
 .custom-heading {
+    text-align: center;
     margin-bottom: 50px;
 }
 .custom-table {
@@ -23,23 +27,84 @@ img {
 .custom-table td {
     padding: 10px;
 }
-.btn, .form-control {
-    border-radius: 0;
+.custom-word {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
-.warning_box {
-    width: 900px;
+.custom-list {
+    text-align: center;
+    table-layout: fixed;
     margin: 0 auto;
-    background-color: #f39c12;
-    font-size: 18px;
-    opacity: 0.8;
+}
+.custom-list td,
+.custom-list th {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding: 5px !important;
+    vertical-align: middle !important;
+}
+.custom-list th {
+    color: #fff;
+}
+.custom-list thead {
+    background: #95A5A6;
+}
+.file-input {
+    vertical-align: middle;
+    height: 38px;
+    display: inline-block;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    border: 1px solid #ccc;
+    position: relative;
+    padding-right: 5px;
+}
+.file-input input[type=text] {
+    border: 0;
+    vertical-align: middle;
+}
+.file-input input[type=file] {
+    opacity: 0;
+    position: absolute;
+    top:0;
+    left:0;
+}
+.search-container {
+    display: inline-block;
+    position: relative;
+}
+.search-option {
+    position: absolute;
+    margin-top: 10px;
+    border:1px solid #D4D4D5;
+    background: #fff;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);
+    z-index: 1000;
+    max-height: 240px;
+    width: 240px;
+    overflow-x: hidden;
+}
+.search-result {
+    white-space: nowrap;
+    display: block;
+    padding: 8px;
+    font-size: 15px;
+    border-bottom: 1px solid rgba(34,36,38,.1);
+    cursor: pointer;
+    height: 40px;
+    text-decoration: none;
+}
+.search-result:hover {
+    background-color: #F5F5F5;
 }
 .btn-grey {
   color: #333;
   background-color: #eee;
   border-color: #bbb;
+  padding: 8px;
 }
-.btn-grey:focus,
-.btn-grey.focus {
+.btn-grey:focus {
   color: #333;
   background-color: #d5d5d5;
   border-color: #7b7b7b;
@@ -99,14 +164,94 @@ fieldset[disabled] .btn-grey.active {
   color: #fff;
   background-color: #222;
 }
-/*导航条*/
+/*dashboard常用全局标签*/
+.back-container {
+    margin-left: 16%;
+}
+.back-list {
+    width: 90%;
+    margin: 0 auto;
+}
+.back-btn-form {
+    display: inline-block;
+}
+.back-problem-form {
+    margin-bottom: 200px;
+}
+.back-problem-form td:first-child {
+    width: 180px;
+}
+.back-problem-add-list {
+    margin-top: 20px;
+    margin-left: 26%;
+}
+.back-problem-add-list>div {
+    margin-bottom: 5px;
+}
+.back-problem-add-list span {
+    margin-right: 3px;
+}
+.back-problem-add-list input {
+    margin-right: 8px;
+    display: inline-block !important;
+    vertical-align: middle;
+}
+/*dashboard-folder*/
+/*dashboard-profile*/
+#dashboard-profile-img {
+    width: 120px;
+    height: 120px;
+    margin-bottom: 20px;
+}
+/*contest-folder*/
+/*context-back*/
+.contest-b-problem-input {
+    width: 110px;
+}
+.contest-b-private-table {
+    margin-left: 2%;
+}
+/*problem-folder*/
+/*problem-back*/
+.problem-b-error-box {
+    background-color: #f39c12;
+    font-size: 18px;
+    opacity: 0.8;
+}
+.problem-b-warning-box {
+    background: #95A5A6;
+    font-size: 18px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.problem-b-submit {
+    margin-top: 10px;
+    padding-bottom: 20px;
+}
+/*problem-manage*/
+.problem-manage-lock-btn {
+    width: 80%;
+    padding: 8px 0px;
+}
+/*training folder*/
+/*training-back*/
+.training-b-add-chapter {
+    margin-top: 20px;
+}
+.training-b-add-chapter a:first-child {
+    margin-right: 20px;
+}
+.training-b-problem-input {
+    width: 150px;
+}
+/*layout*/
+/*layout-header*/
 .navbar {
     border-radius: 0;
     border: 0;
     height: 50px;
     background-color: #3f51b5;
 }
-/*导航条logo*/
 #navbar-logo {
     padding: 5px;
 }
@@ -143,7 +288,6 @@ fieldset[disabled] .btn-grey.active {
         font-size: 25px;
     }
 }
-/*导航条菜单*/
 #navbar-meau {
     width: 50%;
     float: left;
@@ -203,7 +347,6 @@ fieldset[disabled] .btn-grey.active {
         transform:rotateX(0deg);
     }
 }
-/*导航条按钮*/
 #sign-button-group {
     float: right;
     margin-top: 5px;
@@ -225,7 +368,7 @@ fieldset[disabled] .btn-grey.active {
     width: 120px;
     height: 120px;
 }
-/*页脚*/
+/*layout-footer*/
 .footer {
     background: #3f51b5;
     width: 100%;
@@ -233,6 +376,43 @@ fieldset[disabled] .btn-grey.active {
     bottom: 0;
     color: #fff;
     font-size: 14px;
+}
+/*layout-dashboard_nav*/
+#dashboard-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background:#333C47;
+    height: 100%;
+    width: 16%;
+    min-width: 156px;
+    color: #C5D0DE;
+}
+#dashboard-nav a {
+    color: #C5D0DE;
+}
+#dashboard-nav img {
+    width: 100px;
+    height: 100px;
+    margin: 5px 0px;
+}
+#dashboard-nav hr {
+    border-top: 1px solid #666;
+    margin-top: 5px 0px;
+}
+#dashboard-subnav li:first-child{
+    font-size: 20px;
+}
+#dashboard-subnav a:hover,
+#dashboard-subnav a:focus
+{
+    background-color: #24272D;
+}
+.dashboard-subnav-active {
+    background-color: #24272D;
+}
+.separate-item {
+    border-top: 1px solid #666;
 }
 /*首页*/
 #homepage {
@@ -297,9 +477,6 @@ fieldset[disabled] .btn-grey.active {
 #signin-box-captcha img {
     width: 40%;
 }
-#signin-btn {
-    float: right;
-}
 #signin-text {
     margin-top: 50px;
 }
@@ -341,47 +518,6 @@ fieldset[disabled] .btn-grey.active {
 }
 #statuslist>thead{
     background:#95A5A6;
-}
-/**dashboard**/
-.dashboard_nav{
-    position: fixed;
-    background:#333C47;
-    padding: 0;
-    min-height: 100%;
-}
-.dashboard_nav>ul>li>a{
-    color: #C5D0DE;
-}
-.dashboard_logo{
-     width: 100px;
-    height: 100px;
-}
-.dashboard_top{
-    background: #333C44;
-    padding: 10px;
-}
-.dashboard_username{
-    color: #C5D0DE;
-    margin-top: 10px;
-    width: 100%;
-    text-overflow: ellipsis;
-    overflow:hidden;
-}
-.dashboard_hr{
-    border-top: 1px solid #666;
-    margin: 5px 0px 0px 0px;
-}
-li.separate-item {
-    border-top: 1px solid #666;
-}
-.dashboard_subnav>li>a:hover,
-.dashboard_subnav>li>a:focus
-{
-    text-decoration: none;
-    background-color: #24272D;
-}
-.dashboard_subnav_active{
-    background-color: #24272D;
 }
 /*contest*/
 .contest_list{
@@ -460,36 +596,6 @@ li.separate-item {
 .contest_list_status_registering{
     background: #f0ad4e;
 }
-#contest_set_form{
-    margin-top: 60px;
-    margin-bottom: 200px;
-}
-.contest_set_body{
-    overflow-y: scroll;
-}
-.contest_set_time div{
-    margin-bottom:10px;
-}
-.contest_set_lable{
-    line-height: 34px;
-}
-.contest_set_allowedUserList div{
-    margin-bottom:5px;
-}
-.contest_set_add_problem{
-    margin-top: 30px;
-    margin-bottom: 30px;
-}
-.contest_set_add_problem div{
-    margin-bottom:10px;
-}
-.contest_set_add_problem input{
-    margin-right:10px;
-}
-#contest_add_form{
-    margin-top: 60px;
-    margin-bottom: 200px;
-}
 /*ranklist*/
 .contest_ranklist> thead > tr > th,
 .contest_ranklist> tbody > tr > th,
@@ -525,54 +631,7 @@ li.separate-item {
 .contest_ranklist_penalty_td{
     font-size:15px;
 }
-/*profile*/
-#profileForm img{
-    object-fit:cover;
-}
-#profileTable{
-    width: 350px;
-}
-#profileTable td,#profileTable td{
-    height: 50px;
-}
-#profileTable_img{
-    object-fit:cover;
-}
-.padding_10{
-    padding-top: 10%;
-}
 /*dash_problem*/
-.dashboard_problem_table{
-    margin:20px auto;
-    width: 900px;
-}
-#dashboard_problem_list > thead > tr > th,
-#dashboard_problem_list > tbody > tr > th,
-#dashboard_problem_list > tfoot > tr > th,
-#dashboard_problem_list > thead > tr > td,
-#dashboard_problem_list > tbody > tr > td,
-#dashboard_problem_list > tfoot > tr > td {
-    padding: 5px;
-    vertical-align: middle;
-}
-#dashboard_problem_list > thead > tr > th{
-    color: #fff;
-}
-#dashboard_problem_list>thead{
-    background: #95A5A6;
-}
-.dashboard_problem_table_form{
-    display: inline-block;
-}
-.dashboard_problem_add_table{
-    width: 90%;
-    margin: 0 auto;
-    padding-top: 20px;
-}
-.dashboard_problem_add_span{
-    font-size: 20px;
-}
-
 .word_cut{
     display: block;
     padding: 9.5px;
@@ -813,33 +872,4 @@ span[class^="hljs"]{
     width: 60%;
     background-color: #B8B7A8;
     color : white;
-}
-/*searching*/
-.search-container {
-    display: inline-block;
-    position: relative;
-}
-.search-option {
-    position: absolute;
-    margin-top: 10px;
-    border:1px solid #D4D4D5;
-    background: #fff;
-    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);
-    z-index: 1000;
-    max-height: 240px;
-    width: 240px;
-    overflow-x: hidden;
-}
-.search-result{
-    white-space: nowrap;
-    display: block;
-    padding: 8px;
-    font-size: 15px;
-    border-bottom: 1px solid rgba(34,36,38,.1);
-    cursor: pointer;
-    height: 40px;
-    text-decoration: none;
-}
-.search-result:hover{
-    background-color: #F5F5F5;
 }

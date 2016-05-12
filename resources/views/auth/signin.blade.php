@@ -13,23 +13,23 @@
 	</script>
 </head>
 <body id="signin-body">
-	<h2 class="text-center custom-heading">Sign in</h2>
+	<h2 class="custom-heading">Sign in</h2>
 	<div id="signin-box">
 		<p class="text-center">Sign in to start your code</p>
 		<form action="/auth/signin" method="POST">
 		{{csrf_field()}}
 			<div class="form-group signin-box-userbox">
 				<span class="glyphicon glyphicon-user signin-box-gly"></span>
-				<input class="form-control signin-box-user" name="username"  type="text" value="@if(!isset($username)){{ old('username') }}@else{{ $username }}@endif" placeholder="username" tabindex="1">
+				<input class="form-control signin-box-user" name="username"  type="text" value="@if(!isset($username)){{ old('username') }}@else{{ $username }}@endif" placeholder="username" tabindex="1" />
 			</div>
 			<div class="form-group signin-box-userbox">
 				<span class="glyphicon glyphicon-lock signin-box-gly"></span>
-				<input class="form-control signin-box-user" type="password" name="pass" placeholder="password"tabindex="2">
+				<input class="form-control signin-box-user" name="pass" type="password" placeholder="password" tabindex="2" />
 			</div>
 			<div class="form-group signin-box-userbox" id="signin-box-captcha">
 				<span class="glyphicon glyphicon-exclamation-sign signin-box-gly"></span>
-				<input class="form-control signin-box-user" type="text" name="captcha" placeholder="captcha" tabindex="3"/>
-				<img src="{{ captcha_src('flat') }}" alt="Captcha"/>
+				<input class="form-control signin-box-user" name="captcha" type="text" placeholder="captcha" tabindex="3" autocomplete="off" />
+				<img id="captcha" src="{{ captcha_src('flat') }}" alt="Captcha"/>
 			</div>
 			@if(count($errors) > 0 )
 				<span class="label label-danger"><span class="glyphicon glyphicon-remove-sign"></span>&nbsp;{{$errors->all()[0]}}</span>
@@ -37,12 +37,12 @@
 				<span class="label label-danger"><span class="glyphicon glyphicon-remove-sign"></span>&nbsp;{{ $loginError }}</span>
 			@endif
 			<div>
-				<input class="btn btn-info" id="signin-btn" type="submit" value="Sign in">
+				<input class="btn btn-info pull-right" type="submit" value="Sign in" />
 			</div>
 		</form>
 		<div id="signin-text">
-			<p><a href="/auth/request" >I forget my password</a></p>
-			<p><a href="/auth/signup" class="">Register a new membership</a></p>
+			<p><a href="/auth/request">I forget my password</a></p>
+			<p><a href="/auth/signup">Register a new membership</a></p>
 		</div>
 	</div>
 	<!--

@@ -1,163 +1,135 @@
 <!doctype html>
 <html>
 <head>
-    <title>Add Contest</title>
-    @include("layout.head")
-    <link rel="stylesheet" href="/css/main.css">
-    <link rel="stylesheet" href="/css/contest.css">
-    <script src="/js/searchFunction.js"></script>
-    <script type="text/javascript">
-        $(function(){
-            $("#dashboard_contest").addClass("dashboard_subnav_active");
-        })
-    </script>
+	<title>Add Contest</title>
+	@include("layout.head")
+	<link rel="stylesheet" href="/css/main.css">
+	<script src="/js/searchFunction.js"></script>
+	<script type="text/javascript">
+		$(function() {
+			$("#dashboard_contest").addClass("dashboard-subnav-active");
+			if($('#public-radio')[0].checked) {
+				$('#private-table').hide();
+				$('#register-table').hide();
+			}else if($('#private-radio')[0].checked) {
+				$('#private-table').show();
+				$('#register-table').hide();
+			}else {
+				$('#private-table').hide();
+				$('#register-table').show();
+			}
+			$('#public-radio').click(function() {
+				$('#private-table').slideUp();
+				$('#register-table').slideUp();
+			})
+			$('#private-radio').click(function() {
+				$('#private-table').slideDown();
+				$('#register-table').slideUp();
+			})
+			$('#register-radio').click(function() {
+				$('#private-table').slideUp();
+				$('#register-table').slideDown();
+			})
+		})
+	</script>
 </head>
-<body class="contest_set_body">
-@include("layout.dashboard_nav")
-<div class="col-xs-10">
-
-    <h3 class="text-center">Add Contest</h3>
-    @foreach($errors->all() as $error)
-        <div>
-            <ul>{{ $error }}</ul>
-        </div>
-    @endforeach
-    <form id="contest_add_form" action="/dashboard/contest/add" class="form-inline" method="post">
-        {{ csrf_field() }}
-        <div class="col-md-offset-4 contest_set_time">
-            <div >
-                <label class="col-md-3 contest_set_lable" >Contest Name</label>
-                <input type="text" name="contest_name" value="{{ old('contest_name') }}" class="form-control" required/>
-            </div>
-            <div>
-                <label class="col-md-3 contest_set_lable">Begin Time</label>
-                <input type="datetime-local" name="begin_time" value="{{ old('begin_time') }}" class="form-control" required/>
-            </div>
-            <div>
-                <label class="col-md-3 contest_set_lable">End Time</label>
-                <input type="datetime-local" name="end_time" value="{{ old('end_time') }}" class="form-control" required/>
-            </div>
-            <div>
-                <label class="col-md-3">Contest Type</label>
-                <input type="radio" name="contest_type" value="public"  id="hideList" checked/><label>public</label>
-                <input type="radio" name="contest_type" value="private" id="showList"/><label>private</label>
-                <input type="radio" name="contest_type" value="register" id="contest_add_register_rdo"/><label>register</label>
-            </div>
-            <div id="contest_add_register_list">
-            <div>
-                <label class="col-md-3 contest_set_lable">Register Begin Time</label>
-                <input type="datetime-local" name="register_begin_time" value="{{ old('register_begin_time') }}" class="form-control" />
-            </div>
-            <div>
-                <label class="col-md-3 contest_set_lable">Register End Time</label>
-                <input type="datetime-local" name="register_end_time" value="{{ old('register_end_time') }}" class="form-control" />
-                {{--this is hidding 'requist'--}}
-            </div>
-            </div>
-        </div>
-        <div id="allowedUserList" class="col-md-offset-4 contest_set_allowedUserList">
-            <div >
-                <label class="col-md-3">Import user list from file</label>
-                <input type="file" name="user_list"/>
-            </div>
-            <div class="clearfix"></div>
-            <div>
-                <label class="col-md-3">Input Allowed User name</label>
-                <div>
-                    <textarea class="form-control" name="user_list" placeholder="Input the user name , seperate each with comma"></textarea>
-                </div>
-                <div id="add_user_list">
-                    <!-- ID map to username -->
-                </div>
-            </div>
-        </div>
-        <!-- This part is used to add problem , now we use Blade php to add problems -->
-        <div id="add_problem" class="contest_set_add_problem">
-            <label class="col-md-offset-5">Select Problem</label>
-            <a href="javascript:addProblem()">Add Problem</a>
-            <div class="clearfix"></div>
-
-            @if(session('problem_count'))
-                @for($i = 0, $problem = session('current_problem'); $i < session('problem_count'); $i++)
-                    <div id="p_{{ $i }}" >
-                        <label class='col-md-offset-2'>Problem ID</label>
-                        <input class="form-control" type="text" name="problem_id[]" value="{{ $problem[$i]['problem_id'] }}" autocomplete="off" />
-                        <label>Problem Title In Contest</label>
-                        <input class="form-control" type="text" name="problem_name[]" value="{{ $problem[$i]['problem_name'] }}" autocomplete="off" />
-                        <a href="javascript:delProblem({{ $i }})">Delete Problem</a>
-                    </div>
-                @endfor
-            @endif
-            <!-- How to make it work -->
-        </div>
-        <!-- This part is used to add problem , now we use Blade php to add problems -->
-        <div class="text-center">
-            <input type="submit" value="Submit"/>
-        </div>
-    </form>
-</div>
-    <script language="javascript">
-        var titleData = [];
-        $.ajax({
-            url: '/ajax/problem_title',
-            type: 'GET',
-            async: true,
-            dataType: 'json',
-            success: function(result) {
-                bindSearchFunction(result);
-                titleData = result;
-            }
-        });
-        var count = 0;
-        function addProblem(){
-            var problemItem = "<div class='col-md-offset-2' id=p_" + count + ">\n" +
-                    "<label>Problem ID</label>\n" +
-                    "<div class='search-container'>\n" +
-                    "<input class='form-control search-title problem-id' type='text' name='problem_id[]' autocomplete='off' />\n" +
-                    "<div class='search-option hidden'></div>\n" +
-                    "</div>\n" +
-                    "<label>Problem Title In Contest</label>\n" +
-                    "<input class='form-control problem-title' type='text' name='problem_name[]' autocomplete='off' />\n" +
-                    "<label>Color</label>\n" +
-                    "<input class='form-control' style='width:5%;padding:0;' type='color' name=problem_color[] />\n" +
-                    "<a href='javascript:delProblem(" + count + ")'>Delete Problem</a>\n" +
-                    "</div>";
-            document.getElementById("add_problem").insertAdjacentHTML("beforeEnd",problemItem);
-            count++;
-            bindSearchFunction(titleData);
-        }
-        function delProblem(div_id)
-        {
-            document.getElementById("add_problem").removeChild(document.getElementById("p_" + div_id));
-        }
-
-        $(document).ready(function(){
-            var list_checked = $('#showList')[0].checked;
-            if(list_checked){
-                $('#allowedUserList').show();
-            }
-            else{
-                $('#allowedUserList').hide();
-            }
-            if($('#contest_add_register_rdo')[0].checked) {
-                $('#contest_add_register_list').show();
-            } else {
-                $('#contest_add_register_list').hide();
-            }
-
-            $('#showList').click(function(){
-                $('#allowedUserList').slideDown('slow');
-                $('#contest_add_register_list').slideUp('slow');
-            })
-            $('#hideList').click(function(){
-                $('#allowedUserList').slideUp('slow');
-                $('#contest_add_register_list').slideUp('slow');
-            })
-            $('#contest_add_register_rdo').click(function(){
-                $('#allowedUserList').slideUp('slow');
-                $('#contest_add_register_list').slideDown('slow');
-            })
-        })
-    </script>
+<body >
+	@include("layout.dashboard_nav")
+	<div class="back-container">
+		<h3 class="custom-heading">Add Contest</h3>
+		<form class="back-problem-form" action="/dashboard/contest/add" method="post">
+			{{ csrf_field() }}
+			<table class="custom-table">
+				@foreach($errors->all() as $error)
+					<tr>
+						<td colspan="2"><span class="label label-warning">{{ $error }}</span></td>
+					</tr>
+				@endforeach
+				<tr>
+					<td>Contest Name</td>
+					<td><input class="form-control" name="contest_name" type="text" value="{{ old('contest_name') }}" required /></td>
+				</tr>
+				<tr>
+					<td>Begin Time</td>
+					<td><input class="form-control" name="begin_time" type="datetime-local" value="{{ old('begin_time') }}" required /></td>
+				</tr>
+				<tr>
+					<td>End Time</td>
+					<td><input class="form-control" name="end_time" type="datetime-local" value="{{ old('end_time') }}" required /></td>
+				</tr>
+				<tr>
+					<td>Contest Type</td>
+					<td>
+						<input id="public-radio" name="contest_type" type="radio" value="public" checked />public
+						<input id="private-radio" name="contest_type" type="radio" value="private" />private
+						<input id="register-radio" name="contest_type" type="radio" value="register" />register
+					</td>
+				</tr>
+			</table>
+			<div class="contest-b-private-table" id="private-table">
+				<table class="custom-table">
+					<tr>
+						<td>Import user list</td>
+						<td><input name="user_list" type="file" /></td>
+					</tr>
+					<tr>
+						<td>Input Allowed Username</td>
+						<td><textarea class="form-control" name="user_list" placeholder="Input the user name , seperate each with comma"></textarea></td>
+					</tr>
+				</table>
+			</div>
+			<div id="register-table">
+				<table class="custom-table">
+					<tr>
+						<td>Register Begin Time</td>
+						<td><input class="form-control" type="datetime-local" name="register_begin_time" value="{{ old('register_begin_time') }}" /></td>
+					</tr>
+					<tr>
+						<td>Register End Time</td>
+						<td><input class="form-control" type="datetime-local" name="register_end_time" value="{{ old('register_end_time') }}" /></td>
+					</tr>
+				</table>
+			</div>
+			<div class="text-center training-b-add-chapter">
+				<label>Select Problem</label>
+				<a href="javascript:addProblem()">Add Problem</a>
+			</div>
+			<div class="back-problem-add-list"></div>
+			<input class="center-block" type="submit" value="Submit" />
+		</form>
+	</div>
+	<script type="text/javascript">
+		var titleData = [];
+		$.ajax({
+			url: '/ajax/problem_title',
+			type: 'GET',
+			async: true,
+			dataType: 'json',
+			success: function(result) {
+				titleData = result;
+			}
+		});
+		var count = 0;
+		function addProblem() {
+			var problemItem = '<div id=p_' + count + '>' +
+				'<span>Problem ID </span>' +
+				'<div class="search-container">' +
+				'<input class="form-control search-title problem-id contest-b-problem-input" type="text" name="problem_id[]" autocomplete="off" />' +
+				'<div class="search-option hidden"></div>' +
+				'</div>' +
+				'<span> Problem Title </span>' +
+				'<input class="form-control problem-title contest-b-problem-input" type="text" name="problem_name[]" autocomplete="off" />' +
+				'<span>Color</span>' +
+				'<input class="form-control" style="width:5%;padding:0;" type="color" name=problem_color[] />' +
+				'<a href="javascript:delProblem(' + count + ')">Delete Problem</a>' +
+				'</div>';
+			$('.back-problem-add-list').append(problemItem);
+			count++;
+			bindSearchFunction(titleData);
+		}
+		function delProblem(divId) {
+			$('#p_' + divId).remove();
+		}
+	</script>
 </body>
 </html>

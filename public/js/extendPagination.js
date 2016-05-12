@@ -32,7 +32,7 @@
             html.push('<li class="disabled hidden"><a href="#">...</a></li>');
             html.push('<li class="next"><a href="' + targetHerf + nextNumber + '">&raquo;</a></li>');
             html.push('<li class="hidden"><a href="' + targetHerf + totalPage + '">Last</a></li>');
-            html.push('<input type="text" class="form-control" style="padding:5px;height:34px;width:40px;margin-left:10px;">');
+            html.push('<input type="text" class="form-control" style="display:inline-block;padding:5px;height:34px;width:40px;margin-left:10px;">');
             html.push('<a class="btn btn-default" id="appoint" style="height:34px;width:40px;padding:6px;" href="#">GO</a>');
             html.push('<span style="color:grey;margin-left:5px;">' + pageNumber + '/' + totalPage + '<span>');
             $(targetObj).html(html.join(''));
