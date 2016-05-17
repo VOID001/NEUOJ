@@ -57,7 +57,7 @@ class AuthControllerTestSuite extends TestCase
         $this->visit('/auth/signup')
             ->seePageIs('/auth/signup');
 
-        /* User cannot login when already login */
+        /* User cannot register when already login */
 
         $authUser = $this->withSession(['username' => 'VOID001']);
 
@@ -97,7 +97,7 @@ class AuthControllerTestSuite extends TestCase
         {
             $userNameErr->type($value, $key);
         }
-        $userNameErr->type('VOID001', 'username');
+        $userNameErr->type('NEU_TEST', 'username');
         $userNameErr = $userNameErr->press('Sign up');
         $userNameErr->see("The username has already been taken.");
 
@@ -111,7 +111,9 @@ class AuthControllerTestSuite extends TestCase
         }
         $userNameErr->type('', 'username');
         $userNameErr = $userNameErr->press('Sign up');
-        $userNameErr->see("No username provided");
+        $userNameErr->see("The username field is required");
+
+        /* More testcase need to be created */
 
     }
 

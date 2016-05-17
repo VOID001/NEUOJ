@@ -13,6 +13,7 @@
         <testsuite name="NEUOJ Test Suite">
             <directory>./tests/</directory>
             <file>./tests/AuthControllerTestSuite.php</file>
+            <file>./tests/HomeControllerTestSuite.php</file>
         </testsuite>
     </testsuites>
     <filter>
