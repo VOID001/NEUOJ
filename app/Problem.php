@@ -117,13 +117,13 @@ class Problem extends Model
      */
     public function  getNumberOfUsedContests()
     {
-        $contestProblemList = ContestProblem::where('problem_id', $this->problem_id)->get();
+        $contestProblemList = ContestProblem::select('contest_id')->where('problem_id', $this->problem_id)->get();
         $i = 0;
         if($this->isUsedByContest())
         {
             foreach($contestProblemList as $contestProblem)
             {
-                $contestObj = Contest::where('contest_id', $contestProblem->contest_id)->first();
+                $contestObj = Contest::select('contest_id')->where('contest_id', $contestProblem->contest_id)->first();
                 if($contestObj != NULL && !$contestObj->isEnded())
                     $i++;
             }

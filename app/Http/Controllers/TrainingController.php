@@ -171,4 +171,73 @@ class TrainingController extends Controller
         $data['chapter_in'] = $chapter_in;
         return View::make('training.index')->with($data);
     }
+
+    public function getTrainingRanklistByPageID(Request $request, $train_id, $page_id)
+    {
+        $data = [];
+        $trainUserList = [];
+        $uid = $request->session()->get('uid');
+        $trainingObj = Train::where('train_id', $train_id)->first();
+        $trainingProblemObj = TrainProblem::where('train_id', $train_id)->where('chapter_id', 1)->get();
+        $user_num = 0;
+        foreach($trainingProblemObj as $train_problem)
+        {
+            $problemAcList = Submission::select('uid')->where('pid', $train_problem->problem_id)->where('result', 'Accepted')->get()->unique('uid');
+            foreach($problemAcList as $user)
+            {
+                $user_chapter = $trainingObj->getUserChapter($user->uid) - 1;
+                if($user_chapter == 0)
+                    continue;
+                $trainUserList[$user_num] = $user;
+                $trainUserList[$user_num]['chapter'] = $user_chapter;
+                $user_num++;
+            }
+        }
+        $trainUserList = collect($trainUserList)->unique('uid');
+        foreach($trainUserList as &$trainUser)
+        {
+            $trainUser['nickname'] = Userinfo::select('nickname')->where('uid', $trainUser->uid)->first()->nickname;
+            if($trainUser['chapter'] == 0)
+                $trainUser['submit_time'] = 0;
+            else
+            {
+                $userChapterProblemList = TrainProblem::where('train_id', $train_id)->where('chapter_id', $trainUser['chapter'])->get();
+                $time = "";
+                foreach($userChapterProblemList as $problem)
+                {
+                    $ac_time = Submission::select('submit_time')->where([
+                        'pid' => $problem->problem_id,
+                        'uid' => $trainUser->uid,
+                        'result' => 'Accepted',
+                    ])->first();
+                    if($ac_time->submit_time > $time)
+                        $time = $ac_time->submit_time;
+                }
+                $trainUser['submit_time'] = $time;
+            }
+        }
+        $trainUserList = $trainUserList->all();
+        usort($trainUserList, [$this, 'cmp']);
+        $userPerPage = 30;
+        if($userPerPage * ($page_id - 1) > count($trainUserList))
+            return Redirect::to("/training/$train_id");
+        for($i = $userPerPage * ($page_id - 1); $i < ($userPerPage * $page_id > count($trainUserList) ? count($trainUserList) : $userPerPage * $page_id); $i++)
+            $data['ranklist'][$i] = $trainUserList[$i];
+        $data['counter'] = 1;
+        $data['train_id'] = $trainingObj->train_id;
+        $data['train_name'] = $trainingObj->train_name;
+        $data['page_num'] = ceil(count($trainUserList) / $userPerPage);
+        $data['page_id'] = $page_id;
+        $data['page_user'] = $userPerPage;
+        return View::make('training.ranklist')->with($data);
+    }
+
+    public function cmp($userA, $userB)
+    {
+        if($userA['chapter'] == $userB['chapter'])
+        {
+            return $userA['submit_time'] > $userB['submit_time'];
+        }
+        return $userA['chapter'] < $userB['chapter'];
+    }
 }

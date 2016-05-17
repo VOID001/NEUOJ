@@ -377,6 +377,13 @@ Route::group(['middleware' => 'profile'],function() {
             "uses" => "TrainingController@deleteTraining"
         ])->where('train_id', '[0-9]+');
 
+        Route::get('/training/{train_id}/ranklist/p/{page_id}', [
+            "uses" => "TrainingController@getTrainingRanklistByPageID"
+        ])->where([
+            'train_id' => '[0-9]+',
+            'page_id' => '[0-9]+'
+        ]);
+
     });
 });
 /*

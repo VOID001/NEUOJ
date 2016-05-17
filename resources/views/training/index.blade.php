@@ -38,6 +38,7 @@
 						<i class="glyphicon glyphicon-star-empty"></i>
 					@endfor
 					&nbsp;&nbsp;&nbsp;&nbsp;{{ $chapter_in -1 }} / {{ $training->train_chapter }}
+					&nbsp;&nbsp;&nbsp;&nbsp;<a href="/training/{{ $training->train_id }}/ranklist/p/1">ranklist</a>
 				</div>
 			</div>
 		</div>

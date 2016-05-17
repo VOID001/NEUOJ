@@ -29,7 +29,7 @@ class Train extends Model
             {
                 if(!$trainingProblem->problem->getNumberOfUsedContests())
                 {
-                    $submissionObj = Submission::where([
+                    $submissionObj = Submission::select('uid')->where([
                         'uid' => $uid,
                         'pid' => $trainingProblem->problem_id,
                         'result' => 'Accepted'
@@ -43,8 +43,6 @@ class Train extends Model
             if($checkChapterAc == 1)
                 $chapter_in = $i + 1;
         }
-        if($chapter_in > $trainingObj->train_chapter)
-            $chapter_in = $trainingObj->train_chapter;
         return $chapter_in;
     }
 }
