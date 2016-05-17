@@ -64,13 +64,13 @@ Route::group(['middleware' => 'profile'],function() {
 
     Route::match(['post', 'get'], '/auth/signin', [
         "as" => "signin",
-        //"middleware" => "",
+        "middleware" => "nologin",
         "uses" => "AuthController@loginAction"
     ]);
 
     Route::match(['post', 'get'], '/auth/signup', [
         "as" => "signup",
-        //"middleware" => "",
+        "middleware" => "nologin",
         "uses" => "AuthController@registAction"
     ]);
 

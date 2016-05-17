@@ -31,5 +31,6 @@ class Kernel extends HttpKernel
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'role' => \App\Http\Middleware\RoleCheck::class,
         'profile' => \App\Http\Middleware\ProfileCheck::class,
+        'nologin' => \App\Http\Middleware\RedirectIfSignIn::class
     ];
 }
