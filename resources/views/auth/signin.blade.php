@@ -32,7 +32,9 @@
 				<img id="captcha" src="{{ captcha_src('flat') }}" alt="Captcha"/>
 			</div>
 			@if(count($errors) > 0 )
-				<span class="label label-danger"><span class="glyphicon glyphicon-remove-sign"></span>&nbsp;{{$errors->all()[0]}}</span>
+				@foreach($errors->all() as $error)
+				<span class="label label-danger"><span class="glyphicon glyphicon-remove-sign"></span>&nbsp;{{$error}}</span><br/>
+				@endforeach
 			@elseif(isset($loginError))
 				<span class="label label-danger"><span class="glyphicon glyphicon-remove-sign"></span>&nbsp;{{ $loginError }}</span>
 			@endif

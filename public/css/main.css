@@ -23,6 +23,7 @@ img {
 }
 .custom-table {
     margin: 0px auto;
+    width: 400px;
 }
 .custom-table td {
     padding: 10px;

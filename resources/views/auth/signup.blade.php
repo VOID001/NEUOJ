@@ -8,12 +8,9 @@
 <body>
 	@include("layout.header")
 	<h3 class="custom-heading">Sign up</h3>
-	<form action="/auth/signup" method="POST">
+	<form action="/auth/signup" class="custom-table" method="POST">
 		{{ csrf_field() }}
-		@if(count($errors) > 0)
-			<div class="text-center"><div class="label label-warning sign-warning">The username has already been taken.</div></div>
-		@endif
-		<table class="custom-table">
+		<table>
 			<tr>
 				<td>Username</td>
 				<td><input class="form-control" name="username" type="text" /></td>
@@ -34,6 +31,13 @@
 				<td></td>
 				<td class="text-right"><input class="btn btn-info" type="submit" value="Sign up"/></td>
 			</tr>
+			<div>
+				@if(count($errors) > 0 )
+					@foreach($errors->all() as $error)
+						<span class="label label-danger"><span class="glyphicon glyphicon-remove-sign"></span>&nbsp;{{$error}}</span><br/>
+					@endforeach
+				@endif
+			</div>
 		</table>
 	</form>
 	@include("layout.footer")
