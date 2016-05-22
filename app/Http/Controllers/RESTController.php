@@ -91,7 +91,7 @@ class RESTController extends Controller
         return response()->json($jsonObj);
     }
 
-    /*
+    /**
      * @function postJudgeHosts
      * @input $request POST data
      *
@@ -282,7 +282,7 @@ class RESTController extends Controller
         }
     }
 
-    /*
+    /**
      * @function parseSystemMeta
      * @input String
      *
@@ -354,7 +354,7 @@ class RESTController extends Controller
 
     }
 
-    /*
+    /**
      * @function CheckSIM
      * @input $run_id
      *

@@ -37,7 +37,7 @@ class ContestUserInfo
 
 class ContestController extends Controller
 {
-    /*
+    /**
      * @function showContestDashboard
      * @input $request
      *
@@ -50,7 +50,7 @@ class ContestController extends Controller
         return Redirect::to('/dashboard/contest/p/1');
     }
 
-    /*
+    /**
      * @function showContestDashboardByPageID
      * @input $request $page_id
      *
@@ -66,10 +66,10 @@ class ContestController extends Controller
         return View::make('contest.dashboard', $data);
     }
 
-    /*
+    /**
      * @function addContest
      * @input $request
-     *
+     * @uses contest.add.php
      * @return View or Redirect
      * @description Check If the input is valid
      *              if valid , insert the contest info into database
@@ -202,7 +202,7 @@ class ContestController extends Controller
         return View::make('contest.add', $data);
     }
 
-    /*
+    /**
      * @function getContest
      * @input $request
      *
@@ -214,10 +214,10 @@ class ContestController extends Controller
         return Redirect::to('/contest/p/1');
     }
 
-    /*
+    /**
      * @function getContestListByPageID
      * @input $request $page_id
-     *
+     *@uses contest.lis.php
      * @return View
      * @description get the contest list by given a page_id
      *              and return a view
@@ -231,9 +231,10 @@ class ContestController extends Controller
         return View::make('contest.list', $data);
     }
 
-    /*
+    /**
      * @function getContestByID
      * @input $request $contest_id
+     *@uses contest.index.php
      *
      * @return View or Redirect
      * @description get the contest index page by given $contest_id
@@ -334,23 +335,24 @@ class ContestController extends Controller
 
     }
 
-    /*
+    /**
      * @function getContestRanklist
      * @input $request $contest_id
      *
+     *@uses contest.ranklist.php
      * @return View
      * @description calculate and give out the contest ranklist by $contest_id
      *              use php-builtin usort for sorting structures
      */
     public function getContestRanklist(Request $request, $contest_id)
     {
-        /* Check for contest status and cache, if contest end and have then load cache*/
+        /** Check for contest status and cache, if contest end and have then load cache*/
         if(Cache::has("contest-$contest_id.ranklist.final"))
         {
             $data = Cache::get("contest-$contest_id.ranklist.final");
             return View::make('contest.ranklist', $data);
         }
-        /* Check for cache, if have then load cache*/
+        /** Check for cache, if have then load cache*/
         $timestamp = (int)(time() / 5);
         if(Cache::has("contest-$contest_id.ranklist.$timestamp"))
         {
@@ -362,12 +364,12 @@ class ContestController extends Controller
 
         $contestObj = Contest::where('contest_id', $contest_id)->first();
 
-        /* retrive the count of the active user in the contest */
+        /** retrive the count of the active user in the contest */
         $count = 0;
 
         $data['problems'] = ContestProblem::where('contest_id', $contest_id)->get();
 
-        /* Create a mapping from problem id to contest problem id */
+        /** Create a mapping from problem id to contest problem id */
         $problemIDToContestProblemID = [];
         foreach($data['problems'] as $contestProblemObj)
         {
@@ -388,7 +390,7 @@ class ContestController extends Controller
             $contestProblemID = $problemIDToContestProblemID[$submission->pid];
             if ($submission->uid != $preuid)
             {
-                /* A new user found */
+                /** A new user found */
                 $count++;
                 $data["users"][$count] = User::limit(1)->where('uid', $submission->uid)->first();
                 $data["users"][$count]->infoObj = new ContestUserInfo();
@@ -398,10 +400,10 @@ class ContestController extends Controller
 
             }
 
-            /* Give current userObj an alias for easy to use */
+            /** Give current userObj an alias for easy to use */
             $user = &$data["users"][$count];
 
-            /* Only calculate the submission when the user does not AC the problem */
+            /** Only calculate the submission when the user does not AC the problem */
             if(!isset($curUserAcList[$contestProblemID]))
             {
                 if($submission->result != "Accepted")
@@ -435,7 +437,7 @@ class ContestController extends Controller
         usort($data['users'], ['self', "cmp"]);
         $data['contest_id'] = $contest_id;
         $data['counter'] = 1;
-        /* Cache the result for a better performance when multiple visit at the same time */
+        /** Cache the result for a better performance when multiple visit at the same time */
         if(Contest::where('contest_id', $contest_id)->first()->isEnded())
         {
             Cache::put("contest-$contest_id.ranklist.final", $data, Carbon::now()->addDay());
@@ -447,7 +449,7 @@ class ContestController extends Controller
         return View::make('contest.ranklist', $data);
     }
 
-    /*
+    /**
      * @function cmp
      * @input $userA $userB
      *
@@ -463,7 +465,8 @@ class ContestController extends Controller
         return $userA->infoObj->totalAC < $userB->infoObj->totalAC;
     }
 
-    /*
+    /**
+    *@uses contest.ranklist.php
      * @stub getContestRanklistByPageID
      */
     public function getContestRanklistByPageID(Request $request, $contest_id, $page_id)
@@ -473,7 +476,7 @@ class ContestController extends Controller
         return View::make('contest.ranklist', $data);
     }
 
-    /*
+    /**
      * @function getContestStatus
      * @input $request $contest_id
      *
@@ -485,7 +488,8 @@ class ContestController extends Controller
         return Redirect::to("/contest/$contest_id/status/p/1");
     }
 
-    /*
+    /**
+    *@uses status.list.php
      * @function getContestStatusByPageID
      */
     public function getContestStatusByPageID(Request $request, $contest_id, $page_id)
@@ -559,7 +563,7 @@ class ContestController extends Controller
         return View::make('status.list', $data);
     }
 
-    /*
+    /**
      * @function setContest
      * @input $request,$contest_id
      *
@@ -697,7 +701,7 @@ class ContestController extends Controller
         }
     }
 
-    /*
+    /**
      * @function deleteContest
      * @input $request,$contest_id
      *
@@ -712,7 +716,7 @@ class ContestController extends Controller
         return Redirect::to("/dashboard/contest");
     }
 
-    /*
+    /**
      * @function registerContest
      * @input $request, $contest_id
      *
@@ -755,7 +759,7 @@ class ContestController extends Controller
         return View::make('contest.register', $data);
     }
 
-    /*
+    /**
      *
      * @function getBalloonlist
      * @input $request,$constest_id
@@ -808,7 +812,7 @@ class ContestController extends Controller
         return json_encode($data);
     }
 
-    /*
+    /**
      * @function getContestBalloonView
      * @input $request $contest_id
      *
@@ -823,7 +827,7 @@ class ContestController extends Controller
         return View::make('contest.balloon', $data);
     }
 
-    /*
+    /**
      * @function changeContestBalloonStatus
      * @input $request $contest_id $id
      *
@@ -838,7 +842,7 @@ class ContestController extends Controller
         return Redirect::to("/contest/$contest_id/balloon");
     }
 
-    /*
+    /**
      * @function ContestRanklistExport
      * @input $request $contest_id
      *
@@ -947,9 +951,9 @@ class ContestController extends Controller
                                 }
                                 $sheet->row($i, $row);
                             }
-                            /* end fo r*/
+                            /** end fo r*/
                         });
-                        /* end sheet */
+                        /** end sheet */
                 }
             )->download('xls');
         }

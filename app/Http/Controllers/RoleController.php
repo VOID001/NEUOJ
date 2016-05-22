@@ -7,7 +7,7 @@ use App\Problem;
 
 class RoleController extends Controller
 {
-    /*
+    /**
      * @function checkAdmin
      * @input none
      *
@@ -24,7 +24,7 @@ class RoleController extends Controller
         return false;
     }
 
-    /*
+    /**
      * @function is
      * @input $role
      *

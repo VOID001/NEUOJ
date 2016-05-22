@@ -16,8 +16,8 @@ use Illuminate\Support\Facades\Redirect;
 
 class AuthController extends Controller
 {
-    /*
-     * @params $request
+    /**
+     * @param  $request
      * @comment handle GET & POST requests
      * and validate the post data then proceed login action
      *
@@ -50,7 +50,7 @@ class AuthController extends Controller
                 $passHash = $row->password;
                 if (Hash::check($input['pass'], $passHash))
                 {
-                    /* Save ip into session before update it */
+                    /*** Save ip into session before update it */
                     if($row->lastlogin_ip != "") $request->session()->put('lastlogin_ip', $row->lastlogin_ip);
                     $userObject->where('uid', $row->uid)->update([
                         'lastlogin_ip' => $request->ip(),
@@ -126,7 +126,7 @@ class AuthController extends Controller
         return Redirect::route('home');
     }
 
-    /*
+    /**
      * @function resetPasswordAction
      * @input $request
      *
@@ -149,7 +149,7 @@ class AuthController extends Controller
 
             $pwdResetObj = PasswordReset::where('token', $token)->first();
 
-            /* A series of check to ensure the token is valid and not expired */
+            /** A series of check to ensure the token is valid and not expired */
             if ($pwdResetObj == NULL)
             {
                 $data['no_token'] = true;
@@ -179,7 +179,7 @@ class AuthController extends Controller
             $input = $request->all();
             $data = $input;
 
-            /* We must check if the token is correspond with the email */
+            /*** We must check if the token is correspond with the email */
             $pwdResetObj = PasswordReset::where('token', $input['token'])->first();
             if($pwdResetObj == NULL)
             {
@@ -197,13 +197,13 @@ class AuthController extends Controller
             ]);
             $data['reset_ok'] = true;
 
-            /* At last we should delete the token */
+            /*** At last we should delete the token */
             PasswordReset::where('token', $input['token'])->delete();
             return View::make('auth.reset', $data);
         }
     }
 
-    /*
+    /**
      * @function requestResetAction
      * @input $request
      *

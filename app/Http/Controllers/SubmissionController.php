@@ -21,7 +21,7 @@ use App\ContestBalloon;
 
 class SubmissionController extends Controller
 {
-    /*
+    /**
      * @function submitAction
      * @input $request,$problem_id
      *
@@ -73,7 +73,7 @@ class SubmissionController extends Controller
         }
     }
 
-    /*
+    /**
      * @function getSubmissionByID
      * @input $request,$run_id
      *
@@ -99,7 +99,7 @@ class SubmissionController extends Controller
         return View::make('status.index', $data);
     }
 
-    /*
+    /**
      * @function getSubmission
      * @input $request
      *
@@ -111,7 +111,7 @@ class SubmissionController extends Controller
         return Redirect::to('/status/p/1');
     }
 
-    /*
+    /**
      * @function getSubmissionListByPageID
      * @input $request,$page_id
      *
@@ -177,7 +177,7 @@ class SubmissionController extends Controller
         return View::make('status.list', $data);
     }
 
-    /*
+    /**
      * @function contestSubmitAction
      * @input $request,$contest_id,$problem_id
      *
@@ -248,7 +248,7 @@ class SubmissionController extends Controller
         }
     }
 
-    /*
+    /**
      * @function getSubmissionJSONByRunID
      * @input $request
      *
@@ -277,7 +277,7 @@ class SubmissionController extends Controller
         return json_encode($submissionObj);
     }
 
-    /*
+    /**
      * @function rejudgeSubmissionByContestIDAndProblemID
      * @input $request,$contest_id,$contest_problem_id
      *
@@ -326,7 +326,7 @@ class SubmissionController extends Controller
         return Redirect::to($request->server('HTTP_REFERER'));
     }
 
-    /*
+    /**
      * @function rejudgeSubmissionByRunID
      * @input $request $run_id
      *

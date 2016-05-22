@@ -162,7 +162,7 @@ class UserController extends Controller
         return $response;
     }
 
-    /*
+    /**
      * @function getDashboardIndex
      * @input $request
      *
