@@ -23,13 +23,13 @@
     </script>
 </head>
 <body>
-    @include("layout.header")
-    <h3 class="text-center">Status List</h3>
+@include("layout.header")
+<h3 class="text-center">Status List</h3>
 <div class="status_main">
     @if(isset($contest))
         <div class="contest_single_nav">
-             <a class="btn btn-info" href="/contest/{{ $contest->contest_id }}">&nbsp;&nbsp;Back&nbsp;&nbsp;</a>
-             <a class="btn btn-info" href="/contest/{{ $contest->contest_id }}/ranklist">Ranklist</a>
+            <a class="btn btn-info" href="/contest/{{ $contest->contest_id }}">&nbsp;&nbsp;Back&nbsp;&nbsp;</a>
+            <a class="btn btn-info" href="/contest/{{ $contest->contest_id }}/ranklist">Ranklist</a>
             <span id="contest_countdown_text">Time Remaining:</span>
             <span class="badge countdown">
                 <strong id="day_show">0天</strong>
@@ -93,213 +93,214 @@
         </script>
     @endif
     @if(!isset($contest))
-        <form action="/status/p/1" method="GET" class="form-inline">
-    @else
-        <form action="/contest/{{ $contest->contest_id }}/status/p/1" method="GET" class="form-inline">
-    @endif
-        <span style="font-size: 15px">Username:</span>
-        <input class="form-control" style="width: 150px;"type="text" name="username"/>
-        <span style="font-size: 15px;margin-left: 10px">Problem ID:</span>
-        <div class="search-container">
-            <input class="form-control search-title problem-id" style="width: 150px;"type="text" name="pid" autocomplete="off" />
-            <div class="search-option hidden"></div>
-        </div>
-        <span style="font-size: 15px;margin-left: 10px">Language:</span>
-        <select name="lang" class="form-control">
-            <option name="all">All</option>
-            <option name="c">C</option>
-            <option name="java">Java</option>
-            <option name="cpp">C++</option>
-            <option name="cpp11">C++11</option>
-        </select>
-        <span style="font-size: 15px;margin-left: 10px">Result:</span>
-        <select name="result" class="form-control">
-            <option name="all">All</option>
-            <option name="wt">Pending</option>
-            <option name="ac">Accepted</option>
-            <option name="wa">Wrong Answer</option>
-            <option name="re">Runtime Error</option>
-            <option name="pe">Presentation Error</option>
-            <option name="tle">Time Limit Exceed</option>
-            <option name="mle">Memory Limit Exceed</option>
-            <option name="ole">Output Limit Exceed</option>
-            <option name="je">Judge Error</option>
-            <option name="ce">Compile Error</option>
-        </select>
-        <input type="submit" value="Filter" class="btn btn-info form-control"/>
-    </form>
-    <table class="table table-striped table-bordered table-hover status_table" id="statuslist" width="100%">
-    <thead>
-            <th class="text-center" id="status_run_id">Run ID</th>
-            <th class="text-center" id="status_submit_time">
-                Submit Time
-            </th>
-            <th class="text-center" id="status_user_id">
-                User ID
-            </th>
-            <th class="text-center" id="status_username">
-                Username
-            </th>
-            <th class="text-center" id="status_username">
-                Nickname
-            </th>
-            <th class="text-left" id="status_problem_title">
-                Problem Title
-            </th>
-            <th class="text-center" id="status_result">
-                Result
-            </th>
-            <th class="text-center" id="status_language">
-                Lang
-            </th>
-            <th class="text-center" id="status_exec_mem">
-                Ex_mem
-            </th>
-            <th class="text-center" id="status_exec_time">
-                Ex_time
-            </th>
-            @if($roleCheck->is('admin'))
-                <th class="text-center" id="status_rejudge">
-                    Rejudge
-                </th>
-            @endif
-    </thead>
-    @if($submissions != NULL)
-        @foreach($submissions as $submission)
-            <tr
-            @if(Request::session()->get('uid') == $submission->uid)
-            class="status_table_row table_row table_row_nohl"
-            @elseif($roleCheck->is("admin"))
-            class="table_row table_row_nohl"
-            @else
-            class="table_row_nohl"
-            @endif
-            >
-                <td class="text-center" title="{{ $submission->runid }}">
-                @if(Request::session()->get('uid') == $submission->uid || $roleCheck->is("admin"))
-                <a href="/status/{{ $submission->runid }}@if(isset($contest))?c={{ $contest->contest_id }}&p={{ $submission->contestProblemId }} @endif" class="table_row_td"><paper-button>
-                @endif
-                {{ $submission->runid }}
-                @if(Request::session()->get('uid') == $submission->uid || $roleCheck->is("admin"))
-                </paper-button></a>
-                @endif
-                </td>
-                <td class="text-center">
-                @if(Request::session()->get('uid') == $submission->uid || $roleCheck->is("admin"))
-                <a href="/status/{{ $submission->runid }}@if(isset($contest))?c={{ $contest->contest_id }}&p={{ $submission->contestProblemId }} @endif" class="table_row_td"><paper-button>
-                @endif
-                {{ substr($submission->submit_time, 2) }}
-                @if(Request::session()->get('uid') == $submission->uid || $roleCheck->is("admin"))
-                </paper-button></a>
-                @endif
-                </td>
-                <td><a href="/profile/{{ $submission->uid }}" class="text-center table_row_td"><paper-button>{{ $submission->uid }}</paper-button></a></td>
-                <td><a href="/profile/{{ $submission->uid }}" class="text-center table_row_td"><paper-button class="my_ellipsis"><nobr>{{ $submission->userName }}</nobr></paper-button></a></td>
-                <td id="status_username_title_el"><a href="/profile/{{ $submission->uid }}" class="text-center table_row_td"><paper-button class="my_ellipsis"><nobr>{{ $submission->nickname }}</nobr></paper-button></a></td>
-                <td class="text-left" id="status_username_title_el"><nobr>&nbsp;{{ $submission->problemTitle }}</nobr></td>
-                <td class="text-center">
-                @if(Request::session()->get('uid') == $submission->uid || $roleCheck->is("admin"))
-                <a href="/status/{{ $submission->runid }}@if(isset($contest))?c={{ $contest->contest_id }}&p={{ $submission->contestProblemId }} @endif" style="font-size: 14px"
+            <form action="/status/p/1" method="GET" class="form-inline">
                 @else
-                <span style="font-size: 14px"
-                @endif
-                @if($submission->result=="Accepted")
-                        class="label label-success"><span class="glyphicon glyphicon-ok " style="color: #000"></span>Accepted
-                @elseif($submission->result=="Compile Error")
-                    class="label label-default">Compile Error
-                @elseif($submission->result=="Wrong Answer")
-                    class="label label-danger">Wrong Answer
-                @elseif($submission->result=="Pending")
-                    class="label label-info">Pending
-                @elseif($submission->result=="Rejudging")
-                    class="label label-info">Rejudging
-                @else
-                    class="label label-warning">{{$submission->result}}
-                @endif
-                @if(Request::session()->get('uid') == $submission->uid || $roleCheck->is("admin"))
-                </a>
-                @else
-                </span>
-                @endif
-                @if($submission->result=="Accepted")
-                    @if(isset($submission->sim->similarity) && $roleCheck->is("admin"))
-                        <a class="label label-primary" id="status_list_sim_a" title="runid:{{ $submission->sim->sim_runid }}" href="/status/sim?left={{ $submission->sim->runid }}&right={{ $submission->sim->sim_runid }}" style="margin-left:5px">{{ $submission->sim->similarity }}%</a>
-                    @elseif(isset($submission->sim->similarity))
-                        <label class="label label-primary" id="status_list_sim_a" title="runid:{{ $submission->sim->sim_runid }}" style="margin-left:5px">{{ $submission->sim->similarity }}%</label>
-                    @endif
-                @endif
-                </td>
-                <td class="text-center">
-                @if(Request::session()->get('uid') == $submission->uid || $roleCheck->is("admin"))
-                <a href="/status/{{ $submission->runid }}@if(isset($contest))?c={{ $contest->contest_id }}&p={{ $submission->contestProblemId }} @endif" class="table_row_td"><paper-button>
-                @endif{{ $submission->lang }}
-                @if(Request::session()->get('uid') == $submission->uid || $roleCheck->is("admin"))
-                </paper-button></a>
-                @endif
-                </td>
-                <td class="text-center">
-                @if(Request::session()->get('uid') == $submission->uid || $roleCheck->is("admin"))
-                <a href="/status/{{ $submission->runid }}@if(isset($contest))?c={{ $contest->contest_id }}&p={{ $submission->contestProblemId }} @endif" class="table_row_td"><paper-button>
-                @endif
-                @if($submission->exec_mem < 1024)
-                    {{ $submission->exec_mem }} Byte
-                @elseif($submission->exec_mem < 1024*1024)
-                    {{ (int)($submission->exec_mem / 1024) }} KB
-                @else
-                    {{ (int)($submission->exec_mem / 1024 / 1024) }} MB
-                @endif
-                @if(Request::session()->get('uid') == $submission->uid || $roleCheck->is("admin"))
-                </paper-button></a>
-                @endif
-                </td>
-                <td class="text-center">
-                @if(Request::session()->get('uid') == $submission->uid || $roleCheck->is("admin"))
-                <a href="/status/{{ $submission->runid }}@if(isset($contest))?c={{ $contest->contest_id }}&p={{ $submission->contestProblemId }} @endif" class="table_row_td"><paper-button>
-                @endif
-                @if($submission->exec_time < 1)
-                    {{ (int)($submission->exec_time * 1000) }}ms
-                @else
-                    {{ $submission->exec_time }}s
-                @endif
-                @if(Request::session()->get('uid') == $submission->uid || $roleCheck->is("admin"))
-                </paper-button></a>
-                @endif
-                </td>
-                @if($roleCheck->is('admin'))
-                    <td>
-                        <form method="post" action="/rejudge/{{ $submission->runid }}">
-                            {{ csrf_field() }}
-                            <input class="btn btn-danger" id="status_rejudge_btn" type="submit" value="Rejudge"/>
-                        </form>
-                    </td>
-                @endif
-                @if(Request::session()->get('uid') == $submission->uid || $roleCheck->is("admin"))
-                </a>
-                @endif
-            </tr>
-        @endforeach
-    @endif
-    </table>
-    <ul class="pager" role="fanye">
-        @if(!isset($firstPage))
-            @if(!isset($contest))
-                <li><a href="/status/p/{{ $page_id - 1 }}{{ $queryStr }}">&laquo;Previous</a></li>
-            @else
-                <li><a href="/contest/{{ $contest->contest_id }}/status/p/{{ $page_id - 1 }}{{ $queryStr }}">&laquo;Previous</a></li>
-            @endif
-        @endif
-        @if(!isset($lastPage))
-            @if(!isset($contest))
-                <li><a href="/status/p/{{ $page_id + 1 }}{{ $queryStr }}">&nbsp;&nbsp;&nbsp;Next&nbsp;&nbsp;&nbsp;&raquo;</a></li>
-            @else
-                <li><a href="/contest/{{ $contest->contest_id }}/status/p/{{ $page_id + 1 }}{{ $queryStr }}">&nbsp;&nbsp;&nbsp;Next&nbsp;&nbsp;&nbsp;&raquo;</a></li>
-            @endif
-        @endif
-    </ul>
-    </div>
-    <div style="padding-bottom: 40px">
-    </div>
-    @include("layout.footer")
+                    <form action="/contest/{{ $contest->contest_id }}/status/p/1" method="GET" class="form-inline">
+                        @endif
+                        <span style="font-size: 15px">Username:</span>
+                        <input class="form-control" style="width: 150px;"type="text" name="username"/>
+                        <span style="font-size: 15px;margin-left: 10px">Problem ID:</span>
+                        <div class="search-container">
+                            <input class="form-control search-title problem-id" style="width: 150px;"type="text" name="pid" autocomplete="off" />
+                            <div class="search-option hidden"></div>
+                        </div>
+                        <span style="font-size: 15px;margin-left: 10px">Language:</span>
+                        <select name="lang" class="form-control">
+                            <option name="all">All</option>
+                            <option name="c">C</option>
+                            <option name="java">Java</option>
+                            <option name="cpp">C++</option>
+                            <option name="cpp11">C++11</option>
+                        </select>
+                        <span style="font-size: 15px;margin-left: 10px">Result:</span>
+                        <select name="result" class="form-control">
+                            <option name="all">All</option>
+                            <option name="wt">Pending</option>
+                            <option name="ac">Accepted</option>
+                            <option name="wa">Wrong Answer</option>
+                            <option name="re">Runtime Error</option>
+                            <option name="pe">Presentation Error</option>
+                            <option name="tle">Time Limit Exceed</option>
+                            <option name="mle">Memory Limit Exceed</option>
+                            <option name="ole">Output Limit Exceed</option>
+                            <option name="je">Judge Error</option>
+                            <option name="ce">Compile Error</option>
+                        </select>
+                        <input type="submit" value="Filter" class="btn btn-info form-control"/>
+                    </form>
+                    <table class="table table-striped table-bordered table-hover status_table" id="statuslist" width="100%">
+                        <thead>
+                        <th class="text-center" id="status_run_id">Run ID</th>
+                        <th class="text-center" id="status_submit_time">
+                            Submit Time
+                        </th>
+                        <th class="text-center" id="status_user_id">
+                            User ID
+                        </th>
+                        <th class="text-center" id="status_username">
+                            Username
+                        </th>
+                        <th class="text-center" id="status_username">
+                            Nickname
+                        </th>
+                        <th class="text-left" id="status_problem_title">
+                            Problem Title
+                        </th>
+                        <th class="text-center" id="status_result">
+                            Result
+                        </th>
+                        <th class="text-center" id="status_language">
+                            Lang
+                        </th>
+                        <th class="text-center" id="status_exec_mem">
+                            Ex_mem
+                        </th>
+                        <th class="text-center" id="status_exec_time">
+                            Ex_time
+                        </th>
+                        @if($roleCheck->is('admin'))
+                            <th class="text-center" id="status_rejudge">
+                                Rejudge
+                            </th>
+                        @endif
+                        </thead>
+                        @if($submissions != NULL)
+                            @foreach($submissions as $submission)
+                                <?php $param['runid'] = $submission->runid; ?>
+                                <tr
+                                        @if(Request::session()->get('uid') == $submission->uid)
+                                        class="status_table_row table_row table_row_nohl"
+                                        @elseif($roleCheck->is("admin"))
+                                        class="table_row table_row_nohl"
+                                        @else
+                                        class="table_row_nohl"
+                                        @endif
+                                >
+                                    <td class="text-center" title="{{ $submission->runid }}">
+                                        @if($roleCheck->is("able-view-code", $param))
+                                            <a href="/status/{{ $submission->runid }}@if(isset($contest))?c={{ $contest->contest_id }}&p={{ $submission->contestProblemId }} @endif" class="table_row_td"><paper-button>
+                                                    @endif
+                                                    {{ $submission->runid }}
+                                                    @if($roleCheck->is("able-view-code", $param))
+                                                </paper-button></a>
+                                        @endif
+                                    </td>
+                                    <td class="text-center">
+                                        @if($roleCheck->is("able-view-code", $param))
+                                            <a href="/status/{{ $submission->runid }}@if(isset($contest))?c={{ $contest->contest_id }}&p={{ $submission->contestProblemId }} @endif" class="table_row_td"><paper-button>
+                                                    @endif
+                                                    {{ substr($submission->submit_time, 2) }}
+                                                    @if($roleCheck->is("able-view-code", $param))
+                                                </paper-button></a>
+                                        @endif
+                                    </td>
+                                    <td><a href="/profile/{{ $submission->uid }}" class="text-center table_row_td"><paper-button>{{ $submission->uid }}</paper-button></a></td>
+                                    <td><a href="/profile/{{ $submission->uid }}" class="text-center table_row_td"><paper-button class="my_ellipsis"><nobr>{{ $submission->userName }}</nobr></paper-button></a></td>
+                                    <td id="status_username_title_el"><a href="/profile/{{ $submission->uid }}" class="text-center table_row_td"><paper-button class="my_ellipsis"><nobr>{{ $submission->nickname }}</nobr></paper-button></a></td>
+                                    <td class="text-left" id="status_username_title_el"><nobr>&nbsp;{{ $submission->problemTitle }}</nobr></td>
+                                    <td class="text-center">
+                                        @if($roleCheck->is("able-view-code", $param))
+                                            <a href="/status/{{ $submission->runid }}@if(isset($contest))?c={{ $contest->contest_id }}&p={{ $submission->contestProblemId }} @endif" style="font-size: 14px"
+                                        @else
+                                            <span style="font-size: 14px"
+                                                  @endif
+                                                  @if($submission->result=="Accepted")
+                                                  class="label label-success"><span class="glyphicon glyphicon-ok " style="color: #000"></span>Accepted
+                                                @elseif($submission->result=="Compile Error")
+                                                    class="label label-default">Compile Error
+                                                @elseif($submission->result=="Wrong Answer")
+                                                    class="label label-danger">Wrong Answer
+                                                @elseif($submission->result=="Pending")
+                                                    class="label label-info">Pending
+                                                @elseif($submission->result=="Rejudging")
+                                                    class="label label-info">Rejudging
+                                                @else
+                                                    class="label label-warning">{{$submission->result}}
+                                                    @endif
+                                                    @if($roleCheck->is("able-view-code", $param))
+                                                    </a>
+                                                    @else
+                                            </span>
+                                        @endif
+                                        @if($submission->result=="Accepted")
+                                                @if(isset($submission->sim->similarity) && $roleCheck->is("admin"))
+                                                    <a class="label label-primary" id="status_list_sim_a" title="runid:{{ $submission->sim->sim_runid }}" href="/status/sim?left={{ $submission->sim->runid }}&right={{ $submission->sim->sim_runid }}" style="margin-left:5px">{{ $submission->sim->similarity }}%</a>
+                                                @elseif(isset($submission->sim->similarity))
+                                                    <label class="label label-primary" id="status_list_sim_a" title="runid:{{ $submission->sim->sim_runid }}" style="margin-left:5px">{{ $submission->sim->similarity }}%</label>
+                                                @endif
+                                            @endif
+                                    </td>
+                                    <td class="text-center">
+                                        @if($roleCheck->is("able-view-code", $param))
+                                            <a href="/status/{{ $submission->runid }}@if(isset($contest))?c={{ $contest->contest_id }}&p={{ $submission->contestProblemId }} @endif" class="table_row_td"><paper-button>
+                                                    @endif{{ $submission->lang }}
+                                                    @if($roleCheck->is("able-view-code", $param))
+                                                </paper-button></a>
+                                        @endif
+                                    </td>
+                                    <td class="text-center">
+                                        @if($roleCheck->is("able-view-code", $param))
+                                            <a href="/status/{{ $submission->runid }}@if(isset($contest))?c={{ $contest->contest_id }}&p={{ $submission->contestProblemId }} @endif" class="table_row_td"><paper-button>
+                                                    @endif
+                                                    @if($submission->exec_mem < 1024)
+                                                        {{ $submission->exec_mem }} Byte
+                                                    @elseif($submission->exec_mem < 1024*1024)
+                                                        {{ (int)($submission->exec_mem / 1024) }} KB
+                                                    @else
+                                                        {{ (int)($submission->exec_mem / 1024 / 1024) }} MB
+                                                    @endif
+                                                    @if($roleCheck->is("able-view-code", $param))
+                                                </paper-button></a>
+                                        @endif
+                                    </td>
+                                    <td class="text-center">
+                                        @if($roleCheck->is("able-view-code", $param))
+                                            <a href="/status/{{ $submission->runid }}@if(isset($contest))?c={{ $contest->contest_id }}&p={{ $submission->contestProblemId }} @endif" class="table_row_td"><paper-button>
+                                                    @endif
+                                                    @if($submission->exec_time < 1)
+                                                        {{ (int)($submission->exec_time * 1000) }}ms
+                                                    @else
+                                                        {{ $submission->exec_time }}s
+                                                    @endif
+                                                    @if($roleCheck->is("able-view-code", $param))
+                                                </paper-button></a>
+                                        @endif
+                                    </td>
+                                    @if($roleCheck->is('admin'))
+                                        <td>
+                                            <form method="post" action="/rejudge/{{ $submission->runid }}">
+                                                {{ csrf_field() }}
+                                                <input class="btn btn-danger" id="status_rejudge_btn" type="submit" value="Rejudge"/>
+                                            </form>
+                                        </td>
+                                    @endif
+                                        @if($roleCheck->is('able-view-code'))
+                                        </a>
+                                    @endif
+                                </tr>
+                            @endforeach
+                        @endif
+                    </table>
+                    <ul class="pager" role="fanye">
+                        @if(!isset($firstPage))
+                            @if(!isset($contest))
+                                <li><a href="/status/p/{{ $page_id - 1 }}{{ $queryStr }}">&laquo;Previous</a></li>
+                            @else
+                                <li><a href="/contest/{{ $contest->contest_id }}/status/p/{{ $page_id - 1 }}{{ $queryStr }}">&laquo;Previous</a></li>
+                            @endif
+                        @endif
+                        @if(!isset($lastPage))
+                                @if(!isset($contest))
+                                    <li><a href="/status/p/{{ $page_id + 1 }}{{ $queryStr }}">&nbsp;&nbsp;&nbsp;Next&nbsp;&nbsp;&nbsp;&raquo;</a></li>
+                                @else
+                                    <li><a href="/contest/{{ $contest->contest_id }}/status/p/{{ $page_id + 1 }}{{ $queryStr }}">&nbsp;&nbsp;&nbsp;Next&nbsp;&nbsp;&nbsp;&raquo;</a></li>
+                                @endif
+                            @endif
+                    </ul>
+</div>
+<div style="padding-bottom: 40px">
+</div>
+@include("layout.footer")
 <script type="text/javascript">
 
     function freshResult()
