@@ -21,7 +21,7 @@
 <body>
 	@include("layout.header")
 	<h3 class="custom-heading">Ranklist</h3>
-	<div id="contest-ranklist-container">
+	<div class="front-big-container">
 		<div class="front-time-box">
 			<a class="btn btn-info" href="/contest/{{ $contest_id }}">&nbsp;&nbsp;Back&nbsp;&nbsp;</a>
 			@if($roleCheck->is("admin"))
@@ -141,7 +141,7 @@
 	<script type="text/javascript">
 		$.imageloader.queueInterval = 300;
 		$(document).ready(function () {
-			$('.home_body').imageloader(
+			$('body').imageloader(
 					{
 						selector: '.loader',
 						callback: function (elm) {

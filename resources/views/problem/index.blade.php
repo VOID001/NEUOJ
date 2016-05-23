@@ -28,6 +28,7 @@
 <body>
 	@include("layout.header")
 	<h3 class="custom-heading">Problem: {{ $problem->title }}</h3>
+	<div class="front-container">
 	<div class="text-center text-primary front-time-box">
 		Time limit: {{ $problem->time_limit }}s&nbsp;&nbsp;&nbsp;&nbsp;
 		Mem limit:
@@ -102,7 +103,7 @@
 			}
 		</script>
 	@endif
-	<div class="panel panel-default front-container">
+	<div class="panel panel-default" id="problem-index-panel">
 		<h3>Problem Description</h3>
 		<div class="panel panel-heading">{!! $problem->description or "No Description!" !!}</div>
 		<h3>Input</h3>
@@ -153,6 +154,7 @@
 				</div>
 			</div>
 		</div>
+	</div>
 	</div>
 	@include("layout.footer")
 </body>

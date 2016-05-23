@@ -8,9 +8,9 @@
 <body>
 	@include("layout.header")
 	<h3 class="custom-heading">Sign up</h3>
-	<form action="/auth/signup" class="custom-table" method="POST">
+	<form action="/auth/signup" method="POST">
 		{{ csrf_field() }}
-		<table>
+		<table class="custom-table">
 			<tr>
 				<td>Username</td>
 				<td><input class="form-control" name="username" type="text" /></td>

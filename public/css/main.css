@@ -42,7 +42,6 @@ a:focus, a:hover, a:active, a:visited {
 }
 .custom-table {
     margin: 0px auto;
-    width: 400px;
 }
 .custom-table td {
     padding: 10px;
@@ -133,8 +132,15 @@ a:focus, a:hover, a:active, a:visited {
 /*front常用全局标签*/
 .front-container {
     width: 800px;
-    margin: 0 auto 20px;
+    margin: 0 auto;
     padding: 10px;
+    padding-bottom: 60px;
+}
+.front-big-container {
+    width: 980px;
+    margin: 0 auto;
+    padding: 10px;
+    padding-bottom: 70px;
 }
 .front-table-row:hover {
     background-color: #577492!important;
@@ -225,11 +231,6 @@ a:focus, a:hover, a:active, a:visited {
      color: #5cb85c;
 }
 /*contest-ranklist*/
-#contest-ranklist-container {
-    width: 980px;
-    margin: 0 auto 20px;
-    padding: 10px;
-}
 #contest-ranklist-table-responsive {
     border-right: 1px solid #ddd;
     border-left: 1px solid #ddd;
@@ -307,8 +308,8 @@ a:focus, a:hover, a:active, a:visited {
     display: inline-block;
 }
 /*problem-index*/
-.problem-index-btn {
-    margin-bottom: 50px;
+#problem-index-panel {
+    padding: 0 10px;
 }
 #problem-index-modal-header {
     background: #286090;
@@ -428,6 +429,23 @@ a:focus, a:hover, a:active, a:visited {
     content: "";
     display: block;
     clear: both;
+}
+/*status folder*/
+/*status-list*/
+.status-list-form {
+    margin-bottom: 5px;
+}
+.status-list-form input[type='text'] {
+    width: 150px;
+}
+.status-list-form .form-control {
+    display: inline-block;
+    width: auto;
+    margin-right: 13px;
+}
+.status-list-btn {
+    padding: 5px 0px;
+    width: 90%;
 }
 /*layout-folder*/
 /*layout-header*/
@@ -558,7 +576,7 @@ a:focus, a:hover, a:active, a:visited {
     background: #3f51b5;
     width: 100%;
     position: absolute;
-    bottom: 0;
+    bottom: 0px;
     color: #fff;
     font-size: 14px;
 }
@@ -677,92 +695,6 @@ a:focus, a:hover, a:active, a:visited {
 .status_main{
     margin:20px auto;
     width: 1000px;
-}
-#statuslist > thead > tr > th,
-#statuslist > tbody > tr > th,
-#statuslist > tfoot > tr > th,
-#statuslist > thead > tr > td,
-#statuslist > tbody > tr > td,
-#statuslist > tfoot > tr > td {
-    padding: 5px;
-}
-#statuslist > thead > tr > th,#statuslist > thead > tr > td{
-    color: #fff;
-}
-#statuslist>thead{
-    background:#95A5A6;
-}
-/*contest_single*/
-.contest_single_nav{
-    margin-top: 20px;
-    margin-bottom: 20px;
-}
-/*dash_problem*/
-.word_cut{
-    display: block;
-    padding: 9.5px;
-    margin: 0 0 10px;
-    font-size: 16px;
-    /*line-height: 1.42857143;*/
-    color: #333;
-    background-color: #f5f5f5;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    white-space: pre-wrap;
-    -ms-word-break: break-all;
-    word-break: break-all;
-}
-
-.table_row{
-    word-break: keep-all;
-    color: #000;
-}
-.table_row:hover{
-    background-color: #577492!important;
-    color: #fff;
-}
-.table_row > td {
-    padding: 0!IMPORTANT;
-    height: 33px;
-    line-height: 33px!IMPORTANT;
-}
-.table_row_nohl > td {
-    padding: 0!IMPORTANT;
-    height: 33px;
-    line-height: 33px!IMPORTANT;
-}
-.table_row_td{
-    color: inherit;
-    display: block;
-    width: 100%;
-    height: 30px;
-    text-decoration: none!IMPORTANT;
-}
-.my_ellipsis {
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-}
-.table_row_td:hover{
-    background-color: #445b72;
-    color: #fff!IMPORTANT;
-    font-weight: bold;
-}
-.table_row_td:active{
-    /*background-color: #31b0d5!important;*/
-    color: #fff!IMPORTANT;
-}
-.table_row_td:visited{
-    color: inherit;
-}
-.table_row_td > paper-button{
-    margin: 0;
-    padding: 0;
-    width: inherit;
-    height: inherit;
-    min-width: 0;
-    text-transform: none;
-    text-align: inherit;
 }
 span[class^="hljs"]{
     font-family: "Courier New";
