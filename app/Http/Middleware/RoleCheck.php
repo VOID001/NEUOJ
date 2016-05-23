@@ -22,26 +22,7 @@ class RoleCheck
         if($role == "view-code")
         {
             $run_id = $request->route()->getParameter('run_id');
-            //$submissionObj = Submission::where('runid', $run_id)->first();
             $param['runid'] = $run_id;
-            ///*
-            // * Future will change to RoleCheck
-            // * Support Role & Access Check function
-            // *
-            // */
-            //$roleCheck = new RoleController;
-            ////$userObj = User::where('uid', $uid)->first();
-            ////$username = $userObj->username;
-            ////if ($username == "VOID001" || $username == "admin")
-            //if($roleCheck->is('admin') || $roleCheck->is('teacher'))
-            //{
-            //    return $next($request);
-            //}
-            //if (!$uid || $submissionObj->uid != $uid)
-            //{
-            //    $vatr = $request->server();
-            //    return Redirect::to('/status/');
-            //}
             $roleCheck = new RoleController;
             if($roleCheck->is("able-view-code", $param))
                 return $next($request);
