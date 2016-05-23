@@ -1,7 +1,7 @@
 NEUOJ
 ====
 [![Build Status](http://202.118.31.226:3322/api/badges/Lbyang/NEUOJ/status.svg)](http://202.118.31.226:3322/Lbyang/NEUOJ)
-__Ver 1.1 Released__ 2.0 Working In Progress
+__Ver 1.2 Released__ 2.0 Working In Progress
 
 ### Function Enabled for v2.0
 
@@ -12,10 +12,10 @@ __Ver 1.1 Released__ 2.0 Working In Progress
  * [ ] Use Tag for admin
  * [ ] Give the statistics info of the problem
 * [ ] User
- * [ ] Role Control (Use Entrust maybe)
+ * [x] Role Control (Use Entrust maybe)(STUB)
  * [ ] Add friends
  * [ ] Detailed Profile
- * [ ] Admin User managment panel
+ * [x] Admin User managment panel(STUB)
  * [ ] User can add Teams
  * [ ] Homepage give personized info
   * [ ] Related Problems
