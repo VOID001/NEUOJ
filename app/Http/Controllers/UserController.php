@@ -174,4 +174,31 @@ class UserController extends Controller
     {
         return Redirect::route('dashboard.profile');
     }
+
+    public function getUserDashboard(Request $request)
+    {
+        $teacherObj = User::select('uid', 'username', 'lastlogin_ip')->where(['gid' => env('GROUP_TEACHER', 2)])->get();
+        $adminObj = User::select('uid', 'username', 'lastlogin_ip')->where(['gid' => env('GROUP_ADMIN', 1)])->get();
+        $data['teacher_list'] = $teacherObj;
+        $data['admin_list'] = $adminObj;
+        return View::make('dashboard.users', $data);
+    }
+
+    public function toggleTeacher(Request $request)
+    {
+        $username = $request->get('username');
+        $userObj = User::select('uid')->where('username', $username)->first();
+        if($userObj != NULL)
+        {
+            $userObj = User::find($userObj->uid);
+            if ($userObj->gid == env('GROUP_TEACHER', 2))
+                $userObj->gid = 0;
+            elseif ($userObj->gid == env('GROUP_ADMIN', 1))
+                $userObj->gid = env('GROUP_ADMIN', 1);
+            else
+                $userObj->gid = env('GROUP_TEACHER', 2);
+            $userObj->save();
+        }
+        return Redirect::to('/dashboard/users');
+    }
 }

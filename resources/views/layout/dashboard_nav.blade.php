@@ -18,7 +18,7 @@
             {{--<li class="separate-item"></li>--}}
             <li><a href="#">Executables</a></li>
             <li><a href="#">Language</a></li>
-            <li><a href="#">Users</a></li>
+            <li><a id="dashboard_users" href="/dashboard/users">Users</a></li>
         @endif
         <li id="dashboard_settings"><a href="/dashboard/settings">Settings</a></li>
     </ul>

@@ -166,6 +166,18 @@ Route::group(['middleware' => 'profile'],function() {
             "uses" => "ProblemController@addProblem"
         ]);
 
+        Route::get('/dashboard/users', [
+            "middleware" => "role:admin",
+            "uses" => "UserController@getUserDashboard",
+        ]);
+
+        /* THIS IS A VERY TEMP SOLUTION OF TEACHER ROLE */
+        Route::post('/dashboard/set_teacher', [
+            "middleware" => "role:admin",
+            "uses" => "UserController@toggleTeacher",
+        ]);
+        /* END */
+
         Route::post('/submit/{problem_id}', [
             "as" => "submit",
             "uses" => "SubmissionController@submitAction"
