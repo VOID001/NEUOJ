@@ -9,7 +9,9 @@ class AuthControllerTestSuite extends TestCase
 {
     use DatabaseMigrations;
 
-    /*
+    private $adminObj;
+
+    /**
      * @function testGETLoginAction
      * @input NULL
      *
@@ -120,7 +122,7 @@ class AuthControllerTestSuite extends TestCase
     private function Seeder()
     {
         /* Create Admin Info */
-        factory(App\User::class, 'admin')->create();
+        $this->adminObj = factory(App\User::class, 'admin')->create();
         factory(App\User::class, 10)->create();
     }
 }

@@ -14,6 +14,7 @@
             <directory>./tests/</directory>
             <file>./tests/AuthControllerTestSuite.php</file>
             <file>./tests/HomeControllerTestSuite.php</file>
+            <file>./tests/RoleAndAbleTestSuite.php</file>
         </testsuite>
     </testsuites>
     <filter>

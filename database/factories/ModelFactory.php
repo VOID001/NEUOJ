@@ -14,16 +14,39 @@
 $factory->define(App\User::class, function (Faker\Generator $faker) {
     return [
         'username' => $faker->name,
-        'gid' => $faker->numberBetween(0, 5),
+        'gid' => 0,
         'email' => $faker->email,
         'password' => bcrypt(str_random(10)),
     ];
 });
 
-$factory->defineAs(App\User::class, 'admin', function(){
+$factory->defineAs(App\User::class, 'admin', function(Faker\Generator $faker){
     return [
-        'username' => "admin",
-        'email' => "admin@noreply.com",
+        'username' => $faker->name,
+        'gid' => 1,
+        'email' => $faker->email,
         'password' => bcrypt("admin"),
+    ];
+});
+
+$factory->defineAs(App\User::class, 'teacher', function(){
+    return [
+        'username' => "teacher",
+        'email' => "teacher@noreply.com",
+        'gid' => 2,
+        'password' => bcrypt("teacher"),
+    ];
+});
+
+$factory->define(App\Problem::class, function(Faker\Generator $faker){
+    return [
+        "title" => $faker->name,
+        "description" => str_random(50),
+        "visibility_locks" => 2,
+        "time_limit" => 3,
+        "mem_limit" => 104,
+        "output_limit" => 1000,
+        "difficulty" => 1,
+        "author_id" => 1,
     ];
 });
