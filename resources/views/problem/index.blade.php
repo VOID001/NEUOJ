@@ -49,7 +49,11 @@
 			&nbsp;&nbsp;&nbsp;<a href="/discuss/0/{{ $problem->problem_id }}"><b>Discuss</b></a>
 		@endif
 		@if($roleCheck->is('admin'))
-			&nbsp;&nbsp;&nbsp;<a href="/dashboard/problem/{{ $problem->realProblemID }}"><b>Manage</b></a>
+			@if(isset($contest))
+				&nbsp;&nbsp;&nbsp;<a href="/dashboard/problem/{{ $problem->realProblemID }}"><b>Manage</b></a>
+			@else
+				&nbsp;&nbsp;&nbsp;<a href="/dashboard/problem/{{ $problem->problem_id }}"><b>Manage</b></a>
+			@endif
 		@endif
 	</div>
 	@if(isset($contest))
