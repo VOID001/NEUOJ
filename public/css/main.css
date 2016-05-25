@@ -311,6 +311,9 @@ a:focus, a:hover, a:active, a:visited {
 #problem-index-panel {
     padding: 0 10px;
 }
+#problem-index-panel p {
+    white-space: pre-wrap;
+}
 #problem-index-modal-header {
     background: #286090;
     color: #fff;
