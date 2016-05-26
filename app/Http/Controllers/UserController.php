@@ -32,24 +32,46 @@ class UserController extends Controller
             $input = $request->input();
             $image = $request->file('image');
             if(isset($image)){
-                //image size < 1M
+                /* image size < 1M */
                 if($image->getSize()>1048576)
                 {
                     $data['profileError'] = "Image file is larger than 1M!";
                     $userinfoObject = Userinfo::where('uid',$uid)->first();
-                    if(isset($userinfoObject)) {
+                    if(isset($userinfoObject))
+                    {
                         $input['nickname'] = $userinfoObject->nickname;
                         $input['school'] = $userinfoObject->school;
                         $input['stu_id'] = $userinfoObject->stu_id;
-                        if (!Storage::has('avatars/' . $uid . '.jpg')) {
+                        if (!Storage::has('avatars/' . $uid . '.jpg'))
+                        {
                             $uid = 0;
                         }
                         $input['uid']=$uid;
                     }
-                    //return "Image file is larger than 1M!";
+                    /* return "Image file is larger than 1M!" */
                     return View::make('dashboard.profile', $data,$input);
                 }
-                else {
+                /* image mime type error */
+                elseif(substr($image->getMimeType(), 0, 6) != "image/")
+                {
+                    $data['profileError'] = "Image file type error!";
+                    $userinfoObject = Userinfo::where('uid',$uid)->first();
+                    if(isset($userinfoObject))
+                    {
+                        $input['nickname'] = $userinfoObject->nickname;
+                        $input['school'] = $userinfoObject->school;
+                        $input['stu_id'] = $userinfoObject->stu_id;
+                        if (!Storage::has('avatars/' . $uid . '.jpg'))
+                        {
+                            $uid = 0;
+                        }
+                        $input['uid']=$uid;
+                    }
+                    /* return "Image file type error!" */
+                    return View::make('dashboard.profile', $data,$input);
+                }
+                else
+                {
                     Storage::put(
                         'avatars/' . $uid. ".jpg",
                         file_get_contents($request->file('image')->getRealPath())
