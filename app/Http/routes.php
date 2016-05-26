@@ -384,6 +384,14 @@ Route::group(['middleware' => 'profile'],function() {
             'page_id' => '[0-9]+'
         ]);
 
+        Route::get('/training/{train_id}/update', [
+            "uses" => "TrainingController@updateTrainingProgress"
+        ])->where('train_id', '[0-9]+');
+
+        Route::get('/training/{train_id}/updateall', [
+            "middleware" => "role:admin",
+            "uses" => "TrainingController@updateAllTrainingProgress"
+        ]);
     });
 });
 /*

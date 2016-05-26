@@ -39,6 +39,11 @@
 					@endfor
 					&nbsp;&nbsp;&nbsp;&nbsp;{{ $chapter_in -1 }} / {{ $training->train_chapter }}
 					&nbsp;&nbsp;&nbsp;&nbsp;<a href="/training/{{ $training->train_id }}/ranklist/p/1">ranklist</a>
+					&nbsp;&nbsp;&nbsp;&nbsp;<a href="/training/{{ $training->train_id }}/update">update progress</a>
+					@if($uid == 2)
+					&nbsp;&nbsp;&nbsp;&nbsp;<a href="/training/{{ $training->train_id }}/updateall">update all progress</a>
+					&nbsp;&nbsp;&nbsp;&nbsp;<a href="/dashboard/training/{{ $training->train_id }}">manage</a>
+					@endif
 				</div>
 			</div>
 		</div>

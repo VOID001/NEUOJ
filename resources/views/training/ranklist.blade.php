@@ -7,7 +7,7 @@
     <script src="/js/extendPagination.js"></script>
     <script>
         $(function(){
-            $("#problem").addClass("active");
+            $("#training").addClass("active");
             var targetHerf = "/training/{{ $train_id }}/ranklist/p/";
             $("#callBackPager").extendPagination({
                 totalPage : {{ $page_num }},
@@ -21,10 +21,12 @@
     @include("layout.header")
     <table border = 1 align="center">
         <caption>Train {{ $train_name }} Ranklist</caption>
-        <tr><th>rank</th><th>nickname</th><th>chapter</th><th>finish time</th></tr> 
+        <a href="/training/{{ $train_id }}">back</a>
+        <tr><th>rank</th><th>username</th><th>nickname</th><th>chapter</th><th>finish time</th></tr>
         @foreach($ranklist as $user)
             <tr>
                 <td>{{ $page_user * ($page_id - 1) + $counter++ }}</td>
+                <td>{{ $user['username'] }}</td>
                 <td>{{ $user['nickname'] }}</td>
                 <td>{{ $user['chapter'] }}</td>
                 <td>{{ $user['submit_time'] }}</td>

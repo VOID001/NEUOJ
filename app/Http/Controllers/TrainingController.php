@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Validator;
 
 use App\Train;
 use App\TrainProblem;
+use App\TrainUser;
 use Problem;
 use App\Submission;
 use App\User;
@@ -128,7 +129,10 @@ class TrainingController extends Controller
         $data = [];
         $data['chapter'] = [];
         $uid = $request->session()->get('uid');
+        $data['uid'] = $uid;
         $trainingObj = Train::where('train_id', $train_id)->first();
+        if(!isset($trainingObj))
+            return Redirect::back();
         $data['training'] = $trainingObj;
         /* chapter_in is to find which chapter is user in */
         $chapter_in = 1 ;
@@ -175,49 +179,17 @@ class TrainingController extends Controller
     public function getTrainingRanklistByPageID(Request $request, $train_id, $page_id)
     {
         $data = [];
-        $trainUserList = [];
-        $uid = $request->session()->get('uid');
+        $data['ranklist'] = [];
         $trainingObj = Train::where('train_id', $train_id)->first();
-        $trainingProblemObj = TrainProblem::where('train_id', $train_id)->where('chapter_id', 1)->get();
-        $user_num = 0;
-        foreach($trainingProblemObj as $train_problem)
-        {
-            $problemAcList = Submission::select('uid')->where('pid', $train_problem->problem_id)->where('result', 'Accepted')->get()->unique('uid');
-            foreach($problemAcList as $user)
-            {
-                $user_chapter = $trainingObj->getUserChapter($user->uid) - 1;
-                if($user_chapter == 0)
-                    continue;
-                $trainUserList[$user_num] = $user;
-                $trainUserList[$user_num]['chapter'] = $user_chapter;
-                $user_num++;
-            }
-        }
-        $trainUserList = collect($trainUserList)->unique('uid');
+        if(!isset($trainingObj))
+            return Redirect::back();
+        $trainUserList = TrainUser::where('train_id', $train_id)->get()->all();
+        usort($trainUserList, [$this, 'cmp']);
         foreach($trainUserList as &$trainUser)
         {
             $trainUser['nickname'] = Userinfo::select('nickname')->where('uid', $trainUser->uid)->first()->nickname;
-            if($trainUser['chapter'] == 0)
-                $trainUser['submit_time'] = 0;
-            else
-            {
-                $userChapterProblemList = TrainProblem::where('train_id', $train_id)->where('chapter_id', $trainUser['chapter'])->get();
-                $time = "";
-                foreach($userChapterProblemList as $problem)
-                {
-                    $ac_time = Submission::select('submit_time')->where([
-                        'pid' => $problem->problem_id,
-                        'uid' => $trainUser->uid,
-                        'result' => 'Accepted',
-                    ])->first();
-                    if($ac_time->submit_time > $time)
-                        $time = $ac_time->submit_time;
-                }
-                $trainUser['submit_time'] = $time;
-            }
+            $trainUser['username'] = User::select('username')->where('uid', $trainUser->uid)->first()->username;
         }
-        $trainUserList = $trainUserList->all();
-        usort($trainUserList, [$this, 'cmp']);
         $userPerPage = 30;
         if($userPerPage * ($page_id - 1) > count($trainUserList))
             return Redirect::to("/training/$train_id");
@@ -239,5 +211,110 @@ class TrainingController extends Controller
             return $userA['submit_time'] > $userB['submit_time'];
         }
         return $userA['chapter'] < $userB['chapter'];
+    }
+
+    public function updateTrainingProgress(Request $request, $train_id)
+    {
+        $uid = $request->session()->get('uid');
+        $trainingObj = Train::where('train_id', $train_id)->first();
+        if(!isset($trainingObj))
+            return Redirect::back();
+        $user_chapter = $trainingObj->getUserChapter($uid) - 1;
+        $user_real_chapter = $user_chapter;
+        while(count($trainingProblemObj = TrainProblem::where('train_id', $train_id)->where('chapter_id', $user_real_chapter)->get())==0 && $user_real_chapter != 0)
+        {
+            $user_real_chapter--;
+        }
+        if($user_real_chapter == 0)
+        {
+            if(TrainUser::where('uid', $uid)->where('train_id', $train_id)->first() != NULL)
+                TrainUser::where('uid', $uid)->where('train_id', $train_id)->first()->delete();
+            return Redirect::to("/training/$train_id");
+        }
+        $submit_time = "";
+        foreach($trainingProblemObj as $trainingProblem)
+        {
+            if(!$trainingProblem->problem->getNumberOfUsedContests())
+            {
+                $ac_time = Submission::select('submit_time')->where([
+                    'pid' => $trainingProblem->problem_id,
+                    'uid' => $uid,
+                    'result' => 'Accepted',
+                ])->first();
+                if($ac_time->submit_time > $submit_time)
+                        $submit_time = $ac_time->submit_time;
+            }
+        }
+        $trainingUserObj = TrainUser::where('uid', $uid)->where('train_id', $train_id)->first();
+        if($trainingUserObj != NULL)
+            $trainingUserObj->delete();
+        $trainingUserObj = new TrainUser;
+        $trainingUserObj->uid = $uid;
+        $trainingUserObj->train_id = $train_id;
+        $trainingUserObj->chapter = $user_real_chapter;
+        $trainingUserObj->submit_time = $submit_time;
+        $trainingUserObj->save();
+        return Redirect::to("/training/$train_id");
+    }
+
+    public function updateAllTrainingProgress(Request $request, $train_id)
+    {
+        $trainingObj = Train::where('train_id', $train_id)->first();
+        if(!isset($trainingObj))
+            return Redirect::back();
+        $trainingProblemObj = TrainProblem::where('train_id', $train_id)->where('chapter_id', 1)->get();
+        $user_num = 0;
+        foreach($trainingProblemObj as $train_problem)
+        {
+            $problemAcList = Submission::select('uid')->where('pid', $train_problem->problem_id)->where('result', 'Accepted')->get()->unique('uid');
+            foreach($problemAcList as $problemAc)
+            {
+                $user_chapter = $trainingObj->getUserChapter($problemAc->uid) - 1;
+                if($user_chapter == 0)
+                {
+                    if(TrainUser::where('uid', $problemAc->uid)->where('train_id', $train_id)->first() != NULL)
+                        TrainUser::where('uid', $problemAc->uid)->where('train_id', $train_id)->first()->delete();
+                    continue;
+                }
+                $trainUserList[$user_num] = $problemAc;
+                $trainUserList[$user_num]['chapter'] = $user_chapter;
+                $user_num++;
+            }
+        }
+        $trainUserList = collect($trainUserList)->unique('uid');
+        foreach($trainUserList as &$trainUser)
+        {
+            $uid = $trainUser->uid;
+            $user_chapter = $trainUser->chapter;
+            $user_real_chapter = $user_chapter;
+            while(count($trainingProblemObj = TrainProblem::where('train_id', $train_id)->where('chapter_id', $user_real_chapter)->get())==0)
+            {
+                $user_real_chapter--;
+            }
+            $submit_time = "";
+            foreach($trainingProblemObj as $trainingProblem)
+            {
+                if(!$trainingProblem->problem->getNumberOfUsedContests())
+                {
+                    $ac_time = Submission::select('submit_time')->where([
+                        'pid' => $trainingProblem->problem_id,
+                        'uid' => $uid,
+                        'result' => 'Accepted',
+                    ])->first();
+                    if($ac_time->submit_time > $submit_time)
+                            $submit_time = $ac_time->submit_time;
+                }
+            }
+            $trainingUserObj = TrainUser::where('uid', $uid)->where('train_id', $train_id)->first();
+            if($trainingUserObj != NULL)
+                $trainingUserObj->delete();
+            $trainingUserObj = new TrainUser;
+            $trainingUserObj->uid = $uid;
+            $trainingUserObj->train_id = $train_id;
+            $trainingUserObj->chapter = $user_real_chapter;
+            $trainingUserObj->submit_time = $submit_time;
+            $trainingUserObj->save();
+        }
+        return Redirect::to("/training/$train_id");
     }
 }
