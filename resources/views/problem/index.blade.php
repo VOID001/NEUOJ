@@ -75,53 +75,64 @@
 			var end = new Date('{{$contest->end_time}}').getTime();
 			var pretime = (begin - now) / 1000;
 			var remaintime = (end - now) / 1000;
+			var day = 0,
+				hour = 0,
+				minute = 0,
+				second = 0;//时间默认值
 			window.setInterval(function() {
-				var day = 0,
-					hour = 0,
-					minute = 0,
-					second = 0;//时间默认值
 				if(pretime <= 0) {
 					$('#contest_countdown_text').html('Time Remaining:');
-					showTime();
-					remaintime--;
+					showTime(remaintime);
 				}
-				else{
+				if(pretime > 0) {
 					$('#contest_countdown_text').html('Pending:');
-					showTime();
-					pretime--;
+					showTime(pretime);
 				}
 			}, 1000);
-			function showTime() {
-				if(remaintime > 0) {
-					day = Math.floor(remaintime / (60 * 60 * 24));
-					hour = Math.floor(remaintime / (60 * 60)) - (day * 24);
-					minute = Math.floor(remaintime/ 60) - (day * 24 * 60) - (hour * 60);
-					second = Math.floor(remaintime) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60);
+			function showTime(time) {
+				if(time > 0) {
+					day = Math.floor(time / (60 * 60 * 24));
+					hour = Math.floor(time / (60 * 60)) - (day * 24);
+					minute = Math.floor(time/ 60) - (day * 24 * 60) - (hour * 60);
+					second = Math.floor(time) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60);
 				}
 				if (minute <= 9) minute = '0' + minute;
 				if (second <= 9) second = '0' + second;
-				$('#day_show').html(day+'天');
-				$('#hour_show').html(hour+'时');
-				$('#minute_show').html(minute+'分');
-				$('#second_show').html(second+'秒');
+				$('#day_show').html(day + '天');
+				$('#hour_show').html(hour + '时');
+				$('#minute_show').html(minute + '分');
+				$('#second_show').html(second + '秒');
+				time--;
 			}
 		</script>
 	@endif
-	<div class="panel panel-default" id="problem-index-panel">
-		<h3>Problem Description</h3>
-		<div class="panel panel-heading">{!! $problem->description or "No Description!" !!}</div>
-		<h3>Input</h3>
-		<div class="panel panel-heading">{!! $problem->input or "No Input!" !!}</div>
-		<h3>Output</h3>
-		<div class="panel panel-heading">{!! $problem->output or "No Output!" !!}</div>
-		<h3>Sample Input</h3>
-		<p class="panel panel-heading">{{ $problem->sample_input or "No Sample Input!" }}</p>
-		<h3>Sample Output</h3>
-		<p class="panel panel-heading">{{ $problem->sample_output or "No Sample Output" }}</p>
-		<h3>Source</h3>
-		<p class="panel panel-heading">{{ $problem->source or "Source not avaliable!"}}</p>
-		<h3>Hint</h3>
-		<p class="panel panel-heading">{{ $problem->hint or "No Hint!"}}</p>
+	<div class="panel panel-default">
+		<div class="panel-heading">Problem Description</div>
+		<div class="panel-body">{!! $problem->description or "No Description!" !!}</div>
+	</div>
+	<div class="panel panel-default">
+		<div class="panel-heading">Input</div>
+		<div class="panel-body">{!! $problem->input or "No Input!" !!}</div>
+	</div>
+	<div class="panel panel-default">
+		<div class="panel-heading">Output</div>
+		<div class="panel-body">{!! $problem->output or "No Output!" !!}</div>
+	</div>
+	<div class="panel panel-default">
+		<div class="panel-heading">Sample Input</div>
+		<div class="panel-body problem-index-panel-body">{{ $problem->sample_input or "No Sample Input!" }}</div>
+	</div>
+	<div class="panel panel-default">
+		<div class="panel-heading">Sample Output</div>
+		<div class="panel-body problem-index-panel-body">{{ $problem->sample_output or "No Sample Output" }}</div>
+	</div>
+	<div class="panel panel-default">
+		<div class="panel-heading">Source</div>
+		<div class="panel-body problem-index-panel-body">{{ $problem->source or "Source not avaliable!"}}</div>
+	</div>
+	<div class="panel panel-default">
+		<div class="panel-heading">Hint</div>
+		<div class="panel-body problem-index-panel-body">{{ $problem->hint or "No Hint!"}}</div>
 	</div>
 	@if(Request::session()->get('username') != NULL)
 		<div class="text-center problem-index-btn"><a class="btn btn-info" data-toggle="modal" data-target=".modal">Submit</a></div>

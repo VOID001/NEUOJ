@@ -314,6 +314,16 @@ a:focus, a:hover, a:active, a:visited {
 #problem-index-panel p {
     white-space: pre-wrap;
 }
+.problem-index-panel-body:before {
+    display: none;
+}
+.problem-index-panel-body:after {
+    display: none;
+}
+.problem-index-panel-body {
+    white-space: pre-wrap;
+    line-height: 30px;
+}
 #problem-index-modal-header {
     background: #286090;
     color: #fff;
@@ -345,7 +355,7 @@ a:focus, a:hover, a:active, a:visited {
 }
 /*training-front*/
 .training-front-header {
-    background: #B8B7A8;
+    background: #E3E3E3;
     height: 160px;
 }
 .training-front-header img {
@@ -541,13 +551,13 @@ a:focus, a:hover, a:active, a:visited {
     }
     .nav-front, .nav-back {
         font-size: 13px;
-        height: 49px;
+        height: 50px;
     }
     .nav-front {
         transform:rotateX(0deg) translateZ(0px);
     }
     .nav-back {
-        transform:rotateX(-90deg) translateZ(0px);
+        display: none;
     }
     .three-d:hover .three-d-box {
         transform:rotateX(0deg);

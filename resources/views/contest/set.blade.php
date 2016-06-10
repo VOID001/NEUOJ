@@ -41,7 +41,7 @@
 	@endif
 	<div class="back-container">
 		<h3 class="custom-heading">Set Contest</h3>
-		<form class="back-problem-form" action="/dashboard/contest/add" method="post">
+		<form class="back-problem-form" action="/dashboard/contest/{{ $contest->contest_id }}" method="post">
 			{{ csrf_field() }}
 			<table class="custom-table">
 				@foreach($errors->all() as $error)

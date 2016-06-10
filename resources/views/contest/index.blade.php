@@ -12,40 +12,39 @@
 		})
 	</script>
 	<script type="text/javascript">
-		var begin=new Date("{{$contest->begin_time}}").getTime();
+		var begin = new Date("{{$contest->begin_time}}").getTime();
 		var now = new Date("{{ date('Y-m-d H:i:s') }}").getTime();
-		var end=new Date("{{$contest->end_time}}").getTime();
-		var pretime=(begin-now)/1000;
-		var remaintime=(end-now)/1000;
+		var end = new Date("{{$contest->end_time}}").getTime();
+		var pretime = (begin - now) / 1000;
+		var remaintime = (end - now) / 1000;
+		var day = 0,
+			hour = 0,
+			minute = 0,
+			second = 0;//时间默认值
 		window.setInterval(function() {
-			var day=0,
-				hour=0,
-				minute=0,
-				second=0;//时间默认值
-			if(pretime<=0){
+			if(pretime <= 0) {
 				$('#contest_countdown_text').html("Time Remaining:");
-				showTime();
-				remaintime--;
+				showTime(remaintime);
 			}
-			else{
+			if(pretime > 0) {
 				$('#contest_countdown_text').html("Pending:");
-				showTime();
-				pretime--;
+				showTime(pretime);
 			}
 		}, 1000);
-		function showTime() {
-			if(remaintime > 0){
-				day = Math.floor(remaintime / (60 * 60 * 24));
-				hour = Math.floor(remaintime / (60 * 60)) - (day * 24);
-				minute = Math.floor(remaintime/ 60) - (day * 24 * 60) - (hour * 60);
-				second = Math.floor(remaintime) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60);
+		function showTime(time) {
+			if(time > 0) {
+				day = Math.floor(time / (60 * 60 * 24));
+				hour = Math.floor(time / (60 * 60)) - (day * 24);
+				minute = Math.floor(time/ 60) - (day * 24 * 60) - (hour * 60);
+				second = Math.floor(time) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60);
 			}
 			if (minute <= 9) minute = '0' + minute;
 			if (second <= 9) second = '0' + second;
-			$('#day_show').html(day+"天");
-			$('#hour_show').html('<s id="h"></s>'+hour+'时');
-			$('#minute_show').html('<s></s>'+minute+'分');
-			$('#second_show').html('<s></s>'+second+'秒');
+			$('#day_show').html(day + "天");
+			$('#hour_show').html('<s id="h"></s>' + hour + '时');
+			$('#minute_show').html('<s></s>' + minute + '分');
+			$('#second_show').html('<s></s>' + second + '秒');
+			time--;
 		}
 	</script>
 </head>
@@ -121,7 +120,7 @@
 						</a></paper-button>
 					</td>
 					<td>
-						<paper-button><a href="/contest/{{ $contest->contest_id }}/problem/{{ $problem->contest_problem_id }}">
+						<paper-button><a class="custom-word" href="/contest/{{ $contest->contest_id }}/problem/{{ $problem->contest_problem_id }}">
 							@if(!$roleCheck->is("admin") && !($contest->isRunning() || $contest->isEnded()))
 								&nbsp;(╯‵A′)╯︵┻━┻
 							@else
