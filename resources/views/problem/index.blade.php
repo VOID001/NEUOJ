@@ -82,11 +82,11 @@
 			window.setInterval(function() {
 				if(pretime <= 0) {
 					$('#contest_countdown_text').html('Time Remaining:');
-					showTime(remaintime);
+					showTime(remaintime--);
 				}
 				if(pretime > 0) {
 					$('#contest_countdown_text').html('Pending:');
-					showTime(pretime);
+					showTime(pretime--);
 				}
 			}, 1000);
 			function showTime(time) {
@@ -102,7 +102,6 @@
 				$('#hour_show').html(hour + '时');
 				$('#minute_show').html(minute + '分');
 				$('#second_show').html(second + '秒');
-				time--;
 			}
 		</script>
 	@endif

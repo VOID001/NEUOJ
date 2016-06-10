@@ -24,11 +24,11 @@
 		window.setInterval(function() {
 			if(pretime <= 0) {
 				$('#contest_countdown_text').html("Time Remaining:");
-				showTime(remaintime);
+				showTime(remaintime--);
 			}
 			if(pretime > 0) {
 				$('#contest_countdown_text').html("Pending:");
-				showTime(pretime);
+				showTime(pretime--);
 			}
 		}, 1000);
 		function showTime(time) {
@@ -44,7 +44,6 @@
 			$('#hour_show').html('<s id="h"></s>' + hour + '时');
 			$('#minute_show').html('<s></s>' + minute + '分');
 			$('#second_show').html('<s></s>' + second + '秒');
-			time--;
 		}
 	</script>
 </head>
