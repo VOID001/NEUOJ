@@ -19,23 +19,34 @@
 </head>
 <body>
     @include("layout.header")
-    <table border = 1 align="center">
-        <caption>Train {{ $train_name }} Ranklist</caption>
-        <a href="/training/{{ $train_id }}">back</a>
-        <tr><th>rank</th><th>username</th><th>nickname</th><th>chapter</th><th>finish time</th></tr>
-        @foreach($ranklist as $user)
-            <tr>
-                <td>{{ $page_user * ($page_id - 1) + $counter++ }}</td>
-                <td>{{ $user['username'] }}</td>
-                <td>{{ $user['nickname'] }}</td>
-                <td>{{ $user['chapter'] }}</td>
-                <td>{{ $user['submit_time'] }}</td>
-            </tr>
-        @endforeach
-    </table>
-    <div class="text-center" id="callBackPager"></div>
-    <div style="padding-bottom: 40px">
+    <h3 class="custom-heading">Train <b class="text-success">{{$train_name}}</b> Ranklist</h3>
+    <div class="front-container">
+        <div class="front-time-box">
+            <a class="btn btn-info" href="/training/{{$train_id}}">&nbsp;&nbsp;Back&nbsp;&nbsp;</a>
+        </div>
+        <div id="contest-ranklist-table-responsive">
+            <table class="table table-striped table-bordered custom-list">
+                <thead class="front-green-thead">
+                    <th class="text-center" id="contest-ranklist-rank">Rank</th>
+                    <th class="text-center" id="contest-ranklist-id">Username</th>
+                    <th class=" text-center" id="contest-ranklist-name">Nickname</th>
+                    <th class="text-center" id="contest-ranklist-solve">Chapter</th>
+                    <th class="text-center" id="contest-ranklist-penalty">Finish Time</th>
+                </thead>
+                @foreach($ranklist as $user)
+                    <tr>
+                        <td>{{ $page_user * ($page_id - 1) + $counter++ }}</td>
+                        <td>{{ $user['username'] }}</td>
+                        <td>{{ $user['nickname'] }}</td>
+                        <td>{{ $user['chapter'] }}</td>
+                        <td>{{ $user['submit_time'] }}</td>
+                    </tr>
+                @endforeach
+            </table>
+        </div>
+        <div class="text-center" id="callBackPager"></div>
+        <div style="padding-bottom: 40px"></div>
     </div>
-    @include("layout.footer")
+@include("layout.footer")
 </body>
 </html>
