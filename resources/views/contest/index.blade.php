@@ -24,26 +24,28 @@
 		window.setInterval(function() {
 			if(pretime <= 0) {
 				$('#contest_countdown_text').html("Time Remaining:");
-				showTime(remaintime--);
+				showTime(remaintime);
+				remaintime--;
 			}
 			if(pretime > 0) {
 				$('#contest_countdown_text').html("Pending:");
-				showTime(pretime--);
+				showTime(pretime);
+				pretime--;
 			}
 		}, 1000);
 		function showTime(time) {
-			if(time > 0) {
+			if(time >= 0) {
 				day = Math.floor(time / (60 * 60 * 24));
 				hour = Math.floor(time / (60 * 60)) - (day * 24);
 				minute = Math.floor(time/ 60) - (day * 24 * 60) - (hour * 60);
 				second = Math.floor(time) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60);
+				if (minute <= 9) minute = '0' + minute;
+				if (second <= 9) second = '0' + second;
+				$('#day_show').html(day + "天");
+				$('#hour_show').html('<s id="h"></s>' + hour + '时');
+				$('#minute_show').html('<s></s>' + minute + '分');
+				$('#second_show').html('<s></s>' + second + '秒');
 			}
-			if (minute <= 9) minute = '0' + minute;
-			if (second <= 9) second = '0' + second;
-			$('#day_show').html(day + "天");
-			$('#hour_show').html('<s id="h"></s>' + hour + '时');
-			$('#minute_show').html('<s></s>' + minute + '分');
-			$('#second_show').html('<s></s>' + second + '秒');
 		}
 	</script>
 </head>
