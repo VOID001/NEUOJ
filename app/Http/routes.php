@@ -44,7 +44,7 @@ Route::group(['middleware' => 'profile'],function() {
 
     Route::match(['post', 'get'], '/problem/p/{page_id}', [
         "uses" => "ProblemController@getProblemListByPageID"
-    ]);
+    ])->where('page_id', '[0-9]+');
 
     Route::match(['post', 'get'], '/problem', [
         "uses" => "ProblemController@getProblem"
@@ -77,7 +77,7 @@ Route::group(['middleware' => 'profile'],function() {
     Route::match(['post', 'get'], '/status/p/{page_id}', [
         "as" => "status",
         "uses" => "SubmissionController@getSubmissionListByPageID"
-    ]);
+    ])->where('page_id', '[0-9]+');
 
     Route::get('/status/{run_id}', [
         "uses" => "SubmissionController@getSubmissionByID",
@@ -98,7 +98,7 @@ Route::group(['middleware' => 'profile'],function() {
 
     Route::get('/contest/p/{page_id}', [
         "uses" => "ContestController@getContestListByPageID"
-    ]);
+    ])->where('page_id', '[0-9]+');
 
     Route::get('/contest', [
         "uses" => "ContestController@getContest"
@@ -106,7 +106,15 @@ Route::group(['middleware' => 'profile'],function() {
 
     Route::get('/contest/p/{page_id}', [
         "uses" => "ContestController@getContestListByPageID"
+    ])->where('page_id', '[0-9]+');
+
+    Route::get('/ranklist', [
+        "uses" => "RanklistController@getRanklist"
     ]);
+
+    Route::get('/ranklist/p/{page_id}', [
+        "uses" => "RanklistController@getRanklistByPageID"
+    ])->where('page_id', '[0-9]+');
 
 
     /*Route group need auth middleware*/
@@ -139,7 +147,7 @@ Route::group(['middleware' => 'profile'],function() {
         Route::get('/dashboard/problem/p/{page_id}', [
             "middleware" => "role:admin",
             "uses" => "ProblemController@showProblemDashboardByPageID",
-        ]);
+        ])->where('page_id', '[0-9]+');
 
         Route::match(['post', 'get'], '/dashboard/profile', [
             "as" => "dashboard.profile",
@@ -181,7 +189,7 @@ Route::group(['middleware' => 'profile'],function() {
         Route::post('/submit/{problem_id}', [
             "as" => "submit",
             "uses" => "SubmissionController@submitAction"
-        ]);
+        ])->where('problem_id', '[0-9]+');
 
         Route::get('/dashboard/contest/', [
             "middleware" => "role:admin",
@@ -207,11 +215,11 @@ Route::group(['middleware' => 'profile'],function() {
         Route::delete('/dashboard/contest/{contest_id}',[
             "middleware" => "role:admin",
             "uses" => "ContestController@deleteContest"
-        ])->where('problem_id', '[0-9]+');
+        ])->where('contest_id', '[0-9]+');
 
         Route::get('/contest/{contest_id}', [
             "uses" => "ContestController@getContestByID"
-        ]);
+        ])->where('contest_id', '[0-9]+');
 
         Route::get('/ajax/contest/balloon', [
             "middleware" => "role:balloon",
@@ -221,7 +229,7 @@ Route::group(['middleware' => 'profile'],function() {
         Route::get('/contest/{contest_id}/balloon', [
             "middleware" => "role:balloon",
             "uses" => "ContestController@getContestBalloonView"
-        ]);
+        ])->where('contest_id', '[0-9]+');
 
         Route::get('/contest/{contest_id}/balloon/{id}',[
             "middleware" => "role:balloon",
@@ -233,47 +241,62 @@ Route::group(['middleware' => 'profile'],function() {
 
         Route::get('/contest/{contest_id}/problem/{problem_id}', [
             "uses" => "ProblemController@getContestProblemByContestProblemID"
+        ])->where([
+            "contest_id" => "[0-9]+",
+            "problem_id" => "[0-9]+"
         ]);
 
         Route::post('/submit/{contest_id}/{problem_id}', [
             "uses" => "SubmissionController@contestSubmitAction"
+        ])->where([
+            "contest_id" => "[0-9]+",
+            "problem_id" => "[0-9]+"
         ]);
 
         Route::get('/contest/{contest_id}/ranklist', [
             "uses" => "ContestController@getContestRanklist"
-        ]);
+        ])->where('contest_id', '[0-9]+');
 
         Route::get('/contest/{contest_id}/ranklist/export', [
             "middleware" => "role:admin",
             "uses" => "ContestController@exportContestRanklist"
-        ]);
+        ])->where('contest_id', '[0-9]+');
 
         Route::get('/contest/{contest_id}/ranklist/p/{page_id}', [
             "uses" => "ContestController@getContestRanklistByPageID"
+        ])->where([
+            'contest_id' => '[0-9]+',
+            'page_id' => '[0-9]+'
         ]);
 
         Route::get('/contest/{contest_id}/status', [
             "uses" => "ContestController@getContestStatus"
-        ]);
+        ])->where('contest_id', '[0-9]+');
 
         Route::get('/contest/{contest_id}/status/p/{page_id}', [
             "uses" => "ContestController@getContestStatusByPageID"
+        ])->where([
+            'contest_id' => '[0-9]+',
+            'page_id' => '[0-9]+'
         ]);
 
         Route::match(['post', 'get'], '/dashboard/contest/{contest_id}', [
             "middleware" => "role:admin",
             "uses" => "ContestController@setContest"
-        ]);
+        ])->where('contest_id', '[0-9]+');
 
         Route::post('/rejudge/{contest_id}/{problem_id}', [
             "middleware" => "role:admin",
             "uses" => "SubmissionController@rejudgeSubmissionByContestIDAndProblemID"
+        ])->where([
+            "contest_id" => "[0-9]+",
+            "problem_id" => "[0-9]+"
         ]);
 
         Route::post('/rejudge/{run_id}', [
             "middleware" => "role:admin",
             "uses" => "SubmissionController@rejudgeSubmissionByRunID"
-        ]);
+        ])->where('run_id', '[0-9]+');
 
         Route::match(['post', 'get'], '/contest/{contest_id}/register', [
             "uses" => "ContestController@registerContest"
@@ -391,6 +414,11 @@ Route::group(['middleware' => 'profile'],function() {
         Route::get('/training/{train_id}/updateall', [
             "middleware" => "role:admin",
             "uses" => "TrainingController@updateAllTrainingProgress"
+        ])->where('train_id', '[0-9]+');
+
+        Route::get('/ranklist/init', [
+            "middleware" => "role:admin",
+            "uses" => "RanklistController@initRanklist"
         ]);
     });
 });
@@ -444,4 +472,4 @@ Route::group(['middleware' => "role:judge"], function() {
 
 Route::get('/avatar/{user_id}',[
     "uses" => "UserController@showAvatar"
-]);
+])->where('user_id', '[0-9]+');

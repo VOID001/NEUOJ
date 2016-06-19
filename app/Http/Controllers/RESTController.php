@@ -15,6 +15,7 @@ use App\Testcase;
 use App\Contest;
 use App\ContestProblem;
 use App\Sim;
+use App\Jobs\updateUserProblemCount;
 
 class RESTController extends Controller
 {
@@ -217,6 +218,9 @@ class RESTController extends Controller
                 "judge_status" => 3,
             ]
         );
+
+        /* update Ranklist queue */
+        $this->dispatch(new updateUserProblemCount($submissionObj->uid));
 
         //var_dump($input);
         /* Balloon */
