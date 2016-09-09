@@ -42,6 +42,7 @@
 		<table class="table table-striped table-bordered custom-list">
 			<thead>
 				<tr>
+					<th class="text-center" width="8%">Status</th>
 					<th class="text-center" width="10%">Problem ID</th>
 					<th width="30%">Title</th>
 					<th class="text-center" width="10%">Difficulty</th>
@@ -53,6 +54,14 @@
 			@if($problems != NULL)
 				@foreach($problems as $problem)
 					<tr class="front-table-row">
+						<td>
+							<span class="
+							@if($problem->status == 'Y')
+								glyphicon glyphicon-ok
+							@elseif($problem->status == 'N')
+								glyphicon glyphicon-remove
+							@endif"></span>
+						</td>
 						<td>
 							<paper-button><a href="/problem/{{ $problem->problem_id }}">{{ $problem->problem_id }}</a></paper-button>
 						</td>

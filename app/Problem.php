@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use App\Http\Controllers\RoleController;
 use App\Submission;
+use Request;
 
 class Problem extends Model
 {
@@ -81,6 +82,23 @@ class Problem extends Model
             $authorObj = User::where('uid', $problemObj[$i]->author_id)->first();
             $data['problems'][$count]->author = $authorObj["username"];
             $data['problems'][$count]->used_times = $problemObj[$i]->getNumberOfUsedContests();
+            if(Request::session()->has('username'))
+            {
+                $submissionObj = Submission::select('result')->where(['pid' => $problemObj[$i]->problem_id, 'uid' => Request::session()->get('uid')])->get();
+                if($submissionObj ->count() != 0)
+                {
+                    if($submissionObj->where('result', 'Accepted')->count() != 0)
+                        $data['problems'][$count]->status = "Y";
+                    else
+                        $data['problems'][$count]->status = "N";
+                }
+                else
+                    $data['problems'][$count]->status = "T";
+            }
+            else
+            {
+                $data['problems'][$count]->status = "T";
+            }
         }
         if($i >= $problemNum)
         {
