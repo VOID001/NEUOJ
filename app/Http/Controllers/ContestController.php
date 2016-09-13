@@ -920,6 +920,8 @@ class ContestController extends Controller
                             {
                                 $titleRow[] = $contestProblemObj->problem_title;
                             }
+                            $titleRow[] = "OJ总过题数";
+                            $titleRow[] = "OJ总提交数";
                             $sheet->prependRow(1, $titleRow);
                             $sheet->setSize(array('A1' => array('width' => 10, 'height' => 20)));
                             $sheet->row(1, function($row)
@@ -1000,9 +1002,11 @@ class ContestController extends Controller
                                     }
                                     $row[] = $problem_result;
                                 }
+                                $row[] = Userinfo::where('uid', $user->uid)->first()->ac_count;
+                                $row[] = Userinfo::where('uid', $user->uid)->first()->submit_count;
                                 $sheet->row($i, $row);
                             }
-                            /** end fo r*/
+                            /** end for*/
                         });
                         /** end sheet */
                 }
