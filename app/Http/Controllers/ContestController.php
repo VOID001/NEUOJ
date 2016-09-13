@@ -524,6 +524,13 @@ class ContestController extends Controller
                     $queryArr['uid'] = "Th11EN412am#eN%o0neCanCreEte";
                 }
             }
+            if($key == "pid")
+            {
+                $queryArr['pid'] = ContestProblem::select('problem_id')->where([
+                    'contest_id' => $contest_id,
+                    'contest_problem_id' => $val
+                ])->first()->problem_id;
+            }
         }
         $submissionObj = Submission::where($queryArr)->orderby('runid', 'desc')->get();
 
