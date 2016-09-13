@@ -17,6 +17,7 @@ class Kernel extends ConsoleKernel
         \App\Console\Commands\checkAllSim::class,
         \App\Console\Commands\compressAvatar::class,
         \App\Console\Commands\ClearGhost::class,
+        \App\Console\Commands\correctContestUser::class,
     ];
 
     /**
