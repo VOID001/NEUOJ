@@ -18,11 +18,13 @@ class UserTableSeeder extends DatabaseSeeder
         $users = [
             [
                 "username" => "VOID001",
+                "gid" => 1,
                 "password" => Hash::make('1234567'),
                 "email" => "zhangjianqiu_133@yeah.net"
             ],
             [
                 "username" => "admin",
+                "gid" => 1,
                 "password" => Hash::make("admin"),
                 "email" => "admin@noreply.com"
             ]
