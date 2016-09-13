@@ -87,7 +87,7 @@ class AuthController extends Controller
         {
             $input = $request->input();
             $vdtor = Validator::make($input, [
-                "username" => "required|max:255|unique:users",
+                "username" => "required|max:255|unique:users|notpurenumber",
                 "pass" => "required|confirmed|between:6,255",
                 "email" => "required|email|unique:users"
             ]);
