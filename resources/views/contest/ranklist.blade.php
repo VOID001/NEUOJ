@@ -62,7 +62,7 @@
 						<td>
 							<paper-button><a class="custom-word" href="/profile/{{ $user->uid }}">
 								@if($roleCheck->is("admin"))
-									{{ $user->info->stu_id }}
+									{{ $user->stu_id }}
 								@else
 									<img class="loader contest-ranklist-img" src="/image/loading.gif" data-src="/avatar/{{$user->uid}}" />
 								@endif
@@ -71,12 +71,12 @@
 						<td>
 							<paper-button>
 								@if($roleCheck->is("admin"))
-									<a class="custom-word" href="/profile/{{ $user->uid }}" title="{{ $user->info->realname }}">
-										{{ $user->info->realname }}
+									<a class="custom-word" href="/profile/{{ $user->uid }}" title="{{ $user->realname }}">
+										{{ $user->realname }}
 									</a>
 								@else
-									<a class="custom-word" href="/profile/{{ $user->uid }}" title="{{ $user->info->nickname }}">
-										{{ $user->info->nickname }}
+									<a class="custom-word" href="/profile/{{ $user->uid }}" title="{{ $user->nickname }}">
+										{{ $user->nickname }}
 									</a>
 								@endif
 							</paper-button>

@@ -393,8 +393,11 @@ class ContestController extends Controller
                 /** A new user found */
                 $count++;
                 $data["users"][$count] = User::limit(1)->where('uid', $submission->uid)->first();
+                $userInfoObj = $data["users"][$count]->info;
                 $data["users"][$count]->infoObj = new ContestUserInfo();
-                $data["users"][$count]->nick_name = $data["users"][$count]->info->nickname;
+                $data["users"][$count]->nickname = $userInfoObj->nickname;
+                $data["users"][$count]->realname = $userInfoObj->realname;
+                $data["users"][$count]->stu_id = $userInfoObj->stu_id;
                 $preuid = $submission->uid;
                 $curUserAcList = [];
 
@@ -435,6 +438,47 @@ class ContestController extends Controller
         }
 
         usort($data['users'], ['self', "cmp"]);
+        /** Add users in private contest whose submission count in contest is 0 */
+        if($contestObj->contest_type == 1)
+        {
+            $contestUserObj = ContestUser::where('contest_id', $contest_id)->get();
+            foreach($contestUserObj as $contestUser)
+            {
+                $uid = 0;
+                $username = $contestUser->username;
+                $tmpUserObj = User::where('username', $username)->first();
+                if($tmpUserObj != NULL)
+                {
+                    $uid = $tmpUserObj->uid;
+                }
+                if($allSubmissions->where('uid', $uid)->count() == 0)
+                {
+                    $count++;
+                    /** Simple situation. User exists */
+                    if($uid != 0)
+                    {
+                        $data["users"][$count] = $tmpUserObj;
+                        $userInfoObj = $data["users"][$count]->info;
+                        $data["users"][$count]->infoObj = new ContestUserInfo();
+                        $data["users"][$count]->nickname = $userInfoObj->nickname;
+                        $data["users"][$count]->realname = $userInfoObj->realname;
+                        $data["users"][$count]->stu_id = $userInfoObj->stu_id;
+                    }
+                    /** User not exists in users table */
+                    else
+                    {
+                        $tmpUserObj = new User;
+                        $tmpUserObj->uid = 0;
+                        $tmpUserObj->username = $contestUser->username;
+                        $data["users"][$count] = $tmpUserObj;
+                        $data["users"][$count]->infoObj = new ContestUserInfo();
+                        $data["users"][$count]->nickname = "unregistered";
+                        $data["users"][$count]->realname = "unregistered";
+                        $data["users"][$count]->stu_id = $contestUser->username;
+                    }
+                }
+            }
+        }
         $data['contest_id'] = $contest_id;
         $data['counter'] = 1;
         /** Cache the result for a better performance when multiple visit at the same time */
