@@ -36,9 +36,6 @@
 </head>
 <body>
 	@include("layout.dashboard_nav")
-	@if(time()>strtotime($contest->end_time))
-		<script> alert('the contest is out of date');parent.location.href='/dashboard/contest'; </script>
-	@endif
 	<div class="back-container">
 		<h3 class="custom-heading">Set Contest</h3>
 		<form class="back-problem-form" action="/dashboard/contest/{{ $contest->contest_id }}" method="post">
@@ -82,7 +79,7 @@
 							@endif
 						/>private
 						<input id="register-radio" name="contest_type" type="radio" value="register"
-							@if($contest->contest_type == 1)
+							@if($contest->contest_type == 2)
 								checked
 							@endif
 						/>register
