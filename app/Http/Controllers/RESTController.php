@@ -24,7 +24,7 @@ class RESTController extends Controller
         /*
          * Use fake json config , same as the default config of domjudge
          */
-        $json = '{"clar_categories":{ "general":"General issue", "tech":"Technical issue" }, "script_timelimit":30, "script_memory_limit":2097152, "script_filesize_limit":65536, "memory_limit":524288, "output_limit":4096, "process_limit":64, "sourcesize_limit":256, "sourcefiles_limit":100, "timelimit_overshoot":"1s|10%", "verification_required":0, "show_affiliations":1, "show_pending":0, "show_compile":2, "show_sample_output":0, "show_balloons_postfreeze":1, "penalty_time":20, "compile_penalty":1, "results_prio":{ "memory-limit":"99", "output-limit":"99", "run-error":"99", "timelimit":"99", "wrong-answer":"30", "no-output":"10", "correct":"1" }, "results_remap":[ ], "lazy_eval_results":1, "enable_printing":0, "time_format":"%H:%M", "default_compare":"compare", "default_run":"run", "allow_registration":0, "judgehost_warning":30, "judgehost_critical":120, "thumbnail_size":128 }';
+        $json = '{"clar_categories":{ "general":"General issue", "tech":"Technical issue" }, "script_timelimit":30, "script_memory_limit":2097152, "script_filesize_limit":65536, "memory_limit":524288, "output_limit":4096000, "process_limit":64, "sourcesize_limit":256, "sourcefiles_limit":100, "timelimit_overshoot":"1s|10%", "verification_required":0, "show_affiliations":1, "show_pending":0, "show_compile":2, "show_sample_output":0, "show_balloons_postfreeze":1, "penalty_time":20, "compile_penalty":1, "results_prio":{ "memory-limit":"99", "output-limit":"99", "run-error":"99", "timelimit":"99", "wrong-answer":"30", "no-output":"10", "correct":"1" }, "results_remap":[ ], "lazy_eval_results":1, "enable_printing":0, "time_format":"%H:%M", "default_compare":"compare", "default_run":"run", "allow_registration":0, "judgehost_warning":30, "judgehost_critical":120, "thumbnail_size":128 }';
         return $json;
     }
 
@@ -46,7 +46,7 @@ class RESTController extends Controller
         $compileExecutable = Executable::where('execid', $langsufix[$submission->lang])->first();
         $compareExecutable = Executable::where('execid', 'compare')->first();
         /*
-         * Make the responce format readable for judgehost
+         * Make the response format readable for judgehost
          */
         $jsonObj["submitid"] = $submission->runid;
         $jsonObj["cid"] = 0;
@@ -139,6 +139,10 @@ class RESTController extends Controller
     {
         $jsonObj = [];
         $input = $request->input();
+        /*
+         *  Here we need to correct it, give the testcase we need
+         *  not only one testcase
+         */
         $submission = Submission::where('runid', $input["judgingid"])->where('judge_status', 1)->first();
         if($submission == NULL)
             return response()->json(NULL);
@@ -171,6 +175,8 @@ class RESTController extends Controller
 
     public function postJudgingRuns(Request $request)
     {
+        /* We need to modify the code to support multi testcases */
+        /* After all testcases done, we need to update the submission result */
         $resultMapping = [
             "wrong-answer" => "Wrong Answer",
             "correct" => "Accepted",
