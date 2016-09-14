@@ -56,37 +56,39 @@
 				<h4>Source</h4>
 				<textarea class="form-control" name="source"></textarea>
 				<!-- Now only support single testcase -->
+				<a href="javascript:addTestCase()" class="btn btn-default">Add Testcase</a>
 				@if($testcases == NULL)
 					<div class="text-center problem-b-warning-box">You do not have any testcase here</div>
-					<h4>Upload Input File</h4>
+					<h4>Upload Input File 1</h4>
 					<div class="file-input">
 						<btn class="btn">选择文件</btn>
 						<input class="custom-word" type="text" placeholder="未选择文件" />
 						<input name="input_file[]" type="file" />
 					</div>
-					<h4>Upload Output File</h4>
+					<h4>Upload Output File 1</h4>
 					<div class="file-input">
 						<btn class="btn">选择文件</btn>
 						<input class="custom-word" type="text" placeholder="未选择文件" />
 						<input name="output_file[]" type="file" />
 					</div>
 				@else
-					@foreach($testcases as $testcase)
-						<h4>Upload Input File</h4>
+					@for($i = 1; $i <= $testcases->count(); $i++)
+						<h4>Upload Input File {{ $i }}</h4>
 						<div class="file-input">
 							<btn class="btn">选择文件</btn>
 							<input class="custom-word" type="text" placeholder="未选择文件" />
 							<input name="input_file[]" type="file" />
 						</div>
 						<input class="file-input" name="input_file[]" type="file" />
-						<h4>Upload Output File</h4>
+						<h4>Upload Output File {{ $i }}</h4>
 						<div class="file-input">
 							<btn class="btn">选择文件</btn>
 							<input class="custom-word" type="text" placeholder="未选择文件" />
 							<input name="output_file[]" type="file" />
 						</div>
-					@endforeach
+					@endfor
 				@endif
+				<div class="back-testcase-add-list"></div>
 				<div class="problem-b-submit">
 					<input class="btn btn-default pull-right" type="submit" value="Save" />
 				</div>
@@ -94,5 +96,34 @@
 		</div>
 	</div>
 	@include('layout.wysiwyg_foot')
+	<script type="text/javascript">
+		@if($testcases == NULL)
+		var count = 2;
+		@else
+		var count = {{ $testcases->count()+1 }}
+		@endif
+		function addTestCase() {
+			var testCaseItem = '<div id=t_' + count + '>' +
+				'<h4>Upload Input File ' + count + '</h4>'+
+				'<div class="file-input">'+
+					'<btn class="btn">选择文件</btn>'+
+					'<input class="custom-word" type="text" placeholder="未选择文件" />'+
+					'<input name="input_file[]" type="file" />'+
+				'</div>'+
+				'<h4>Upload Output File ' + count + '</h4>'+
+				'<div class="file-input">'+
+					'<btn class="btn">选择文件</btn>'+
+					'<input class="custom-word" type="text" placeholder="未选择文件" />'+
+					'<input name="output_file[]" type="file" />'+
+				'</div>'+
+				'<a href="javascript:delTestCase(' + count + ')">Delete Testcase</a>' +
+				'</div>';
+			$('.back-testcase-add-list').append(testCaseItem);
+			count++;
+		}
+		function delTestCase(divId) {
+			$('#t_' + divId).remove();
+		}
+	</script>
 </body>
 </html>

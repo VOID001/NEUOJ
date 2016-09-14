@@ -289,15 +289,19 @@ class ProblemController extends Controller
             Problem::where('problem_id', $problem_id)->update([
                 'output_limit' => $max_output_size
             ]);
-            var_dump($uploadInput[0]);
-            if(count($uploadInput) == count($uploadOutput) && $uploadInput[0] && $uploadOutput[0])
+            if(count($uploadInput) == count($uploadOutput))
             {
                 Testcase::where('pid', $problem_id)->delete();
                 for($i = 0; $i < count($uploadInput); $i++)
                 {
+                    if(!$uploadInput || !$uploadOutput)
+                    {
+                        array_push($data['errors'], "Please upload correct files!");
+                        break;
+                    }
                     $updateTestcaseData['rank'] = $i + 1;
-                    $updateTestcaseData['input_file_name'] = $problem_id . "-" . time() . "-" . $uploadInput[$i]->getClientOriginalName();
-                    $updateTestcaseData['output_file_name'] = $problem_id . "-". time() . "-" . $uploadOutput[$i]->getClientOriginalName();
+                    $updateTestcaseData['input_file_name'] = $problem_id . "-" . time() . "-" . $uploadInput[$i]->getClientOriginalName() . '-' . ($i+1) . '-in';
+                    $updateTestcaseData['output_file_name'] = $problem_id . "-". time() . "-" . $uploadOutput[$i]->getClientOriginalName() . '-' . ($i+1) . '-out';
                     $updateTestcaseData['pid'] = $problem_id;
                     if($uploadInput[$i]->isValid() && $uploadOutput[$i]->isValid())
                     {
