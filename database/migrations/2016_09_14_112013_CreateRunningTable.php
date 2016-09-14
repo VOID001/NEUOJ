@@ -13,9 +13,10 @@ class CreateRunningTable extends Migration
     public function up()
     {
         Schema::create('runnings', function (Blueprint $table) {
-            $table->increments('child_run_id');
-            $table->integer('run_id');
+            $table->increments('child_runid');
+            $table->integer('runid');
             $table->integer('testcase_id');
+            $table->integer('testcase_rank_id');
             $table->integer('pid');
             $table->integer('uid');
             $table->integer('cid');
@@ -25,9 +26,6 @@ class CreateRunningTable extends Migration
             $table->string('result');
             $table->longText('err_info');
             $table->string('assessment');
-            $table->string('judgeid');         // The Host run the judge
-            $table->string('submit_file');
-            $table->string('md5sum');
             $table->integer('judge_status'); // 0 for in queue 1 for send to judge 2 for finished
             $table->timestamps();
         });

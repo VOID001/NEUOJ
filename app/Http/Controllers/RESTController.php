@@ -15,6 +15,7 @@ use App\Testcase;
 use App\Contest;
 use App\ContestProblem;
 use App\Sim;
+use App\Running;
 use App\Jobs\updateUserProblemCount;
 
 class RESTController extends Controller
@@ -39,8 +40,10 @@ class RESTController extends Controller
             ];
         $jsonObj = [];
         $submission = Submission::where('judge_status', 0)->first();
+        /* This means no active submissions */
         if($submission == NULL)
             return response()->json(NULL);
+
         $problem = Problem::where('problem_id', $submission->pid)->first();
         $runExecutable = Executable::where('execid', 'run')->first();
         $compileExecutable = Executable::where('execid', $langsufix[$submission->lang])->first();
@@ -68,10 +71,37 @@ class RESTController extends Controller
         /*
          * Save current judging_run into database
          * This table only works for domjudge, let GET api/testcases?judgingid=id can get current testcase
-         * Now only give one problem one testcase , future will support multitestcases
+         * Now will support multitestcases
          */
-        //$judgingRun = new JudgingRun;
-        //$judgingRun->judgingid =
+
+        /* if Previously exist runnings then this is a rejudge */
+        $runningObj = Running::where('runid', $submission->runid)->first();
+        if($runningObj != NULL)
+        {
+            Running::where('runid',$submission->runid)->update([
+                'result' => "Rejudging",
+                'judge_status' => 0
+            ]);
+        }
+        else
+        {
+            $testcaseNum = Testcase::where('pid', $submission->pid)->count();
+            for($i = 1; $i <= $testcaseNum; $i++)
+            {
+                $runningObj = new Running;
+                $runningObj->runid = $submission->runid;
+                $runningObj->testcase_rank_id = $i;
+                $runningObj->testcase_id = Testcase::where([
+                    'pid' => $submission->pid,
+                    'rank' => $i,
+                ])->first()->testcase_id;
+                $runningObj->pid = $submission->pid;
+                $runningObj->cid = $submission->cid;
+                $runningObj->lang = $submission->lang;
+                $runningObj->judge_status = 0;
+                $runningObj->save();
+            }
+        }
 
         Submission::where('runid', $submission->runid)->update([
             "judge_status" => 1,
@@ -139,16 +169,26 @@ class RESTController extends Controller
     {
         $jsonObj = [];
         $input = $request->input();
-        /*
-         *  Here we need to correct it, give the testcase we need
-         *  not only one testcase
-         */
-        $submission = Submission::where('runid', $input["judgingid"])->where('judge_status', 1)->first();
-        if($submission == NULL)
+
+        /* Judge which testcase is running now */
+        $currentTestcaseRank = Running::where([
+            'runid' => $input['judgingid'],
+            'judge_status' => 3,
+        ])->count() + 1;
+
+        /* Fetch basic information from submission */
+        $submission = Submission::where('runid', $input['judgingid'])->first();
+        $totalCase = Testcase::where('pid', $submission->pid)->count();
+
+        if($currentTestcaseRank > $totalCase)
             return response()->json(NULL);
-        $testcase = Testcase::where('pid', $submission->pid)->first();
+
+        $testcase = Testcase::where([
+            'pid' => $submission->pid,
+            'rank' => $currentTestcaseRank,
+        ])->first();
         $jsonObj["testcaseid"] = $testcase->testcase_id;
-        $jsonObj["rank"] = 1; //Now only give one problem one testcase so rank is hard-coded
+        $jsonObj["rank"] = $testcase->rank;
         $jsonObj["probid"] = $testcase->pid;
         $jsonObj["md5sum_input"] = $testcase->md5sum_input;
         $jsonObj["md5sum_output"] = $testcase->md5sum_output;
@@ -177,6 +217,8 @@ class RESTController extends Controller
     {
         /* We need to modify the code to support multi testcases */
         /* After all testcases done, we need to update the submission result */
+        $finalCase = false;
+        $AC = false;
         $resultMapping = [
             "wrong-answer" => "Wrong Answer",
             "correct" => "Accepted",
@@ -191,32 +233,12 @@ class RESTController extends Controller
 
         $output_system = $this->parseSystemMeta($input['output_system']);
 
+        var_dump($input["testcaseid"]);
 
-        /*
-         * Judge Whether the code is copied from another code
-         * Judge this only when the result is AC
-         */
-        if($input["runresult"] == "correct")
-            $this->checkSIM($input['judgingid']);
-
-        /* Contest Only, Judge for First Blood */
-        if($input["runresult"] == "correct" && $submissionObj->cid != 0)
-        {
-            $contestObj = Contest::where('contest_id', $submissionObj->cid)->first();
-            $contestProblemObj = ContestProblem::where([
-                "contest_id" => $contestObj->contest_id,
-                "problem_id" => $submissionObj->pid,
-            ])->first();
-            if($contestProblemObj->first_ac == 0)
-            {
-                $first_ac = Submission::where('runid', $input['judgingid'])->first()->uid;
-                ContestProblem::where([
-                    "contest_id" => $contestObj->contest_id,
-                    "problem_id" => $submissionObj->pid,
-                ])->update(["first_ac" => $first_ac]);
-            }
-        }
-        Submission::where('runid', $input["judgingid"])->update(
+        Running::where([
+            'runid' => $input["judgingid"],
+            'testcase_id' => $input["testcaseid"],
+        ])->update(
             [
                 "result" => $resultMapping[$input["runresult"]],
                 "exec_time" => $output_system["wall_time"],
@@ -225,68 +247,123 @@ class RESTController extends Controller
             ]
         );
 
-        /* update Ranklist queue */
-        $this->dispatch(new updateUserProblemCount($submissionObj->uid));
-
-        //var_dump($input);
-        /* Balloon */
-        $submissionObj = Submission::where('runid', $input['judgingid'])->first();
-        if($submissionObj->cid != 0)
+        $testCaseCount = Testcase::where('pid', $submissionObj->pid)->count();
+        $lastTestCaseID = Testcase::where([
+            'pid' => $submissionObj->pid,
+            'rank' => $testCaseCount,
+        ])->first()->testcase_id;
+        if($input["testcaseid"] == $lastTestCaseID)
         {
-            /* Not accepted */
-            if ($resultMapping[$input["runresult"]] != "Accepted")
+            $finalCase = true;
+            echo "Final Case Now =w=\n";
+            $runningObj = Running::where('runid', $input['judgingid'])->get();
+            if($runningObj->where('result', 'Accepted')->count() == $testCaseCount)
             {
-                $contestBalloon = ContestBalloon::all();
-                foreach ($contestBalloon as $contestBalloonObj)
-                {
-                    //var_dump($contestBalloonObj->runid);
-                    if($contestBalloonObj->runid == $submissionObj->runid)
-                    {
-                        if ($contestBalloonObj->balloon_status == 1) /* AC rejudging */
-                        {
-                            /* discard balloon */
-                            $contestBalloonObj->delete();
-                            /* push into event queue (discard balloon) */
-                            $contestBalloonEventObj = new ContestBalloonEvent();
-                            $contestBalloonEventObj->runid = $contestBalloonObj->runid;
-                            $contestBalloonEventObj->event_status = env('BALLOON_DISCARD',2);
-                            $contestBalloonEventObj->save();
-                        }
-                        break;
-                    }
-                }
+                echo "Not AC Count:\n";
+                var_dump($runningObj->where('result', '<>', 'Accepted')->count());
+                $AC = true;
+                Submission::where('runid', $input["judgingid"])->update(
+                    [
+                        "result" => 'Accepted',
+                        "exec_time" => $runningObj->sum('exec_time'),
+                        "exec_mem" => $runningObj->sum('exec_mem'),
+                        "judge_status" => 3,
+                    ]
+                );
             }
-            /* Accepted */
             else
             {
-                $contestBalloon = ContestBalloon::all();
-                $balloonExists = 0;
-                foreach ($contestBalloon as $contestBalloonObj)
-                {
-                    $contestBalloonSubmissionObj = Submission::where('runid', $contestBalloonObj->runid)->first();
-                    if ($submissionObj->cid == $contestBalloonSubmissionObj->cid && $submissionObj->pid == $contestBalloonSubmissionObj->pid && $submissionObj->uid == $contestBalloonSubmissionObj->uid)
-                    {
-                        if ($contestBalloonObj->balloon_status == 1) /* AC rejudging */
-                        {
-                            /* Send balloon */
-                            $contestBalloonObj->balloon_status == 0;
-                            $contestBalloonObj->save();
-                        }
-                        $balloonExists = 1;
-                        break;
-                    }
+                 Submission::where('runid', $input["judgingid"])->update(
+                    [
+                        "result" => 'Wrong Answer',
+                        "exec_time" => 0,
+                        "exec_mem" => 0,
+                        "judge_status" => 3,
+                    ]
+                );
+            }
+        }
+
+        // If this is the last testcase then run this
+        if($finalCase)
+        {
+            /*
+             * Judge Whether the code is copied from another code
+             * Judge this only when the result is AC
+             */
+            if ($AC)
+                $this->checkSIM($input['judgingid']);
+
+            /* Contest Only, Judge for First Blood */
+            if ($AC && $submissionObj->cid != 0) {
+                $contestObj = Contest::where('contest_id', $submissionObj->cid)->first();
+                $contestProblemObj = ContestProblem::where([
+                    "contest_id" => $contestObj->contest_id,
+                    "problem_id" => $submissionObj->pid,
+                ])->first();
+                if ($contestProblemObj->first_ac == 0) {
+                    $first_ac = Submission::where('runid', $input['judgingid'])->first()->uid;
+                    ContestProblem::where([
+                        "contest_id" => $contestObj->contest_id,
+                        "problem_id" => $submissionObj->pid,
+                    ])->update(["first_ac" => $first_ac]);
                 }
-                if ($balloonExists == 0)
-                {
-                    $contestBalloonObj = new ContestBalloon();
-                    $contestBalloonObj->runid = $submissionObj->runid;
-                    $contestBalloonObj->balloon_status = 0; /* Send balloon */
-                    $contestBalloonObj->save();
-                    /* push into event queue (send balloon) */
-                    $contestBalloonEventObj = new ContestBalloonEvent();
-                    $contestBalloonEventObj->runid = $contestBalloonObj->runid;
-                    $contestBalloonEventObj->event_status = env('BALLOON_SEND',1);
-                    $contestBalloonEventObj->save();
+            }
+
+
+
+            /* update Ranklist queue */
+            $this->dispatch(new updateUserProblemCount($submissionObj->uid));
+
+            //var_dump($input);
+            /* Balloon */
+            $submissionObj = Submission::where('runid', $input['judgingid'])->first();
+            if ($submissionObj->cid != 0) {
+                /* Not accepted */
+                if (!$AC) {
+                    $contestBalloon = ContestBalloon::all();
+                    foreach ($contestBalloon as $contestBalloonObj) {
+                        //var_dump($contestBalloonObj->runid);
+                        if ($contestBalloonObj->runid == $submissionObj->runid) {
+                            if ($contestBalloonObj->balloon_status == 1) /* AC rejudging */ {
+                                /* discard balloon */
+                                $contestBalloonObj->delete();
+                                /* push into event queue (discard balloon) */
+                                $contestBalloonEventObj = new ContestBalloonEvent();
+                                $contestBalloonEventObj->runid = $contestBalloonObj->runid;
+                                $contestBalloonEventObj->event_status = env('BALLOON_DISCARD', 2);
+                                $contestBalloonEventObj->save();
+                            }
+                            break;
+                        }
+                    }
+                } /* Accepted */
+                else {
+                    $contestBalloon = ContestBalloon::all();
+                    $balloonExists = 0;
+                    foreach ($contestBalloon as $contestBalloonObj) {
+                        $contestBalloonSubmissionObj = Submission::where('runid', $contestBalloonObj->runid)->first();
+                        if ($submissionObj->cid == $contestBalloonSubmissionObj->cid && $submissionObj->pid == $contestBalloonSubmissionObj->pid && $submissionObj->uid == $contestBalloonSubmissionObj->uid) {
+                            if ($contestBalloonObj->balloon_status == 1) /* AC rejudging */ {
+                                /* Send balloon */
+                                $contestBalloonObj->balloon_status == 0;
+                                $contestBalloonObj->save();
+                            }
+                            $balloonExists = 1;
+                            break;
+                        }
+                    }
+                    if ($balloonExists == 0) {
+                        $contestBalloonObj = new ContestBalloon();
+                        $contestBalloonObj->runid = $submissionObj->runid;
+                        $contestBalloonObj->balloon_status = 0; /* Send balloon */
+                        $contestBalloonObj->save();
+                        /* push into event queue (send balloon) */
+                        $contestBalloonEventObj = new ContestBalloonEvent();
+                        $contestBalloonEventObj->runid = $contestBalloonObj->runid;
+                        $contestBalloonEventObj->event_status = env('BALLOON_SEND', 1);
+                        $contestBalloonEventObj->save();
+                    }
                 }
             }
         }
