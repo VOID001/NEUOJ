@@ -41,6 +41,16 @@
             <label>{{ $err_info }}</label>
         @endif
     </pre>
+
+    <div>
+        <h2>Runnings</h2>
+        @foreach($runnings as $running)
+            Testcase #{{ $running->testcase_rank_id }}
+            Testcase detail
+            {{ $running->testcase_data->input_file_name }}
+            {{ $running->testcase_data->output_file_name }}
+        @endforeach
+    </div>
 </div>
 
 <div style="height: 50px"></div>

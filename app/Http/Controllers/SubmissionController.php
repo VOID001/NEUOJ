@@ -15,6 +15,8 @@ use App\Problem;
 use App\User;
 use App\Submission;
 use App\ContestProblem;
+use App\Running;
+use App\Testcase;
 use App\ContestUser;
 use App\Contest;
 use App\ContestBalloon;
@@ -85,9 +87,17 @@ class SubmissionController extends Controller
         $input = $request->all();
         $data = [];
         $submissionObj = Submission::where('runid', $run_id)->first();
+        $runningObj = Running::where('runid', $run_id)->get();
+        $testcaseObj = Testcase::where('pid', $submissionObj->pid);
         $fileContent = Storage::get("submissions/" . $submissionObj->submit_file);
         $data = $submissionObj;
         $data->code = $fileContent;
+        $data->runnings = $runningObj;
+        foreach($data->runnings as &$running)
+        {
+            $currentTestcase = Testcase::where('testcase_id', $running->testcase_id)->first();
+            $running->testcase_data = $currentTestcase;
+        }
         /* It's in contest */
         if(isset($input['c']))
         {
