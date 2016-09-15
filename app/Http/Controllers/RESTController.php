@@ -243,6 +243,7 @@ class RESTController extends Controller
                 "result" => $resultMapping[$input["runresult"]],
                 "exec_time" => $output_system["wall_time"],
                 "exec_mem" => $output_system["memory_used"],
+                "output_diff" => base64_decode($input["output_diff"]),
                 "judge_status" => 3,
             ]
         );

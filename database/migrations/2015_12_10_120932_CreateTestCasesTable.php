@@ -16,6 +16,7 @@ class CreateTestCasesTable extends Migration
             $table->increments('testcase_id');
             $table->integer('pid');
             $table->integer('rank');
+            $table->integer('score');
             $table->string('input_file_name');
             $table->string('output_file_name');
             $table->string('md5sum_input');

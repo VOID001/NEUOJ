@@ -25,6 +25,7 @@ class CreateRunningTable extends Migration
             $table->string('lang');
             $table->string('result');
             $table->longText('err_info');
+            $table->longText('output_diff');
             $table->string('assessment');
             $table->integer('judge_status'); // 0 for in queue 1 for send to judge 2 for finished
             $table->timestamps();
