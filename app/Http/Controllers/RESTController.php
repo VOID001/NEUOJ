@@ -320,10 +320,10 @@ class RESTController extends Controller
             {
                 if($running->result == "Accepted")
                 {
-                    $totalScore += Testcase::select('score')->where([
+                    $totalScore += Testcase::where([
                         'pid' => $running->pid,
                         'testcase_id' => $running->testcase_id,
-                    ])->score;
+                    ])->first()->score;
                 }
             }
             Submission::where('runid', $input['judgingid'])->update(['score' => $totalScore]);
