@@ -20,6 +20,17 @@
 			});
 		})
 	</script>
+	<style>
+		table {
+			font-size:13px;
+		}
+		.label{
+			font-size: 12px;
+		}
+		#rejudge_btn{
+			font-size: 10px;
+		}
+	</style>
 </head>
 <body>
 	@include("layout.header")
@@ -117,12 +128,13 @@
 				<th class="text-center" width="13%">Submit Time</th>
 				<th class="text-center" width="6%">User ID</th>
 				<th class="text-center" width="9%">Username</th>
-				<th class="text-center" width="10%">Nickname</th>
-				<th width="11%">Problem Title</th>
-				<th class="text-center" width="16%">Result</th>
-				<th class="text-center" width="5%">Lang</th>
-				<th class="text-center" width="8%">Ex_mem</th>
-				<th class="text-center" width="7%">Ex_time</th>
+				<th class="text-center" width="8%">Nickname</th>
+				<th width="10%">Problem Title</th>
+				<th class="text-center" width="14%">Result</th>
+				<th class="text-center" width="5%">Score</th>
+				<th class="text-center" width="4%">Lang</th>
+				<th class="text-center" width="7%">Ex_mem</th>
+				<th class="text-center" width="6%">Ex_time</th>
 				@if($roleCheck->is('admin'))
 					<th class="text-center" width="9%">
 						Rejudge
@@ -163,10 +175,6 @@
 						<td class="text-left">
 							&nbsp;{{ $submission->problemTitle }}
 						</td>
-
-
-
-
 						<td>
 							@if($roleCheck->is("able-view-code", $param))
 								<span onclick="window.location.href='/status/{{ $submission->runid }}@if(isset($contest))?c={{ $contest->contest_id }}&p={{ $submission->contestProblemId }} @endif'"
@@ -195,6 +203,7 @@
 								@endif
 							@endif
 						</td>
+						<td>{{$submission->score}}</td>
 						<td>
 							@if($roleCheck->is("able-view-code", $param))
 								<paper-button><a href="/status/{{ $submission->runid }}@if(isset($contest))?c={{ $contest->contest_id }}&p={{ $submission->contestProblemId }} @endif">
@@ -236,7 +245,7 @@
 							<td>
 								<form method="post" action="/rejudge/{{ $submission->runid }}">
 									{{ csrf_field() }}
-									<input class="btn btn-danger status-list-btn" type="submit" value="Rejudge"/>
+									<input class="btn btn-danger status-list-btn" id="rejudge_btn" type="submit" value="Rejudge"/>
 								</form>
 							</td>
 						@endif
@@ -244,7 +253,7 @@
 				@endforeach
 			@endif
 		</table>
-		<ul class="pager" role="fanye">
+		<ul class="pager" role="page_turnning">
 			@if(!isset($firstPage))
 				@if(!isset($contest))
 					<li><a href="/status/p/{{ $page_id - 1 }}{{ $queryStr }}">&laquo;Previous</a></li>
@@ -319,6 +328,8 @@
 
 				resultObj[6].innerHTML = tmpResult;
 
+				resultObj[8].innerHTML = json.lang;
+
 				if(json.exec_mem > 1024 && json.exec_mem < 1024 * 1024)
 					json.exec_mem = json.exec_mem / 1024 + " KB";
 				else if(json.exec_mem >= 1024 * 1024)
@@ -336,14 +347,15 @@
 				else{
 					tmpResult = json.exec_mem;
 				}
-				resultObj[8].innerHTML = tmpResult;
+				resultObj[9].innerHTML = tmpResult;
 				if(tmpObj.charAt(1)!='s'){
 					tmpResult = "<span window.location.href='\"/status/" + run_id + "@if(isset($contest))?c={{ $contest->contest_id }}&p=" + json.cpid + " @endif\"'>" + json.exec_time + "</span>";
 				}
 				else{
 					tmpResult = json.exec_time;
 				}
-				resultObj[9].innerHTML = tmpResult;
+				resultObj[10].innerHTML = tmpResult;
+				resultObj[10].innerHTML = tmpResult;
 			})
 		}
 
