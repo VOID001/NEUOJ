@@ -311,7 +311,22 @@ class RESTController extends Controller
                 }
             }
 
-
+            /** Update submission score */
+            $runningObj = Running::where([
+                'runid' => $input["judgingid"],
+            ])->get();
+            $totalScore = 0;
+            foreach($runningObj as $running)
+            {
+                if($running->result == "Accepted")
+                {
+                    $totalScore += Testcase::select('score')->where([
+                        'pid' => $running->pid,
+                        'testcase_id' => $running->testcase_id,
+                    ])->score;
+                }
+            }
+            Submission::where('runid', $input['judgingid'])->update(['score' => $totalScore]);
 
             /* update Ranklist queue */
             $this->dispatch(new updateUserProblemCount($submissionObj->uid));

@@ -46,7 +46,8 @@
 						Nick name
 					@endif
 				</th>
-				<th class="text-center" id="contest-ranklist-solve">Solve</th>
+				<!-- <th class="text-center" id="contest-ranklist-solve">Solve</th> -->
+				<th class="text-center" id="contest-ranklist-solve">Score</th>
 				<th class="text-center" id="contest-ranklist-penalty">Penalty</th>
 				@foreach($problems as $problem)
 					<th class="text-center contest-ranklist-problem">
@@ -81,8 +82,12 @@
 								@endif
 							</paper-button>
 						</td>
+						<!--
 						<td>
 							{{ $user->infoObj->totalAC }}
+						</td>-->
+						<td>
+							{{ $user->infoObj->totalScore }}
 						</td>
 						<td>
 							{{--the total penalty--}}
@@ -127,7 +132,7 @@
 									</div>
 								@elseif(isset($user->infoObj->result[$problem->contest_problem_id]))
 									<div class="btn btn-danger text-center">
-										({{ $user->infoObj->penalty[$problem->contest_problem_id] }})
+										({{ $user->infoObj->penalty[$problem->contest_problem_id] }})({{ $user->infoObj->scoreList[$problem->contest_problem_id] }})
 									</div>
 								@endif
 							</td>

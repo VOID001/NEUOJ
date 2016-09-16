@@ -30,6 +30,8 @@ class ContestUserInfo
     public $time = [];
     public $penalty = [];
     public $realPenalty = [];
+    public $scoreList = [];
+    public $totalScore = 0;
     public $totalPenalty = 0;
     public $totalAC = 0;
 }
@@ -376,13 +378,78 @@ class ContestController extends Controller
             $problemIDToContestProblemID[$contestProblemObj->problem_id] = $contestProblemObj->contest_problem_id;
         }
 
-
+        /** For ACM mode contest*/
+        /*
         $allSubmissions = Submission::select('uid', 'result', 'pid', 'cid', 'submit_time')->where('cid', $contest_id)
             ->orderby('uid', 'asc')->orderby('runid', 'asc')->get();
 
         $firstac = $contestObj->getFirstacList();
         $preuid = -1;
         $curUserAcList = [];
+        $data["users"] = [];
+
+        foreach($allSubmissions as $submission)
+        {
+            $contestProblemID = $problemIDToContestProblemID[$submission->pid];
+            if ($submission->uid != $preuid)
+            {
+                /** A new user found */
+        /*        $count++;
+                $data["users"][$count] = User::limit(1)->where('uid', $submission->uid)->first();
+                $userInfoObj = $data["users"][$count]->info;
+                $data["users"][$count]->infoObj = new ContestUserInfo();
+                $data["users"][$count]->nickname = $userInfoObj->nickname;
+                $data["users"][$count]->realname = $userInfoObj->realname;
+                $data["users"][$count]->stu_id = $userInfoObj->stu_id;
+                $preuid = $submission->uid;
+                $curUserAcList = [];
+
+            }
+
+            /** Give current userObj an alias for easy to use */
+            /*$user = &$data["users"][$count];
+
+            /** Only calculate the submission when the user does not AC the problem */
+            /*if(!isset($curUserAcList[$contestProblemID]))
+            {
+                if($submission->result != "Accepted")
+                {
+                    if(!isset($user->infoObj->penalty[$contestProblemID]))
+                        $user->infoObj->penalty[$contestProblemID] = 1;
+                    else
+                        $user->infoObj->penalty[$contestProblemID]++;
+                    $user->infoObj->result[$contestProblemID] = $submission->result;
+                }
+                else
+                {
+                    if($firstac[$submission->pid] == $user->uid)
+                    {
+                        $user->infoObj->result[$contestProblemID] = "First Blood";
+                    } else
+                    {
+                        $user->infoObj->result[$contestProblemID] = "Accepted";
+                    }
+                    $curUserAcList[$contestProblemID] = 1;
+                    $user->infoObj->time[$contestProblemID] = strtotime($submission->submit_time) - strtotime($contestObj->begin_time);
+                    if(!isset($user->infoObj->penalty[$contestProblemID]))
+                        $user->infoObj->penalty[$contestProblemID] = 0;
+                    $user->infoObj->realPenalty[$contestProblemID] = $user->infoObj->time[$contestProblemID] + 20 * 60 * $user->infoObj->penalty[$contestProblemID];
+                    $user->infoObj->totalPenalty += $user->infoObj->realPenalty[$contestProblemID];
+                    $user->infoObj->totalAC++;
+                }
+            }
+        }
+
+        usort($data['users'], ['self', "cmp"]);*/
+
+        /** For OI mode contest */
+        $allSubmissions = Submission::select('uid', 'result', 'score', 'pid', 'cid', 'submit_time')->where('cid', $contest_id)
+            ->orderby('uid', 'asc')->orderby('runid', 'asc')->get();
+
+        $firstac = $contestObj->getFirstacList();
+        $preuid = -1;
+        $curUserAcList = [];
+        $curUserScoreList = [];
         $data["users"] = [];
 
         foreach($allSubmissions as $submission)
@@ -400,7 +467,6 @@ class ContestController extends Controller
                 $data["users"][$count]->stu_id = $userInfoObj->stu_id;
                 $preuid = $submission->uid;
                 $curUserAcList = [];
-
             }
 
             /** Give current userObj an alias for easy to use */
@@ -434,10 +500,19 @@ class ContestController extends Controller
                     $user->infoObj->totalPenalty += $user->infoObj->realPenalty[$contestProblemID];
                     $user->infoObj->totalAC++;
                 }
+                if(!isset($user->infoObj->scoreList[$contestProblem]))
+                        $user->infoObj->scoreList[$contestProblem] = $submission->score;
+                else
+                {
+                    if($submission->score > $user->infoObj->scoreList[$contestProblem])
+                        $user->infoObj->scoreList[$contestProblem] = $submission->score;
+                }
             }
+            /** Update total score */
+            $user->infoObj->totalScore = collect($user->infoObj->scoreList)->sum();
         }
-
         usort($data['users'], ['self', "cmp"]);
+
         /** Add users in private contest whose submission count in contest is 0 */
         if($contestObj->contest_type == 1)
         {
@@ -502,11 +577,13 @@ class ContestController extends Controller
      */
     public function cmp($userA, $userB)
     {
-        if($userA->infoObj->totalAC == $userB->infoObj->totalAC)
+        /*if($userA->infoObj->totalAC == $userB->infoObj->totalAC)*/
+        if($userA->infoObj->totalScore == $userB->infoObj->totalScore)
         {
             return $userA->infoObj->totalPenalty > $userB->infoObj->totalPenalty;
         }
-        return $userA->infoObj->totalAC < $userB->infoObj->totalAC;
+        //return $userA->infoObj->totalAC < $userB->infoObj->totalAC;
+        return $userA->infoObj->stotalScore < $userB->infoObj->totalScore;
     }
 
     /**
