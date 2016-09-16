@@ -759,3 +759,64 @@ span[class^="hljs"]{
     font-size: 17px;
     text-indent: 2em;
 }
+.profile-avater{
+    width: 256px;
+    margin-left: 150px;
+    box-shadow: 0 0 10px rgba(0,0,0,.2);
+    float: left;
+}
+.profile-title{
+    width: 256px;
+    height: 5px;
+    background-color: #2E87D8;
+}
+.profile-img{
+    margin-top: 20px;
+    margin-left: 65px;
+}
+.profile-table td{
+    padding: 10px;
+}
+.profile-note{
+    padding-left: 10px;
+}
+.profile-info{
+    float: left;
+}
+.profile-button{
+    float: right;
+    margin-right: 50px;
+    margin-top: 80px;
+    color: #fff;
+    background-color: #3cc051;
+}
+.boder-right{
+ width: 0px; 
+ border-right-width: 15px; 
+ border-right-style: solid; 
+ border-right-color:#3cc051; 
+ display: inline-block; 
+ vertical-align: middle;  
+ border-top-width: 8px; 
+ border-top-style: solid; 
+ border-top-color: transparent; 
+ border-bottom-width: 8px; 
+ border-bottom-style: solid; 
+ border-bottom-color: transparent; 
+ box-sizing: border-box;
+ margin-right: -3px;
+ margin-top: -230px;
+}
+.boder-left{
+ display: inline-block; 
+ width: 90%; 
+ padding: 8px; 
+ border-radius: 0.5em; 
+ line-height: 1.5em; 
+ vertical-align: middle; 
+ box-sizing: border-box; 
+ background-color:white;
+ border: 1px solid #3cc051;
+ width: 460px;
+ height: 400px;
+}
