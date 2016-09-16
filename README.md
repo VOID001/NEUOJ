@@ -25,14 +25,14 @@ __Ver 1.2 Released__ 2.0 Working In Progress
  * [ ] Multi Lang Submission Support
  * [x] SIM for check copied code
  * [ ] A full rejudge system
- * [ ] Wrong Answer Diff
+ * [x] Wrong Answer Diff (education version)
  * [ ] Admin Submission management panel
- * [ ] Multiple testcase ? (Maybe)
+ * [x] Multiple testcase (education version)
 * [ ] Contest
  * [ ] Each user can add contest
  * [ ] Contest Announcement(Broadcast?)
  * [x] Contest BBS
- * [ ] Export Ranklist
+ * [x] Export Ranklist
  * [ ] Contest Statistics
 * [ ] CMS
  * [x] BBS Function
