@@ -44,11 +44,12 @@
 		<h2 class="custom-heading">Edit Problem</h2>
 		<div class="back-list">
 			<ol class="problem-b-error-box">
-				@if(!isset($error))
+				@if(isset($infos))
 					@foreach($infos as $info)
 						<li>{{ $info }}</li>
 					@endforeach
-				@else
+				@endif
+				@if(isset($errors))
 					@foreach($errors as $error)
 						<li>{{ $error }}</li>
 					@endforeach
@@ -81,7 +82,7 @@
 				@if($testcases == NULL)
 					<div class="text-center problem-b-warning-box">You do not have any testcase here</div>
 					<h5><b>Testcase 1</b></h5>
-					Set Score: &nbsp;&nbsp;<input type="number" min="0" max="100" class="score_set" placeholder="未设置"><br/>
+					Set Score: &nbsp;&nbsp;<input type="number" min="0" max="100" class="score_set" placeholder="未设置" name="score[]"><br/>
 					<span>Upload Input File 1: &nbsp;&nbsp;&nbsp;</span>
 					<div class="file_box">
 						<input class="custom-word text_field" id="text_filed_i1" type="text" placeholder="未选择文件" />
@@ -98,15 +99,16 @@
 				@else
 					@foreach($testcases as $testcase)
 					<div id="t_{{ $testcase->rank }}">
+						<input type="hidden" name="rank[]" value="{{ $testcase->rank }}" />
 						<h5><b>Testcase {{ $testcase->rank }}</b></h5>
 						<div>
-							Score: <br/>
+							Score: {{ $testcase->score }}<br/>
 							Input File: <a href="/storage/testdata?file={{ $testcase->input_file_name }}">{{ $testcase->input_file_name }}</a><br/>
 							md5sum: {{ $testcase->md5sum_input }}</div>
 						<div>
 							Output File: <a href="/storage/testdata?file={{ $testcase->output_file_name }}">{{ $testcase->output_file_name }}</a><br/>
 							md5sum: {{ $testcase->md5sum_output }}</div>
-						Set Score: &nbsp;&nbsp;<input type="number" min="0" max="100" class="score_set" placeholder="重新设置"><br/>
+						Set Score: &nbsp;&nbsp;<input type="number" min="0" max="100" class="score_set" placeholder="重新设置" name="score[]" value="{{ $testcase->score }}"><br/>
 						<span>Upload Input File {{ $testcase->rank }}: &nbsp;&nbsp;&nbsp;</span>
 						<div class="file_box">
 							<input class="custom-word text_field" id="text_filed_i{{ $testcase->rank }}" type="text" placeholder="重新选择文件" />
@@ -118,12 +120,14 @@
 						<div class="file_box">
 							<input class="custom-word text_field" id="text_filed_o{{ $testcase->rank }}" type="text" placeholder="重新选择文件" />
 							<a class="btn btn-grey file_chose">浏览</a>
-							<input name="input_file[]" class="file" type="file" onchange="document.getElementById('text_filed_o{{ $testcase->rank }}').value = this.value"/>
+							<input name="output_file[]" class="file" type="file" onchange="document.getElementById('text_filed_o{{ $testcase->rank }}').value = this.value"/>
 						</div>
+						<a href="javascript:delTestCase('{{ $testcase->rank }}')">Delete Testcase</a>
 					</div>
 					@endforeach
 				@endif
 				<div class="back-testcase-add-list"></div>
+				<div class="hidden-file-delete-list"></div>
 				<div class="problem-b-submit">
 					<input class="btn btn-default pull-right" type="submit" value="Save" />
 				</div>
@@ -140,7 +144,7 @@
 		function addTestCase() {
 			var testCaseItem = '<div id=t_' + count + '>' +
 					'<h5><b>Testcase '+ count +'</b></h5>'+
-					'Set Score: &nbsp;&nbsp;<input type="number" min="0" max="100" class="score_set" placeholder="重新设置"><br/>'+
+					'Set Score: &nbsp;&nbsp;<input type="number" min="0" max="100" class="score_set" placeholder="重新设置" name="score[]"><br/>'+
 					'<span>Upload Input File '+ count +': &nbsp;&nbsp;&nbsp;</span>'+
 					'<div class="file_box">'+
 					'<input class="custom-word text_field" id="text_filed_i'+ count +'" type="text" placeholder="重新选择文件" />'+
@@ -152,7 +156,7 @@
 					'<div class="file_box">'+
 					'<input class="custom-word text_field" id="text_filed_o' + count + '" type="text" placeholder="重新选择文件" />'+
 					'<a class="btn btn-grey file_chose">浏览</a>'+
-					'<input name="input_file[]" class="file" type="file" onchange="document.getElementById(\'text_filed_o'+ count +'\').value = this.value"/>'+
+					'<input name="output_file[]" class="file" type="file" onchange="document.getElementById(\'text_filed_o'+ count +'\').value = this.value"/>'+
 					'</div>'+
 				'<a href="javascript:delTestCase(' + count + ')">Delete Testcase</a>' +
 				'</div>';
@@ -161,6 +165,15 @@
 		}
 		function delTestCase(divId) {
 			$('#t_' + divId).remove();
+			if(divId <=
+			@if($testcases == NULL) 0
+			@else {{ $testcases->count() }}
+			@endif
+			)
+			{
+				var hiddenItem = '<input type="hidden" name="deleted[]" value="' + divId + '"/>';
+				$('.hidden-file-delete-list').append(hiddenItem);
+			}
 		}
 	</script>
 </body>

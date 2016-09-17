@@ -121,6 +121,11 @@ class ProblemController extends Controller
         $data['testcases'] = $testcaseObj;
         if($request->method() == "POST")
         {
+            $this->validate($request, [
+                "title" => "required",
+                "input_file" => "required",
+                "output_file" => "required",
+            ]);
             /*
              * POST means update , Update the problem Info
              */
@@ -145,24 +150,77 @@ class ProblemController extends Controller
             unset($updateProblemData['sample_input']);
             unset($updateProblemData['sample_output']);
             unset($updateProblemData['source']);
+            unset($updateProblemData['deleted']);
+            unset($updateProblemData['score']);
+            unset($updateProblemData['rank']);
             $updateProblemData['description'] = json_encode($jsonObj);
-            //var_dump($input);
             Problem::where('problem_id', $problem_id)->update($updateProblemData);
             /*
              * Check if testcase files are changed
              */
             $uploadInput = $request->file('input_file');
             $uploadOutput = $request->file('output_file');
-            var_dump($uploadInput[0]);
-            if(count($uploadInput) == count($uploadOutput) && $uploadInput[0] && $uploadOutput[0])
+            $deleteList = $request->input('deleted');
+            $rankList = $request->input('rank');    //to show problem's rank
+            $scoreList = $request->input('score');
+            for($i = 0; $i < count($deleteList); $i++)
             {
-                Testcase::where('pid', $problem_id)->delete();
+                Testcase::where([
+                    'pid' => $problem_id,
+                    'rank' => $deleteList[$i],
+                ])->delete();
+            }
+            if(count($uploadInput) == count($uploadOutput))
+            {
+                $testcasenum = Testcase::where('pid', $problem_id)->count();
                 for($i = 0; $i < count($uploadInput); $i++)
                 {
-                    $updateTestcaseData['rank'] = $i + 1;
+                    if($i < $testcasenum)
+                    {
+                        Testcase::where([
+                            'pid' => $problem_id,
+                            'rank' => $rankList[$i],
+                        ])->update(['score' => $scoreList[$i]]);
+                        if(!$uploadInput[$i] && !$uploadOutput[$i])
+                        {
+                            continue;
+                        }
+                        if($uploadInput[$i])
+                        {
+                            $updateTestcaseData['input_file_name'] = $problem_id . "-" . time() . "-" . $uploadInput[$i]->getClientOriginalName();
+                            $inputContent = file_get_contents($uploadInput[$i]->getRealPath());
+                            $updateTestcaseData['md5sum_input'] = md5($inputContent);
+                            Storage::put(
+                                'testdata/'. $updateTestcaseData['input_file_name'],
+                                $inputContent
+                            );
+                        }
+                        if($uploadOutput[$i])
+                        {
+                            $updateTestcaseData['output_file_name'] = $problem_id . "-". time() . "-" . $uploadOutput[$i]->getClientOriginalName();
+                            $outputContent = file_get_contents($uploadOutput[$i]->getRealPath());
+                            $updateTestcaseData['md5sum_output'] = md5($outputContent);
+                            Storage::put(
+                                'testdata/'. $updateTestcaseData['output_file_name'],
+                                $outputContent
+                            );
+                        }
+                        Testcase::where([
+                            'pid' => $problem_id,
+                            'rank' => $rankList[$i],
+                        ])->update($updateTestcaseData);
+                        continue;
+                    }
+                    else if(!$uploadInput[$i] || !$uploadOutput[$i])
+                    {
+                        array_push($data['errors'], "Please upload correct files!");
+                        break;
+                    }
+                    $updateTestcaseData['rank'] = $i + 1 + $testcasenum;
                     $updateTestcaseData['input_file_name'] = $problem_id . "-" . time() . "-" . $uploadInput[$i]->getClientOriginalName();
                     $updateTestcaseData['output_file_name'] = $problem_id . "-". time() . "-" . $uploadOutput[$i]->getClientOriginalName();
                     $updateTestcaseData['pid'] = $problem_id;
+                    $updateTestcaseData['score'] = $scoreList[$i];
                     if($uploadInput[$i]->isValid() && $uploadOutput[$i]->isValid())
                     {
                         var_dump($updateTestcaseData);
@@ -189,6 +247,18 @@ class ProblemController extends Controller
                 array_push($data['infos'], "Update Testcase Data!");
             }
             array_push($data['infos'], "Update Problem Info!");
+            $testcaseObj = Testcase::where('pid', $problem_id)->get();
+            $i = 1;
+            foreach($testcaseObj as $testCase)
+            {
+                Testcase::where([
+                    'pid' => $problem_id,
+                    'testcase_id' => $testCase->testcase_id
+                ])->update(['rank' => $i]);
+                $i++;
+            }
+            $testcaseObj = Testcase::where('pid', $problem_id)->get();
+            $data['testcases'] = $testcaseObj;
             // Flash the status info into session
             return Redirect::to($request->server('REQUEST_URI'))->with('status', $data);
         }
@@ -245,19 +315,17 @@ class ProblemController extends Controller
             /* We need to validate some input */
             $this->validate($request, [
                 "title" => "required",
-                "input_file" => "required",
-                "output_file" => "required",
+                "input_file[]" => "required",
+                "output_file[]" => "required",
             ]);
 
             $problemObj = new Problem();
             $testcaseObj = new Testcase();
             $problemObj->author_id = $request->session()->get('uid');
             $problemObj->save();
-            $testcaseObj->save();
             $problem_id=Problem::max('problem_id');
             $data['testcases'] = $testcaseObj;
             $updateProblemData = $request->input();
-
             /*
              * Description is stored in json format
              * encode it and store it
@@ -277,14 +345,15 @@ class ProblemController extends Controller
             unset($updateProblemData['sample_input']);
             unset($updateProblemData['sample_output']);
             unset($updateProblemData['source']);
+            unset($updateProblemData['score']);
             $updateProblemData['description'] = json_encode($jsonObj);
-            //var_dump($input);
             Problem::where('problem_id', $problem_id)->update($updateProblemData);
             /*
              * Check if testcase files are changed
              */
             $uploadInput = $request->file('input_file');
             $uploadOutput = $request->file('output_file');
+            $scoreList = $request->input('score');
             $max_output_size =  $request->file('input_file')[0]->getClientSize() / 1000 + 4096;
             Problem::where('problem_id', $problem_id)->update([
                 'output_limit' => $max_output_size
@@ -294,7 +363,7 @@ class ProblemController extends Controller
                 Testcase::where('pid', $problem_id)->delete();
                 for($i = 0; $i < count($uploadInput); $i++)
                 {
-                    if(!$uploadInput || !$uploadOutput)
+                    if(!$uploadInput[$i] || !$uploadOutput[$i])
                     {
                         array_push($data['errors'], "Please upload correct files!");
                         break;
@@ -303,6 +372,7 @@ class ProblemController extends Controller
                     $updateTestcaseData['input_file_name'] = $problem_id . "-" . time() . "-" . $uploadInput[$i]->getClientOriginalName() . '-' . ($i+1) . '-in';
                     $updateTestcaseData['output_file_name'] = $problem_id . "-". time() . "-" . $uploadOutput[$i]->getClientOriginalName() . '-' . ($i+1) . '-out';
                     $updateTestcaseData['pid'] = $problem_id;
+                    $updateTestcaseData['score'] = $scoreList[$i];
                     if($uploadInput[$i]->isValid() && $uploadOutput[$i]->isValid())
                     {
                         var_dump($updateTestcaseData);
@@ -330,10 +400,20 @@ class ProblemController extends Controller
             }
             array_push($data['infos'], "Update Problem Info!");
             // Flash the status info into session
-            return Redirect::route('dashboard.problem');
+            return Redirect::route('dashboard.problem')->with('status', $data);
         }
         else
         {
+            $status = session('status');
+            if($status)
+            {
+                foreach($status as $key => $val)
+                {
+                    $data[$key] = $val;
+                }
+            }
+            $errors = session('errors');
+            $data['errors'] = $errors;
             return View::make('problem.add',$data);
         }
     }

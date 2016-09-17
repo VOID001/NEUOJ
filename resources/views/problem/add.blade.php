@@ -43,11 +43,12 @@
 		<h2 class="custom-heading">Add Problem</h2>
 		<div class="back-list">
 			<ol class="problem-b-error-box">
-				@if(!isset($error))
+				@if(isset($infos))
 					@foreach($infos as $info)
 						<li>{{ $info }}</li>
 					@endforeach
-				@else
+				@endif
+				@if(isset($errors))
 					@foreach($errors as $error)
 						<li>{{ $error }}</li>
 					@endforeach
@@ -83,7 +84,7 @@
 				@if($testcases == NULL)
 					<div class="text-center problem-b-warning-box">You do not have any testcase here</div>
                     <h5><b>Testcase 1</b></h5>
-                    Set Score: &nbsp;&nbsp;<input type="number" min="0" max="100" class="score_set" placeholder="未设置"><br/>
+                    Set Score: &nbsp;&nbsp;<input type="number" min="0" max="100" class="score_set" placeholder="未设置" name="score[]"><br/>
 					<span>Upload Input File 1: &nbsp;&nbsp;&nbsp;</span>
 					<div class="file_box">
 						<input class="custom-word text_field" id="text_filed_i1" type="text" placeholder="未选择文件" />
@@ -95,7 +96,7 @@
                     <div class="file_box">
                         <input class="custom-word text_field" id="text_filed_o1" type="text" placeholder="未选择文件" />
                         <a class="btn btn-grey file_chose">浏览</a>
-                        <input name="input_file[]" class="file" type="file" onchange="document.getElementById('text_filed_o1').value = this.value"/>
+                        <input name="output_file[]" class="file" type="file" onchange="document.getElementById('text_filed_o1').value = this.value"/>
                     </div>
 				@else
 					@for($i = 1; $i <= $testcases->count(); $i++)
@@ -131,7 +132,7 @@
 		function addTestCase() {
 			var testCaseItem = '<div id=t_' + count + '>' +
                     '<h5><b>Testcase '+ count +'</b></h5>'+
-                    'Set Score: &nbsp;&nbsp;<input type="number" min="0" max="100" class="score_set" placeholder="未设置"><br/>'+
+                    'Set Score: &nbsp;&nbsp;<input type="number" min="0" max="100" class="score_set" placeholder="未设置" name="score[]"><br/>'+
                             '<span>Upload Input File '+ count +': &nbsp;&nbsp;&nbsp;</span>'+
                     '<div class="file_box">'+
                             '<input class="custom-word text_field" id="text_filed_i'+ count +'" type="text" placeholder="未选择文件" />'+
@@ -143,7 +144,7 @@
                     '<div class="file_box">'+
                             '<input class="custom-word text_field" id="text_filed_o' + count + '" type="text" placeholder="未选择文件" />'+
                             '<a class="btn btn-grey file_chose">浏览</a>'+
-                            '<input name="input_file[]" class="file" type="file" onchange="document.getElementById(\'text_filed_o'+ count +'\').value = this.value"/>'+
+                            '<input name="output_file[]" class="file" type="file" onchange="document.getElementById(\'text_filed_o'+ count +'\').value = this.value"/>'+
                             '</div>'+
                             '<a href="javascript:delTestCase(' + count + ')">Delete Testcase</a>' +
                             '</div>';
