@@ -92,6 +92,10 @@ Route::group(['middleware' => 'profile'],function() {
         "uses" => "ProblemController@getAllProblemTitleJSON"
     ]);
 
+    Route::post('/ajax/memberlist', [
+        "uses" => "ContestController@postMemberList"
+    ]);
+
     Route::get('/contest', [
         "uses" => "ContestController@getContest"
     ]);

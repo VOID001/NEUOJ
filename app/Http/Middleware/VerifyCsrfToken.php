@@ -15,5 +15,6 @@ class VerifyCsrfToken extends BaseVerifier
         "/api/*",
         /* This will exceed CSRF token max_timeout so do not check CSRF token for it */
         "/dashboard/problem/*",
+        "/ajax/memberlist",
     ];
 }
