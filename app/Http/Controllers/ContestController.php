@@ -1014,6 +1014,49 @@ class ContestController extends Controller
         }
         return Redirect::to("/contest/$contest_id/ranklist");
     }
+
+    /*
+     * @function postMemberList
+     * @input $request
+     *
+     * @return Text for succeed, NULL for error
+     * @description: AJAX Interface, post to /ajax/memberlist then
+     * will response with raw text containing all the
+     * username with comma seperated
+     */
+    public function postMemberList(Request $request)
+    {
+        $input = $request->input();
+        $file = $request->file('memberlist');
+
+        if(!isset($input['file_type']) || !isset($input['selected_col']))
+            return NULL;
+
+        if(!$file->isValid())
+            return NULL;
+        /*
+         *  Current only support read from
+         *  Excel file
+         */
+
+        if($input['file_type'] == 'xls')
+        {
+            $fileName = $file->getPathname();
+            $xlsObj = Excel::load($fileName, function($reader){
+
+            });
+
+            $dataArr = $xlsObj->toArray();
+
+            foreach($dataArr as $row)
+            {
+                if(!isset($row[$input['selected_col']]))
+                    return NULL;
+
+                echo $row[$input['selected_col']] . ',';
+            }
+        }
+    }
 }
 
 
