@@ -13,6 +13,30 @@
 			});
 		})
 	</script>
+	<style>
+		.file_box {
+			position: relative;
+			width: 300px;
+			display: inline-block;
+			padding-top: 5px;
+		}
+		.file {
+			position: absolute;
+			top:0;
+			left: 188px;
+			width: 60px;
+			opacity: 0;
+		}
+		.file_chose {
+			border:1px solid #CDCDCD;
+			width: 60px;
+			height: 25px;
+			padding: 3px;
+		}
+		.score_set {
+			width: 180px;
+		}
+	</style>
 </head>
 <body>
 @include("layout.dashboard_nav")
@@ -52,39 +76,49 @@
 				<textarea class="form-control" name="sample_output">{{ $problem->sample_output or "" }}</textarea>
 				<h4>Source</h4>
 				<textarea class="form-control" name="source">{{ $problem->source or "" }}</textarea>
-				<!-- Now only support single testcase -->
-				<a href="javascript:addTestCase()" class="btn btn-default">Add Testcase</a>
+				<h4>Testcase</h4>
+				<a href="javascript:addTestCase()" class="btn btn-grey">Add Testcase</a>
 				@if($testcases == NULL)
-					<h4>Upload Input File 1</h4>
-					<div class="text-center problem-b-warning-box">No Testcase!</div>
-					<div class="file-input">
-						<btn class="btn">选择文件</btn>
-						<input class="custom-word" type="text" placeholder="未选择文件" />
-						<input name="input_file[]" type="file" />
+					<div class="text-center problem-b-warning-box">You do not have any testcase here</div>
+					<h5><b>Testcase 1</b></h5>
+					Set Score: &nbsp;&nbsp;<input type="number" min="0" max="100" class="score_set" placeholder="未设置"><br/>
+					<span>Upload Input File 1: &nbsp;&nbsp;&nbsp;</span>
+					<div class="file_box">
+						<input class="custom-word text_field" id="text_filed_i1" type="text" placeholder="未选择文件" />
+						<a class="btn btn-grey file_chose">浏览</a>
+						<input name="input_file[]" class="file" type="file" onchange="document.getElementById('text_filed_i1').value = this.value"/>
 					</div>
-					<h4>Upload Output File 1</h4>
-					<div class="text-center problem-b-warning-box">No Testcase!</div>
-					<div class="file-input">
-						<btn class="btn">选择文件</btn>
-						<input class="custom-word" type="text" placeholder="未选择文件" />
-						<input name="output_file[]" type="file" />
+					<br/>
+					<span>Upload Output File 1: &nbsp;</span>
+					<div class="file_box">
+						<input class="custom-word text_field" id="text_filed_o1" type="text" placeholder="未选择文件" />
+						<a class="btn btn-grey file_chose">浏览</a>
+						<input name="input_file[]" class="file" type="file" onchange="document.getElementById('text_filed_o1').value = this.value"/>
 					</div>
 				@else
 					@foreach($testcases as $testcase)
 					<div id="t_{{ $testcase->rank }}">
-						<h4>Upload Input File {{ $testcase->rank }}</h4>
-						<div>Input File: <a href="/storage/testdata?file={{ $testcase->input_file_name }}">{{ $testcase->input_file_name }}</a> md5sum: {{ $testcase->md5sum_input }}</div>
-						<div class="file-input">
-							<btn class="btn">选择文件</btn>
-							<input class="custom-word" type="text" placeholder="未选择文件" />
-							<input name="input_file[]" type="file" />
+						<h5><b>Testcase {{ $testcase->rank }}</b></h5>
+						<div>
+							Score: <br/>
+							Input File: <a href="/storage/testdata?file={{ $testcase->input_file_name }}">{{ $testcase->input_file_name }}</a><br/>
+							md5sum: {{ $testcase->md5sum_input }}</div>
+						<div>
+							Output File: <a href="/storage/testdata?file={{ $testcase->output_file_name }}">{{ $testcase->output_file_name }}</a><br/>
+							md5sum: {{ $testcase->md5sum_output }}</div>
+						Set Score: &nbsp;&nbsp;<input type="number" min="0" max="100" class="score_set" placeholder="重新设置"><br/>
+						<span>Upload Input File {{ $testcase->rank }}: &nbsp;&nbsp;&nbsp;</span>
+						<div class="file_box">
+							<input class="custom-word text_field" id="text_filed_i{{ $testcase->rank }}" type="text" placeholder="重新选择文件" />
+							<a class="btn btn-grey file_chose">浏览</a>
+							<input name="input_file[]" class="file" type="file" onchange="document.getElementById('text_filed_i{{ $testcase->rank }}').value = this.value"/>
 						</div>
-						<h4>Upload Output File {{ $testcase->rank }}</h4>
-						<div>Output File: <a href="/storage/testdata?file={{ $testcase->output_file_name }}">{{ $testcase->output_file_name }}</a> md5sum: {{ $testcase->md5sum_output }}</div>
-						<div class="file-input">
-							<btn class="btn">选择文件</btn>
-							<input class="custom-word" type="text" placeholder="未选择文件" />
-							<input name="output_file[]" type="file" />
+						<br/>
+						<span>Upload Output File {{ $testcase->rank }}: &nbsp;</span>
+						<div class="file_box">
+							<input class="custom-word text_field" id="text_filed_o{{ $testcase->rank }}" type="text" placeholder="重新选择文件" />
+							<a class="btn btn-grey file_chose">浏览</a>
+							<input name="input_file[]" class="file" type="file" onchange="document.getElementById('text_filed_o{{ $testcase->rank }}').value = this.value"/>
 						</div>
 					</div>
 					@endforeach
@@ -105,18 +139,21 @@
 		@endif
 		function addTestCase() {
 			var testCaseItem = '<div id=t_' + count + '>' +
-				'<h4>Upload Input File ' + count + '</h4>'+
-				'<div class="file-input">'+
-					'<btn class="btn">选择文件</btn>'+
-					'<input class="custom-word" type="text" placeholder="未选择文件" />'+
-					'<input name="input_file[]" type="file" />'+
-				'</div>'+
-				'<h4>Upload Output File ' + count + '</h4>'+
-				'<div class="file-input">'+
-					'<btn class="btn">选择文件</btn>'+
-					'<input class="custom-word" type="text" placeholder="未选择文件" />'+
-					'<input name="output_file[]" type="file" />'+
-				'</div>'+
+					'<h5><b>Testcase '+ count +'</b></h5>'+
+					'Set Score: &nbsp;&nbsp;<input type="number" min="0" max="100" class="score_set" placeholder="重新设置"><br/>'+
+					'<span>Upload Input File '+ count +': &nbsp;&nbsp;&nbsp;</span>'+
+					'<div class="file_box">'+
+					'<input class="custom-word text_field" id="text_filed_i'+ count +'" type="text" placeholder="重新选择文件" />'+
+					'<a class="btn btn-grey file_chose">浏览</a>'+
+					'<input name="input_file[]" class="file" type="file" onchange="document.getElementById(\'text_filed_i'+ count +'\').value = this.value"/>'+
+					'</div>'+
+					'<br/>'+
+					'<span>Upload Output File ' + count + ': &nbsp;</span>'+
+					'<div class="file_box">'+
+					'<input class="custom-word text_field" id="text_filed_o' + count + '" type="text" placeholder="重新选择文件" />'+
+					'<a class="btn btn-grey file_chose">浏览</a>'+
+					'<input name="input_file[]" class="file" type="file" onchange="document.getElementById(\'text_filed_o'+ count +'\').value = this.value"/>'+
+					'</div>'+
 				'<a href="javascript:delTestCase(' + count + ')">Delete Testcase</a>' +
 				'</div>';
 			$('.back-testcase-add-list').append(testCaseItem);
