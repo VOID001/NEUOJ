@@ -188,14 +188,14 @@ a:focus, a:hover, a:active, a:visited {
     display: inline-block;
 }
 .back-problem-form {
-    margin-bottom: 200px;
+
 }
 .back-problem-form td:first-child {
     width: 180px;
 }
 .back-problem-add-list {
     margin-top: 20px;
-    margin-left: 10%;
+    margin-left: 6%;
 }
 .back-problem-add-list>div {
     margin-bottom: 5px;
@@ -217,6 +217,9 @@ a:focus, a:hover, a:active, a:visited {
 }
 /*contest-folder*/
 /*context-back*/
+.resize-none{
+    resize: none;
+}
 .contest-b-problem-input {
     width: 110px;
 }
