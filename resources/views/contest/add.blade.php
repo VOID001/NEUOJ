@@ -32,13 +32,36 @@
 			})
 		})
 	</script>
+	<style>
+		.student-list{
+			margin-top:100px;
+		}
+		form {
+			padding: 0;
+			margin: 0;
+		}
+		#private-table table{
+			margin: 0;
+			width: 100%;
+		}
+		#tmp_form{
+			position: absolute;
+			top:80px;
+			right: 80px;
+		}
+		.student-list-checkbox-table{
+			max-height: 1000px;
+			overflow-y: scroll;
+		}
+	</style>
 </head>
 <body >
 	@include("layout.dashboard_nav")
 	<div class="back-container">
+	<form class="back-problem-form" action="/dashboard/contest/add" method="post">
+		{{ csrf_field() }}
+		<div class="contest-left">
 		<h3 class="custom-heading">Add Contest</h3>
-		<form class="back-problem-form" action="/dashboard/contest/add" method="post">
-			{{ csrf_field() }}
 			<table class="custom-table">
 				@foreach($errors->all() as $error)
 					<tr>
@@ -69,12 +92,8 @@
 			<div class="contest-b-private-table" id="private-table">
 				<table class="custom-table">
 					<tr>
-						<td>Import user list</td>
-						<td><input name="user_list" type="file" /></td>
-					</tr>
-					<tr>
-						<td>Input Allowed Username</td>
-						<td><textarea class="form-control" name="user_list" placeholder="Input the user name , seperate each with comma"></textarea></td>
+						<td>Allowed Username</td>
+						<td><textarea class="form-control resize-none" name="user_list" placeholder="Input the user name , seperate each with comma" rows="5"></textarea></td>
 					</tr>
 				</table>
 			</div>
@@ -94,10 +113,86 @@
 				<label>Select Problem</label>
 				<a href="javascript:addProblem()">Add Problem</a>
 			</div>
-			<div class="back-problem-add-list"></div>
+			<div class="back-problem-add-list text-center"></div>
 			<input class="center-block" type="submit" value="Submit" />
-		</form>
+		</div>
+
+	</form>
+
 	</div>
+	<script>
+		function getList() {
+			var form = new FormData($("#tmp_form")[0]);
+			$.ajax({
+				url: '/ajax/memberlist',
+				type: 'post',
+				processData: false,
+				contentType: false,
+				data: form,
+				success: function (data) {
+					//alert(data);
+					$(".student-list-checkbox").children('tr').remove();
+					var datas = new Array();
+					datas = data.split(",");
+					for(var i=0;i<datas.length-1;i++) {
+						var student = '<tr>' +
+								'<td><input type="checkbox" value="' + datas[i] + '" checked></td>' +
+								'<td>' + (i+1) + '</td>' +
+								'<td>' + datas[i] + '</td>'+
+								'</tr>';
+						$(".student-list-checkbox").append(student);
+					}
+				}
+			});
+		}
+		function appendRight(){
+			var right = '<div class="col-md-6 student-list contest-right">'+
+					'<div class="student-list">'+
+						'<div class="student-list-checkbox-table">'+
+							'<table class="table table-bordered table-hover ">'+
+								'<thead>'+
+									'<tr>'+
+										'<th>选择</th>'+
+										'<th>顺序</th>'+
+										'<th>指定列</th>'+
+									'</tr>'+
+								'</thead>'+
+								'<tbody class="student-list-checkbox">'+
+								'</tbody>'+
+							'</table>'+
+						'</div>'+
+					'</div>'+
+					'</div>';
+			$(".back-problem-form").append(right);
+			var form = '<form enctype="multipart/form-data" id="tmp_form">'+
+					'{{ csrf_field() }}'+
+                    '<h4>Import user list</h4>'+
+					'Choose Column: &nbsp;&nbsp;<input id="selected_col" name="selected_col" value="col1"/><br/>'+
+					'Choose File: &nbsp;&nbsp;<input id="import-user" name="memberlist" style="display: inline-block" type="file" />'+
+					'<input id="file_type" name="file_type" value="xls" hidden/>'+
+				'</form><br/>';
+			$(".back-container").append(form);
+		}
+		$(function() {
+			$("#public-radio").click(function(){
+				$(".contest-left").removeClass("col-md-6");
+				$("#tmp_form").remove();
+				$(".contest-right").remove();
+			});
+			$("#register-radio").click(function(){
+				$(".contest-left").removeClass("col-md-6");
+				$("#tmp_form").remove();
+				$(".contest-right").remove();
+
+			});
+			$("#private-radio").click(function(){
+				$(".contest-left").addClass("col-md-6");
+				appendRight();
+				$("#import-user").change(getList);
+			});
+
+		});
+	</script>
 	<script type="text/javascript">
 		var titleData = [];
 		$.ajax({
@@ -112,16 +207,16 @@
 		var count = 0;
 		function addProblem() {
 			var problemItem = '<div id=p_' + count + '>' +
-				'<span>Problem ID </span>' +
+				'<span>ID </span>' +
 				'<div class="search-container">' +
 				'<input class="form-control search-title problem-id contest-b-problem-input" type="text" name="problem_id[]" autocomplete="off" />' +
 				'<div class="search-option hidden"></div>' +
 				'</div>' +
-				'<span> Problem Title </span>' +
+				'<span>Title </span>' +
 				'<input class="form-control problem-title contest-b-problem-input" type="text" name="problem_name[]" autocomplete="off" />' +
 				'<span>Color</span>' +
 				'<input class="form-control" style="width:5%;padding:0;" type="color" name=problem_color[] />' +
-				'<a href="javascript:delProblem(' + count + ')">Delete Problem</a>' +
+				'<a href="javascript:delProblem(' + count + ')">Delete</a>' +
 				'</div>';
 			$('.back-problem-add-list').append(problemItem);
 			count++;
