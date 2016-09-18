@@ -74,33 +74,24 @@ class RESTController extends Controller
          * Now will support multitestcases
          */
 
-        /* if Previously exist runnings then this is a rejudge */
-        $runningObj = Running::where('runid', $submission->runid)->first();
-        if($runningObj != NULL)
+        /* if Previously exist runnings then remove previous running data */
+        Running::where('runid', $submission->runid)->delete();
+
+        $testcaseNum = Testcase::where('pid', $submission->pid)->count();
+        for($i = 1; $i <= $testcaseNum; $i++)
         {
-            Running::where('runid',$submission->runid)->update([
-                'result' => "Rejudging",
-                'judge_status' => 0
-            ]);
-        }
-        else
-        {
-            $testcaseNum = Testcase::where('pid', $submission->pid)->count();
-            for($i = 1; $i <= $testcaseNum; $i++)
-            {
-                $runningObj = new Running;
-                $runningObj->runid = $submission->runid;
-                $runningObj->testcase_rank_id = $i;
-                $runningObj->testcase_id = Testcase::where([
-                    'pid' => $submission->pid,
-                    'rank' => $i,
-                ])->first()->testcase_id;
-                $runningObj->pid = $submission->pid;
-                $runningObj->cid = $submission->cid;
-                $runningObj->lang = $submission->lang;
-                $runningObj->judge_status = 0;
-                $runningObj->save();
-            }
+            $runningObj = new Running;
+            $runningObj->runid = $submission->runid;
+            $runningObj->testcase_rank_id = $i;
+            $runningObj->testcase_id = Testcase::where([
+                'pid' => $submission->pid,
+                'rank' => $i,
+            ])->first()->testcase_id;
+            $runningObj->pid = $submission->pid;
+            $runningObj->cid = $submission->cid;
+            $runningObj->lang = $submission->lang;
+            $runningObj->judge_status = 0;
+            $runningObj->save();
         }
 
         Submission::where('runid', $submission->runid)->update([
@@ -172,9 +163,9 @@ class RESTController extends Controller
 
         /* Judge which testcase is running now */
         $currentTestcaseRank = Running::where([
-            'runid' => $input['judgingid'],
-            'judge_status' => 3,
-        ])->count() + 1;
+                'runid' => $input['judgingid'],
+                'judge_status' => 3,
+            ])->count() + 1;
 
         /* Fetch basic information from submission */
         $submission = Submission::where('runid', $input['judgingid'])->first();
@@ -274,7 +265,7 @@ class RESTController extends Controller
             }
             else
             {
-                 Submission::where('runid', $input["judgingid"])->update(
+                Submission::where('runid', $input["judgingid"])->update(
                     [
                         "result" => 'Wrong Answer',
                         "exec_time" => 0,

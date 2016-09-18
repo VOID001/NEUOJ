@@ -96,6 +96,7 @@ class SubmissionController extends Controller
         foreach($data->runnings as &$running)
         {
             $currentTestcase = Testcase::where('testcase_id', $running->testcase_id)->first();
+
             $running->testcase_data = $currentTestcase;
         }
         /* It's in contest */
