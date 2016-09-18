@@ -500,12 +500,12 @@ class ContestController extends Controller
                     $user->infoObj->totalPenalty += $user->infoObj->realPenalty[$contestProblemID];
                     $user->infoObj->totalAC++;
                 }
-                if(!isset($user->infoObj->scoreList[$contestProblem]))
-                        $user->infoObj->scoreList[$contestProblem] = $submission->score;
+                if(!isset($user->infoObj->scoreList[$contestProblemID]))
+                        $user->infoObj->scoreList[$contestProblemID] = $submission->score;
                 else
                 {
-                    if($submission->score > $user->infoObj->scoreList[$contestProblem])
-                        $user->infoObj->scoreList[$contestProblem] = $submission->score;
+                    if($submission->score > $user->infoObj->scoreList[$contestProblemID])
+                        $user->infoObj->scoreList[$contestProblemID] = $submission->score;
                 }
             }
             /** Update total score */

@@ -132,7 +132,7 @@
 									</div>
 								@elseif(isset($user->infoObj->result[$problem->contest_problem_id]))
 									<div class="btn btn-danger text-center">
-										({{ $user->infoObj->penalty[$problem->contest_problem_id] }})({{ $user->infoObj->scoreList[$problem->contest_problem_id] }})
+										({{ $user->infoObj->penalty[$problem->contest_problem_id] }})<b>{{ $user->infoObj->scoreList[$problem->contest_problem_id] }}</b>
 									</div>
 								@endif
 							</td>
