@@ -35,7 +35,7 @@ class ProblemController extends Controller
         $problemObj = Problem::where("problem_id", $problem_id)->first();
         if($problemObj == NULL)
         {
-
+            abort(404);
         }
         $roleController = new RoleController();
         if(!$roleController->is("admin") && $problemObj->visibility_locks != 0)
