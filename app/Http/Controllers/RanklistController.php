@@ -35,13 +35,17 @@ class RanklistController extends Controller
         if($user_per_page * ($page_id - 1) > count($ranklist))
             return Redirect::to("/");
         $j = 0;
+        foreach($ranklist as &$rank)
+        {
+            $rank->ac_ratio = round($rank->ac_count / $rank->submit_count * 100, 2)."%";
+        }
+        $ranklist = $ranklist->all();
+        usort($ranklist, [$this, 'cmp']);
         for($i = $user_per_page * ($page_id - 1); $i < ($user_per_page * $page_id > count($ranklist) ? count($ranklist) : $user_per_page * $page_id); $i++)
         {
             $data['ranklist'][$j] = $ranklist[$i];
-            $data['ranklist'][$j]['ac_ratio'] = round($ranklist[$i]['ac_count'] / $ranklist[$i]['submit_count'] * 100, 2)."%";
             $j++;
         }
-        usort($data['ranklist'], [$this, 'cmp']);
         $data['counter'] = 1;
         $data['page_num'] = ceil(count($ranklist) / $user_per_page);
         $data['page_id'] = $page_id;
