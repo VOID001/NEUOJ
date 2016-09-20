@@ -93,7 +93,7 @@
 				<table class="custom-table">
 					<tr>
 						<td>Allowed Username</td>
-						<td><textarea class="form-control resize-none" name="user_list" placeholder="Input the user name , seperate each with comma" rows="5"></textarea></td>
+						<td><textarea id="list_txt" class="form-control resize-none" name="user_list" placeholder="Input the user name , seperate each with comma" rows="5"></textarea></td>
 					</tr>
 				</table>
 			</div>
@@ -120,6 +120,9 @@
 	</form>
 
 	</div>
+
+	<!--add private contest-->
+
 	<script>
 		function getList() {
 			var form = new FormData($("#tmp_form")[0]);
@@ -136,12 +139,38 @@
 					datas = data.split(",");
 					for(var i=0;i<datas.length-1;i++) {
 						var student = '<tr>' +
-								'<td><input type="checkbox" value="' + datas[i] + '" checked></td>' +
+								'<td><input type="checkbox" value="' + datas[i] + '" class="checked" id="checked'+ i +'" checked></td>' +
 								'<td>' + (i+1) + '</td>' +
 								'<td>' + datas[i] + '</td>'+
+								'<script>'+
+									'$("#checked' + i + '").click(function(){'+
+										'var checkboxes = $(".checked");'+
+										'var list = "";'+
+										'for(var i=0;i<checkboxes.length;i++) {'+
+											'if(checkboxes[i].checked == true) {'+
+												'if(i != checkboxes.length-1)'+
+												'	list += checkboxes[i].value+",";'+
+												'else'+
+												'	list += checkboxes[i].value;'+
+											'}'+
+										'}'+
+										'$("#list_txt").val(list);'+
+									'})'+
+								'<\/script>'+
 								'</tr>';
+
+
 						$(".student-list-checkbox").append(student);
 					}
+					var checkboxes = $(".checked");
+					var list = "";
+					for(var i=0;i<checkboxes.length;i++) {
+						if(i != checkboxes.length-1)
+							list += checkboxes[i].value+",";
+						else
+							list += checkboxes[i].value;
+					}
+					$("#list_txt").val(list);
 				}
 			});
 		}
@@ -173,22 +202,28 @@
 				'</form><br/>';
 			$(".back-container").append(form);
 		}
+		var lastClick = -1;//0 means public or register, 1 mean private
 		$(function() {
 			$("#public-radio").click(function(){
+				lastClick = 0;
 				$(".contest-left").removeClass("col-md-6");
 				$("#tmp_form").remove();
 				$(".contest-right").remove();
 			});
 			$("#register-radio").click(function(){
+				lastClick = 0;
 				$(".contest-left").removeClass("col-md-6");
 				$("#tmp_form").remove();
 				$(".contest-right").remove();
 
 			});
 			$("#private-radio").click(function(){
-				$(".contest-left").addClass("col-md-6");
-				appendRight();
-				$("#import-user").change(getList);
+				if(lastClick != 1) {
+					lastClick = 1;
+					$(".contest-left").addClass("col-md-6");
+					appendRight();
+					$("#import-user").change(getList);
+				}
 			});
 
 		});
