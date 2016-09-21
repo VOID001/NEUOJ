@@ -109,7 +109,7 @@
 					</tr>
 				</table>
 			</div>
-			<div class="text-center training-b-add-chapter">
+			<div class="training-b-add-chapter text-center">
 				<label>Select Problem</label>
 				<a href="javascript:addProblem()">Add Problem</a>
 			</div>
@@ -158,8 +158,6 @@
 									'})'+
 								'<\/script>'+
 								'</tr>';
-
-
 						$(".student-list-checkbox").append(student);
 					}
 					var checkboxes = $(".checked");
@@ -225,7 +223,9 @@
 					$("#import-user").change(getList);
 				}
 			});
-
+			if($("#private-radio")[0].checked == true) {
+				$("#private-radio").click();
+			}
 		});
 	</script>
 	<script type="text/javascript">
