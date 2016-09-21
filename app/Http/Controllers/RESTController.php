@@ -7,6 +7,7 @@ use App\ContestBalloonEvent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use Storage;
+use Log;
 use App\Problem;
 use App\User;
 use App\Submission;
@@ -40,16 +41,18 @@ class RESTController extends Controller
                 "C++" => "cpp",
             ];
         $jsonObj = [];
-        $submission = Submission::where('judge_status', 0)->first();
+        $submission = Submission::where('judge_status', 0)->lockForUpdate()->first();
+        /* This means no active submissions */
         if($submission == NULL)
             return response()->json(NULL);
-
+        Log::info("Judgehost " . $input['judgehost'] . " fetched submission $submission->runid");
         /* This lock should put as soon as the function entered for multi-judgehost safe*/
-        Submission::where('runid', $submission->runid)->update([
+        Submission::where('runid', $submission->runid)->lockForUpdate()->update([
             "judge_status" => 1,
             /* Sometime domjudge call judgehost judgehost , sometime call it hostname  = = */
             "judgeid" => $input['judgehost']
         ]);
+        Log::info("Judgehost " . $input['judgehost'] . " locked $submission->runid");
 
         $problem = Problem::where('problem_id', $submission->pid)->first();
         $runExecutable = Executable::where('execid', 'run')->first();
