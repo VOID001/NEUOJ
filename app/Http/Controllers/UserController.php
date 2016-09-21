@@ -128,7 +128,7 @@ class UserController extends Controller
         {
             $input = $request->input();
             $vdtor = Validator::make($input, [
-                "old_pass" => "required|between:6,255",
+                "old_pass" => "required",
                 "pass" => "required|confirmed|between:6,255",
             ]);
             if($vdtor->fails()) {
