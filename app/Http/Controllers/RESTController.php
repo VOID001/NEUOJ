@@ -30,7 +30,9 @@ class RESTController extends Controller
 
     public function postJudgings(Request $request)
     {
+
         $input = $request->input();
+
         $langsufix = [
                 "C" => "c",
                 "Java" => "java",
@@ -41,6 +43,14 @@ class RESTController extends Controller
         $submission = Submission::where('judge_status', 0)->first();
         if($submission == NULL)
             return response()->json(NULL);
+
+        /* This lock should put as soon as the function entered for multi-judgehost safe*/
+        Submission::where('runid', $submission->runid)->update([
+            "judge_status" => 1,
+            /* Sometime domjudge call judgehost judgehost , sometime call it hostname  = = */
+            "judgeid" => $input['judgehost']
+        ]);
+
         $problem = Problem::where('problem_id', $submission->pid)->first();
         $runExecutable = Executable::where('execid', 'run')->first();
         $compileExecutable = Executable::where('execid', $langsufix[$submission->lang])->first();
@@ -73,11 +83,6 @@ class RESTController extends Controller
         //$judgingRun = new JudgingRun;
         //$judgingRun->judgingid =
 
-        Submission::where('runid', $submission->runid)->update([
-            "judge_status" => 1,
-            /* Sometime domjudge call judgehost judgehost , sometime call it hostname  = = */
-            "judgeid" => $input['judgehost']
-        ]);
         return response()->json($jsonObj);
     }
 
