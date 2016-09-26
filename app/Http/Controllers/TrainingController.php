@@ -317,4 +317,10 @@ class TrainingController extends Controller
         }
         return Redirect::to("/training/$train_id");
     }
+
+    public function getTrainingsJson(Request $request)
+    {
+        $trainingObj = Train::all();
+        return response()->json($trainingObj);
+    }
 }

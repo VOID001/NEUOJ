@@ -1057,6 +1057,23 @@ class ContestController extends Controller
             }
         }
     }
+
+    public function getRunningContestsJson(Request $request)
+    {
+        $data = [];
+        $curTime = time();
+        $contestObj = Contest::all();
+        $i = 0;
+        $data['contests'] = [];
+        foreach($contestObj as $contest)
+        {
+            if($curTime >= strtotime($contest->begin_time) && $curTime <= strtotime($contest->end_time))
+            {
+                $data['contests'][$i++] = $contest;
+            }
+        }
+        return response()->json($data);
+    }
 }
 
 

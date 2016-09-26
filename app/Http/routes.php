@@ -424,6 +424,21 @@ Route::group(['middleware' => 'profile'],function() {
             "middleware" => "role:admin",
             "uses" => "RanklistController@initRanklist"
         ]);
+
+        /*
+         * Api to show messages that uses in front page
+         */
+        Route::get('/ajax/contests', [
+            "uses" => "ContestController@getRunningContestsJson"
+        ]);
+
+        Route::get('/ajax/unfinished_problems', [
+            "uses" => "ProblemController@getUnfinishedProblemsJson"
+        ]);
+
+        Route::get('/ajax/trainings', [
+            "uses" => "TrainingController@getTrainingsJson"
+        ]);
     });
 });
 /*

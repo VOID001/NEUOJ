@@ -609,4 +609,25 @@ class ProblemController extends Controller
         $problemObj = Problem::select('problem_id', 'title')->get();
         return $problemObj->toJson();
     }
+
+    public function getUnfinishedProblemsJson(Request $request)
+    {
+        $data = [];
+        $uid = $request->session()->get('uid');
+        $submissionObj = Submission::select('pid', 'result', 'submit_time')->where('uid', $uid)->orderBy('submit_time', 'desc')->get()->groupBy('pid');
+        $i = 0;
+        $data['unfinished_problems'] = [];
+        foreach($submissionObj as $submissionGroup)
+        {
+            if($submissionGroup->where('result', "Accepted")->count() == 0)
+            {
+                $problemObj = Problem::where('problem_id', $submissionGroup[0]->pid)->first();
+                $data['unfinished_problems'][$i]['pid'] = $problemObj->problem_id;
+                $data['unfinished_problems'][$i]['title'] = $problemObj->title;
+                $data['unfinished_problems'][$i]['result'] = $submissionGroup[0]->result;
+                $i++;
+            }
+        }
+        return response()->json($data);
+    }
 }
