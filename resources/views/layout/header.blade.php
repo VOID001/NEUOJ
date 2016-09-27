@@ -44,7 +44,7 @@
                     <span class="nav-back">DISCUSS</span>
                 </span>
             </li>
-            <li class="three-d" id="rating" onClick="window.location.href = '#';">
+            <li class="three-d" id="rating" onClick="window.location.href = '/ranklist/p/1';">
                 <span class="three-d-box">
                     <span class="nav-front">RATING</span>
                     <span class="nav-back">RATING</span>
