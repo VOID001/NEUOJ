@@ -55,6 +55,13 @@
 				&nbsp;&nbsp;&nbsp;<a href="/dashboard/problem/{{ $problem->problem_id }}"><b>Manage</b></a>
 			@endif
 		@endif
+		@if($roleCheck->is('admin'))
+			&nbsp;&nbsp;&nbsp;
+			<form action="/rejudge/0/{{$problem->problem_id }}" method="post" style="display: inline">
+				{{ csrf_field()}}
+				<input type="submit" class="btn btn-danger" id="problem_index_rejudge_btn" value="rejudge"></input>
+			</form>
+		@endif
 	</div>
 	@if(isset($contest))
 		<div class="front-time-box text-center">

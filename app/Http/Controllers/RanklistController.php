@@ -31,7 +31,7 @@ class RanklistController extends Controller
         $data = [];
         $data['ranklist'] = [];
         $user_per_page = 50;
-        $ranklist = Userinfo::select("uid", "nickname", "ac_count", "submit_count")->where("submit_count", "<>", "0")->get();
+        $ranklist = Userinfo::select("uid", "stu_id", "nickname", "school", "ac_count", "submit_count")->where("submit_count", "<>", "0")->get();
         if($user_per_page * ($page_id - 1) > count($ranklist))
             return Redirect::to("/");
         $j = 0;

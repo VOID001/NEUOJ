@@ -642,10 +642,100 @@ a:focus, a:hover, a:active, a:visited {
     font-size: 20px;
     line-height: 30px;
 }
+#content {
+    margin: 0 auto;
+    background-image: url(/image/homePage.jpeg);
+    width: 960px;
+    height: 400px;
+    margin-bottom: 40px;
+}
+.home-text{
+    color: #fff;
+    font-size: 30px;
+    font-family: Avant Garde;
+    text-align: center;
+    padding-top: 100px;
+    padding-bottom: 50px;
+}
+.homesignin-text{
+    color: #fff;
+    font-size: 24px;
+    font-family: sans-serif;
+    text-align: center;
+    font-weight:lighter;
+    padding-top: 20px;
+}
+.homesignin-message-group{
+    position: relative;
+    width: 70%;
+    margin: 0 auto;
+    margin-top: 20px;
+}
+.homesignin-contest{
+    width: 30%;
+    float: left;
+    margin-right: 5%;
+}
+.homesignin-contest-line{
+    width: 300px;
+    height: 3px;
+    background-color: #67a8da;
+}
+.homesignin-contest-content{
+    width: 300px;
+    height: 400px;
+    border: 1px solid #ccc;
+    overflow: hidden;
+}
+.homesignin-training{
+    width: 30%;
+    float: left;
+    margin-right: 5%;
+}
+.homesignin-training-line{
+    width: 300px;
+    height: 3px;
+    background-color: #faaf43;
+}
+.homesignin-training-content{
+    width: 300px;
+    height: 400px;
+    border: 1px solid #ccc;
+    overflow: hidden;
+}
+.homesignin-problem{
+    width: 30%;
+    float: left;
+}
+.homesignin-problem-line{
+    width: 300px;
+    height: 3px;
+    background-color: #f26767;
+}
+.homesignin-problem-content{
+    width: 300px;
+    height: 400px;
+    border: 1px solid #ccc;
+    overflow: hidden;
+}
+#contest_list li, #training_list li, #problem_list li{
+    padding-left: 10px;
+}
+#contest_list li a, #training_list li a, #problem_list li a{
+    font-family: Avant Garde;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 8px;
+    letter-spacing: 1px;
+}
 /**题目内容页**/
 #promblem_submit_textarea.form-control{
     height: 400px;
     width: 100%;
+}
+#problem_index_rejudge_btn {
+    padding: 2px;
+    border-radius: 4px;
 }
 /*登陆注册表*/
 #signin-body {
