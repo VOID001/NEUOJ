@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Request;
 
 class Submission extends Model
 {
@@ -51,5 +52,39 @@ class Submission extends Model
                 $tmpac = 1;
         }
         return $totalSubmissionCount;
+    }
+
+    /*
+     * @function getAcCountByUserID
+     * @input $uid
+     *
+     * @return $data
+     * @description get the Accepted Submission all in the past days
+     */
+    public static function getAcCountByUserID($uid)
+    {
+        $dayNumObj = Submission::orderby('runid', 'asc')->get();
+        if ($dayNumObj->count()) {
+            $dayOld = strtotime($dayNumObj[0]->created_at->format('Ymd'));
+            $nowDate = strtotime(date('Ymd', time()));
+            $dayNum = round(($nowDate - $dayOld) / 3600 / 24) + 1;
+            $data = [];
+            for ($i = 0; $i < $dayNum; $i++) {
+                $data[$i]['date'] = date("Y-m-d", strtotime('-' . $i . ' day'));
+                $data[$i]['count'] = 0;
+            }
+            $submissionObj = Submission::orderby('runid', 'asc')->where('uid', $uid)->get();
+            $submissionNum = $submissionObj->count();
+            for ($i = 0; $i < $submissionNum; $i++) {
+                if ($submissionObj[$i]['result'] == 'Accepted') {
+                    $submissionDate = strtotime($submissionObj[$i]->created_at->format('Ymd'));
+                    $diffDays = round(($nowDate - $submissionDate) / 3600 / 24);
+                    if ($diffDays < $dayNum)
+                        $data[$diffDays]['count']++;
+                }
+            }
+            return $data;
+        } else
+            return null;
     }
 }

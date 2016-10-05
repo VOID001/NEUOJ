@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use App\User;
 use App\Userinfo;
+use App\Submission;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Response;
@@ -49,7 +50,7 @@ class UserController extends Controller
                         $input['uid']=$uid;
                     }
                     /* return "Image file is larger than 1M!" */
-                    return View::make('dashboard.profile', $data,$input);
+                    return View::make('dashboard.profile', $data, $input);
                 }
                 /* image mime type error */
                 elseif(substr($image->getMimeType(), 0, 6) != "image/")
@@ -68,7 +69,7 @@ class UserController extends Controller
                         $input['uid']=$uid;
                     }
                     /* return "Image file type error!" */
-                    return View::make('dashboard.profile', $data,$input);
+                    return View::make('dashboard.profile', $data, $input);
                 }
                 else
                 {
@@ -108,6 +109,7 @@ class UserController extends Controller
                 $input['school'] = $userinfoObject->school;
                 $input['stu_id'] = $userinfoObject->stu_id;
                 $input['realname'] = $userinfoObject->realname;
+                $input['acCount'] = json_encode(Submission::getAcCountByUserID($uid));
                 if (!Storage::has('avatars/' . $uid . '.jpg')) {
                     $uid = 0;
                 }

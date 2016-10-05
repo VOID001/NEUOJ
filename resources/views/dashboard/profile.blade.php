@@ -64,7 +64,8 @@
 						<input class="btn profile-button" value="Save" type="submit">
 					</section>
 				</section>
-			</div>				
+				{{$acCount}}
+			</div>
 		</form>
 	</div>
 </body>
