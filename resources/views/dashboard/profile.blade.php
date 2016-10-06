@@ -4,6 +4,7 @@
  	<title>Profile</title>
  	@include("layout.head")
  	<link rel="stylesheet" href="/css/main.css">
+    <script type="text/javascript" src="/js/Chart.min.js"></script>
  	<script type="text/javascript">
  		$(function() {
  			$("#dashboard_profile").addClass("dashboard-subnav-active");
@@ -64,9 +65,54 @@
 						<input class="btn profile-button" value="Save" type="submit">
 					</section>
 				</section>
-				{{$acCount}}
-			</div>
-		</form>
-	</div>
-</body>
+                <canvas id="acCountChart" width="600" height="400"></canvas>
+                <script type="text/javascript">
+                    var acCountChartData = '{!! $acCount !!}';
+                    var jsonData = JSON.parse(acCountChartData);
+                    console.log(jsonData);
+                    var labels = new Array();
+                    var myData = new Array();
+                    var maxMyAcCount = 0
+                    for(var i = 0; i < jsonData.length; i++)
+                    {
+                        if(jsonData[i].count != 0)
+                        {
+                            if(jsonData[i].count > maxMyAcCount)
+                                maxMyAcCount = jsonData[i].count;
+                            labels.push(jsonData[i].date);
+                            myData.push(jsonData[i].count);
+                        }
+                    }
+                    var ctx = $('#acCountChart');
+                    /* Frontend should fix the chart style and display */
+
+                    var myChart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: labels,
+                            datasets:[
+                                {
+                                    data: myData,
+                                    //backgroundColor: fillPattern, Leave it as default, frontend fix it
+                                    label: "AC Counts Per Day",
+
+                                }
+                            ]
+                        },
+                        options:{
+                            scales:{
+                                yAxes:[{
+                                    ticks: {
+                                        max: maxMyAcCount,
+                                        stepSize: 4,
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                </script>
+            </div>
+        </form>
+    </div>
+ </body>
 </html>
