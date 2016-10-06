@@ -19,6 +19,7 @@ use App\ContestUser;
 use App\Contest;
 use App\Train;
 use App\TrainProblem;
+use App\Thread;
 use Symfony\Component\VarDumper\Caster\ExceptionCaster;
 
 class ProblemController extends Controller
@@ -44,6 +45,12 @@ class ProblemController extends Controller
         }
         $jsonObj = json_decode($problemObj->description);
         $data['problem'] = $problemObj;
+
+        $threadCount = Thread::where([
+            "cid" => 0,
+            "pid" => $problem_id,
+        ])->count();
+
         if($jsonObj != NULL)
         {
             foreach ($jsonObj as $key => $val)
@@ -56,6 +63,7 @@ class ProblemController extends Controller
             'pid' => $problem_id,
             'result' => "Accepted"
         ])->get()->unique('uid')->count();
+        $data['problem']->threadCount = $threadCount;
         return View::make("problem.index", $data);
     }
 
@@ -339,11 +347,11 @@ class ProblemController extends Controller
         $data = [];
         $uid = $request->session()->get('uid');
         $contestObj = Contest::where('contest_id', $contest_id)->first();
-	$userObj = User::where('uid', $uid)->first();
-	if($userObj)
+        $userObj = User::where('uid', $uid)->first();
+        if($userObj)
             $username = $userObj->username;
         else
-	    $username = "";
+            $username = "";
         if(time() < strtotime($contestObj->begin_time))
         {
             //Admin Special Privilege
@@ -377,6 +385,12 @@ class ProblemController extends Controller
         $jsonObj = json_decode($problemObj->description);
         $data['problem'] = $problemObj;
         $data['problem']->problem_id = $problem_id;
+
+        $threadCount = Thread::where([
+            "cid" => $contest_id,
+            "pid" => $problem_id,
+        ])->count();
+
         if($jsonObj != NULL)
         {
             foreach ($jsonObj as $key => $val)
@@ -388,6 +402,7 @@ class ProblemController extends Controller
         $data['problem']->title = $contestProblemObj->problem_title;
         $data['isContest'] = true;
         $data['contest'] = $contestObj;
+        $data['problem']->threadCount = $threadCount;
         $data['problem']->acSubmissionCount = Submission::where([
             'pid' => $realProblemID,
             'cid' => $contest_id,
@@ -534,7 +549,7 @@ class ProblemController extends Controller
             {
                 /* Only problems with no visibility_lock can be access by normal user */
                 $data['problems'] = Problem::where('visibility_locks', 0)->
-                                    where('title', 'like', "%$query%")->get();
+                where('title', 'like', "%$query%")->get();
             }
 
             /* This code is duplicated now, need to encapsulate it */
