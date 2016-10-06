@@ -41,18 +41,29 @@ class RESTController extends Controller
                 "C++" => "cpp",
             ];
         $jsonObj = [];
-        $submission = Submission::where('judge_status', 0)->lockForUpdate()->first();
+        /* If lock exist force the client request again */
+        if(file_exists("/tmp/neuoj_db_lck"))
+            return response()->json(NULL);
+
+        /* Create System Wide Lock with file */
+        touch("/tmp/neuoj_db_lck");
+        $submission = Submission::where('judge_status', 0)->first();
+
         /* This means no active submissions */
         if($submission == NULL)
+        {
+            unlink('/tmp/neuoj_db_lck');
             return response()->json(NULL);
+        }
         Log::info("Judgehost " . $input['judgehost'] . " fetched submission $submission->runid");
-        /* This lock should put as soon as the function entered for multi-judgehost safe*/
+
         Submission::where('runid', $submission->runid)->lockForUpdate()->update([
             "judge_status" => 1,
             /* Sometime domjudge call judgehost judgehost , sometime call it hostname  = = */
             "judgeid" => $input['judgehost']
         ]);
-        Log::info("Judgehost " . $input['judgehost'] . " locked $submission->runid");
+        Log::info("Judgehost " . $input['judgehost'] . "unlock table");
+        unlink('/tmp/neuoj_db_lck');
 
         $problem = Problem::where('problem_id', $submission->pid)->first();
         $runExecutable = Executable::where('execid', 'run')->first();
