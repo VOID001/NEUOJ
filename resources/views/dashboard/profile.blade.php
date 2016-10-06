@@ -73,7 +73,7 @@
                     var labels = new Array();
                     var myData = new Array();
                     var maxMyAcCount = 0
-                    for(var i = 0; i < jsonData.length; i++)
+                    for(var i = jsonData.length - 1; i >= 0; i--)
                     {
                         if(jsonData[i].count != 0)
                         {
