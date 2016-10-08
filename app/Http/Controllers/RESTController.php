@@ -151,6 +151,9 @@ class RESTController extends Controller
                 "err_info" => base64_decode($input['output_compile']),
                 "result" => "Compile Error",
             ]);
+
+            /* update Ranklist queue */
+            $this->dispatch(new updateUserProblemCount(Submission::select('uid')->where('runid', $id)->first()->uid));
         }
     }
 
