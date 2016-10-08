@@ -291,20 +291,36 @@ class SubmissionController extends Controller
             'contest_problem_id' => $problem_id
         ])->first();
 
-        $realProblemID = $contestProblemObj->problem_id;
+        // contest_id == 0 means problem_id is RealProblemID
+        if($contest_id == 0)
+            $realProblemID = $problem_id;
+        else
+            $realProblemID = $contestProblemObj->problem_id;
 
-        $submissionObj = Submission::where([
-            "cid" => $contest_id,
-            "pid" => $realProblemID
-        ]);
+        // If contest_id == 0 , judge all submissions including contest
+        if($contest_id == 0)
+        {
+            $submissionObj = Submission::where([
+                "pid" => $realProblemID
+            ]);
+        }
+        else
+        {
+            $submissionObj = Submission::where([
+                "cid" => $contest_id,
+                "pid" => $realProblemID
+            ]);
+        }
 
-        $contestProblemObj->first_ac = 0;
-        $contestProblemObj->save();
+        if($contest_id != 0)
+        {
+            $contestProblemObj->first_ac = 0;
+            $contestProblemObj->save();
+        }
 
         foreach($submissionObj->get() as $submission)
         {
-            var_dump($submission);
-            if($submission->result == 'Accepted')
+            if($contest_id != 0 && $submission->result == 'Accepted')
             {
                 $contestBalloon = ContestBalloon::all();
                 foreach($contestBalloon as $contestBalloonObj)
@@ -323,6 +339,8 @@ class SubmissionController extends Controller
             $submission->save();
         }
 
+        if($contest_id == 0)
+            return Redirect::to("/status/");
         return Redirect::to($request->server('HTTP_REFERER'));
     }
 
