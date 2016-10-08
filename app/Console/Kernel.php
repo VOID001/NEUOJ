@@ -18,6 +18,7 @@ class Kernel extends ConsoleKernel
         \App\Console\Commands\compressAvatar::class,
         \App\Console\Commands\ClearGhost::class,
         \App\Console\Commands\correctContestUser::class,
+        \App\Console\Commands\correctSubmission::class,
     ];
 
     /**
