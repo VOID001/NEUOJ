@@ -12,29 +12,9 @@ compose:
             - MYSQL_PASSWORD=neuoj
         volumes:
 build:
-    image: centos
+    image: void001/neuoj-test
     environment:
     commands:
-        #- uname -a
-        - yum install wget -y
-        - rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
-        - yum install git -y
-        - yum install openssh-clients -y
-        - rpm -Uvh https://mirror.webtatic.com/yum/el7/webtatic-release.rpm # Add php7 Source
-        - yum repolist -y
-          #Just Test!
-        - yum install mariadb -y
-          # We must specify the port and host for mariadb to connect, directly use mysql -uroot -p*** is not enough
-          #- mysqladmin -uroot -ppassword -h 127.0.0.1 -P 3306 create neuoj_1 
-          #- mysql -uroot -ppassword -h 127.0.0.1 -P 3306
-        - yum -y install php70w.x86_64 php70w-bcmath.x86_64 php70w-cli.x86_64     php70w-common.x86_64 php70w-dba.x86_64 php70w-devel.x86_64 php70w-embedded.x86_64 php70w-enchant.x86_64 php70w-fpm.x86_64 php70w-gd.x86_64 php70w-imap.x86_64 php70w-interbase.x86_64 php70w-intl.x86_64 php70w-ldap.x86_64 php70w-mbstring.x86_64 php70w-mcrypt.x86_64 php70w-mysql.x86_64 php70w-odbc.x86_64 php70w-opcache.x86_64 php70w-pdo.x86_64 php70w-pdo_dblib.x86_64 php70w-pear.noarch php70w-pecl-apcu.x86_64 php70w-pecl-apcu-devel.x86_64 php70w-pecl-imagick.x86_64 php70w-pecl-imagick-devel.x86_64 php70w-pecl-xdebug.x86_64 php70w-pgsql.x86_64 php70w-phpdbg.x86_64 php70w-process.x86_64 php70w-pspell.x86_64 php70w-recode.x86_64 php70w-snmp.x86_64 php70w-soap.x86_64 php70w-tidy.x86_64 php70w-xml.x86_64 php70w-xmlrpc.x86_64 
-          # Add ssh key for droneCI to fetch NEUOJ
-          #- yum install mariadb mariadb-server -y
-          #- cp id_rsa ~/.ssh/
-          #- cp id_rsa.pub ~/.ssh/
-          #- chmod 600 ~/.ssh/id_rsa*
-          #- git clone git@219.216.96.46:/Lbyang/NEUOJ.git
-          #- cd NEUOJ
         - pwd
         - ls -al
         - cp .env.example .env
