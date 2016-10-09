@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\User;
+use App\Problem;
 use App\Submission;
 
 class correctSubmission extends Command
@@ -42,7 +42,7 @@ class correctSubmission extends Command
         $submissionObj = Submission::all();
         foreach($submissionObj as $submission)
         {
-            if(User::where('uid', $submission->uid)->first() == NULL)
+            if(Problem::where('problem_id', $submission->pid)->first() == NULL)
             {
                 Submission::where('runid', $submission->runid)->delete();
                 $this->info("Submission $submission->runid deleted");
