@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Cache;
 use App\ContestBalloon;
 use App\ContestBalloonEvent;
 use Illuminate\Http\Request;
@@ -42,6 +43,17 @@ class RESTController extends Controller
             ];
         $jsonObj = [];
         /* If lock exist force the client request again */
+
+        /* Checkin the judgehost */
+        if(!Cache::has('judgehost.ts'))
+            $judgehostTimestamp = [];
+        else
+            $judgehostTimestamp = Cache::get('judgehost.ts');
+
+        $activeHost = $input['judgehost'];
+        $judgehostTimestamp[$activeHost] = time();
+        Cache::put('judgehost.ts', $judgehostTimestamp, 1000);
+
         if(file_exists("/tmp/neuoj_db_lck"))
             return response()->json(NULL);
 

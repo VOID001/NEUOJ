@@ -163,6 +163,27 @@ Route::group(['middleware' => 'profile'],function() {
             "uses" => "UserController@setSettings",
         ]);
 
+        Route::get('/dashboard/judgehost', [
+            "uses" => "JudgehostController@getIndex",
+            "middleware" => "role:admin",
+        ]);
+
+        Route::get('/ajax/judgehost_status', [
+            "uses" => "JudgehostController@getJudgeStatus",
+        ]);
+
+        Route::post('/ajax/judgehost_start', [
+            "uses" => "JudgehostController@startAll",
+        ]);
+
+        Route::post('/ajax/judgehost_stop', [
+            "uses" => "JudgehostController@stopAll",
+        ]);
+
+        Route::post('/ajax/judgehost_clean', [
+            "uses" => "JudgehostController@cleanAll",
+        ]);
+
         Route::match(['post', 'get'], '/dashboard/problem/{problem_id}', [
             "uses" => "ProblemController@setProblem",
             "middleware" => "role:admin",

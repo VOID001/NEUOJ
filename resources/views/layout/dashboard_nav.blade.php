@@ -15,6 +15,7 @@
             <li><a href="#">Submission</a></li>
             <li id="dashboard_system"><a href="/dashboard/system">SystemInfo</a></li>
             <li id="dashboard_training"><a href="/dashboard/training">Training</a></li>
+            <li id="judgehost_manage"><a href="/dashboard/judgehost">Judgehost</a></li>
             {{--<li class="separate-item"></li>--}}
             <li><a href="#">Executables</a></li>
             <li><a href="#">Language</a></li>
