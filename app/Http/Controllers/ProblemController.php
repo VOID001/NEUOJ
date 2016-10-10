@@ -293,7 +293,10 @@ class ProblemController extends Controller
              */
             $uploadInput = $request->file('input_file');
             $uploadOutput = $request->file('output_file');
-            $max_output_size =  $request->file('input_file')[0]->getClientSize() / 1000 + 4096;
+            if($request->file('input_file') != NULL)
+                $max_output_size =  $request->file('input_file')[0]->getClientSize() / 1000 + 4096;
+            else
+                $max_output_size =  4096;
             Problem::where('problem_id', $problem_id)->update([
                 'output_limit' => $max_output_size
             ]);

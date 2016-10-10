@@ -34,6 +34,8 @@
 				{{ csrf_field() }}
 				<h4>Problem Title</h4>
 				<input class="form-control" name="title" type="text" autocomplete="off" />
+				<h4>Difficulty</h4>
+				<input class="form-control" name="difficulty" type="text" value="" />
 				<h4>Problem Description</h4>
 				<textarea class="form-control problem_add_wsg" name="description"></textarea>
 				<h4>Problem Visibility</h4>

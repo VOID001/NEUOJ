@@ -34,6 +34,8 @@
 				{{ csrf_field() }}
 				<h4>Problem Title</h4>
 				<input class="form-control" name="title" type="text" value="{{ $problem->title }}" />
+				<h4>Difficulty</h4>
+				<input class="form-control" name="difficulty" type="text" value="{{ $problem->difficulty }}" />
 				<h4>Problem Description</h4>
 				<textarea class="form-control problem_add_wsg" name="description">{{ $problem->description or "" }}</textarea>
 				<h4>Memory Limit (KB)</h4>
