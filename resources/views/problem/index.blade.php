@@ -166,6 +166,7 @@
 						<select name="lang" class="form-control" id="problem-index-modal-select">
 							<option name="c">C</option>
 							<option name="cpp">C++</option>
+							<option name="py3">Python3</option>
 						</select>
 						<textarea class="form-control" id="promblem_submit_textarea" name="code" placeholder="Input your code here..."></textarea>
 						<div id="problem-index-modal-footer">

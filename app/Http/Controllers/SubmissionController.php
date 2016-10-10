@@ -40,6 +40,8 @@ class SubmissionController extends Controller
                 "Java" => "java",
                 "C++11" => "cc",
                 "C++" => "cpp",
+                "Python2" => "py2",
+                "Python3" => "py3",
             ];
 
             $vdtor = Validator::make($request->all(),[

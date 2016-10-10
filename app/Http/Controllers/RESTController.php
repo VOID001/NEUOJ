@@ -40,6 +40,8 @@ class RESTController extends Controller
                 "Java" => "java",
                 "C++11" => "cc",
                 "C++" => "cpp",
+                "Python2" => "py2",
+                "Python3" => "py3",
             ];
         $jsonObj = [];
         /* If lock exist force the client request again */
@@ -416,6 +418,7 @@ class RESTController extends Controller
             'lang' => $currentSubmissionObj->lang,
             'result' => "Accepted"
         ])->get();
+
         $lang = $currentSubmissionObj->lang;
         $max_similarity = 0;
         $max_similarity_runid = -1;
