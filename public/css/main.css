@@ -195,7 +195,10 @@ a:focus, a:hover, a:active, a:visited {
 }
 .back-problem-add-list {
     margin-top: 20px;
-    margin-left: 6%;
+    margin-left: 23%;
+}
+.back-chapter-add{
+    margin-left: 26%;
 }
 .back-problem-add-list>div {
     margin-bottom: 5px;
@@ -279,6 +282,12 @@ a:focus, a:hover, a:active, a:visited {
 .contest-ranklist-btn div {
     width: 100%;
     padding: 5px 0px;
+}
+.contest-ranklist-btn a{
+    color: inherit;
+    display: inline-block;
+    width: 100%;
+    line-height: 19px;
 }
 /*problem-folder*/
 /*problem-back*/

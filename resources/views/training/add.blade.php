@@ -54,7 +54,7 @@
 		var chapterCount = 1;
 		var problemCount = 0;
 		function addChapter() {
-			var chapterItem = '<div class="back-problem-add-list" id="chapter_' + chapterCount + '">Chapter ' + chapterCount + '<a href="javascript:addProblem(' + chapterCount + ')"> Add Problem</a></div>';
+			var chapterItem = '<div class="back-problem-add-list" id="chapter_' + chapterCount + '"><div class="back-chapter-add">Chapter ' + chapterCount + '<a href="javascript:addProblem(' + chapterCount + ')"> Add Problem</a></div></div>';
 			$('#train_chapter').before(chapterItem);
 			$('#train_chapter').val(chapterCount);
 			chapterCount++;

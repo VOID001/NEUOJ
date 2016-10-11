@@ -38,8 +38,10 @@
 			</div>
 			@for($i = 1; $i <= $train_info->train_chapter; $i++)
 				<div class="back-problem-add-list" id="chapter_{{ $i }}">
+					<div class='back-chapter-add'>
 					Chapter {{ $i }}
-					<a href="javascript:addProblem({{ $i }})"> AddProblem</a>
+					<a href="javascript:addProblem({{ $i }})"> Add Problem</a>
+					</div>
 					@foreach($train_problem as $problem)
 						@if($problem->chapter_id == $i)
 							<div id="p_{{ $problem->train_problem_id+1 }}">
@@ -76,7 +78,7 @@
 		var chapterCount = {{ $train_info->train_chapter }} + 1;
 		var problemCount = {{ $train_problem_count }};
 		function addChapter() {
-			var chapterItem = '<div class="back-problem-add-list" id="chapter_' + chapterCount + '">Chapter' + chapterCount + '<a href="javascript:addProblem(' + chapterCount + ')">Add Problem </a></div>';
+			var chapterItem = '<div class="back-problem-add-list" id="chapter_' + chapterCount + '"><div class="back-chapter-add">Chapter' + chapterCount + '<a href="javascript:addProblem(' + chapterCount + ')">  Add Problem </a></div></div>';
 			$('#train_chapter').before(chapterItem);
 			$('#train_chapter').val(chapterCount);
 			chapterCount++;
