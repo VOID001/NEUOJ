@@ -15,6 +15,11 @@ use Illuminate\Support\Facades\View;
 
 /*Route group need profile middleware*/
 Route::group(['middleware' => 'profile'],function() {
+
+    Route::get('/executable',function(){
+        return view("dashboard.executable");
+    });
+
     Route::get('/', [
         "as" => "home",
         "uses" => "HomeController@showHome",

@@ -583,6 +583,10 @@ a:focus, a:hover, a:active, a:visited {
     margin-top: 8px;
     margin-right: 20px;
 }
+#personal-button a:active, #personal-button a:visited{
+    border-color: #46b8da !important;
+    background-color: #46b8da !important;
+}
 #personal-button img {
     width: 120px;
     height: 120px;
