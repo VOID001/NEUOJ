@@ -275,6 +275,11 @@ a:focus, a:hover, a:active, a:visited {
     min-width: 92px;
     width: 6%;
 }
+.contest-ranklist-problem a{
+    display: inline-block;
+    color: #fff;
+    width: 100%;
+}
 .contest-ranklist-img {
     width: 40px;
     height: 40px;
@@ -647,13 +652,49 @@ a:focus, a:hover, a:active, a:visited {
     border-top: 1px solid #666;
 }
 /*首页*/
-#homepage {
-    margin: 10px auto;
-    width: 800px;
+.page-title{
+    font-size: 40px;
+    font-family: sans-serif;
+    text-align: center;
+    color: #fff;
+    position: relative;
+    top: 20%;
+    text-shadow: 0 0 10px #fff;
+
+}
+.page-info{
+    width: 400px;
+    height: 94px;
+    background-color: rgba(85, 85, 85, 0.64);
+    margin-left: 80px;
+    margin-top: 330px;
+}
+.page-info p{
+    font-family: "Arial","Microsoft YaHei","黑体","宋体",sans-serif;
+    color: #fff;
+    font-size: 18px;
     padding: 10px;
-    text-indent: 2em;
+}
+.title a{
+    color: #fff;
+}
+.page-tip{
+    color: #fff;
+    text-align: center;
     font-size: 20px;
-    line-height: 30px;
+    margin-top: 70px;
+    text-shadow: 0 0 3px #fff;
+}
+.title-info{
+    color: #fff;
+    margin-top: 280px;
+    font-size: 30px;
+    text-align: center;
+    font-weight: 600;
+}
+#homesignin{
+    height: 800px;
+    overflow: auto;
 }
 #content {
     margin: 0 auto;
@@ -671,18 +712,20 @@ a:focus, a:hover, a:active, a:visited {
     padding-bottom: 50px;
 }
 .homesignin-text{
-    color: #fff;
+    color: #000;
     font-size: 24px;
     font-family: sans-serif;
     text-align: center;
-    font-weight:lighter;
-    padding-top: 20px;
+    font-weight:100;
+    padding-top: 10px;
+    margin-top: 60px;
 }
 .homesignin-message-group{
-    position: relative;
     width: 70%;
     margin: 0 auto;
-    margin-top: 20px;
+    margin-top: 30px;
+    margin-bottom: 40px;
+    height: 600px;
 }
 .homesignin-contest{
     width: 30%;
@@ -698,7 +741,6 @@ a:focus, a:hover, a:active, a:visited {
     width: 300px;
     height: 400px;
     border: 1px solid #ccc;
-    overflow: hidden;
 }
 .homesignin-training{
     width: 30%;
@@ -714,7 +756,6 @@ a:focus, a:hover, a:active, a:visited {
     width: 300px;
     height: 400px;
     border: 1px solid #ccc;
-    overflow: hidden;
 }
 .homesignin-problem{
     width: 30%;
@@ -729,17 +770,36 @@ a:focus, a:hover, a:active, a:visited {
     width: 300px;
     height: 400px;
     border: 1px solid #ccc;
-    overflow: hidden;
+}
+.list-unstyled{
+    height: 245px;
 }
 #contest_list li, #training_list li, #problem_list li{
     padding-left: 10px;
+    height: 35px;
+    border-bottom: solid 1px #eee;
 }
 #contest_list li a, #training_list li a, #problem_list li a{
-    font-family: Avant Garde;
-    font-size: 15px;
-    font-weight: 600;
-    line-height: 8px;
-    letter-spacing: 1px;
+    font-family: sans-serif;
+    font-size: 16px;
+    font-weight: 100;
+}
+#contest_list li:hover{
+    border-left: solid 2px #67a8da;
+    background-color: rgba(103, 168, 218, 0.38);
+}
+#training_list li:hover{
+    border-left: solid 2px #faaf43;
+    background-color: rgba(250, 227, 67, 0.45);
+}
+#problem_list li:hover{
+    border-left: solid 2px #f26767;
+    background-color: rgba(242, 103, 103, 0.32);
+}
+.tip{
+    margin-top:25px;
+    float: right;
+    margin-right: 15px;
 }
 /**题目内容页**/
 #promblem_submit_textarea.form-control{
