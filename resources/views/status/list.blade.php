@@ -161,12 +161,12 @@
 							<paper-button><a href="/profile/{{ $submission->uid }}" class="custom-word">{{ $submission->nickname }}</a></paper-button>
 						</td>
 						<td class="text-left">
-							&nbsp;{{ $submission->problemTitle }}
+							@if(isset($contest))
+								<paper-button><a href="/contest/{{ $contest->contest_id }}/problem/{{ $submission->contestProblemId }}" class="custom-word">{{ $submission->problemTitle }}</a></paper-button>
+							@else
+								<paper-button><a href="/problem/{{ $submission->pid }}" class="custom-word">{{ $submission->problemTitle }}</a></paper-button>
+							@endif
 						</td>
-
-
-
-
 						<td>
 							@if($roleCheck->is("able-view-code", $param))
 								<span onclick="window.location.href='/status/{{ $submission->runid }}@if(isset($contest))?c={{ $contest->contest_id }}&p={{ $submission->contestProblemId }} @endif'"
