@@ -35,7 +35,7 @@
 	</script>
 	<style>
 		.student-list{
-			margin-top:100px;
+			margin-top:110px;
 		}
 		form {
 			padding: 0;
@@ -54,11 +54,42 @@
 			max-height: 1000px;
 			overflow-y: scroll;
 		}
+		#mymodal {
+			margin-top: 5%;
+		}
+		#mymodal .modal-dialog {
+			width: 35%;
+		}
+		#mymodal button {
+			border-radius: 3px;
+		}
 	</style>
 </head>
 <body>
 	@include("layout.dashboard_nav")
 	<div class="back-container">
+		<div id="error_list">
+			<div class="modal fade" id="mymodal">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+							<h4 class="modal-title">Error</h4>
+						</div>
+						<div class="modal-body">
+							<p> 1. 可能上传的文件不是xls类型<br/>
+								2. 可能设定的列在上传的文件中不存在<br/>
+								3. 可能获得的是空白的信息<br/>
+								请重新导入.
+							</p>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-danger" data-dismiss="modal">Get</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 		<form class="back-problem-form" action="/dashboard/contest/{{ $contest->contest_id }}" method="post">
 			{{ csrf_field() }}
 			<div class="contest-left">
@@ -174,44 +205,47 @@
 				contentType: false,
 				data: form,
 				success: function (data) {
-					//alert(data);
-					$(".student-list-checkbox").children('tr').remove();
-					var datas = new Array();
-					datas = data.split(",");
-					for(var i=0;i<datas.length-1;i++) {
-						var student = '<tr>' +
-								'<td><input type="checkbox" value="' + datas[i] + '" class="checked" id="checked'+ i +'" checked></td>' +
-								'<td>' + (i+1) + '</td>' +
-								'<td>' + datas[i] + '</td>'+
-								'<script>'+
-								'$("#checked' + i + '").click(function(){'+
-								'var checkboxes = $(".checked");'+
-								'var list = "";'+
-								'for(var i=0;i<checkboxes.length;i++) {'+
-								'if(checkboxes[i].checked == true) {'+
-								'if(i != checkboxes.length-1)'+
-								'	list += checkboxes[i].value+",";'+
-								'else'+
-								'	list += checkboxes[i].value;'+
-								'}'+
-								'}'+
-								'$("#list_txt").val(list);'+
-								'})'+
-								'<\/script>'+
-								'</tr>';
+					if(data == ''||data == null) {
+						$("#mymodal").modal();
+					} else {
+						$(".student-list-checkbox").children('tr').remove();
+						var datas = new Array();
+						datas = data.split(",");
+						for (var i = 0; i < datas.length - 1; i++) {
+							var student = '<tr>' +
+									'<td><input type="checkbox" value="' + datas[i] + '" class="checked" id="checked' + i + '" checked></td>' +
+									'<td>' + (i + 1) + '</td>' +
+									'<td>' + datas[i] + '</td>' +
+									'<script>' +
+									'$("#checked' + i + '").click(function(){' +
+									'var checkboxes = $(".checked");' +
+									'var list = "";' +
+									'for(var i=0;i<checkboxes.length;i++) {' +
+									'if(checkboxes[i].checked == true) {' +
+									'if(i != checkboxes.length-1)' +
+									'	list += checkboxes[i].value+",";' +
+									'else' +
+									'	list += checkboxes[i].value;' +
+									'}' +
+									'}' +
+									'$("#list_txt").val(list);' +
+									'})' +
+									'<\/script>' +
+									'</tr>';
 
 
-						$(".student-list-checkbox").append(student);
+							$(".student-list-checkbox").append(student);
+						}
+						var checkboxes = $(".checked");
+						var list = "";
+						for (var i = 0; i < checkboxes.length; i++) {
+							if (i != checkboxes.length - 1)
+								list += checkboxes[i].value + ",";
+							else
+								list += checkboxes[i].value;
+						}
+						$("#list_txt").val(list);
 					}
-					var checkboxes = $(".checked");
-					var list = "";
-					for(var i=0;i<checkboxes.length;i++) {
-						if(i != checkboxes.length-1)
-							list += checkboxes[i].value+",";
-						else
-							list += checkboxes[i].value;
-					}
-					$("#list_txt").val(list);
 				}
 			});
 		}
@@ -237,9 +271,10 @@
 			var form = '<form enctype="multipart/form-data" id="tmp_form">'+
 					'{{ csrf_field() }}'+
 					'<h4>Import user list</h4>'+
-					'Choose Column: &nbsp;&nbsp;<input id="selected_col" name="selected_col" value="col1"/><br/>'+
-					'Choose File: &nbsp;&nbsp;<input id="import-user" name="memberlist" style="display: inline-block" type="file" />'+
-					'<input id="file_type" name="file_type" value="xls" hidden/>'+
+					'* Choose Column: &nbsp;&nbsp;<input id="selected_col" name="selected_col" value="col1"/><br/>'+
+					'* Choose File: &nbsp;&nbsp;<input id="import-user" name="memberlist" style="display: inline-block" type="file" />'+
+					'<input id="file_type" name="file_type" value="xls" hidden/><br/>'+
+					'<input id="import_btn" type="button" value="import">'+
 					'</form><br/>';
 			$(".back-container").append(form);
 		}
@@ -263,7 +298,7 @@
 					lastClick = 1;
 					$(".contest-left").addClass("col-md-6");
 					appendRight();
-					$("#import-user").change(getList);
+					$("#import_btn").click(getList);
 				}
 			});
 
