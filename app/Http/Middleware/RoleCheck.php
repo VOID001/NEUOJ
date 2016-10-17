@@ -15,7 +15,8 @@ class RoleCheck
         $uid = $request->session()->get('uid');
         if($role == "balloon")                  //tmp balloon role check
         {
-            if($uid == 763 || $uid <=2 )
+            $roleCheck = new RoleController;
+            if($uid == 763 || $roleCheck->is("admin") )
                 return $next($request);
             return Redirect::back();
         }
@@ -33,7 +34,8 @@ class RoleCheck
         {
             $userObj = User::where('uid', $uid)->first();
             $username = $userObj->username;
-            if($username == "VOID001" || $username == "admin")
+            $roleCheck = new RoleController;
+            if($roleCheck->is("admin"))
             {
                 return $next($request);
             }
