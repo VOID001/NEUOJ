@@ -195,10 +195,9 @@ a:focus, a:hover, a:active, a:visited {
 }
 .back-problem-add-list {
     margin-top: 20px;
-    margin-left: 23%;
 }
-.back-chapter-add{
-    margin-left: 26%;
+.back-problem-add{
+    text-align: center;
 }
 .back-problem-add-list>div {
     margin-bottom: 5px;
@@ -598,10 +597,6 @@ a:focus, a:hover, a:active, a:visited {
     margin-top: 8px;
     margin-right: 20px;
 }
-#personal-button a:active, #personal-button a:visited{
-    border-color: #46b8da !important;
-    background-color: #46b8da !important;
-}
 #personal-button img {
     width: 120px;
     height: 120px;
@@ -667,8 +662,8 @@ a:focus, a:hover, a:active, a:visited {
     width: 400px;
     height: 94px;
     background-color: rgba(85, 85, 85, 0.64);
-    margin-left: 80px;
-    margin-top: 330px;
+    margin-left: 5%;
+    margin-top: 25%;
 }
 .page-info p{
     font-family: "Arial","Microsoft YaHei","黑体","宋体",sans-serif;
@@ -683,7 +678,7 @@ a:focus, a:hover, a:active, a:visited {
     color: #fff;
     text-align: center;
     font-size: 20px;
-    margin-top: 70px;
+    margin-top: 5%;
     text-shadow: 0 0 3px #fff;
 }
 .title-info{
@@ -784,6 +779,8 @@ a:focus, a:hover, a:active, a:visited {
     font-family: sans-serif;
     font-size: 16px;
     font-weight: 100;
+    line-height: 35px;
+    display: block;
 }
 #contest_list li:hover{
     border-left: solid 2px #67a8da;
@@ -927,7 +924,7 @@ span[class^="hljs"]{
     text-indent: 2em;
 }
 .profile-info{
-    margin-left: 156px;
+    margin:0 auto;
     width: 774px;
     height: 840px;
     box-shadow: 0 0 10px rgba(0,0,0,.2);

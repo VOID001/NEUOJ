@@ -54,7 +54,7 @@
 		var chapterCount = 1;
 		var problemCount = 0;
 		function addChapter() {
-			var chapterItem = '<div class="back-problem-add-list" id="chapter_' + chapterCount + '"><div class="back-chapter-add">Chapter ' + chapterCount + '<a href="javascript:addProblem(' + chapterCount + ')"> Add Problem</a></div></div>';
+			var chapterItem = '<div class="back-problem-add-list" id="chapter_' + chapterCount + '"><div class="text-center">Chapter ' + chapterCount + '<a href="javascript:addProblem(' + chapterCount + ')"> Add Problem</a></div></div>';
 			$('#train_chapter').before(chapterItem);
 			$('#train_chapter').val(chapterCount);
 			chapterCount++;
@@ -67,7 +67,7 @@
 			}
 		}
 		function addProblem(chapter_id) {
-			var problemItem = '<div id=p_' + problemCount + '>' +
+			var problemItem = '<div class="back-problem-add" id=p_' + problemCount + '>' +
 				'<span>Problem ID </span>' +
 				'<input type="hidden" name="problem_chapter[]" value=' + chapter_id + '/>' +
 				'<div class="search-container">' +
