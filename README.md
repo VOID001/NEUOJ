@@ -1,13 +1,13 @@
 NEUOJ
 ====
 [![Build Status](http://202.118.31.226:3322/api/badges/Lbyang/NEUOJ/status.svg)](http://202.118.31.226:3322/Lbyang/NEUOJ)
-__Ver 1.2 Released__ 2.0 Working In Progress
+__Ver 1.8 Released__ 2.0 Working In Progress
 
 ### Function Enabled for v2.0
 
 * [ ] Problem
  * [x] Problem Database, Training System
- * [ ] Manually define problem difficulty
+ * [x] Manually define problem difficulty
  * [ ] Add Standard Solution problem for each problem
  * [ ] Use Tag for admin
  * [ ] Give the statistics info of the problem
@@ -39,7 +39,7 @@ __Ver 1.2 Released__ 2.0 Working In Progress
  * [ ] Blog
 * [ ] System & Log
  * [ ] Log System
- * [ ] Admin Dashboard system info panel
+ * [x] Admin Dashboard system info panel
 * [ ] File Managment
  * [ ] Download Files
  * [ ] Upload Files
@@ -62,7 +62,7 @@ __Ver 1.2 Released__ 2.0 Working In Progress
  * [x] Rejudge a Problem by ContestID or Submission ID
  * [x] Balloon System(semi stub)
 * [ ] Root Admin Panel
- * [ ] + User Managment
+ * [x] + User Managment
  * [ ] Dashboard Show System Status(Not sure)
 * [x] Auth module
  * [x] Register
@@ -72,7 +72,7 @@ __Ver 1.2 Released__ 2.0 Working In Progress
 * [ ] Problem Browsing
  * [x] Search problem by id
  * [x] View Page-splited problem list
- * [ ] Search problem by title
+ * [x] Search problem by title
 * [x] Problem Submit
 * [x] Judge (Current Plan: use domjudge judgedaemon to judge)
  * [x] Read domjudge judge/ code and make the Request Graph
