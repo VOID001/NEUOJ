@@ -687,14 +687,13 @@ a:focus, a:hover, a:active, a:visited {
     position: relative;
     top: 20%;
     text-shadow: 0 0 10px #fff;
-
+    margin-bottom: 25%;
 }
 .page-info{
     width: 400px;
     height: 94px;
     background-color: rgba(85, 85, 85, 0.64);
-    margin-left: 5%;
-    margin-top: 25%;
+    margin: 0 auto;
 }
 .page-info p{
     font-family: "Arial","Microsoft YaHei","黑体","宋体",sans-serif;
@@ -712,9 +711,16 @@ a:focus, a:hover, a:active, a:visited {
     margin-top: 5%;
     text-shadow: 0 0 3px #fff;
 }
+.title-icon{
+    font-size: 260px;
+    color: #fff;
+    text-align: center;
+    margin-top:6%;
+    margin-bottom: -3%;
+}
 .title-info{
     color: #fff;
-    margin-top: 280px;
+    margin-top: 3%;
     font-size: 30px;
     text-align: center;
     font-weight: 600;

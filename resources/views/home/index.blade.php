@@ -40,14 +40,17 @@
     			<p class='page-tip'>↓滚动</p>
 		</div>
 		<div class="page page2">
+                    <div class='title-icon'><span class="glyphicon glyphicon-send"></span></div>
 			<p class="title"><a href="/problem/p/1">Problem</a></p>
                     <div class='title-info'><span>多多益善的题量，分布式测评，满足不断前行的你</span></div>
 		</div>
 		<div class="page page3">
+                    <div class='title-icon'><span class="glyphicon glyphicon-globe"></span></div>
 			<p class="title"><a href="/contest/p/1">Contest</a></p>
                     <div class='title-info'><span>支持public  private  register多种比赛模式</span></div>
 		</div>
 		<div class="page page4">
+                    <div class='title-icon'><span class="glyphicon glyphicon-cloud-download"></span></div>
 			<p class="title"><a href="/training">Training</a></p>
                     <div class='title-info'><span>不同难度等级进阶训练，每天都有小收获</span></div>
 		</div>
@@ -144,6 +147,7 @@
 
       })
     </script>
+    @include("layout.footer")
   @endif
 </body>
 </html>

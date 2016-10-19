@@ -35,7 +35,6 @@ body, .onepage-wrapper, html{
 }
 p.title { 
   position: relative; 
-  top: 35%; 
   font: 700 40px "Microsoft Yahei"; 
   color: #fff; 
   text-align: center;
