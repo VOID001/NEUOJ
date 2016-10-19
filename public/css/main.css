@@ -239,7 +239,6 @@ a:focus, a:hover, a:active, a:visited {
 #contest-ranklist-table-responsive {
     border-right: 1px solid #ddd;
     border-left: 1px solid #ddd;
-    width: 1240px;
 }
 #contest-ranklist-table-responsive table{
      width: auto;
