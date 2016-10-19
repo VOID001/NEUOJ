@@ -236,6 +236,11 @@ a:focus, a:hover, a:active, a:visited {
      color: #5cb85c;
 }
 /*contest-ranklist*/
+.contest-ranklist-table{
+    margin: 0 auto;
+    padding: 10px;
+    padding-bottom: 70px;
+}
 #contest-ranklist-table-responsive {
     border-right: 1px solid #ddd;
     border-left: 1px solid #ddd;
@@ -251,27 +256,27 @@ a:focus, a:hover, a:active, a:visited {
      border-right: none;
 }
 #contest-ranklist-rank {
-    min-width: 45px;
+    min-width: 35px;
     width: 4%;
 }
 #contest-ranklist-id {
-    min-width: 55px;
+    min-width: 45px;
     width: 4%;
 }
 #contest-ranklist-name {
-    min-width: 80px;
+    min-width: 70px;
     width: 7%;
 }
 #contest-ranklist-solve {
-    min-width: 50px;
+    min-width: 40px;
     width: 4%;
 }
 #contest-ranklist-penalty {
-    min-width: 85px;
+    min-width: 75px;
     width: 8%;
 }
 .contest-ranklist-problem {
-    min-width: 92px;
+    min-width: 50px;
     width: 6%;
 }
 .contest-ranklist-problem a{

@@ -11,7 +11,7 @@
 		$(function(){
 			$("#contest").addClass("active");
 			var problemLength = $('.contest-ranklist-problem').length;
-			var maxShowProblemLength = 7;
+			var maxShowProblemLength = 13;
 			if(problemLength > maxShowProblemLength) {
 				$('#contest-ranklist-table-responsive').css('overflow-x', 'scroll');
 			}
@@ -28,7 +28,7 @@
 <body>
 	@include("layout.header")
 	<h3 class="custom-heading">Ranklist</h3>
-	<div class="front-big-container">
+	<div class="contest-ranklist-table">
 		<div class="front-time-box">
 			<a class="btn btn-info" href="/contest/{{ $contest_id }}">&nbsp;&nbsp;Back&nbsp;&nbsp;</a>
 			@if($roleCheck->is("admin"))
