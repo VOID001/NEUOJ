@@ -8,7 +8,7 @@
     <link href="/css/font-awesome.min.css" rel="stylesheet">
     <script>
         $(function(){
-            $("#ranklist").addClass("active");
+            $("#rating").addClass("active");
             var targetHerf = "/ranklist/p/";
             $("#callBackPager").extendPagination({
                 totalPage : {{ $page_num }},

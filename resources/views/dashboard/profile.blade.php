@@ -8,6 +8,30 @@
  	<script type="text/javascript">
  		$(function() {
  			$("#dashboard_profile").addClass("dashboard-subnav-active");
+            $('input[type=file]').change(function() {
+                $(this).siblings('input[type=text]').val($(this).val());
+                //image preview
+                var fileObj = $(this)[0];
+                var windowURL = window.URL || window.webkitURL;
+                var $img = $("#dashboard-profile-img");
+                var dataURL;
+                if (fileObj && fileObj.files && fileObj.files[0]) {
+                    dataURL = windowURL.createObjectURL(fileObj.files[0]);
+                    $img.attr('src', dataURL);
+                } else {
+                    dataURL = $file.val();
+                    var imgObj = document.getElementById("#dashboard-profile-img");
+                    imgObj.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale)";
+                    imgObj.filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = dataURL;
+                }
+                //get image size
+                var size = fileObj.files[0].size || fileObj.files[0].fileSize;
+                if(size/1024/1024 >= 1) {
+                    $("#dashboard-profile-img").replaceWith("<div id='img_size_hint' class='text-danger' style='padding-left: 36px;font-size: 16px'><br/>文件过大>.<,换一张<br/><br/></div>")
+                } else {
+                    $("#img_size_hint").replaceWith('<img class="profile-img" alt="努力加载中..." id="dashboard-profile-img" src="/avatar/@if(isset($uid)){{ $uid }}@else{{ 0 }}@endif">');
+                }
+            });
  		})
  	</script>
  </head>
@@ -28,12 +52,17 @@
                                     <div class="profile-title"></div>
                                     <div class='profile-content'>
  			<div class="profile-avater">
-				<img class="profile-img" id="dashboard-profile-img" src="/avatar/@if(isset($uid)){{ $uid }}@else{{ 0 }}@endif">
+				<img class="profile-img" alt="努力加载中..." id="dashboard-profile-img" src="/avatar/@if(isset($uid)){{ $uid }}@else{{ 0 }}@endif">
 				<table class="profile-table">
 				<tbody>
 					<tr>
-						<td>Avatar</td>
-						<td><input name="image" accept="image/*" type="file"></td>
+						<td>
+                            <div class="image-input">
+                                <div class="btn btn-grey">Select</div>
+                                <input class="custom-word" type="text" placeholder="未选择文件" />
+                                <input name="image" accept="image/*" type="file" />
+                            </div>
+                        </td>
 					</tr>
 				</tbody>
 				</table>
@@ -135,5 +164,5 @@
                                 </div>
                         </form>
             </div>
- </body>
+</body>
 </html>

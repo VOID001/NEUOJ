@@ -217,6 +217,33 @@ a:focus, a:hover, a:active, a:visited {
     height: 120px;
     margin-bottom: 20px;
 }
+.image-input {
+    vertical-align: middle;
+    height: 38px;
+    display: inline-block;
+    position: relative;
+}
+.image-input .btn {
+    width: 64px;
+    height: 30px;
+    padding: 5px;
+    border-radius: 3px;
+}
+.image-input input[type=text] {
+    border: 0;
+    vertical-align: middle;
+    position: absolute;
+    top:5px;
+    left:70px;
+    width: 170px;
+}
+.image-input input[type=file] {
+    width: 64px;
+    position: absolute;
+    opacity: 0;
+    top:0;
+    left:0;
+}
 /*contest-folder*/
 /*context-back*/
 .resize-none{
@@ -954,8 +981,10 @@ span[class^="hljs"]{
 }
 .profile-table td{
     padding: 10px;
+    padding-bottom: 0;
 }
 .profile-note{
+    color: red;
     padding-left: 10px;
 }
 .profile-text{
