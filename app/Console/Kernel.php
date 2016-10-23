@@ -19,6 +19,7 @@ class Kernel extends ConsoleKernel
         \App\Console\Commands\ClearGhost::class,
         \App\Console\Commands\correctContestUser::class,
         \App\Console\Commands\correctSubmission::class,
+        \App\Console\Commands\DeleteAdminPermission::class,
     ];
 
     /**

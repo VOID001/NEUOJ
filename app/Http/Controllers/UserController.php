@@ -201,28 +201,49 @@ class UserController extends Controller
 
     public function getUserDashboard(Request $request)
     {
-        $teacherObj = User::select('uid', 'username', 'lastlogin_ip')->where(['gid' => env('GROUP_TEACHER', 2)])->get();
-        $adminObj = User::select('uid', 'username', 'lastlogin_ip')->where(['gid' => env('GROUP_ADMIN', 1)])->get();
-        $data['teacher_list'] = $teacherObj;
-        $data['admin_list'] = $adminObj;
-        return View::make('dashboard.users', $data);
+        $data = [];
+        $gid = 0;
+        $search_username = "";
+        if($request->input('page_id') != NULL)
+            $page_id = $request->input('page_id');
+        else
+            $page_id = 1;
+        if($request->input('role') != NULL)
+        {
+            if($request->input('role') == "teacher")
+                $gid = 2;
+            else if($request->input('role') == "admin")
+                $gid = 1;
+            else
+                $gid = 0;
+        }
+        if($request->input('username') != NULL)
+        {
+            if($request->input('username') != "")
+                $search_username = $request->input('username');
+            else
+                $search_username = "";
+        }
+        $user_per_page = 20;
+        $data = User::getUserInPage($user_per_page, $page_id, $gid, $search_username);
+        $data['role'] = $request->input('role');
+        $data['search_username'] = $search_username;
+        return View::make('dashboard.users')->with($data);
     }
 
-    public function toggleTeacher(Request $request)
+    public function toggleUserPermission(Request $request)
     {
-        $username = $request->get('username');
-        $userObj = User::select('uid')->where('username', $username)->first();
-        if($userObj != NULL)
-        {
-            $userObj = User::find($userObj->uid);
-            if ($userObj->gid == env('GROUP_TEACHER', 2))
-                $userObj->gid = 0;
-            elseif ($userObj->gid == env('GROUP_ADMIN', 1))
-                $userObj->gid = env('GROUP_ADMIN', 1);
-            else
-                $userObj->gid = env('GROUP_TEACHER', 2);
-            $userObj->save();
-        }
-        return Redirect::to('/dashboard/users');
+        $gid = $request->input('gid');
+        $uid = $request->input('uid');
+        if($gid == NULL || $uid == NULL)
+            return Redirect::to('/');
+        $userObj = User::where('uid', $uid)->first();
+        if($userObj == NULL)
+            return Redirect::back();
+        if($userObj->gid == env('GROUP_ADMIN', 1) && $gid != env('GROUP_ADMIN', 1))
+            return Redirect::back();
+        $userObj->gid = $gid;
+        $userObj->save();
+        return Redirect::back();
     }
 }
