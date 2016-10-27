@@ -46,7 +46,7 @@
 								"<td>" + json[i].username + "</td>" +
 								"<td>" + json[i].nickname + "</td>" +
 								"<td>" + json[i].short_name + "</td>" +
-								"<td>" + "<div style='height:10px; width:100px; background-color:#00" + json[i].color + "00'></div>" + "</td>" +
+								"<td>" + "<div style='height:16px; width:65px; margin:0 auto; background-color:#000" + json[i].color + "00'></div>" + "</td>" +
 								"<td>" + json[i].event + "</td>" +
 								"<td>" + json[i].status + "</td>" +
 								"</tr>");
@@ -56,7 +56,7 @@
 								"<td>" + json[i].username + "</td>" +
 								"<td>" + json[i].nickname + "</td>" +
 								"<td>" + json[i].short_name + "</td>" +
-								"<td>" + "<div style='height:10px; width:100px; background-color:#00" + json[i].color + "00'></div>" + "</td>" +
+								"<td>" + "<div style='height:16px; width:65px; margin:0 auto; background-color:#000" + json[i].color + "00'></div>" + "</td>" +
 								"<td>" + json[i].event + "</td>" +
 								"<td>" + "<a class='btn btn-default' href = '/contest/{{ $contest_id }}/balloon/" + json[i].id + "'>confirm</a>" + "</td>" +
 								"</tr>");
