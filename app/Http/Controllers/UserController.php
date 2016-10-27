@@ -204,6 +204,13 @@ class UserController extends Controller
         return Redirect::route('dashboard.profile');
     }
 
+    /**
+     * @function getUserDashboard
+     * @input $request
+     *
+     * @return View
+     * @description Show users of the system by pageid, gid and search info
+     */
     public function getUserDashboard(Request $request)
     {
         $data = [];
@@ -236,6 +243,13 @@ class UserController extends Controller
         return View::make('dashboard.users')->with($data);
     }
 
+    /**
+     * @function toggleUserPermission
+     * @input $request
+     *
+     * @return Redirect
+     * @description Toggle user's permission by gid
+     */
     public function toggleUserPermission(Request $request)
     {
         $gid = $request->input('gid');

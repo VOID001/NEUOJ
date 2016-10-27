@@ -12,14 +12,14 @@ class DeleteAdminPermission extends Command
      *
      * @var string
      */
-    protected $signature = 'admin:delete {userid?} {--U|uid=} {--N|username=}';
+    protected $signature = 'admin:delete {userid?} {--u|uid=} {--n|username=}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Grant user\'s privilege to user';
 
     /**
      * Create a new command instance.
@@ -45,7 +45,7 @@ class DeleteAdminPermission extends Command
         $username = $this->option('username');
         if($uid == NULL && $username == NULL)
         {
-            $this->info("Please input uid or username");
+            $this->error("Please input uid or username");
             return;
         }
         if($uid != NULL)
@@ -54,11 +54,11 @@ class DeleteAdminPermission extends Command
             $userObj = User::where('username', $username)->first();
         if($userObj == NULL)
         {
-            $this->info("User doesn't exists!");
+            $this->error("User doesn't exists!");
             return;
         }
         $userObj->gid = 0;
         $userObj->save();
-        $this->info("User $userObj->username has been changed to a user");
+        $this->info("User $userObj->username has been granted privilege of user");
     }
 }

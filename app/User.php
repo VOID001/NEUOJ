@@ -37,6 +37,13 @@ class User extends Model
         return $this->hasOne('App\Userinfo', 'uid');
     }
 
+    /**
+     * @function getUserInPage
+     * @input $user_per_page, $page_id, $gid, $search_username
+     *
+     * @return array $data
+     * @description Get user information of one page by page_id, gid, search_username
+     */
     public static function getUserInPage($user_per_page, $page_id, $gid, $search_username)
     {
         $data = [];
