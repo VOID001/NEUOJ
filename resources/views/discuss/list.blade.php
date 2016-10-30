@@ -55,7 +55,7 @@
 										</form>
 									@endif
 								</div>
-								<div class="discuss-front-content" onclick="window.location.href='/discuss/{{$contest_id}}/{{$thread->pid}}'">
+								<div class="discuss-front-content discuss-front-content-bubble" onclick="window.location.href='/discuss/{{$contest_id}}/{{$thread->pid}}'">
 									@if($contest_id != 0)
 										<a href="/contest/{{$contest_id}}/problem/{{$thread->pid}}">@Problem {{$thread->pid}}: </a>
 									@else

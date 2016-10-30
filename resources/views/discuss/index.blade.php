@@ -42,8 +42,8 @@
 										</form>
 									@endif
 								</div>
-								<div class="discuss-front-content">
-									<p>{{$thread->content}}</p>
+								<div class="discuss-front-content discuss-front-content-bubble">
+										<p>{{$thread->content}}</p>
 									<span class="pull-right text-muted"><a onclick="replyTo({{ $thread->id }})">#{{ $thread->id }}</a> at {{$thread->created_at}}</span>
 								</div>
 							</li>

@@ -433,7 +433,12 @@ a:focus, a:hover, a:active, a:visited {
 /*discuss folder*/
 .discuss-front-panel-heading {
     background-color: #00b8d4 !important;
-    border-radius: 0px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    -moz-border-radius-topleft: 3px;
+    -moz-border-radius-topright: 3px;
+    -webkit-border-top-left-radius: 3px;
+    -webkit-border-top-right-radius: 3px;
 }
 .discuss-front-panel-heading a {
     color: #ecf0f5;
@@ -449,10 +454,6 @@ a:focus, a:hover, a:active, a:visited {
 }
 .discuss-front-green-word {
     color: green;
-}
-.discuss-front-li:hover {
-    cursor: pointer;
-    background-color: #d2d6de;
 }
 .discuss-front-li:after{
     content: "";
@@ -481,6 +482,35 @@ a:focus, a:hover, a:active, a:visited {
     min-height: 60px;
     white-space: pre-wrap;
     word-break:break-all;
+}
+.discuss-front-content-bubble {
+    position: relative;
+    text-decoration:none;
+    color: #492222;
+    width: 84%;
+    padding: 2%;
+    float: left;
+    -moz-border-radius:10px;
+    -webkit-border-radius:10px;
+    border-radius:10px;
+    background:-webkit-gradient(linear, left top, left bottom, from(#dddddd), to(#7ae0e5));
+    background:-moz-linear-gradient(top, #dddddd, #7ae0e5);
+    background:-o-linear-gradient(top,  #dddddd, #7ae0e5);
+    background:linear-gradient(top,  #dddddd, #7ae0e5);
+}
+.discuss-front-content-bubble:after {
+    content: "";
+    width: 0;
+    height: 0;
+    position: absolute;
+    right: 99%;
+    top: 6.5%;
+    z-index: 1;
+    border-width: 9px;
+    border-style: solid;
+    border-color: transparent;
+    border-right-width: 20px;
+    border-right-color: #d7dddd;
 }
 .discuss-front-content span {
     font-size: 12px;
