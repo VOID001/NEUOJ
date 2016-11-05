@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\OJLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use App\Http\Requests;
@@ -122,6 +123,9 @@ class ThreadController extends Controller
         {
             $contest_id = $thread->cid;
             $problem_id = $thread->pid;
+            $uid = $request->session()->get('uid');
+            $deleteContent = $thread->content;
+            OJLog::deleteDiscuss($uid, $contest_id, $problem_id, $deleteContent);
             Thread::where('id',$thread_id)->delete();
             return Redirect::to('/discuss/'.$contest_id.'/'.$problem_id);
         }

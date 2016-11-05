@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\OJLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Response;
@@ -343,6 +344,8 @@ class SubmissionController extends Controller
 
         if($contest_id == 0)
             return Redirect::to("/status/");
+        $uid = $request->session()->get('uid');
+        OJLog::rejudge($uid, $contest_id, $problem_id);
         return Redirect::to($request->server('HTTP_REFERER'));
     }
 
@@ -367,6 +370,8 @@ class SubmissionController extends Controller
          * turns to error, but FB Flag will not chaged
          */
         $submissionObj->save();
+        $uid = $request->session()->get('uid');
+        OJLog::rejudgeByRunID($uid, $run_id);
         return Redirect::to($request->server('HTTP_REFERER'));
     }
 

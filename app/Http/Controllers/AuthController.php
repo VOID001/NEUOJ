@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\OJLog;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
@@ -66,6 +67,7 @@ class AuthController extends Controller
                         $prevURL = $sessionDat['prevURL'];
                         return Redirect::to($prevURL);
                     }
+                    OJLog::loginInfo($row->uid, $request->ip());
                     return Redirect::route('home');
                 }
                 $data['loginError'] = "Invalid Password";
@@ -122,6 +124,8 @@ class AuthController extends Controller
 
     public function logoutAction(Request $request)
     {
+        $uid = $request->session()->get('uid');
+        OJLog::logoutInfo($uid, $request->ip());
         $request->session()->flush();
         return Redirect::route('home');
     }

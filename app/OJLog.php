@@ -221,14 +221,38 @@ class OJLog extends Model
     }
 
     /*
+     * @function setUser
+     * @input $gid, $uid
+     *
+     * @description splice set User info
+     */
+    public static function setUser($aid, $uid)
+    {
+        $context = "Admin " . $aid . " set User " . $uid . " as User.";
+        self::writeLogger($context, Logger::ALERT);
+    }
+
+    /*
      * @function rejudge
-     * @input $uid, $problemId
+     * @input $uid, $contestId, $problemId
      *
      * @description splice rejudge info
      */
-    public static function rejudge($uid, $problemId)
+    public static function rejudge($uid, $contestId, $problemId)
     {
-        $context = "Admin " . $uid . " rejudged Problem " . $problemId;
+        $context = "Admin " . $uid . " rejudged Contest " . $contestId . " Problem " . $problemId;
+        self::writeLogger($context, Logger::ALERT);
+    }
+
+    /*
+     * @function rejudgeByRunID
+     * @input $uid, $runId
+     *
+     * @description splice rejudge info
+     */
+    public static function rejudgeByRunID($uid, $runId)
+    {
+        $context = "Admin " . $uid . " rejudged Submission " . $runId;
         self::writeLogger($context, Logger::ALERT);
     }
 
@@ -240,7 +264,7 @@ class OJLog extends Model
      */
     public static function changeVisibility($uid, $problemId, $newStatus)
     {
-        $context = "Admin " . $uid . " changed Problem " . $problemId . "Visibility to " . $newStatus;
+        $context = "Admin " . $uid . " changed Problem " . $problemId . " Visibility to " . $newStatus;
         self::writeLogger($context, Logger::ALERT);
     }
 

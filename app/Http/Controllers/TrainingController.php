@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\OJLog;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\MessageBag;
@@ -63,6 +64,8 @@ class TrainingController extends Controller
                 $trainingProblemObj->save();
             }
             $train_id = $trainingObj->train_id;
+            $uid = $request->session()->get('uid');
+            OJLog::addTrain($uid, $train_id);
             return Redirect::to("/dashboard/training/$train_id");
         }
         return View::make("training.add");
@@ -70,6 +73,11 @@ class TrainingController extends Controller
 
     public function deleteTraining(Request $request, $train_id)
     {
+        $uid = $request->session()->get('uid');
+        $trainingObj = Train::where('train_id', $train_id)->first();
+        $trainingProblemObj = TrainProblem::where('train_id', $train_id)->get();
+        $deleteContent = $trainingObj . $trainingProblemObj;
+        OJLog::deleteTrain($uid, $train_id, $deleteContent);
         Train::where('train_id', $train_id)->delete();
         TrainProblem::where('train_id', $train_id)->delete();
         return Redirect::to('/dashboard/training/p/1');
@@ -83,6 +91,7 @@ class TrainingController extends Controller
         $trainingProblemObj = TrainProblem::where('train_id', $train_id)->get();
         if($request->method() == "POST")
         {
+            $oldContent = $trainingObj . $trainingProblemObj;
             $this->validate($request, [
                 'train_name' => 'required',
                 'problem_id' => 'required | exists:problems',
@@ -105,6 +114,10 @@ class TrainingController extends Controller
                 $trainingProblemObj->problem_level = 0;
                 $trainingProblemObj->save();
             }
+            $uid = $request->session()->get('uid');
+            $trainingProblemObj = TrainProblem::where('train_id', $train_id)->get();
+            $newContent = $trainingObj . $trainingProblemObj;
+            OJLog::editTrain($uid, $train_id, $oldContent, $newContent);
             return Redirect::to("/dashboard/training/$train_id");
         }
         $data['train_info'] = $trainingObj;

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\OJLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\View;
@@ -129,6 +130,8 @@ class ProblemController extends Controller
         $data['testcases'] = $testcaseObj;
         if($request->method() == "POST")
         {
+            $testcaseObjLog = Testcase::where('pid', $problem_id)->first();
+            $oldContent = $problemObj . $testcaseObjLog;
             /*
              * POST means update , Update the problem Info
              */
@@ -198,6 +201,11 @@ class ProblemController extends Controller
             }
             array_push($data['infos'], "Update Problem Info!");
             // Flash the status info into session
+            $uid = $request->session()->get('uid');
+            $problemObj = Problem::where('problem_id', $problem_id)->first();
+            $testcaseObjLog = Testcase::where('pid', $problem_id)->first();
+            $newContent = $problemObj . $testcaseObjLog;
+            OJLog::editProblem($uid, $problem_id, $oldContent, $newContent);
             return Redirect::to($request->server('REQUEST_URI'))->with('status', $data);
         }
         else
@@ -232,6 +240,11 @@ class ProblemController extends Controller
 
     public function delProblem(Request $request, $problem_id)
     {
+        $uid = $request->session()->get('uid');
+        $problemObj = Problem::where('problem_id', $problem_id)->first();
+        $testcaseObjLog = Testcase::where('pid', $problem_id)->first();
+        $deleteContent = $problemObj . $testcaseObjLog;
+        OJLog::deleteProblem($uid, $problem_id, $deleteContent);
         Problem::where('problem_id', $problem_id)->delete();
         Testcase::where('pid', $problem_id)->delete();
         $status = "Successfully Delete Problem $problem_id";
@@ -337,6 +350,8 @@ class ProblemController extends Controller
             }
             array_push($data['infos'], "Update Problem Info!");
             // Flash the status info into session
+            $uid = $request->session()->get('uid');
+            OJLog::addProblem($uid, $problem_id);
             return Redirect::route('dashboard.problem');
         }
         else
@@ -496,6 +511,7 @@ class ProblemController extends Controller
     {
         $data = [];
         $problemObj = Problem::where('problem_id', $problem_id)->first();
+        $uid = $request->session()->get('uid');
         if($problemObj->visibility_locks != 0)
         {
             $contestProblemList = ContestProblem::where('problem_id', $problem_id)->get();
@@ -517,9 +533,11 @@ class ProblemController extends Controller
                     return View::make("errors.unlock_failed")->with($data);
                 }
             }
+            OJLog::changeVisibility($uid, $problem_id, "Unlock");
             Problem::where('problem_id', $problem_id)->update(['visibility_locks' => 0]);
             return Redirect::back();
         }
+        OJLog::changeVisibility($uid, $problem_id, "Lock");
         Problem::where('problem_id', $problem_id)->update(['visibility_locks' => 1]);
         return Redirect::back();
     }

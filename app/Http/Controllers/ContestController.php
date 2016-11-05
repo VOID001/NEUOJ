@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\OJLog;
 use Cache;
 use Carbon\Carbon;
 use App\Contest;
@@ -198,6 +199,7 @@ class ContestController extends Controller
                     $contestUserObj->save();
                 }
             }
+            OJLog::addContest($contestObj->admin_id, $contestObj->contest_id);
         }
         return View::make('contest.add', $data);
     }
@@ -671,6 +673,7 @@ class ContestController extends Controller
             }
             $contestObj = Contest::where('contest_id', $contest_id)->first();
             var_dump($contestObj->primaryKey);
+            $oldContent = $contestObj;
             $contestObj->contest_name = $input['contest_name'];
             $contestObj->begin_time = $input['begin_time'];
             $contestObj->end_time = $input['end_time'];
@@ -734,6 +737,9 @@ class ContestController extends Controller
                     $contestUserObj->save();
                 }
             }
+            $uid = $request->session()->get('uid');
+            $newContent = $contestObj;
+            OJLog::editContest($uid, $contest_id, $oldContent, $newContent);
             return Redirect::to("/dashboard/contest");
 
         }
@@ -761,6 +767,10 @@ class ContestController extends Controller
      */
     public function deleteContest(Request $request, $contest_id)
     {
+        $uid = $request->session()->get('uid');
+        $contestObj = Contest::where('contest_id', $contest_id)->first();
+        $deleteContent = $contestObj;
+        OJLog::deleteContest($uid, $contest_id, $deleteContent);
         ContestUser::where('contest_id',$contest_id)->delete();
         ContestProblem::where('contest_id',$contest_id)->delete();
         Contest::where('contest_id',$contest_id)->delete();

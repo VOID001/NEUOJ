@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\OJLog;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
@@ -100,6 +101,9 @@ class UserController extends Controller
             Userinfo::where('uid', $uid)->update(['school' => $request->school]);
             Userinfo::where('uid', $uid)->update(['stu_id' => $request->stu_id]);
             Userinfo::where('uid', $uid)->update(['realname' => $request->realname]);
+            $oldProfile = "nickname:" . $userinfoObject->nickname . " realname:" . $userinfoObject->realname . " school:" . $userinfoObject->school . " sut_id:" . $userinfoObject->stu_id;
+            $newProfile = "nickname:" . $request->nickname . " realname:" . $request->realname . " school:" . $request->school . " sut_id:" . $request->stu_id;
+            OJLog::changeProfile($uid, $oldProfile, $newProfile);
             return Redirect::route('dashboard.profile');
         }
         else {
@@ -146,6 +150,7 @@ class UserController extends Controller
                 $input['settingError'] = "Invalid Password";
                 return View::make('dashboard.settings', $input);
             }
+            OJLog::changePassword($uid);
             return Redirect::route('home');
         }
         else {
@@ -244,6 +249,18 @@ class UserController extends Controller
             return Redirect::back();
         $userObj->gid = $gid;
         $userObj->save();
+        $adminId = $request->session()->get('uid');
+        switch ($gid) {
+            case 0:
+                OJLog::setUser($adminId, $uid);
+                break;
+            case 1:
+                OJLog::setAdmin($adminId, $uid);
+                break;
+            case 2:
+                OJLog::setTeacher($adminId, $uid);
+                break;
+        }
         return Redirect::back();
     }
 }
