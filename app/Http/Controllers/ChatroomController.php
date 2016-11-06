@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\View;
+use Storage;
 use Redis;
 use App\User;
 use App\Contest;
@@ -34,16 +35,26 @@ class ChatroomController extends Controller
             else
                 return;
         }
-        $userObj = User::where('uid', $request->session()->get('uid'))->first();
         $redis = Redis::connection();
+        $username = $request->session()->get('username');
+        $message = $request->input('message');
+        $channel = $request->input('contest');
+        $time = date('Y-m-d-H:i:s');
+        $logtime = date('Y-m-d');
 		$redis->publish('message', json_encode(
             [
-                'username' => $request->session()->get('username'),
-                'message' => $request->input('message'),
-                'channel' => $request->input('contest'),
-                'time' => date('Y-m-d-H:i:s'),
+                'username' => $username,
+                'message' => $message,
+                'channel' => $channel,
+                'time' => $time,
             ]
         ));
+        $content = "username: $username channel: $channel time: $time\nmessage:$message";
+        $path = "chatroomLog/$logtime/$logtime-channel-$channel.log";
+        if(Storage::has($path))
+            Storage::append($path, $content);
+        else
+            Storage::put($path, $content);
 		return;
     }
 
