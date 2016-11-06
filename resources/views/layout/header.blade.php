@@ -74,5 +74,33 @@
                 <a href="/auth/signup"><paper-button class="sign-button" raised>Sign Up</paper-button></a>
             </div>
         @endif
+        @if(Request::session()->has('username'))
+        <div class="chatroom-box">
+            <a class="chatroom-btn" role="button"><img src="/image/neuacmlogo.PNG" width="35px"></a>
+            <br>
+            <div class="chatroom-content">
+                <div class="chatroom-header">
+                    Chatroom
+                </div>
+                <div class="chatroom-body">
+                    <div id="message-list"></div>
+                </div>
+                <div class="chatroom-footer">
+                    <form class="chatroom-form" action="">
+                        {{csrf_field()}}
+                        <input class="chatroom-input" id="chatroom-input" name="message" type="text" placeholder="Not empty">
+                        @if(isset($contest))
+                        <input name="contest" value="{{ $contest->contest_id }}" hidden/>
+                        @elseif(isset($contest_id))
+                        <input name="contest" value="{{ $contest_id }}" hidden/>
+                        @else
+                        <input name="contest" value="0" hidden/>
+                        @endif
+                        <button class="chatroom-send-btn btn btn-warning">send</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        @endif
     </div>
 </header>

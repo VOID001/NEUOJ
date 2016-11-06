@@ -139,3 +139,6 @@
             All Copyright&copy;Reserved 2013-2016 NEU-ACM TEAM&nbsp;&nbsp;&nbsp;Ver {{ env('APP_VER', 'NULL') }}
         </span>
 </footer>
+
+<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+<script src="/js/main.js"></script>

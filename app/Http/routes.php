@@ -55,6 +55,14 @@ Route::group(['middleware' => 'profile'],function() {
         "uses" => "ProblemController@getProblem"
     ]);
 
+    Route::get('/chatroom', [
+        "uses" => "ChatroomController@showChatroomIndex"
+    ]);
+
+    Route::post('/chatroom/send', [
+        "uses" => "ChatroomController@sendMessage"
+    ]);
+
     Route::get('/status', [
         "uses" => "SubmissionController@getSubmission"
     ]);
