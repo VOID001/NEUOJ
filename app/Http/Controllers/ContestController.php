@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\OJLog;
+use Event;
+use App\Events\ContestPageVisited;
 use Cache;
 use Carbon\Carbon;
 use App\Contest;
@@ -333,6 +335,7 @@ class ContestController extends Controller
         if($contestObj->isEnded())
             $data['contest']->status = "Ended";
         //var_dump($data['problems']);
+        Event::fire(new ContestPageVisited($contest_id));
         return View::make('contest.index', $data);
 
     }
@@ -613,6 +616,7 @@ class ContestController extends Controller
         {
             $data['lastPage'] = 1;
         }
+        Event::fire(new ContestPageVisited($contest_id));
         return View::make('status.list', $data);
     }
 

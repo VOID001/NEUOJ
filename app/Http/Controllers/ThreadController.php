@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\OJLog;
+use Event;
+use App\Events\ContestPageVisited;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use App\Http\Requests;
@@ -141,6 +143,7 @@ class ThreadController extends Controller
      */
     public function getThreadByContestID(Request $request, $contest_id)
     {
+        Event::fire(new ContestPageVisited($contest_id));
         return Redirect::to("/discuss/$contest_id/p/1");
     }
 
