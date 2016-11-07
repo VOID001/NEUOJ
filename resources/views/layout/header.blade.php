@@ -59,7 +59,7 @@
         </ul>
         @if(Request::session()->get('username')!="")
             <div class="btn-group" id="personal-button">
-                <a class="btn btn-info" onClick="window.location.href = '/dashboard';">{{Request::session()->get('username')}}</a>
+                <a class="btn btn-info" id="personal-username-btn" onClick="window.location.href = '/dashboard';">{{Request::session()->get('username')}}</a>
                 <a class="btn btn-info dropdown-toggle" data-toggle="dropdown" type="button"><span class="caret"></span></a>
                 <ul class="dropdown-menu dropdown-menu-right">
                     <li><a href="/dashboard"><img src="/avatar/{{Request::session()->get('uid')}}"/></a></li>
@@ -76,9 +76,9 @@
         @endif
         @if(Request::session()->has('username'))
         <div class="chatroom-box">
-            <a class="chatroom-btn" role="button"><img src="/image/neuacmlogo.PNG" width="35px"></a>
+            <a class="chatroom-btn" role="button"><img class="img-circle" src="/image/chatroom_btn.jpg" width="35px"></a>
             <br>
-            <div class="chatroom-content">
+            <div class="chatroom-content" style="display: none">
                 <div class="chatroom-header">
                     Chatroom
                 </div>

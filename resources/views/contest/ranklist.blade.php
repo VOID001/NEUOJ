@@ -160,6 +160,5 @@
 			);
 		});
 	</script>
-	@include("layout.footer")
 </body>
 </html>

@@ -661,6 +661,9 @@ a:focus, a:hover, a:active, a:visited {
     margin-top: 8px;
     margin-right: 20px;
 }
+#personal-button ul {
+    z-index: 99999;
+}
 #personal-button img {
     width: 120px;
     height: 120px;
@@ -676,10 +679,10 @@ a:focus, a:hover, a:active, a:visited {
 }
 .chatroom-btn img {
     position: relative;
-    z-index: 99999;
+    z-index: 99998;
 }
 .chatroom-content {
-    z-index: 99998;
+    z-index: 99997;
     position: relative;
     top: -20px;
     width: 260px;
@@ -716,10 +719,19 @@ a:focus, a:hover, a:active, a:visited {
     position: relative;
     padding: 2px 5px;
     font-size: 12px;
-    background: #d2d6de;
-    border: 1px solid #d2d6de;
     color: #444;
     word-break: break-all;
+}
+.chatroom-msg-content-other {
+    background-color: #d2d6de;
+    border: 1px solid #d2d6de;
+}
+.chatroom-msg-content-mine {
+    background-color: #f0ad4e;
+    border: 1px solid #f0ad4e;
+}
+.chatroom-msg-content-mine:after {
+    border-right-color: #f0ad4e !important;
 }
 .chatroom-msg-content:after {
     position: absolute;
