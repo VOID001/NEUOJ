@@ -677,6 +677,76 @@ a:focus, a:hover, a:active, a:visited {
 .chatroom-btn {
     float: right;
 }
+.chatroom-bubble {
+    display: block;
+    position: absolute;
+    top: 0.2px;
+    width: 0.2px;
+    height: 34px;
+    width: 34.8px;
+    background-color: #269abc;
+    border-radius: 50%;
+    webkit-animation: bubble-pulse 1.5s linear infinite;
+    -moz-animation: bubble-pulse 1.5s linear infinite;
+    -o-animation: bubble-pulse 1.5s linear infinite;
+    animation: bubble-pulse 1.5s linear infinite;
+}
+@keyframes bubble-pulse {
+    0% {
+        transform: scale(1);
+        opacity: .75;
+    }
+    25% {
+        transform: scale(1);
+        opacity: .75;
+    }
+    100% {
+        transform: scale(2.5);
+        opacity: 0;
+    }
+}
+@-webkit-keyframes bubble-pulse {
+    0% {
+        transform: scale(1);
+        opacity: .75;
+    }
+    25% {
+        transform: scale(1);
+        opacity: .75;
+    }
+    100% {
+        transform: scale(2.5);
+        opacity: 0;
+    }
+}
+@-moz-keyframes bubble-pulse {
+    0% {
+        transform: scale(1);
+        opacity: .75;
+    }
+    25% {
+        transform: scale(1);
+        opacity: .75;
+    }
+    100% {
+        transform: scale(2.5);
+        opacity: 0;
+    }
+}
+@-o-keyframes bubble-pulse {
+    0% {
+        transform: scale(1);
+        opacity: .75;
+    }
+    25% {
+        transform: scale(1);
+        opacity: .75;
+    }
+    100% {
+        transform: scale(2.5);
+        opacity: 0;
+    }
+}
 .chatroom-btn img {
     position: relative;
     z-index: 99998;
