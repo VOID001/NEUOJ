@@ -37,7 +37,7 @@
 				<h4>Difficulty</h4>
 				<input class="form-control" name="difficulty" type="text" value="" />
 				<h4>Problem Description</h4>
-				<textarea class="form-control problem_add_wsg" name="description"></textarea>
+				<textarea class="form-control summernote" name="description"></textarea>
 				<h4>Problem Visibility</h4>
 				<input name="visibility_locks" type="radio" value = "0" checked/>Unlock
 				<input name="visibility_locks" type="radio" value = "1"/>Lock
@@ -48,9 +48,9 @@
 				<h4>Output Limit (KB)</h4>
 				<input class="form-control" name="output_limit" type="text"value="5120" />
 				<h4>Input</h4>
-				<textarea class="form-control problem_add_wsg" name="input"></textarea>
+				<textarea class="form-control summernote" name="input"></textarea>
 				<h4>Output</h4>
-				<textarea class="form-control problem_add_wsg" name="output"></textarea>
+				<textarea class="form-control summernote" name="output"></textarea>
 				<h4>Sample Input</h4>
 				<textarea class="form-control" name="sample_input"></textarea>
 				<h4>Sample Output</h4>

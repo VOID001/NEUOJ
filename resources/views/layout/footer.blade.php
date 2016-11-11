@@ -136,7 +136,7 @@
         <span>
             <script>document.write(randCode)</script>
             <br>
-            All Copyright&copy;Reserved 2013-2016 NEU-ACM TEAM&nbsp;&nbsp;&nbsp;Ver {{ env('APP_VER', 'NULL') }}
+            All Copyright&copy;Reserved 2013-2016 NEU-ACM TEAM&nbsp;&nbsp;&nbsp;Ver {{ env('APP_VER', 'NULL') }}&nbsp;||&nbsp;本系统受东北大学大学生创新训练项目支持
         </span>
 </footer>
 

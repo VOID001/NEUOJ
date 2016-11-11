@@ -37,7 +37,7 @@
 				<h4>Difficulty</h4>
 				<input class="form-control" name="difficulty" type="text" value="{{ $problem->difficulty }}" />
 				<h4>Problem Description</h4>
-				<textarea class="form-control problem_add_wsg" name="description">{{ $problem->description or "" }}</textarea>
+				<textarea class="form-control summernote" name="description">{{ $problem->description or "" }}</textarea>
 				<h4>Memory Limit (KB)</h4>
 				<input class="form-control" name="mem_limit" type="text" value="{{ $problem->mem_limit }}" />
 				<h4>Time Limit (S)</h4>
@@ -45,9 +45,9 @@
 				<h4>Output Limit (KB)</h4>
 				<input class="form-control"name="output_limit" type="text" value="{{ $problem->output_limit }}" />
 				<h4>Input</h4>
-				<textarea class="form-control problem_add_wsg"name="input">{{ $problem->input or "" }}</textarea>
+				<textarea class="form-control summernote"name="input">{{ $problem->input or "" }}</textarea>
 				<h4>Output</h4>
-				<textarea class="form-control problem_add_wsg" name="output">{{ $problem->output or "" }}</textarea>
+				<textarea class="form-control summernote" name="output">{{ $problem->output or "" }}</textarea>
 				<h4>Sample Input</h4>
 				<textarea class="form-control" name="sample_input" >{{ $problem->sample_input or ""}}</textarea>
 				<h4>Sample Output</h4>
