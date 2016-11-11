@@ -3,6 +3,7 @@
 <head>
     <title>Judgehost Manage</title>
     @include("layout.head")
+    @include("layout.dashboard_header")
     <link rel="stylesheet" href="/css/main.css">
     <script type="text/javascript" src="/js/Chart.min.js"></script>
     <script type="text/javascript">

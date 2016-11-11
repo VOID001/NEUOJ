@@ -19,6 +19,8 @@ a:focus, a:hover, a:active, a:visited {
 }
 .label {
     font-size: 13px;
+    float:left;
+    margin-left:85px;
 }
 .btn, .form-control {
     border-radius: 0;
@@ -39,12 +41,13 @@ a:focus, a:hover, a:active, a:visited {
 .custom-heading {
     text-align: center;
     margin-bottom: 30px;
+    margin-top: 50px;
 }
 .custom-table {
     margin: 0px auto;
 }
 .custom-table td {
-    padding: 10px;
+    padding: 7.5px;
 }
 .custom-word {
     overflow: hidden;
@@ -217,6 +220,37 @@ a:focus, a:hover, a:active, a:visited {
     height: 120px;
     margin-bottom: 20px;
 }
+#dashboard-profile-info-content-user{
+    margin-top: 70px;
+    margin-left:27%;
+    margin-bottom: 40px;
+}
+.dashboard-profile-info-content-problem {
+    margin-top:70px;
+    margin-left: auto;
+    margin-bottom: 40px;
+}
+.dashboard-problem-content {
+    width: 365px;
+    height: 368px;
+    box-shadow: 0 10px 10px rgba(0,0,0,.05);
+}
+#dashboard-unsolved-problems {
+    height: 80px;
+    width:350px;
+}
+#dashboard-unsolved-problems a {
+    padding-left: 15px;
+    float: left;
+}
+#dashboard-solved-problems {
+    height: 120px;
+    width:350px;
+}
+#dashboard-solved-problems a {
+    padding-left: 15px;
+    float: left;
+}
 .image-input {
     vertical-align: middle;
     height: 38px;
@@ -234,11 +268,12 @@ a:focus, a:hover, a:active, a:visited {
     vertical-align: middle;
     position: absolute;
     top:5px;
-    left:70px;
+    left:85px;
     width: 170px;
 }
 .image-input input[type=file] {
     width: 64px;
+    height: 28px;
     position: absolute;
     opacity: 0;
     top:0;
@@ -473,6 +508,9 @@ a:focus, a:hover, a:active, a:visited {
     margin-top: 15px;
     width: 100%;
 }
+.discuss-front-information span {
+    cursor: pointer;
+}
 .discuss-front-content {
     width: 84%;
     padding-left: 2%;
@@ -543,19 +581,25 @@ a:focus, a:hover, a:active, a:visited {
 .header {
     position: relative;
 }
-.navbar {
+.navbar{
     border-radius: 0;
     border: 0;
     height: 50px;
-    background-color: #3f51b5;
+    background-color: #3F51B5;
+    margin-bottom: 0px;
+}
+.navbar-dashboard{
+    background-color: #333C47;
+}
 }
 #navbar-logo {
     padding: 5px;
 }
 #navbar-logo img {
-    width: 40px;
+    width: 33px;
     border-radius: 20px;
     margin-left: 15px;
+    magin-top:-8px;
     display: inline;
     transition: box-shadow 0.3s;
     transition-timing-function: ease-in-out;
@@ -844,30 +888,31 @@ a:focus, a:hover, a:active, a:visited {
     font-size: 14px;
 }
 /*layout-dashboard_nav*/
-#dashboard-nav {
+#dashboard-sidenav {
+    overflow: auto;
+    overflow-x: hidden;
     position: fixed;
+    margin-top:50px;
+    height: 100%;
     top: 0;
     left: 0;
-    background:#333C47;
-    height: 100%;
+    background:#333;
     width: 16%;
     min-width: 156px;
     color: #C5D0DE;
+    float: left;
 }
-#dashboard-nav a {
+#dashboard-sidenav a {
     color: #C5D0DE;
 }
-#dashboard-nav img {
+#dashboard-sidenav img {
     width: 100px;
     height: 100px;
     margin: 5px 0px;
 }
-#dashboard-nav hr {
+#dashboard-sidenav hr {
     border-top: 1px solid #666;
     margin-top: 5px 0px;
-}
-#dashboard-subnav li:first-child{
-    font-size: 20px;
 }
 #dashboard-subnav a:hover,
 #dashboard-subnav a:focus
@@ -877,8 +922,68 @@ a:focus, a:hover, a:active, a:visited {
 .dashboard-subnav-active {
     background-color: #24272D;
 }
+/* reset our lists to remove bullet points and padding */
+.dashboard-sidenav-mainmenu, .submenu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+/* make ALL links (main and submenu) have padding and background color */
+.dashboard-sidenav-mainmenu a {
+    display: block;
+    text-decoration: none;
+    padding: 10px;
+    color: #ccc;
+}
+/* add hover behaviour */
+.dashboard-sidenav-mainmenu a:hover {
+    background-color: #999;
+}
+/*
+  display the submenu inside it.
+  by changing the submenu's max-height from 0 to 200px;
+*/
+.dashboard-sidenav-mainmenu li .submenu {
+    display: block;
+    max-height: 200px;
+}
+/* hover behaviour for links inside .submenu */
+.submenu a:hover {
+    background-color: #666;
+}
+/* this is the initial state of all submenus.
+   set it to max-height: 0, and hide the overflowed content.
+*/
+.submenu {
+    overflow: hidden;
+    max-height: 0;
+    -webkit-transition: all 0.5s ease-out;
+}
 .separate-item {
     border-top: 1px solid #666;
+}
+.btn-dashboard{
+    color:#C5D0DE;
+    padding: 8px;
+    margin-right: -5px;
+}
+.btn-dashboard:hover,
+.btn-dashboard:active {
+    color: #d9d9d9;
+}
+.caret .caret-right {
+    border-left: 4px solid #000000;
+    border-right: 0;
+    border-top: 4px solid transparent;
+    border-bottom: 4px solid transparent;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin-left: 30px;
+    vertical-align: middle;
+}
+#dashboard-subnav .glyphicon{
+    margin-right: 8px;
 }
 /*首页*/
 .page-title{
@@ -1163,29 +1268,16 @@ span[class^="hljs"]{
     text-indent: 2em;
 }
 .profile-info{
-    margin:0 auto;
-    width: 774px;
-    height: 840px;
-    box-shadow: 0 0 10px rgba(0,0,0,.2);
+    width: 375px;
+    box-shadow: 0 10px 10px rgba(0,0,0,.05);
 }
-.profile-avater{
+.profile-avatar{
     width: 256px;
     float: left;
-    margin-left: 55px;
-    margin-top: 20px;
-}
-.profile-title{
-    width: 774px;
-    height: 5px;
-    background-color: #2E87D8;
 }
 .profile-content{
-    height: 300px;
-    margin-bottom: 60px;
-}
-.profile-img{
-    margin-top: 20px;
-    margin-left: 65px;
+    height:360px;
+    margin-bottom: 45px;
 }
 .profile-table td{
     padding: 10px;
@@ -1196,8 +1288,6 @@ span[class^="hljs"]{
     padding-left: 10px;
 }
 .profile-text{
-    margin-top: 25px;
-    margin-left: 40px;
     float: left;
 }
 .profile-button{
@@ -1208,5 +1298,8 @@ span[class^="hljs"]{
 .profile-chart{
     width: 660px;
     height: 440px;
-    margin-left: 55px;
+    margin-bottom: 45px;
+    margin-left:40.68%;
+    margin-right: 24.67%;
+    box-shadow: 0 10px 10px rgba(0,0,0,.05);
 }

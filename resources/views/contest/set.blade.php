@@ -3,6 +3,7 @@
 <head>
 	<title>Edit Contest</title>
 	@include("layout.head")
+	@include("layout.dashboard_header")
 	<link rel="stylesheet" href="/css/main.css">
 	<link rel="stylesheet" href="/css/contest.css">
 	<script src="/js/searchFunction.js"></script>

@@ -3,6 +3,7 @@
 <head>
 	<title>Edit Problem</title>
 	@include("layout.head")
+	@include("layout.dashboard_header")
 	@include("layout.wysiwyg_head")
 	<link rel="stylesheet" href="/css/main.css">
 	<script type="text/javascript">

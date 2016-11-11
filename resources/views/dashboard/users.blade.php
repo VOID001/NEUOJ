@@ -3,6 +3,7 @@
 <head>
     <title>Setting</title>
     @include("layout.head")
+    @include("layout.dashboard_header")
     <link rel="stylesheet" href="/css/main.css">
     <script src="/js/extendPagination.js"></script>
     <script type="text/javascript">
@@ -30,7 +31,7 @@
 <body>
 @include("layout.dashboard_nav")
 <div class="back-container">
-    <h2 class="text-center">Users</h2>
+    <h2 class="custom-heading">Users</h2>
     <a href="/dashboard/users" class="btn btn-default">Users</a>
     <a href="/dashboard/users?role=teacher" class="btn btn-default">Teachers</a>
     <a href="/dashboard/users?role=admin" class="btn btn-default">Admin</a>

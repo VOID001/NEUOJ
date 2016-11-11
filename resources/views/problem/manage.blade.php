@@ -3,6 +3,7 @@
 <head>
 	<title>Manage Problem</title>
 	@include("layout.head")
+	@include("layout.dashboard_header")
 	<link rel="stylesheet" href="/css/main.css">
 	<script src="/js/extendPagination.js"></script>
 	<script type="text/javascript">
