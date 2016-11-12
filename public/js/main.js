@@ -17,7 +17,27 @@ $(function () {
     }
     $content_div.slideToggle(500);
   });
+
+  $('.chatroom-form').submit(function() {
+    var $message = $('#chatroom-input').val();
+    if($message.trim() == '') {
+      return false;
+    }
+
+    var form = new FormData($('.chatroom-form')[0]);
+    $.ajax({
+      url: '/chatroom/send',
+      type: 'post',
+      processData: false,
+      contentType: false,
+      data: form,
+      dataType: "json"
+    });
+    $('.chatroom-input').val('');
+    return false;
+  });
 });
+
 
 /*socket*/
 var socket = io.connect("http://localhost:3000");
@@ -36,22 +56,12 @@ socket.on('message', function(msg) {
     '<div style="clear: both"></div>';
 
   $('#message-list').append(content);
+  chatBodyToBottom();
 });
-$('.chatroom-form').submit(function() {
-  var $message = $('#chatroom-input').val();
-  if($message.trim() == '') {
-    return false;
-  }
 
-  var form = new FormData($('.chatroom-form')[0]);
-  $.ajax({
-    url: '/chatroom/send',
-    type: 'post',
-    processData: false,
-    contentType: false,
-    data: form,
-    dataType: "json"
-  });
-  $('.chatroom-input').val('');
-  return false;
-});
+
+/*function*/
+function chatBodyToBottom() {
+  var height = $('.chatroom-body').prop('scrollHeight');
+  $('.chatroom-body').prop('scrollTop', height);
+}
