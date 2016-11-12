@@ -625,8 +625,8 @@ class ContestController extends Controller
      * @input $request,$contest_id
      *
      * @return view or redirect
-     * @description edit contest, called when edit button in /dashboard/contest is clicked 
-     *  or submit button in edit page is clicked 
+     * @description edit contest, called when edit button in /dashboard/contest is clicked
+     *  or submit button in edit page is clicked
      */
 
     public function setContest(Request $request, $contest_id)
@@ -677,7 +677,8 @@ class ContestController extends Controller
             }
             $contestObj = Contest::where('contest_id', $contest_id)->first();
             var_dump($contestObj->primaryKey);
-            $oldContent = $contestObj;
+            $oldContent = Contest::where('contest_id', $contest_id)->first();
+            $oldContentString = $oldContent["contest_id"] . $oldContent["contest_name"] . $oldContent["begin_time"] . $oldContent["end_time"] . $oldContent["register_begin_time"] . $oldContent["register_end_time"] . $oldContent["admin_id"] . $oldContent["contest_type"];
             $contestObj->contest_name = $input['contest_name'];
             $contestObj->begin_time = $input['begin_time'];
             $contestObj->end_time = $input['end_time'];
@@ -743,7 +744,13 @@ class ContestController extends Controller
             }
             $uid = $request->session()->get('uid');
             $newContent = $contestObj;
-            OJLog::editContest($uid, $contest_id, $oldContent, $newContent);
+            if (substr($newContent["end_time"], 10, 1) == 'T')
+                $newContent["end_time"] = substr($newContent["end_time"], 0, 10) . ' ' . substr($newContent["end_time"], 11);
+            $newContentString = $newContent["contest_id"] . $newContent["contest_name"] . $newContent["begin_time"] . $newContent["end_time"] . $newContent["register_begin_time"] . $newContent["register_end_time"] . $newContent["admin_id"] . $newContent["contest_type"];
+            $oldContentMd5 = md5($oldContentString);
+            $newContentMd5 = md5($newContentString);
+            if ($oldContentMd5 != $newContentMd5)
+                OJLog::editContest($uid, $contest_id, $oldContent, $newContent);
             return Redirect::to("/dashboard/contest");
 
         }
