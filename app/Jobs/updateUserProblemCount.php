@@ -35,7 +35,7 @@ class updateUserProblemCount extends Job implements SelfHandling, ShouldQueue
     public function handle()
     {
         $submission_num = Submission::select("uid")->where("uid", $this->uid)->get()->count();
-        $ac_submission_num = Submission::select("uid")->where(["uid" => $this->uid, "result" => "accepted"])->count();
+        $ac_submission_num = Submission::select("uid", "pid")->where(["uid" => $this->uid, "result" => "accepted"])->get()->unique('pid')->count();
         Userinfo::where("uid", $this->uid)->update(["submit_count" => $submission_num, "ac_count" => $ac_submission_num]);
     }
 }

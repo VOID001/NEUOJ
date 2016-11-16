@@ -74,9 +74,10 @@ class RanklistController extends Controller
         $userInfoObj = Userinfo::all();
         foreach($userInfoObj as &$userInfo)
         {
-            $userInfo->ac_count = Submission::select('uid')->where(['uid' => $userInfo->uid, 'result' => 'Accepted'])->count();
+            $userInfo->ac_count = Submission::select('uid', 'pid')->where(['uid' => $userInfo->uid, 'result' => 'Accepted'])->get()->unique('pid')->count();
             $userInfo->submit_count = Submission::select('uid')->where('uid', $userInfo->uid)->count();
             $userInfo->save();
+            echo "<pre>";
             echo $userInfo."<br>";
         }
         return Redirect::to('/ranklist/p/1');
