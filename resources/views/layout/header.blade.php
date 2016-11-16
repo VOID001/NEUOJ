@@ -76,7 +76,9 @@
         @endif
         @if(Request::session()->has('username'))
         <div class="chatroom-box">
-            <a class="chatroom-btn" role="button"><span class="chatroom-bubble"></span><img class="img-circle" src="/image/chatroom_btn.jpg" width="35px"></a>
+            <a class="chatroom-btn" role="button">
+                <img class="img-circle" src="/image/chatroom_btn.jpg" width="35px">
+            </a>
             <br>
             <div class="chatroom-content" style="display: none">
                 <div class="chatroom-header">
