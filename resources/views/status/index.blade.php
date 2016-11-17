@@ -27,13 +27,14 @@
 
 <div class="status_main">
     <pre class="source_code">
-        <h3>Source Code</h3>
+        <h3>Judge Info</h3>
         @if(!isset($contest))
         <div><a href="/problem/{{ $pid }}">Problem ID :<b>{{ $pid }}</b></a></div>
         @else
         <div><a href="/contest/{{ $contest->contest_id }}/problem/{{ $contestProblemId }}">Problem ID :<b>{{ $contestProblemId }}</b></a></div>
         @endif
         <div>Result: <b>{{ $result }}</b></div>
+        <div>JudgeHost: <span class="label label-success">{{ $judgeid }}</span></div>
         <div>Download Source Code</div>
         <code class="cpp" id="paste">{{ $code }}</code>
         @if($result == "Compile Error" && $err_info != "")
