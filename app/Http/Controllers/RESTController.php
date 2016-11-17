@@ -160,7 +160,7 @@ class RESTController extends Controller
 
         if($input["compile_success"] != "1")
         {
-            Submission::where('runid', $id)->update([
+            Submission::where(['runid'=> $id, 'judge_status' => 1])->update([
                 "judge_status" => 3,
                 "err_info" => base64_decode($input['output_compile']),
                 "result" => "Compile Error",
@@ -258,6 +258,8 @@ class RESTController extends Controller
         /* update Ranklist queue */
         $this->dispatch(new updateUserProblemCount($submissionObj->uid));
 
+        // Now we just return and skip the balloon logic
+        return
         //var_dump($input);
         /* Balloon */
         $submissionObj = Submission::where('runid', $input['judgingid'])->first();
