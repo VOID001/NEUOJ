@@ -63,11 +63,24 @@ class RoleController extends Controller
 
         if($submissionObj == NULL)
             return false;
+
+        $userObj = User::find($uid);
+
+        // Check whether the user has AC the problem
+        $acObj = Submission::where([
+            'uid' => $uid,
+            'pid' => $submissionObj->pid,
+            'result' => "Accepted",
+        ])->first();
+
+
         if($submissionObj->uid == $uid)
             return true;
+        else if($acObj != NULL && $submissionObj->result == "Accepted")     // And the problem should be ACed by others
+            return true;
+
         return false;
     }
-
     /**
      * @function is
      * @input $role(string) $param(mixed)
@@ -80,13 +93,13 @@ class RoleController extends Controller
         switch($role)
         {
             /** First is basic roleCheck */
-            case "admin":
-                return RoleController::checkAdmin();
-            case "teacher":
-                return RoleController::checkTeacher();
+        case "admin":
+            return RoleController::checkAdmin();
+        case "teacher":
+            return RoleController::checkTeacher();
             /** Then is ability check */
-            case "able-view-code":
-                return RoleController::checkAbleViewCode($param['runid']);
+        case "able-view-code":
+            return RoleController::checkAbleViewCode($param['runid']);
         }
     }
 }

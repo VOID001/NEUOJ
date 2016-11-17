@@ -171,10 +171,10 @@
 							@if($roleCheck->is("able-view-code", $param))
 								<span onclick="window.location.href='/status/{{ $submission->runid }}@if(isset($contest))?c={{ $contest->contest_id }}&p={{ $submission->contestProblemId }} @endif'"
 							@else
-								<span
+								<div
 							@endif
 							@if($submission->result=="Accepted")
-								class="label label-success"><span class="glyphicon glyphicon-ok"></span>Accepted
+								class="label label-success can-view-code"><span class="can-view-code-tooltip">You can view all AC code on this problem</span><span class="glyphicon glyphicon-ok"></span>Accepted
 							@elseif($submission->result=="Compile Error")
 								class="label label-default">Compile Error
 							@elseif($submission->result=="Wrong Answer")
@@ -186,7 +186,7 @@
 							@else
 								class="label label-warning">{{$submission->result}}
 							@endif
-							</span>
+							</div>
 							@if($submission->result=="Accepted")
 								@if(isset($submission->sim->similarity) && $roleCheck->is("admin"))
 									<span class="label label-primary" title="runid:{{ $submission->sim->sim_runid }}" onclick="window.location.href='/status/sim?left={{ $submission->sim->runid }}&right={{ $submission->sim->sim_runid }}'" style="margin-left:5px">{{ $submission->sim->similarity }}%</span>
@@ -300,7 +300,7 @@
 					tmpResult = "<span onclick='window.location.href=\"/status/" + run_id + "@if(isset($contest))?c={{ $contest->contest_id }}&p=" + json.cpid + " @endif\"' ";
 
 				if(json.result == "Accepted")
-					tmpResult = tmpResult + "class=\"label label-success\"><span class='glyphicon glyphicon-ok'></span>Accepted";
+					tmpResult = tmpResult + "class=\"label label-success can-view-code\"><span class='glyphicon glyphicon-ok'></span>Accepted";
 				else if(json.result == "Wrong Answer")
 					tmpResult = tmpResult + "class=\"label label-danger\">Wrong Answer";
 				else if(json.result == "Compile Error")

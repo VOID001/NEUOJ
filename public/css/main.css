@@ -1310,3 +1310,29 @@ span[class^="hljs"]{
     margin-right: 24.67%;
     box-shadow: 0 10px 10px rgba(0,0,0,.05);
 }
+.can-view-code {
+    position: relative;
+    /* display: inline-block; */
+}
+.can-view-code .can-view-code-tooltip{
+    visibility: hidden;
+    width: 160px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    font-size: 7px;
+    padding: 5px 0;
+    border-radius: 6px;
+
+    position: absolute;
+    z-index: 100;
+    bottom: 1%;
+    left: 50%;
+    margin-left: -80px;
+    opacity: 0;
+    transition: opacity 2.5s;
+}
+.can-view-code:hover .can-view-code-tooltip {
+    visibility: visible;
+    opacity: 1;
+}
