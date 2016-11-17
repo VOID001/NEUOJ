@@ -213,6 +213,9 @@ a:focus, a:hover, a:active, a:visited {
     display: inline-block !important;
     vertical-align: middle;
 }
+#dashboard-custom-heading {
+    margin-top: 50px;
+}
 /*dashboard-folder*/
 /*dashboard-profile*/
 #dashboard-profile-img {
@@ -229,6 +232,13 @@ a:focus, a:hover, a:active, a:visited {
     margin-top:70px;
     margin-left: auto;
     margin-bottom: 40px;
+}
+#dashboard-label-warning {
+    margin-left: 85px;
+    float:left;
+}
+#dashboard-custom-table td{
+    padding:7.5px;
 }
 .dashboard-problem-content {
     width: 365px;
@@ -256,6 +266,7 @@ a:focus, a:hover, a:active, a:visited {
     height: 38px;
     display: inline-block;
     position: relative;
+    padding-left:10px;
 }
 .image-input .btn {
     width: 64px;

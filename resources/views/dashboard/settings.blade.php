@@ -14,7 +14,7 @@
 <body>
 	@include("layout.dashboard_nav")
 	<div class="back-container">
-		<h3 class="custom-heading">Settings</h3>
+		<h3 class="custom-heading" id="dashboard-custom-heading">Settings</h3>
 		<form action="/dashboard/settings" method="POST">
 			{{ csrf_field() }}
 			<div class="text-center">

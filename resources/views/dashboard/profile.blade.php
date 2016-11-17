@@ -42,16 +42,16 @@
 											 {{ csrf_field() }}
 											 <div class="text-center">
 												 @if(count($errors) > 0)
-													 <div class="label label-warning">{{$errors->all()[0]}}</div>
+													 <div class="label label-warning" id="dashboard-label-warning">{{$errors->all()[0]}}</div>
 												 @elseif(isset($profileError))
-													 <div class="label label-warning">{{ $profileError }}</div>
+													 <div class="label label-warning" id="dashboard-label-warning">{{ $profileError }}</div>
 												 @endif
 											 </div>
 											 <div class='profile-info'>
 												 <div class='profile-content'>
 													 <div class="profile-text">
 														 <section>
-															 <table class="custom-table">
+															 <table class="custom-table" id="dashboard-custom-table">
 																 <tbody>
 																 <tr>
 																	 <td>Realname(NEU必填)</td>

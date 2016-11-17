@@ -31,7 +31,7 @@
 <body>
 @include("layout.dashboard_nav")
 <div class="back-container">
-    <h2 class="custom-heading">Users</h2>
+    <h2 class="custom-heading" id="dashboard-custom-heading">Users</h2>
     <a href="/dashboard/users" class="btn btn-default">Users</a>
     <a href="/dashboard/users?role=teacher" class="btn btn-default">Teachers</a>
     <a href="/dashboard/users?role=admin" class="btn btn-default">Admin</a>

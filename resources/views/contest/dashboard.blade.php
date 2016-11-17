@@ -14,7 +14,7 @@
 <body>
 	@include("layout.dashboard_nav")
 	<div class="back-container">
-		<h3 class="custom-heading">Contest</h3>
+		<h3 class="custom-heading" id="dashboard-custom-heading">Contest</h3>
 		<div class="back-list">
 			<a class="btn btn-grey" href="/dashboard/contest/add">New Contest</a>
 			@if(isset($contests))

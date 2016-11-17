@@ -15,7 +15,7 @@
 <body>
 	@include("layout.dashboard_nav")
 	<div class="back-container">
-		<h3 class="custom-heading">Add Training</h3>
+		<h3 class="custom-heading" id="dashboard-custom-heading">Add Training</h3>
 		<form class="back-problem-form" action="/dashboard/training/add" method="post">
 			{{ csrf_field() }}
 			<table class="custom-table">

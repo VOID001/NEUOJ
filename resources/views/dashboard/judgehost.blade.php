@@ -15,7 +15,7 @@
 <body>
 @include("layout.dashboard_nav")
 <div class="back-container">
-    <h3 class="custom-heading">Judgehost Manage</h3>
+    <h3 class="custom-heading" id="dashboard-custom-heading">Judgehost Manage</h3>
     <div id="judge_stat">
         <table id="judgehost_stat" class="table table-bordered table-hover">
             <thead>

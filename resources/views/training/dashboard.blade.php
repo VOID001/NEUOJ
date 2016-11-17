@@ -14,7 +14,7 @@
 <body>
 	@include("layout.dashboard_nav")
 	<div class="back-container">
-		<h3 class="custom-heading">Training</h3>
+		<h3 class="custom-heading" id="dashboard-custom-heading">Training</h3>
 		<div class="back-list">
 			<a class="btn btn-grey" href = '/dashboard/training/add'>Add Training</a>
 			<table class="table table-bordered table-hover custom-list">

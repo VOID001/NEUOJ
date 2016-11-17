@@ -18,7 +18,7 @@
 <body>
 	@include("layout.dashboard_nav")
 	<div class="back-container">
-		<h2 class="custom-heading">Add Problem</h2>
+		<h2 class="custom-heading" id="dashboard-custom-heading">Add Problem</h2>
 		<div class="back-list">
 			<ol class="problem-b-error-box">
 				@if(!isset($error))

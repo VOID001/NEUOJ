@@ -94,7 +94,7 @@
 		<form class="back-problem-form" action="/dashboard/contest/{{ $contest->contest_id }}" method="post">
 			{{ csrf_field() }}
 			<div class="contest-left">
-			<h3 class="custom-heading">Set Contest</h3>
+			<h3 class="custom-heading" id="dashboard-custom-heading">Set Contest</h3>
 			<table class="custom-table">
 				@foreach($errors->all() as $error)
 					<tr>
