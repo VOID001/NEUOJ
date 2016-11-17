@@ -19,8 +19,6 @@ a:focus, a:hover, a:active, a:visited {
 }
 .label {
     font-size: 13px;
-    float:left;
-    margin-left:85px;
 }
 .btn, .form-control {
     border-radius: 0;
@@ -41,13 +39,12 @@ a:focus, a:hover, a:active, a:visited {
 .custom-heading {
     text-align: center;
     margin-bottom: 30px;
-    margin-top: 50px;
 }
 .custom-table {
     margin: 0px auto;
 }
 .custom-table td {
-    padding: 7.5px;
+    padding: 10px;
 }
 .custom-word {
     overflow: hidden;
