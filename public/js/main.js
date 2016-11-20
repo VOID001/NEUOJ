@@ -1,4 +1,9 @@
+var storage = window.localStorage;
+var array = new Array();
+
 $(function () {
+  var channel = $('#contest-name').val() || '0';
+  //sliderToggle
   $('.chatroom-btn').click(function() {
     var $img = $('.chatroom-btn img');
     var $content_div = $('.chatroom-content');
@@ -18,12 +23,23 @@ $(function () {
     $content_div.slideToggle(500);
   });
 
+  //init message
+  var $count = $('.chatroom-msg').length;
+  if($count == 0) {
+    if(storage.getItem('chat_record' + channel) != null) {
+      array = JSON.parse(storage.getItem('chat_record' + channel));
+      for (var i = 0; i < array.length; i++) {
+        $('#message-list').append(array[i]);
+      }
+    }
+  }
+
+  //send message
   $('.chatroom-form').submit(function() {
     var $message = $('#chatroom-input').val();
     if($message.trim() == '') {
       return false;
     }
-
     var form = new FormData($('.chatroom-form')[0]);
     $.ajax({
       url: '/chatroom/send',
@@ -56,11 +72,25 @@ $(function() {
     }
     content += msg.message + '</div>' +
         '<div style="clear: both"></div>';
-
     $('#message-list').append(content);
     chatBodyToBottom();
+
+    //localstorage
+    if(storage.getItem('chat_record' + channel) != null) {
+      array = JSON.parse(storage.getItem('chat_record' + channel));
+    }
+    if(array.length >= 20) {
+      array.shift();
+    }
+    array.push(content);
+    storage.setItem('chat_record' + channel, JSON.stringify(array));
+    for(var i=0;i<array.length;i++) {
+      console.log(array[i]);
+    }
   });
 });
+
+
 
 /**function**/
 function chatBodyToBottom() {
