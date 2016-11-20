@@ -471,6 +471,18 @@ Route::group(['middleware' => 'profile'],function() {
         Route::get('/ajax/trainings', [
             "uses" => "TrainingController@getTrainingsJson"
         ]);
+
+        Route::post('/ajax/executable', [
+            "uses" => "ExecutableController@addExecutable"
+        ]);
+
+        Route::get('/ajax/executable', [
+            "uses" => "ExecutableController@getExecutable"
+        ]);
+
+        Route::delete('/ajax/executable', [
+            "uses" => "ExecutableController@deleteExecutable"
+        ]);
     });
 });
 /*
