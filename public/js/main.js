@@ -78,7 +78,7 @@ $(function() {
     } else  {
       content += '<div class="col-md-9 chatroom-msg-content chatroom-msg-content-other">';
     }
-    content += msg.message + '</div>' +
+    content += html2Escape(msg.message) + '</div>' +
         '<div style="clear: both"></div>';
     $('#message-list').append(content);
     chatBodyToBottom();
@@ -117,4 +117,7 @@ $(function() {
 function chatBodyToBottom() {
   var height = $('.chatroom-body').prop('scrollHeight');
   $('.chatroom-body').prop('scrollTop', height);
+}
+function html2Escape(myHtml) {
+  return myHtml.replace(/[<>&"]/g,function(c){return {'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c];});
 }
