@@ -82,7 +82,7 @@
             <br>
             <div class="chatroom-content" style="display: none">
                 <div class="chatroom-header">
-                    Chatroom
+                    Chatroom {{ $contest->contest_id or '0' }}
                 </div>
                 <div class="chatroom-body">
                     <div id="message-list"></div>
@@ -92,7 +92,7 @@
                         {{csrf_field()}}
                         <input class="chatroom-input" id="chatroom-input" name="message" type="text" placeholder="Not empty">
                         @if(isset($contest))
-                        <input name="contest" value="{{ $contest->contest_id }}" hidden/>
+                        <input id="contest-name" name="contest" value="{{ $contest->contest_id }}" hidden/>
                         @elseif(isset($contest_id))
                         <input name="contest" value="{{ $contest_id }}" hidden/>
                         @else

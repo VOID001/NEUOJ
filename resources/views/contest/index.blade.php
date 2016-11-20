@@ -49,7 +49,7 @@
 		}
 	</script>
 </head>
-<body>
+<body class="body-scroll-y">
 @include("layout.header")
 	<div class="front-container">
 		<h3 class="custom-heading">

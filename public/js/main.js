@@ -36,31 +36,33 @@ $(function () {
     $('.chatroom-input').val('');
     return false;
   });
+
 });
 
+/**socket**/
+$(function() {
+  var socket = io.connect("http://localhost:3000");
+  var channel = $('#contest-name').val() || '0';
+  socket.on(channel , function(msg) {
+    var msg = eval('(' + msg + ')');
 
-/*socket*/
-var socket = io.connect("http://localhost:3000");
-socket.on('message', function(msg) {
-  var msg = eval('(' + msg + ')');
+    var content = '<div class="chatroom-msg">' +
+        '<div class="col-md-3 custom-word chatroom-msg-username">' + msg.username + '</div>';
+    var username = $('#personal-username-btn').text();
+    if(username == msg.username) {
+      content += '<div class="col-md-9 chatroom-msg-content chatroom-msg-content-mine">';
+    } else  {
+      content += '<div class="col-md-9 chatroom-msg-content chatroom-msg-content-other">';
+    }
+    content += msg.message + '</div>' +
+        '<div style="clear: both"></div>';
 
-  var content = '<div class="chatroom-msg">' +
-    '<div class="col-md-3 custom-word chatroom-msg-username">' + msg.username + '</div>';
-  var username = $('#personal-username-btn').text();
-  if(username == msg.username) {
-    content += '<div class="col-md-9 chatroom-msg-content chatroom-msg-content-mine">';
-  } else  {
-    content += '<div class="col-md-9 chatroom-msg-content chatroom-msg-content-other">';
-  }
-  content += msg.message + '</div>' +
-    '<div style="clear: both"></div>';
-
-  $('#message-list').append(content);
-  chatBodyToBottom();
+    $('#message-list').append(content);
+    chatBodyToBottom();
+  });
 });
 
-
-/*function*/
+/**function**/
 function chatBodyToBottom() {
   var height = $('.chatroom-body').prop('scrollHeight');
   $('.chatroom-body').prop('scrollTop', height);

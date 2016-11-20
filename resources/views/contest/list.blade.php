@@ -18,7 +18,7 @@
 		})
 	</script>
 </head>
-<body>
+<body class="body-scroll-y">
 	@include("layout.header")
 	<h3 class="custom-heading">Contest List</h3>
 	<div class="front-container">

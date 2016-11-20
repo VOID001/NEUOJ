@@ -21,7 +21,7 @@
 		})
 	</script>
 </head>
-<body>
+<body class="body-scroll-y">
 	@include("layout.header")
 	<h3 class="custom-heading">Status List</h3>
 	<div class="front-big-container">

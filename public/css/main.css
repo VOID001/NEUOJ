@@ -10,6 +10,9 @@ body {
     min-height: 100%;
     position: relative;
 }
+.body-scroll-y {
+    overflow-y: scroll;
+}
 img {
     object-fit: cover;
 }

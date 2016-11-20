@@ -41,7 +41,7 @@ class ChatroomController extends Controller
         $channel = $request->input('contest');
         $time = date('Y-m-d-H:i:s');
         $logtime = date('Y-m-d');
-		$redis->publish('message', json_encode(
+		$redis->publish($channel, json_encode(
             [
                 'username' => $username,
                 'message' => $message,
