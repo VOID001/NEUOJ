@@ -78,11 +78,12 @@
         <div class="chatroom-box">
             <a class="chatroom-btn" role="button">
                 <img class="img-circle" src="/image/chatroom_btn.jpg" width="35px">
+                <span id="chat-count-badge" class="badge"></span>
             </a>
             <br>
             <div class="chatroom-content" style="display: none">
                 <div class="chatroom-header">
-                    Chatroom {{ $contest->contest_id or '0' }}
+                    Chatroom {{ $contest->contest_id or '0' }} <span class="chatroom-online-count"></span>
                 </div>
                 <div class="chatroom-body">
                     <div id="message-list"></div>

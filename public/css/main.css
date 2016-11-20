@@ -732,6 +732,7 @@ a:focus, a:hover, a:active, a:visited {
 }
 .chatroom-btn {
     float: right;
+    position: relative;
 }
 .chatroom-bubble {
     display: block;
@@ -804,6 +805,18 @@ a:focus, a:hover, a:active, a:visited {
 .chatroom-btn img {
     position: relative;
     z-index: 99998;
+}
+#chat-count-badge {
+    font-size: 10px;
+    background-color: #00a65a;
+    position: absolute;
+    right: 20px
+    top: 0;
+}
+.chatroom-online-count {
+    font-size: 15px;
+    padding-left: 30px;
+    color: red;
 }
 .chatroom-content {
     z-index: 99997;
