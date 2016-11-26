@@ -8,5 +8,5 @@ class Executable extends Model
 {
     protected $table = "executables";
 
-    protected $fillable = ["execid", "md5sum"];
+    protected $fillable = ["execid", "md5sum", "type"];
 }
