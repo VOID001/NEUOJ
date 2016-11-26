@@ -1244,7 +1244,7 @@ a:focus, a:hover, a:active, a:visited {
     width: 800px;
     padding: 10px;
 }
-/**status**/
+/*status*/
 .status_main{
     margin:20px auto;
     width: 1000px;
@@ -1360,4 +1360,15 @@ span[class^="hljs"]{
 .can-view-code:hover .can-view-code-tooltip {
     visibility: visible;
     opacity: 1;
+}
+
+/*dashboard.contest*/
+#random_generate_btn,
+#random_export_btn{
+    font-size: 12px;
+    padding: 5px;
+}
+#random_user_table_box {
+    max-height: 1px;
+    overflow-y: scroll;
 }
