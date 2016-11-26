@@ -25,6 +25,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use Illuminate\Http\Response;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Hash;
+use Storage;
 
 class ContestUserInfo
 {
@@ -1094,6 +1096,90 @@ class ContestController extends Controller
             }
         }
         return response()->json($data);
+    }
+
+    /**
+     * @function getRandStr
+     * @param $len
+     * @return string
+     * @description get random length string
+     */
+    public function getRandStr($len)
+    {
+        $chars = array(
+            "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k",
+            "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v",
+            "w", "x", "y", "z", "A", "B", "C", "D", "E", "F", "G",
+            "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R",
+            "S", "T", "U", "V", "W", "X", "Y", "Z", "0", "1", "2",
+            "3", "4", "5", "6", "7", "8", "9"
+        );
+        $charsLen = count($chars) - 1;
+        shuffle($chars);
+        $output = "";
+        for ($i = 0; $i < $len; $i++) {
+            $output .= $chars[mt_rand(0, $charsLen)];
+        }
+        return $output;
+    }
+
+    /**
+     * @function newContestRandomUsers
+     * @param $count
+     * @return json
+     * @description creat random users for contest
+     */
+    public function newContestRandomUsers($count)
+    {
+        $contestRandomUser = array();
+        $contestRandomUserCount = $count;
+        $prefix = 'contest_';
+        while (count($contestRandomUser) < $contestRandomUserCount) {
+            $contestRandomUser[$prefix . $this->getRandStr(4)] = substr(md5(uniqid(mt_rand())), 8, 16);
+        }
+        foreach ($contestRandomUser as $key => $value) {
+            $userObject = new User;
+            $userObject->username = $key;
+            $userObject->password = Hash::make($value);
+            $userObject->email = $key . "@contest.private";
+            $userObject->registration_time = date('Y-m-d h:i:s');
+            $userObject->save();
+
+            $userinfoObject = Userinfo::where('uid', $userObject->uid)->first();
+            if (!isset($userinfoObject)) {
+                $userinfoObject = new Userinfo;
+                $userinfoObject->uid = $userObject->uid;
+                $userinfoObject->nickname = $key;
+                $userinfoObject->realname = $key;
+                $userinfoObject->school = "NEU";
+                $userinfoObject->stu_id = 00000000;
+                $userinfoObject->save();
+            }
+        }
+        return json_encode($contestRandomUser);
+    }
+
+    /**
+     * @function deleteContestRandomUsers
+     *
+     * @return json
+     * @description delete random users
+     */
+    public function deleteContestRandomUsers()
+    {
+        $userAll = User::all();
+        $data['status'] = "fail";
+        if ($userAll != NULL) {
+            foreach ($userAll as $userObject) {
+                $username = $userObject->username;
+                if (substr($username, 0, 8) == 'contest_') {
+                    User::where('uid', $userObject->uid)->delete();
+                    Userinfo::where('uid', $userObject->uid)->delete();
+                    $data['status'] = "success";
+                }
+            }
+            return $data;
+        }
     }
 }
 
