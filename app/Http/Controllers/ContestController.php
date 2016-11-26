@@ -583,15 +583,15 @@ class ContestController extends Controller
                 ])->first()->problem_id;
             }
         }
-        $submissionObj = Submission::where($queryArr)->orderby('runid', 'desc')->get();
+        $submissionObj = Submission::where($queryArr)->orderby('runid', 'desc')->skip(($page_id - 1) * $itemsPerPage)->take($itemsPerPage)->get();
 
-        for($count = 0, $i = ($page_id - 1) * $itemsPerPage; $count < $itemsPerPage && $i < $submissionObj->count(); $i++, $count++)
+        for ($count = 0; $count < $submissionObj->count(); $count++)
         {
-            $data['submissions'][$count] = $submissionObj[$i];
-            $tmpUserObj = User::where('uid', $submissionObj[$i]->uid)->first();
+            $data['submissions'][$count] = $submissionObj[$count];
+            $tmpUserObj = User::where('uid', $submissionObj[$count]->uid)->first();
             $tmpProblemObj = ContestProblem::where([
                 "contest_id" => $contest_id,
-                "problem_id" => $submissionObj[$i]->pid
+                "problem_id" => $submissionObj[$count]->pid
             ])->first();
             $problemTitle = $tmpProblemObj['problem_title'];
             $username = $tmpUserObj['username'];
@@ -614,7 +614,7 @@ class ContestController extends Controller
         {
             $data['firstPage'] = 1;
         }
-        if($i >= $submissionObj->count())
+        if(($page_id - 1) * $itemsPerPage >= $submissionObj->count())
         {
             $data['lastPage'] = 1;
         }

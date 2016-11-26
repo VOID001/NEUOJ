@@ -106,34 +106,34 @@ class Contest extends Model
     public static function getContestItemsInPage($itemsPerPage, $page_id)
     {
         $data = [];
-        $contestObj = Contest::orderby('contest_id', 'desc')->get();
-        $contestNum = $contestObj->count();
+        $contestObj = Contest::orderby('contest_id', 'desc')->skip(($page_id - 1) * $itemsPerPage)->take($itemsPerPage)->get();
+        $contestNum = Contest::orderby('contest_id', 'desc')->count();
 
-        for($count = 0, $i = ($page_id - 1) * $itemsPerPage; $i < $contestNum && $count < $itemsPerPage; $i++, $count++)
+        for($count = 0; $count < $contestObj->count();$count++)
         {
-            $data["contests"][$count] = $contestObj[$i];
-            if($contestObj[$i]->isPending())
+            $data["contests"][$count] = $contestObj[$count];
+            if($contestObj[$count]->isPending())
             {
                 $data["contests"][$count]->status = "Pending";
             }
-            else if($contestObj[$i]->isEnded())
+            else if($contestObj[$count]->isEnded())
             {
                 $data["contests"][$count]->status = "Ended";
             }
-            else if($contestObj[$i]->isRunning())
+            else if($contestObj[$count]->isRunning())
             {
                 $data["contests"][$count]->status = "Running";
             }
-            else if($contestObj[$i]->isInRegister())
+            else if($contestObj[$count]->isInRegister())
             {
                 $data["contests"][$count]->status = "Registering";
             }
-            else if($contestObj[$i]->isNotInRegister())
+            else if($contestObj[$count]->isNotInRegister())
             {
                 $data["contests"][$count]->status = "Register Pending";
             }
         }
-        if($i == $contestNum)
+        if(($page_id - 1) * $itemsPerPage >= $contestNum)
         {
             $data["last_page"] = 1;
         }
