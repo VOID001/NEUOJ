@@ -38,6 +38,9 @@ a:focus, a:hover, a:active, a:visited {
     src: url('/fonts/Roboto/Roboto-Bold.ttf');
     font-weight: bold;
 }
+.paper-button-0 {
+    text-transform: none;
+}
 /*常用全局标签*/
 .custom-heading {
     text-align: center;
