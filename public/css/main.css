@@ -277,6 +277,10 @@ a:focus, a:hover, a:active, a:visited {
     padding: 5px;
     border-radius: 3px;
 }
+.image-input .btn:hover {
+    background-color: #eee;
+    border-width: 0;
+}
 .image-input input[type=text] {
     border: 0;
     vertical-align: middle;
@@ -286,12 +290,14 @@ a:focus, a:hover, a:active, a:visited {
     width: 170px;
 }
 .image-input input[type=file] {
+    font-size: 0;
+    cursor: pointer;
     width: 64px;
     height: 28px;
     position: absolute;
     opacity: 0;
-    top:0;
-    left:0;
+    top: 0;
+    left: 10px;
 }
 /*contest-folder*/
 /*context-back*/
