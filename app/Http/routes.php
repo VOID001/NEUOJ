@@ -63,6 +63,10 @@ Route::group(['middleware' => 'profile'],function() {
         "uses" => "ChatroomController@sendMessage"
     ]);
 
+    Route::post('/chatroom/record/{channel}/{recordCount}', [
+        "uses" => "ChatroomController@getlastrecord"
+    ]);
+
     Route::get('/status', [
         "uses" => "SubmissionController@getSubmission"
     ]);
