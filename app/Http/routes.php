@@ -236,12 +236,12 @@ Route::group(['middleware' => 'profile'],function() {
             "uses" => "ContestController@showContestDashboard"
         ]);
 
-        Route::post('/dashboard/contest/randusers/{count}', [
+        Route::post('/dashboard/contest/randusers/{contest_id}/{school}/{count}', [
             "middleware" => "role:admin",
             "uses" => "ContestController@newContestRandomUsers"
         ])->where('problem_id', '[0-9]+');
 
-        Route::delete('/dashboard/contest/randusers/',[
+        Route::delete('/dashboard/contest/randusers/{contest_id}',[
             "middleware" => "role:admin",
             "uses" => "ContestController@deleteContestRandomUsers"
         ]);

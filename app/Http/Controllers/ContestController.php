@@ -1111,8 +1111,7 @@ class ContestController extends Controller
             "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v",
             "w", "x", "y", "z", "A", "B", "C", "D", "E", "F", "G",
             "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R",
-            "S", "T", "U", "V", "W", "X", "Y", "Z", "0", "1", "2",
-            "3", "4", "5", "6", "7", "8", "9"
+            "S", "T", "U", "V", "W", "X", "Y", "Z"
         );
         $charsLen = count($chars) - 1;
         shuffle($chars);
@@ -1125,33 +1124,39 @@ class ContestController extends Controller
 
     /**
      * @function newContestRandomUsers
-     * @param $count
+     * @param $contest_id, $school, $count
      * @return json
      * @description creat random users for contest
      */
-    public function newContestRandomUsers($count)
+    public function newContestRandomUsers($contest_id, $school, $count)
     {
+        $contestObj = Contest::where('contest_id', $contest_id)->first();
         $contestRandomUser = array();
         $contestRandomUserCount = $count;
-        $prefix = 'contest_';
+        $prefix = $contestObj->contest_name . "_" . $school . "_";
         while (count($contestRandomUser) < $contestRandomUserCount) {
-            $contestRandomUser[$prefix . $this->getRandStr(4)] = substr(md5(uniqid(mt_rand())), 8, 16);
+            $contestRandomUser[$prefix . str_pad(count($contestRandomUser) + 1, 3, "0", STR_PAD_LEFT)] = $this->getRandStr(8);
         }
         foreach ($contestRandomUser as $key => $value) {
-            $userObject = new User;
-            $userObject->username = $key;
-            $userObject->password = Hash::make($value);
-            $userObject->email = $key . "@contest.private";
-            $userObject->registration_time = date('Y-m-d h:i:s');
-            $userObject->save();
-
+            $userObject = User::where('email', $key . "@contest.private")->first();
+            if (!isset($userObject)) {
+                $userObject = new User;
+                $userObject->username = $key;
+                $userObject->password = Hash::make($value);
+                $userObject->email = $key . "@contest.private";
+                $userObject->registration_time = date('Y-m-d h:i:s');
+                $userObject->save();
+            } else {
+                $contestRandomUserStatus['error'] = "Users existed!";
+                return json_encode($contestRandomUserStatus);
+            }
             $userinfoObject = Userinfo::where('uid', $userObject->uid)->first();
             if (!isset($userinfoObject)) {
                 $userinfoObject = new Userinfo;
                 $userinfoObject->uid = $userObject->uid;
                 $userinfoObject->nickname = $key;
                 $userinfoObject->realname = $key;
-                $userinfoObject->school = "NEU";
+                $userinfoObject->school = $school;
                 $userinfoObject->stu_id = 00000000;
                 $userinfoObject->save();
             }
@@ -1161,18 +1166,19 @@ class ContestController extends Controller
 
     /**
      * @function deleteContestRandomUsers
-     *
+     * @param  $contest_id
      * @return json
      * @description delete random users
      */
-    public function deleteContestRandomUsers()
+    public function deleteContestRandomUsers($contest_id)
     {
+        $contestObj = Contest::where('contest_id', $contest_id)->first();
         $userAll = User::all();
         $data['status'] = "fail";
         if ($userAll != NULL) {
             foreach ($userAll as $userObject) {
                 $username = $userObject->username;
-                if (substr($username, 0, 8) == 'contest_') {
+                if (substr($username, 0, strlen($contestObj->contest_name)) == $contestObj->contest_name) {
                     User::where('uid', $userObject->uid)->delete();
                     Userinfo::where('uid', $userObject->uid)->delete();
                     $data['status'] = "success";
