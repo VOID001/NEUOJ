@@ -31,6 +31,19 @@ class ProblemTableSeeder extends Seeder
             ["title" => "Hello World", "description" => "Just Ouput\n 'Hello World' ", "visibility_locks" => 0, "time_limit" => 3, "mem_limit" => 1024, "output_limit" => 10000000, "difficulty" => 1, "author_id" => 2, ],
         ];
 
+        for ($i = 0; $i < 100; $i++) {
+            $problems[$i + 16] = [
+                "title" => "testProblem" . ($i + 16),
+                "description" => "testProblem" . ($i + 16),
+                "visibility_locks" => (($i + 16) % 3) ? 0 : 1,
+                "time_limit" => 3,
+                "mem_limit" => 104,
+                "output_limit" => 1000,
+                "difficulty" => 1,
+                "author_id" => 1,
+            ];
+        }
+
         foreach($problems as $problem)
         {
             Problem::create($problem);
