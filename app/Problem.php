@@ -59,11 +59,9 @@ class Problem extends Model
         $data = [];
         $data["problems"] = [];
         if(RoleController::is('admin'))
-            $problemObj = Problem::orderby('problem_id', 'asc')->get();
+            $problemNum = Problem::orderby('problem_id', 'asc')->count();
         else
-            $problemObj = Problem::orderby('problem_id', 'asc')->where('visibility_locks', 0)->get();
-
-        $problemNum = $problemObj->count();
+            $problemNum = Problem::orderby('problem_id', 'asc')->where('visibility_locks', 0)->count();
 
         /* If page_id > page_num then page_id set to the last page available */
         $data["page_id"] = $page_id;
@@ -73,18 +71,23 @@ class Problem extends Model
         if($page_id <= 0)
             $page_id = 1;
 
-        for($count = 0, $i = ($page_id - 1) * $itemsPerPage; $i < $problemNum && $count < $itemsPerPage; $i++, $count++)
+        if (RoleController::is('admin'))
+            $problemObj = Problem::orderby('problem_id', 'asc')->skip(($page_id - 1) * $itemsPerPage)->take($itemsPerPage)->get();
+        else
+            $problemObj = Problem::orderby('problem_id', 'asc')->where('visibility_locks', 0)->skip(($page_id - 1) * $itemsPerPage)->take($itemsPerPage)->get();
+
+        for ($count = 0; $count < $problemObj->count(); $count++)
         {
-            $data["problems"][$count] = $problemObj[$i];
-            $data['problems'][$count]->submission_count = Submission::getValidSubmissionCount(0, $problemObj[$i]->problem_id);
-            $data['problems'][$count]->ac_count = Submission::where('pid', $problemObj[$i]->problem_id)
+            $data["problems"][$count] = $problemObj[$count];
+            $data['problems'][$count]->submission_count = Submission::getValidSubmissionCount(0, $problemObj[$count]->problem_id);
+            $data['problems'][$count]->ac_count = Submission::where('pid', $problemObj[$count]->problem_id)
                 ->where('result', 'Accepted')->get()->unique('uid')->count();
-            $authorObj = User::where('uid', $problemObj[$i]->author_id)->first();
+            $authorObj = User::where('uid', $problemObj[$count]->author_id)->first();
             $data['problems'][$count]->author = $authorObj["username"];
-            $data['problems'][$count]->used_times = $problemObj[$i]->getNumberOfUsedContests();
+            $data['problems'][$count]->used_times = $problemObj[$count]->getNumberOfUsedContests();
             if(Request::session()->has('username'))
             {
-                $submissionObj = Submission::select('result')->where(['pid' => $problemObj[$i]->problem_id, 'uid' => Request::session()->get('uid')])->get();
+                $submissionObj = Submission::select('result')->where(['pid' => $problemObj[$count]->problem_id, 'uid' => Request::session()->get('uid')])->get();
                 if($submissionObj ->count() != 0)
                 {
                     if($submissionObj->where('result', 'Accepted')->count() != 0)
@@ -100,7 +103,7 @@ class Problem extends Model
                 $data['problems'][$count]->status = "T";
             }
         }
-        if($i >= $problemNum)
+        if(($page_id - 1) * $itemsPerPage >= $problemNum)
         {
             $data["lastPage"] = 1;
         }

@@ -88,9 +88,12 @@ class SubmissionController extends Controller
         $input = $request->all();
         $data = [];
         $submissionObj = Submission::where('runid', $run_id)->first();
-        $fileContent = Storage::get("submissions/" . $submissionObj->submit_file);
         $data = $submissionObj;
-        $data->code = $fileContent;
+        if (Storage::exists("submissions/" . $submissionObj->submit_file)) {
+            $fileContent = Storage::get("submissions/" . $submissionObj->submit_file);
+            $data->code = $fileContent;
+        } else
+            $data->code = "can't find submission file!";
         /* It's in contest */
         if(isset($input['c']))
         {
@@ -149,12 +152,13 @@ class SubmissionController extends Controller
             }
         }
         $submissionObj = Submission::where($queryArr);
-        $submissionObj = $submissionObj->orderby('runid', 'desc')->get();
-        for($count = 0, $i = ($page_id - 1) * $itemsPerPage; $count < $itemsPerPage && $i < $submissionObj->count(); $i++, $count++)
+        $submissionObjCount = $submissionObj->count();
+        $submissionObj = $submissionObj->orderby('runid', 'desc')->skip(($page_id - 1) * $itemsPerPage)->take($itemsPerPage)->get();
+        for ($count = 0; $count < $submissionObj->count(); $count++)
         {
-            $data['submissions'][$count] = $submissionObj[$i];
-            $tmpUserObj = User::where('uid', $submissionObj[$i]->uid)->first();
-            $tmpProblemObj = Problem::where('problem_id', $submissionObj[$i]->pid)->first();
+            $data['submissions'][$count] = $submissionObj[$count];
+            $tmpUserObj = User::where('uid', $submissionObj[$count]->uid)->first();
+            $tmpProblemObj = Problem::where('problem_id', $submissionObj[$count]->pid)->first();
             $problemTitle = $tmpProblemObj['title'];
             $username = $tmpUserObj['username'];
             $data['submissions'][$count]->userName = $username;
@@ -167,7 +171,7 @@ class SubmissionController extends Controller
         {
             $queryStr .= $key . "=" . $val . "&";
         }
-        if($i >= $submissionObj->count())
+        if (($page_id) * $itemsPerPage >= $submissionObjCount)
         {
             $data['lastPage'] = true;
         }

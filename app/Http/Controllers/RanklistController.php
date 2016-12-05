@@ -31,23 +31,25 @@ class RanklistController extends Controller
         $data = [];
         $data['ranklist'] = [];
         $user_per_page = 50;
-        $ranklist = Userinfo::select("uid", "stu_id", "nickname", "school", "ac_count", "submit_count")->where("submit_count", "<>", "0")->get();
-        if($user_per_page * ($page_id - 1) > count($ranklist))
+        $ranklistcountall = Userinfo::select("uid", "stu_id", "nickname", "school", "ac_count", "submit_count")->where("submit_count", "<>", "0")->count();
+        $ranklist = Userinfo::select("uid", "stu_id", "nickname", "school", "ac_count", "submit_count")->where("submit_count", "<>", "0")->skip(($page_id - 1) * $user_per_page)->take($user_per_page)->get();
+        if($user_per_page * ($page_id - 1) > $ranklistcountall)
             return Redirect::to("/");
         $j = 0;
         foreach($ranklist as &$rank)
         {
             $rank->ac_ratio = round($rank->ac_count / $rank->submit_count * 100, 2)."%";
         }
+        $ranklistcount = $ranklist->count();
         $ranklist = $ranklist->all();
         usort($ranklist, [$this, 'cmp']);
-        for($i = $user_per_page * ($page_id - 1); $i < ($user_per_page * $page_id > count($ranklist) ? count($ranklist) : $user_per_page * $page_id); $i++)
+        for($i = 0; $i < $ranklistcount; $i++)
         {
             $data['ranklist'][$j] = $ranklist[$i];
             $j++;
         }
         $data['counter'] = 1;
-        $data['page_num'] = ceil(count($ranklist) / $user_per_page);
+        $data['page_num'] = ceil($ranklistcountall / $user_per_page);
         $data['page_id'] = $page_id;
         $data['page_user'] = $user_per_page;
         return View::make('ranklist.index')->with($data);
