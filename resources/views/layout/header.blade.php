@@ -2,11 +2,14 @@
 <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 <![endif]-->
 <header>
-    <div class="navbar">
-        <a class="navbar-brand" id="navbar-logo"  href="/">
-            <img src="/image/neuacmlogo.PNG"/>
-            <span>NEUOJ<span>
-        </a>
+    <div class="navbar navbar-home">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" id="navbar-logo"  href="/">
+                <img src="/image/neuacmlogo.PNG"/>
+                <span>NEUOJ<span>
+                </a>
+            </div>
         <ul class="nav" id="navbar-meau">
             <li class="three-d" id="home" onClick="window.location.href = '/';">
                 <span class="three-d-box">
@@ -59,8 +62,8 @@
         </ul>
         @if(Request::session()->get('username')!="")
             <div class="btn-group" id="personal-button">
-                <a class="btn btn-info" id="personal-username-btn" onClick="window.location.href = '/dashboard';">{{Request::session()->get('username')}}</a>
-                <a class="btn btn-info dropdown-toggle" data-toggle="dropdown" type="button"><span class="caret"></span></a>
+                <a class="btn btn-home" id="personal-username-btn" onClick="window.location.href = '/dashboard';">{{Request::session()->get('username')}}</a>
+                <a class="btn btn-home dropdown-toggle" data-toggle="dropdown" type="button"><span class="caret"></span></a>
                 <ul class="dropdown-menu dropdown-menu-right">
                     <li><a href="/dashboard"><img src="/avatar/{{Request::session()->get('uid')}}"/></a></li>
                     <li class="divider"></li>
@@ -105,5 +108,6 @@
             </div>
         </div>
         @endif
+        </div>
     </div>
 </header>
