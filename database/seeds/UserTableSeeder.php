@@ -30,6 +30,14 @@ class UserTableSeeder extends DatabaseSeeder
             ]
         ];
 
+        for ($i = 0; $i < 100; $i++) {
+            $users[$i + 2] = [
+                "username" => "testUser" . $i,
+                "password" => Hash::make("test"),
+                "email" => "test" . $i . "@noreply.com"
+            ];
+        }
+
         foreach($users as $user)
         {
             User::create($user);
