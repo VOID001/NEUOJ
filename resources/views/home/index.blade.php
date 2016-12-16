@@ -5,7 +5,6 @@
 @include("layout.head")
 <link rel="stylesheet" href="/css/main.css">
 <link rel="stylesheet" href="/css/onepage-scroll.css" />
-<script src="/js/jquery.min.js"></script>
 <script src="/js/jquery.onepage-scroll.min.js"></script>
 <script>
   $(function(){

@@ -15,6 +15,7 @@
         <li><a href="#"><span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span>Management<span
                 class="glyphicon glyphicon-chevron-down" style="float:right"></span></a>
           <ul class="submenu">
+            <li id="dashboard_users"><a id="dashboard_users" href="/dashboard/users">User</a></li>
             <li id="dashboard_problem"><a href="/dashboard/problem">Problem</a></li>
             <li id="dashboard_contest"><a href="/dashboard/contest">Contest</a></li>
             <li id="dashboard_submisson"><a href="#">Submission</a></li>
@@ -28,9 +29,6 @@
         <li><a href="#"><span class="glyphicon glyphicon-font" aria-hidden="true"></span>Language</a></li>
         <li id="dashboard_system"><a href="/dashboard/system"><span class="glyphicon glyphicon-link"
                                                                     aria-hidden="true"></span>SystemInfo</a></li>
-
-        <li><a id="dashboard_users" href="/dashboard/users"><span class="glyphicon glyphicon-user"
-                                                                  aria-hidden="true"></span>Users</a></li>
       @endif
       <li id="dashboard_settings"><a href="/dashboard/settings"><span class="glyphicon glyphicon-edit"
                                                                       aria-hidden="true"></span>Settings</a></li>

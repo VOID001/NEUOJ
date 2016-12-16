@@ -1,7 +1,6 @@
 <!doctype html>
 <html>
 <head>
-  <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>Add Contest</title>
   @include("layout.head")
   @include("layout.dashboard_header")

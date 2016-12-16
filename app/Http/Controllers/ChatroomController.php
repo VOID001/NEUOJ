@@ -58,4 +58,54 @@ class ChatroomController extends Controller
 		return;
     }
 
+    /**
+     * @function getlastrecord
+     * @param $channel
+     * @param $recordCount
+     * @return json
+     * @description get the last record in json type
+     *
+     */
+    public function getlastrecord($channel, $recordCount)
+    {
+        $count = 0;
+        $data = [];
+        $record = [];
+        $dirPath = 'chatroomLog';
+        $directories = Storage::directories($dirPath);
+        for ($i = 0; $i < sizeof($directories); $i++) {
+            $filePath = $directories[$i];
+            $files = Storage::Files($filePath);
+            for ($j = 0; $j < sizeof($files); $j++) {
+                $recordfile[$i][$j] = Storage::get($files[$j]);
+                $recordExplode = explode("\n", $recordfile[$i][$j]);
+                for ($k = 0; $k < sizeof($recordExplode);) {
+                    $recordExplodeAgain['first'] = explode(" ", $recordExplode[$k++]);
+                    $recordExplodeAgain['second'] = explode(":", $recordExplode[$k++]);
+                    $data[$count]['channel'] = $recordExplodeAgain['first'][3];
+                    $data[$count]['time'] = $recordExplodeAgain['first'][5];
+                    $data[$count]['username'] = $recordExplodeAgain['first'][1];
+                    $data[$count]['message'] = $recordExplodeAgain['second'][1];
+                    $count++;
+                }
+            }
+        }
+        for ($i = 0, $j = $count - 1; $i < $recordCount && $j >= 0; $i++, $j--) {
+            while ($j >= 0) {
+                if ($data[$j]['channel'] == $channel) {
+                    $record[$i] = $data[$j];
+                    break;
+                } else
+                    $j--;
+            }
+        }
+        if ($i < $recordCount) {
+            if (isset($record[0]))
+                $record['status'] = "Records not enough";
+            else
+                $record['status'] = "No records";
+        }else
+            $record['status'] = "Success";
+        return json_encode($record);
+    }
 }
