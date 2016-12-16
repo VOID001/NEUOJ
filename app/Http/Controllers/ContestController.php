@@ -353,6 +353,39 @@ class ContestController extends Controller
      */
     public function getContestRanklist(Request $request, $contest_id)
     {
+        $roleController = new RoleController();
+        $uid = $request->session()->get('uid');
+        $userObj = User::where('uid', $uid)->first();
+        $contestUserObj = ContestUser::where('username', $userObj->username)->first();
+        if ($contestUserObj)
+            $username = $contestUserObj->username;
+        else
+            $username = "";
+        $contestObj = Contest::where('contest_id', $contest_id)->first();
+        if (Contest::where('contest_id', $contest_id)->count() == 0)
+            return Redirect::to('/contest/p/1');
+        if ($contestObj->contest_type == 2) {
+            if (!$roleController->is("admin")) {
+                $contestUserObj = ContestUser::where([
+                    'username' => $username,
+                    'contest_id' => $contest_id
+                ])->first();
+                if ($contestUserObj == NULL || $contestUserObj->username == NULL) {
+                    return Redirect::to("/contest/p/1");
+                }
+            }
+        }
+        if ($contestObj->contest_type == 1) {
+            if (!$roleController->is("admin")) {
+                $contestUserObj = ContestUser::where([
+                    'username' => $username,
+                    'contest_id' => $contest_id
+                ])->first();
+                if ($contestUserObj == NULL || $contestUserObj->username == NULL)
+                    return Redirect::to('/contest/p/1');
+            }
+        }
+
         /** Check for contest status and cache, if contest end and have then load cache*/
         if(Cache::has("contest-$contest_id.ranklist.final"))
         {
@@ -929,6 +962,8 @@ class ContestController extends Controller
         if($contestObj->isEnded() && Cache::has("contest-$contest_id.ranklist.final"))
         {
             $data = Cache::get("contest-$contest_id.ranklist.final");
+            if (current($data['users'])['attributes']['uid'] <= 0)
+                return Redirect::to("/contest/$contest_id/ranklist");
             Excel::create
             (
                 "ranklist_$contest_id",

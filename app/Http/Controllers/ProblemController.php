@@ -463,7 +463,7 @@ class ProblemController extends Controller
             $problemObj->description = $importData->description->__toString();
             $problemObj->time_limit = $importData->time_limit * 1;
             $problemObj->mem_limit = $importData->memory_limit * 1024;
-            $problemObj->output_limit = 10000000;
+            $problemObj->output_limit = 1000;
             $problemObj->difficulty = 0;
             $problemObj->input = $importData->input->__toString();
             $problemObj->output = $importData->output->__toString();
