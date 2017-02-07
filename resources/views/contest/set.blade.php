@@ -186,6 +186,8 @@
 						<input class="form-control contest-b-problem-input" name="problem_id[]" type="text" value="{{ $contestProblem[$i]['problem_id'] }}" readonly="true" />
 						<span>Title</span>
 						<input class="form-control contest-b-problem-input" name="problem_name[]" type="text" value="{{ $contestProblem[$i]['problem_title'] }}" readonly="true" />
+						<span>Color</span>
+						<input class="form-control" style="width:5%;padding:0;" type="color" name=problem_color[] value="{{ $contestProblem[$i]['problem_color'] }}"/>
 						@if(time()<strtotime($contest->begin_time))
 							<a href="javascript:delProblem({{ $i }})">Delete</a>
 						@endif
