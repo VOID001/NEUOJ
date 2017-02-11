@@ -103,6 +103,9 @@ $(function () {
   socket.on('get_count', function (data) {
     $('.chatroom-online-count').text('online: ' + data);
   });
+  socket.on('getOnlineUsers', function (data) {
+    $('.chatroom-online-users').text(data.toString());
+  });
   socket.on(channel, function (msg) {
     /*update UI*/
     var msg = eval('(' + msg + ')');
@@ -164,3 +167,18 @@ function html2Escape(myHtml) {
     return {'<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;'}[c];
   });
 }
+
+$('#logout').click(function () {
+  $.ajax({
+    url: '/ajax/username',
+    type: 'GET',
+    async: true,
+    dataType: 'json',
+    success: function(data) {
+      console.log(data);
+      var socket = io.connect("http://localhost:3000");
+      var username =data['username'];
+      socket.emit('logout', username);
+    }
+  });
+});

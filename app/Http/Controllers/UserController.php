@@ -291,6 +291,7 @@ class UserController extends Controller
     }
 
     /**
+<<<<<<< HEAD
      * @function bindUserCheck
      * @input $request
      *
@@ -368,5 +369,18 @@ class UserController extends Controller
             $data['bind_account'] = $request->input('bind_account');
         }
         return View::make('dashboard.binduser')->with($data);
+    }
+
+    /*
+     * @function getUsernameJson
+     * @input $request
+     *
+     * @return json
+     * @description get username for online chatroom
+     */
+    public function getUsernameJson(Request $request)
+    {
+        $data['username'] = $request->session()->get('username');
+        return response()->json($data);
     }
 }

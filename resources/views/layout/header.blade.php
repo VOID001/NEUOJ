@@ -67,7 +67,7 @@
                 <ul class="dropdown-menu dropdown-menu-right">
                     <li><a href="/dashboard"><img src="/avatar/{{Request::session()->get('uid')}}"/></a></li>
                     <li class="divider"></li>
-                    <li><a href="/auth/logout">Log Out</a></li>
+                    <li><a href="/auth/logout" id="logout">Log Out</a></li>
                 <ul>
             </div>
         @else

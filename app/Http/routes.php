@@ -501,6 +501,10 @@ Route::group(['middleware' => 'profile'],function() {
         Route::delete('/ajax/executable', [
             "uses" => "ExecutableController@deleteExecutable"
         ]);
+
+        Route::get('/ajax/username', [
+            "uses" => "UserController@getUsernameJson"
+        ]);
     });
 });
 /*
