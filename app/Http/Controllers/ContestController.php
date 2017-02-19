@@ -991,6 +991,8 @@ class ContestController extends Controller
                             $i = 1;
                             foreach($data['users'] as $user)
                             {
+                                if($user->uid == 0)
+                                    continue;
                                 $row = array
                                 (
                                     $i++,
