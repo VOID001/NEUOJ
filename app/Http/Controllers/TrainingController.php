@@ -195,26 +195,23 @@ class TrainingController extends Controller
         $data['ranklist'] = [];
         $userPerPage = 30;
         $trainingObj = Train::where('train_id', $train_id)->first();
-        if(!isset($trainingObj))
+        if (!isset($trainingObj))
             return Redirect::back();
-        $trainUserListCountAll = TrainUser::where('train_id', $train_id)->count();
-        $trainUserList = TrainUser::where('train_id', $train_id)->skip(($page_id - 1) * $userPerPage)->take($userPerPage)->get();
-        $trainUserListCount = $trainUserList->count();
-        $trainUserList = $trainUserList->all();
+        $trainUserList = TrainUser::where('train_id', $train_id)->get()->all();
         usort($trainUserList, [$this, 'cmp']);
-        foreach($trainUserList as &$trainUser)
-        {
+        foreach ($trainUserList as &$trainUser) {
             $trainUser['nickname'] = Userinfo::select('nickname')->where('uid', $trainUser->uid)->first()->nickname;
             $trainUser['username'] = User::select('username')->where('uid', $trainUser->uid)->first()->username;
         }
-        if ($userPerPage * ($page_id - 1) > $trainUserListCountAll)
+        $userPerPage = 30;
+        if ($userPerPage * ($page_id - 1) > count($trainUserList))
             return Redirect::to("/training/$train_id");
-        for ($i = 0; $i < $trainUserListCount; $i++)
+        for ($i = $userPerPage * ($page_id - 1); $i < ($userPerPage * $page_id > count($trainUserList) ? count($trainUserList) : $userPerPage * $page_id); $i++)
             $data['ranklist'][$i] = $trainUserList[$i];
         $data['counter'] = 1;
         $data['train_id'] = $trainingObj->train_id;
         $data['train_name'] = $trainingObj->train_name;
-        $data['page_num'] = ceil($trainUserListCountAll / $userPerPage);
+        $data['page_num'] = ceil(count($trainUserList) / $userPerPage);
         $data['page_id'] = $page_id;
         $data['page_user'] = $userPerPage;
         return View::make('training.ranklist')->with($data);
