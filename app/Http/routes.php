@@ -180,6 +180,10 @@ Route::group(['middleware' => 'profile'],function() {
             "uses" => "UserController@setSettings",
         ]);
 
+        Route::match(['post', 'get'], '/dashboard/settings/bind', [
+            "uses" => "UserController@bindUser"
+        ]);
+
         Route::get('/dashboard/judgehost', [
             "uses" => "JudgehostController@getIndex",
             "middleware" => "role:admin",

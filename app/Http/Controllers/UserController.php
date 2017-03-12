@@ -10,10 +10,15 @@ use Illuminate\Support\Facades\View;
 use App\User;
 use App\Userinfo;
 use App\Submission;
+use App\ContestUser;
+use App\TrainUser;
+use App\Thread;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Response;
 use Storage;
+use Illuminate\Support\MessageBag;
+use App\Jobs\updateUserProblemCount;
 
 class UserController extends Controller
 {
@@ -136,6 +141,7 @@ class UserController extends Controller
             $input = [];
         else
             $input['settingError'] = $request->session()->get('settingError');
+        $input['bindSSO'] = User::where('uid', $request->session()->get('uid'))->first()->bindSSO;
         if($request->method() == 'POST')
         {
             $input = $request->input();
@@ -282,5 +288,85 @@ class UserController extends Controller
                 break;
         }
         return Redirect::back();
+    }
+
+    /**
+     * @function bindUserCheck
+     * @input $request
+     *
+     * @return Redirect
+     * @description bind user
+     */
+    public function bindUser(Request $request)
+    {
+        $data = [];
+        $errMsg = new MessageBag;
+        $userObj = User::where('uid', $request->session()->get('uid'))->first();
+        $data['user_account'] = $userObj->username;
+        $data['bind_account'] = "";
+        if($request->method() == "POST")
+        {
+            $input = $request->input();
+            $this->validate($request, [
+                'bind_account' => 'required|exists:users,username'
+            ]);
+            if($userObj->bindSSO != 0)
+                return Redirect::back();
+            if(!preg_match("/20[0-9]{6}/", $input['bind_account']))
+            {
+                $errMsg->add('user_account_err', 'You can only bind a SSO account');
+                return Redirect::to('/dashboard/settings')->withErrors($errMsg);
+            }
+            if($request->input('user_account') != NULL)
+            {
+                if($request->input('user_account') != $request->session()->get('username'))
+                    return Redirect::back();
+                if(preg_match("/20[0-9]{6}/", $input['user_account']))
+                {
+                    $errMsg->add('user_account_err', 'SSo account can\'t bind a user');
+                    return Redirect::to('/dashboard/settings')->withErrors($errMsg);
+                }
+                $bindUserObj = User::where('username', $input['bind_account'])->first();
+                if(!Hash::check($input['user_password'], $userObj->password))
+                {
+                    $errMsg->add('user_pass_err', 'Your password is wrong');
+                }
+                if(!Hash::check($input['bind_password'], $bindUserObj->password))
+                {
+                    $errMsg->add('bind_pass_err', 'Bind account password is wrong');
+                }
+                if(Hash::check($input['bind_account'], $bindUserObj->password))
+                {
+                    $errMsg->add('bind_user_err', 'You must modify the account password to avoid false binding');
+                }
+                if(!$errMsg->isEmpty())
+                {
+                    return Redirect::to('/dashboard/settings/bind')->withInput($input)->withErrors($errMsg);
+                }
+
+                //bind user
+                $binduid = $bindUserObj->uid;
+                $uid = $userObj->uid;
+                User::where('uid', $uid)->update(['bindSSO' => $bindUserObj->username]);
+                User::where('uid', $binduid)->delete();
+                Userinfo::where('uid', $binduid)->delete();
+                Submission::where('uid', $binduid)->update(['uid' => $uid]);
+                Thread::where('author_id', $binduid)->update(['author_id' => $uid]);
+                $bindContestUserObj = ContestUser::where('user_id', $binduid)->get();
+                foreach($bindContestUserObj as $bindContestUser)
+                {
+                    if(ContestUser::where(['user_id' => $binduid, 'contest_id' => $bindContestUser->contest_id])->first() != NULL)
+                        ContestUser::where(['user_id' => $binduid, 'contest_id' => $bindContestUser->contest_id])->delete();
+                    else
+                        ContestUser::where(['user_id' => $binduid, 'contest_id' => $bindContestUser->contest_id])->update(['user_id' => $uid]);
+                }
+                TrainUser::where('uid', $binduid)->delete();
+                /* update Ranklist queue */
+                $this->dispatch(new updateUserProblemCount($uid));
+                return Redirect::to('/dashboard/settings');
+            }
+            $data['bind_account'] = $request->input('bind_account');
+        }
+        return View::make('dashboard.binduser')->with($data);
     }
 }
