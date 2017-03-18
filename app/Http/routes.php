@@ -502,8 +502,8 @@ Route::group(['middleware' => 'profile'],function() {
             "uses" => "ExecutableController@deleteExecutable"
         ]);
 
-        Route::get('/ajax/username', [
-            "uses" => "UserController@getUsernameJson"
+        Route::get('/ajax/user', [
+            "uses" => "UserController@getUserJson"
         ]);
     });
 });

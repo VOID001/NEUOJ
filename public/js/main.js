@@ -3,27 +3,35 @@ var array = new Array();
 
 $(function () {
   var channel = $('#contest-name').val() || '0';
+  /*set chatroom-box height*/
+  var settop = $('.chatroom-box').offset().top;
+  $('.chatroom-content').height($(window).height()-100);
+  $('.chatroom-content').css('top',-(settop-50));
+  $('.chatroom-online-list').height($(window).height()-100);
+  $('.chatroom-online-list').css('top',-(settop-50));
+  $('.chatroom-online-body').height($(window).height()-100);
+
   /*sliderToggle*/
-  $('.chatroom-btn').click(function () {
-    var $img = $('.chatroom-btn img');
-    var $content_div = $('.chatroom-content');
-    if ($img.getRotateAngle() == 180) {
-      $img.rotate({
-        angle: 180,
-        animateTo: 360,
-        duration: 800
-      });
-    } else {
-      $img.rotate({
-        angle: 0,
-        animateTo: 180,
-        duration: 800
-      });
+  $('.chatroom-btn').mouseenter(function () {
       $('#chat-count-badge').text('');
       storage.setItem('num_of_unread', '0'.toString());
-    }
-    $content_div.slideToggle(500);
+      $('.chatroom-icon').hide(500);
+      $('.chatroom-content').show(500);
   });
+  $('.chatroom-content').mouseleave(function () {
+      $('.chatroom-icon').show();
+      $('.chatroom-content').hide();
+  });
+  
+  $('.chatroom-online').mouseenter(function () {
+      $('.chatroom-icon').hide(500);
+      $('.chatroom-online-list').show(500);
+  });
+  $('.chatroom-online-list').mouseleave(function () {
+      $('.chatroom-icon').show();
+      $('.chatroom-online-list').hide();
+  });
+
   /*init message*/
   array = [];
   $.ajaxSetup({
@@ -99,12 +107,33 @@ $(function () {
 $(function () {
   var socket = io.connect("http://localhost:3000");
   var channel = $('#contest-name').val() || '0';
+        /*get user info*/
+          $.ajax({
+              url: '/ajax/user',
+              type: 'GET',
+              async: true,
+              dataType: 'json',
+              success: function(data) {
+                  console.log(data);
+                  var username = data['username'];
+                  var user_id = data['user_id'];
+                  socket.emit('join', channel,data);
+              }
+          })
+
   /*get online count*/
   socket.on('get_count', function (data) {
     $('.chatroom-online-count').text('online: ' + data);
   });
   socket.on('getOnlineUsers', function (data) {
-    $('.chatroom-online-users').text(data.toString());
+    for (var i = 0;i < data.length;i++)
+    {
+      var usercount = '<div id="user' + i + '"></div>';
+      $('#user-list').append(usercount);
+      var userinfo = '<div class="chatroom-userinfo">' + '<img class="img-circle" width="40" height="40" src="/avatar/' + data[i].user_id + '" />'
+       + '<div class="chatroom-username">' + data[i].username + '</div>' + '</div>';
+      $('#user'+i).html(userinfo);
+    }
   });
   socket.on(channel, function (msg) {
     /*update UI*/
@@ -168,17 +197,18 @@ function html2Escape(myHtml) {
   });
 }
 
-$('#logout').click(function () {
-  $.ajax({
-    url: '/ajax/username',
-    type: 'GET',
-    async: true,
-    dataType: 'json',
-    success: function(data) {
-      console.log(data);
-      var socket = io.connect("http://localhost:3000");
-      var username =data['username'];
-      socket.emit('logout', username);
-    }
-  });
-});
+// $('#logout').click(function () {
+//   $.ajax({
+//     url: '/ajax/user',
+//     type: 'GET',
+//     async: true,
+//     dataType: 'json',
+//     success: function(data) {
+//       console.log(data);
+//       var socket = io.connect("http://localhost:3000");
+//       var username =data['username'];
+//       var user_id = data['user_id'];
+//       socket.emit('logout', data);
+//     }
+//   });
+// });

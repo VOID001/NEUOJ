@@ -378,9 +378,10 @@ class UserController extends Controller
      * @return json
      * @description get username for online chatroom
      */
-    public function getUsernameJson(Request $request)
+    public function getUserJson(Request $request)
     {
         $data['username'] = $request->session()->get('username');
+        $data['user_id'] = $request->session()->get('uid');
         return response()->json($data);
     }
 }

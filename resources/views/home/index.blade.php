@@ -144,19 +144,6 @@
           }
         })
 
-          $.ajax({
-              url: '/ajax/username',
-              type: 'GET',
-              async: true,
-              dataType: 'json',
-              success: function(data) {
-                  console.log(data);
-                  var socket = io.connect("http://localhost:3000");
-                  var username =data['username'];
-                  socket.emit('login', username);
-              }
-          })
-
       })
     </script>
     @include("layout.footer")

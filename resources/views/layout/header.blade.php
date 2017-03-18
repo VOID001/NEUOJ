@@ -77,16 +77,26 @@
                 <a href="/auth/signup"><paper-button class="sign-button" raised>Sign Up</paper-button></a>
             </div>
         @endif
-        @if(Request::session()->has('username'))
+        </div>
+    </div>
+           @if(Request::session()->has('username'))
         <div class="chatroom-box">
-            <a class="chatroom-btn" role="button">
-                <img class="img-circle" src="/image/chatroom_btn.jpg" width="35px">
-                <span id="chat-count-badge" class="badge"></span>
-            </a>
-            <br>
+            <ul class="chatroom-icon">
+                <li>
+                    <a class="chatroom-btn" role="button">
+                        <img class="img-circle" src="/image/chat.png" width="85px">
+                        <span id="chat-count-badge" class="badge"></span>
+                    </a>                  
+                </li>
+                <li>
+                    <a class="chatroom-online" role="button">
+                        <img src="/image/chat.gif" width="85px" style="padding-top: 17px;">
+                    </a>
+                </li>
+            </ul>
             <div class="chatroom-content" style="display: none">
                 <div class="chatroom-header">
-                    Chatroom {{ $contest->contest_id or '0' }} <span class="chatroom-online-count"></span>
+                    Chatroom {{ $contest->contest_id or '0' }}
                 </div>
                 <div class="chatroom-body">
                     <div id="message-list"></div>
@@ -102,12 +112,16 @@
                         @else
                         <input name="contest" value="0" hidden/>
                         @endif
-                        <button class="chatroom-send-btn btn btn-warning">send</button>
+                        <button class="chatroom-send-btn btn">send</button>
                     </form>
+                </div>
+            </div>
+            <div class="chatroom-online-list" style="display: none;">
+                <div class="chatroom-header">Online User List<span class="chatroom-online-count"></span></div>
+                <div class="chatroom-online-body">
+                    <div id="user-list"></div>
                 </div>
             </div>
         </div>
         @endif
-        </div>
-    </div>
 </header>
