@@ -98,12 +98,14 @@ class SsoAuthController extends Controller
         phpCAS::setNoCasServerValidation();
         phpCAS::forceAuthentication();
         $user_id = phpCAS::getUser();
-        $username = User::where('username', $user_id)->first();
+        $username = User::where('bindSSO', $user_id)->first();
+        if(!$username)
+            $username = User::where('username', $user_id)->first();
         if(!$username)
         {
             $userObject = new User;
             $userObject->username = $user_id;
-            $userObject->password = Hash::make($username);
+            $userObject->password = Hash::make($user_id);
             $userObject->email = $user_id."@stu.neu.edu.cn";
             $userObject->registration_time = date('Y-m-d h:i:s');
             $userObject->lastlogin_time = date('Y-m-d h:i:s');

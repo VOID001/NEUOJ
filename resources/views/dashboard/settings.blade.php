@@ -19,7 +19,9 @@
 			{{ csrf_field() }}
 			<div class="text-center">
 				@if(count($errors) > 0)
-					<div class="label label-warning">{{$errors->all()[0]}}</div>
+					@foreach($errors->all() as $error)
+					<div class="label label-warning">{{$error}}</div>
+					@endforeach
 				@elseif(isset($settingError))
 					<div class="label label-warning">{{ $settingError }}</div>
 				@endif
@@ -43,6 +45,23 @@
 				</tr>
 			</table>
 		</form>
+		@if(!preg_match("/20[0-9]{6}/",Request::session()->get('username')))
+		@if($bindSSO != 0)
+		<h4 align='center'>Binduser: {{ $bindSSO }}</h4>
+		@else
+		<form action="/dashboard/settings/bind" method="POST">
+			{{ csrf_field() }}
+			<h3 align="center">Bind User</h3>
+			<table class="custom-table">
+				<tr>
+					<td>Username</td>
+					<td><input class="form-control" name="bind_account"/></td>
+					<td><input type="submit" value="Bind" class="btn btn-success" /></td>
+				</tr>
+			</table>
+		</form>
+		@endif
+		@endif
 	</div>
 </body>
 </html>

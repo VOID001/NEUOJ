@@ -177,6 +177,7 @@ class ContestController extends Controller
                 $contestProblemObj->contest_id = $contestObj->contest_id;
                 $contestProblemObj->problem_title = $input['problem_name'][$i];
                 $contestProblemObj->contest_problem_id = $i + 1;
+                $contestProblemObj->problem_color = $input['problem_color'][$i];
                 $contestProblemObj->save();
 
                 //We should make sure this problem is disabled in normal mode
@@ -707,11 +708,11 @@ class ContestController extends Controller
             }
             if(!$errMsg->isEmpty())
             {
-                var_dump($errMsg);
+                //var_dump($errMsg);
                 return Redirect::to("/dashboard/contest/$contest_id")->withErrors($errMsg)->withInput($input);
             }
             $contestObj = Contest::where('contest_id', $contest_id)->first();
-            var_dump($contestObj->primaryKey);
+            //var_dump($contestObj->primaryKey);
             $oldContent = Contest::where('contest_id', $contest_id)->first();
             $oldContentString = $oldContent["contest_id"] . $oldContent["contest_name"] . $oldContent["begin_time"] . $oldContent["end_time"] . $oldContent["register_begin_time"] . $oldContent["register_end_time"] . $oldContent["admin_id"] . $oldContent["contest_type"];
             $contestObj->contest_name = $input['contest_name'];
@@ -737,7 +738,6 @@ class ContestController extends Controller
                 $contestObj->register_begin_time = $input['register_begin_time'];
                 $contestObj->register_end_time = $input['register_end_time'];
             }
-            var_dump($contestObj->contest_id);
             $contestObj->save();
             ContestProblem::where('contest_id', $contest_id)->delete();
             $checkUnique = [];
@@ -751,6 +751,7 @@ class ContestController extends Controller
                 $contestProblemObj->problem_id = $problem_id;
                 $contestProblemObj->contest_id = $contestObj->contest_id;
                 $contestProblemObj->problem_title = $input['problem_name'][$i];
+                $contestProblemObj->problem_color = $input['problem_color'][$i];
                 $contestProblemObj->contest_problem_id = $i + 1;
                 $contestProblemObj->save();
 
@@ -990,6 +991,8 @@ class ContestController extends Controller
                             $i = 1;
                             foreach($data['users'] as $user)
                             {
+                                if($user->uid == 0)
+                                    continue;
                                 $row = array
                                 (
                                     $i++,
