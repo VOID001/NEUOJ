@@ -10,6 +10,7 @@ $(function () {
   $('.chatroom-online-list').height($(window).height()-100);
   $('.chatroom-online-list').css('top',-(settop-50));
   $('.chatroom-online-body').height($(window).height()-100);
+  $('.chatroom-body').height($(window).height()*0.7);
 
   /*sliderToggle*/
   $('.chatroom-btn').mouseenter(function () {
@@ -18,10 +19,10 @@ $(function () {
       $('.chatroom-icon').hide(500);
       $('.chatroom-content').show(500);
   });
-  $('.chatroom-content').mouseleave(function () {
-      $('.chatroom-icon').show();
-      $('.chatroom-content').hide();
-  });
+  // $('.chatroom-content').mouseleave(function () {
+  //     $('.chatroom-icon').show();
+  //     $('.chatroom-content').hide();
+  // });
   
   $('.chatroom-online').mouseenter(function () {
       $('.chatroom-icon').hide(500);

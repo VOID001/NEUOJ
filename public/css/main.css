@@ -1216,7 +1216,6 @@ span[class^="hljs"]{
     border-bottom: 1px solid #d2d6de;
 }
 .chatroom-body {
-    height: 456px;
     border-bottom: 1px solid #d2d6de;
     overflow: auto;
 }
@@ -1270,6 +1269,8 @@ span[class^="hljs"]{
 }
 .chatroom-footer {
     padding: 10px;
+    position: relative;
+    bottom: 0.5%;
 }
 .chatroom-form {
     margin-top: 20px;
