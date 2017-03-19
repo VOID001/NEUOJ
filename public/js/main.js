@@ -19,10 +19,10 @@ $(function () {
       $('.chatroom-icon').hide(500);
       $('.chatroom-content').show(500);
   });
-  // $('.chatroom-content').mouseleave(function () {
-  //     $('.chatroom-icon').show();
-  //     $('.chatroom-content').hide();
-  // });
+  $('.chatroom-content').mouseleave(function () {
+      $('.chatroom-icon').show();
+      $('.chatroom-content').hide();
+  });
   
   $('.chatroom-online').mouseenter(function () {
       $('.chatroom-icon').hide(500);
