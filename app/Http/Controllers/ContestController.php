@@ -496,7 +496,8 @@ class ContestController extends Controller
                 {
                     $count++;
                     /** Simple situation. User exists */
-                    if($uid != 0)
+                    $userInfoCount = Userinfo::where('uid', $uid)->count();
+                    if ($uid != 0 && $userInfoCount != 0)
                     {
                         $data["users"][$count] = $tmpUserObj;
                         $userInfoObj = $data["users"][$count]->info;
