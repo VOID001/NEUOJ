@@ -20,6 +20,7 @@ class Kernel extends ConsoleKernel
         \App\Console\Commands\correctContestUser::class,
         \App\Console\Commands\correctSubmission::class,
         \App\Console\Commands\DeleteAdminPermission::class,
+        \App\Console\Commands\EditProblem::class,
     ];
 
     /**
