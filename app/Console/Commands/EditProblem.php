@@ -12,7 +12,7 @@ class EditProblem extends Command
      *
      * @var string
      */
-    protected $signature = 'problem:edit {col_name} {after}';
+    protected $signature = 'problem:sed {col_name} {from} {to}';
 
     /**
      * The console command description.
@@ -38,28 +38,21 @@ class EditProblem extends Command
      */
     public function handle()
     {
-        $updateCount = 0;
-
-        if ($this->argument('col_name') != NULL && $this->argument('col_name') != NULL) {
+        if ($this->argument('col_name') != NULL && $this->argument('from') != NULL && $this->argument('to') != NULL) {
             $colName = $this->argument('col_name');
-            $after = $this->argument('after');
+            $from = $this->argument(('from'));
+            $to = $this->argument('to');
         }
-        if ($colName == NULL || $after == NULL) {
+        if ($colName == NULL || $to == NULL || $from == NULL) {
             $this->error("Missing params!");
             return;
         }
-        $problemObj = Problem::all();
-        $problemObjNum = Problem::all()->count();
+        $problemObjNum = Problem::where($colName, $from)->count();
         if ($problemObjNum == 0) {
             $this->error("Problem doesn't exist!");
             return;
         }
-        for ($i = 0; $i < $problemObjNum; $i++) {
-            if ($problemObj[$i][$colName] != $after) {
-                Problem::where('problem_id', $problemObj[$i]->problem_id)->update([$colName => $after]);
-                $updateCount++;
-            }
-        }
-        $this->info("$updateCount Problems has changed $colName to $after.");
+        Problem::where($colName, $from)->update([$colName => $to]);
+        $this->info("$problemObjNum problems have changed $colName from $from to $to.");
     }
 }
