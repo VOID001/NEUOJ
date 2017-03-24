@@ -13,6 +13,7 @@ use Validator;
 use Illuminate\Support\MessageBag;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Redirect;
+use GuzzleHttp\Client;
 
 class ThreadController extends Controller
 {
@@ -29,7 +30,7 @@ class ThreadController extends Controller
         /* We need to validate some input */
         $input = $request->input();
         $vdtor = Validator::make($input, [
-            'content' => "required | min:20 | max:1000"
+            'content' => "required | min:5 | max:1000"
         ]);
         if($vdtor->fails())
         {
@@ -48,13 +49,15 @@ class ThreadController extends Controller
         else
         {
             /* When this is the first thread this user post set $time_interval bigger than 10sec to pass the interval check */
-            $time_interval = 11;
+            $time_interval = 61;
         }
         if($time_interval < 10)
         {
             return Redirect::to('discuss/'.$contest_id.'/'.$problem_id)->with("info",
                 "Don't submit twice in 10 seconds!"
-            );
+            )->with([
+                "content" => $input['content']
+            ]);
         }
         else
         {
@@ -64,6 +67,36 @@ class ThreadController extends Controller
             $threadObj->pid = $problem_id;
             $threadObj->content = $input['content'];
             $threadObj->save();
+
+            //add issue message
+            if($contest_id == 0 && $problem_id == 2147483647)
+            {
+                $this->validate($request, [
+                    'title' => 'required | max:50'
+                ]);
+                if($time_interval < 60)
+                {
+                    return Redirect::to('discuss/'.$contest_id.'/'.$problem_id)->with("info",
+                        "Don't submit bug twice in 60 seconds!"
+                    )->with([
+                        "content" => $input['content']
+                    ]);
+                }
+                $client = new Client([
+                    'base_uri' => 'https://api.github.com'
+                ]);
+                $response = $client->request('POST', env('GITHUB_ISSUE_SITE', ''), [
+                    'headers' => [
+                        'Authorization' => 'token '.env('GITHUB_TOKEN', 'neuoj')
+                    ],
+                    'json' => [
+                        'title' => $input['title'],
+                        'body' => $input['content'],
+                        'labels' => ['bot']
+                    ],
+                    'verify' => env('CURL_VERIFY', false)
+                ]);
+            }
         }
         return Redirect::to('discuss/'.$contest_id.'/'.$problem_id);
     }

@@ -291,7 +291,6 @@ class UserController extends Controller
     }
 
     /**
-<<<<<<< HEAD
      * @function bindUserCheck
      * @input $request
      *

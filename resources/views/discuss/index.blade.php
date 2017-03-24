@@ -2,7 +2,11 @@
 <!doctype html>
 <html>
 <head>
+	@if($problem_id == 2147483647)
+	<title>NEUOJ Bug Report</title>
+	@else
 	<title>Discuss {{$contest_id}} {{$problem_id}}</title>
+	@endif
 	@include("layout.head")
 	<link rel="stylesheet" href="/css/main.css">
 </head>
@@ -11,7 +15,9 @@
 	<div class="front-container">
 		<div class="panel panel-default">
 			<div class="panel-heading discuss-front-panel-heading">
-				@if($contest_id != 0)
+				@if($problem_id == 2147483647)
+				NEUOJ Bug Report
+				@elseif($contest_id != 0)
 					<a href="/discuss/{{$contest_id}}/p/1">Contest {{$contest_id}} </a> >
 					<a href="/contest/{{$contest_id}}/problem/{{$problem_id}}">Problem {{$problem_id}} </a>
 				@else
@@ -58,6 +64,9 @@
 			<div class="panel-footer">
 				<form id="discuss-index-footer" action="/discuss/add/{{ $contest_id }}/{{ $problem_id }}" method ="POST" enctype="multipart/form-data">
 					{{ csrf_field() }}
+					@if($problem_id == 2147483647)
+						<textarea id="replybox" type="text" class="form-control" rows="1" name="title" placeholder="请输入Bug标题(必填)" requried/></textarea>
+					@endif
 					<textarea id="replybox" type="text" class="form-control" rows="3" name="content" placeholder="在这里输入你想说的0.0"/></textarea>
 					@if(session('info'))
 						<div class="label label-danger"><span class="glyphicon glyphicon-remove-sign"></span>&nbsp;{{ session('info') }}</div>
