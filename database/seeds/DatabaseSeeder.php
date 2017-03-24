@@ -15,17 +15,17 @@ class DatabaseSeeder extends Seeder
         Model::unguard();
 
         $this->call(UserTableSeeder::class);
-        $this->call(UserInfoTableSeeder::class);
+//        $this->call(UserInfoTableSeeder::class);
         $this->call(ExecutableTableSeeder::class);
 
         if(env('APP_ENV') == "local")
         {
             $this->call(ProblemTableSeeder::class);
-            $this->call(SubmissionTableSeeder::class);
+            /*$this->call(SubmissionTableSeeder::class);
             $this->call(ContestTableSeeder::class);
-            $this->call(TrainTableSeeder::class);
+            $this->call(TrainTableSeeder::class);*/
             $this->call(TestcasesTableSeeder::class);
-            $this->call(ThreadTableSeeder::class);
+//            $this->call(ThreadTableSeeder::class);
         }
         Model::reguard();
     }
