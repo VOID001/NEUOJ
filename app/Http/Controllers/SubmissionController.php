@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\OJLog;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Redirect;
@@ -72,7 +73,7 @@ class SubmissionController extends Controller
             $submission->judge_status = 0;
             $submission->save();
             $runid = $submission->id;
-            return Redirect::to("/status/$runid");
+            return Redirect::to("/status/$runid")->withcookie('lang',$submission->lang);
         }
     }
 

@@ -164,10 +164,15 @@
 					 {{ csrf_field() }}
 						<span name="Language">language:</span>
 						<select name="lang" class="form-control" id="problem-index-modal-select">
-							<option name="c">C</option>
-							<option name="cpp">C++</option>
-							<option name="py3">Python3</option>
+							<option name="c" id="C">C</option>
+							<option name="cpp" id="C++">C++</option>
+							<option name="py3" id="Python3">Python3</option>
 						</select>
+							@if(isset($lang))
+								<script type="text/javascript">
+									$("#problem-index-modal-select option[id='{{$lang}}']").attr("selected", true);
+								</script>
+							@endif
 						<textarea class="form-control" id="promblem_submit_textarea" name="code" placeholder="Input your code here..."></textarea>
 						<div id="problem-index-modal-footer">
 							<input class="btn btn-primary pull-right" type="reset" value="&nbsp;Reset&nbsp;" />

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\OJLog;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Redirect;
@@ -65,6 +66,8 @@ class ProblemController extends Controller
             'result' => "Accepted"
         ])->get()->unique('uid')->count();
         $data['problem']->threadCount = $threadCount;
+        if (Cookie::get('lang') != NULL)
+            $data['lang'] = Cookie::get('lang');
         return View::make("problem.index", $data);
     }
 
@@ -428,6 +431,8 @@ class ProblemController extends Controller
         ])->get()->unique('uid')->count();
         $data['problem']->totalSubmissionCount = Submission::getValidSubmissionCount($contest_id, $realProblemID);
         $data['problem']->realProblemID = $realProblemID;
+        if (Cookie::get('lang') != NULL)
+            $data['lang'] = Cookie::get('lang');
         return View::make("problem.index", $data);
     }
 
@@ -629,6 +634,8 @@ class ProblemController extends Controller
         ])->get()->unique('uid')->count();
 
         $data['problem']->totalSubmissionCount = Submission::getValidSubmissionCount(0, $realProblemID);
+        if (Cookie::get('lang') != NULL)
+            $data['lang'] = Cookie::get('lang');
         return View::make("problem.index", $data);
     }
 
