@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Submission;
+use Storage;
 
 class ClearPresureTest extends Command
 {
@@ -40,6 +41,14 @@ class ClearPresureTest extends Command
     {
         $uid = $this->option('uid');
         Submission::where('uid', $uid)->delete();
+        $files = Storage::allFiles("/submissions");
+        foreach($files as $file)
+        {
+            if(preg_match("/".$uid."-test_[0-9]*-[0-9]*-[0-9]*.cpp/", $file))
+            {
+                Storage::delete($file);
+            }
+        }
         $this->info("Presure test clear complete");
     }
 }

@@ -95,7 +95,7 @@ class StartPresureTest extends Command
         {
             $rand = rand(0,6);
             $submissionObj = new Submission;
-            $fileName = $uid."-".$problem_id."-".time().".cpp";
+            $fileName = $uid."-test_".$i."-".$problem_id."-".time().".cpp";
             Storage::put("submissions/".$fileName, $test_files[$rand]['code']);
             $submissionObj->pid = $problem_id;
             $submissionObj->uid = $uid;
