@@ -21,6 +21,8 @@ class Kernel extends ConsoleKernel
         \App\Console\Commands\correctSubmission::class,
         \App\Console\Commands\DeleteAdminPermission::class,
         \App\Console\Commands\EditProblem::class,
+        \App\Console\Commands\StartPresureTest::class,
+        \App\Console\Commands\ClearPresureTest::class,
     ];
 
     /**
