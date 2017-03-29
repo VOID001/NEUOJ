@@ -24,7 +24,7 @@
           </ul>
         </li>
         {{--<li class="separate-item"></li>--}}
-        <li id="dashboard_executable"><a href="#"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>Executables</a>
+        <li id="dashboard_executable"><a href="/dashboard/executable"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>Executables</a>
         </li>
         <li><a href="#"><span class="glyphicon glyphicon-font" aria-hidden="true"></span>Language</a></li>
         <li id="dashboard_system"><a href="/dashboard/system"><span class="glyphicon glyphicon-link"

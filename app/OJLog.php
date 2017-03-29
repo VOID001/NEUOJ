@@ -268,5 +268,23 @@ class OJLog extends Model
         self::writeLogger($context, Logger::ALERT);
     }
 
+/*    public static function addExecutalbe($uid, $execid, $exec_type)
+    {
+        $context = "Admin " . $uid . "add Executable ". $execid . " type: ".$exec_type;
+        self::writeLogger($context, Logger::NOTICE);
+    }
+
+    public static function updateExecutalbe($uid, $execid, $execid_edit, $exectype_edit)
+    {
+        $context = "Admin " . $uid . "update Executable ". $execid . "to execid: " . $execid_edit . "and type: ". $exectype_edit;
+        self::writeLogger($context, Logger::NOTICE);
+    }
+
+    public static function deleteExecutalbe($uid, $execide)
+    {
+        $context = "Admin " . $uid . "delete Executable ". $execid;
+        self::writeLogger($context, Logger::ALERT);
+    }*/
+
 
 }

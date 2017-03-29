@@ -16,10 +16,6 @@ use Illuminate\Support\Facades\View;
 /*Route group need profile middleware*/
 Route::group(['middleware' => 'profile'],function() {
 
-    Route::get('/executable',function(){
-        return view("dashboard.executable");
-    });
-
     Route::get('/', [
         "as" => "home",
         "uses" => "HomeController@showHome",
@@ -218,6 +214,16 @@ Route::group(['middleware' => 'profile'],function() {
         Route::match(['post', 'get'], '/dashboard/problem/add', [
             "middleware" => "role:admin",
             "uses" => "ProblemController@addProblem"
+        ]);
+
+        Route::get('/dashboard/executable', [
+            "middleware" => "role:admin",
+            "uses" => "ExecutableController@getExecutableDashboard"
+        ]);
+
+        Route::get('/dashboard/executable/{execId}', [
+            "middleware" => "role:admin",
+            "uses" => "ExecutableController@getExecutableFile"
         ]);
 
         Route::get('/dashboard/users', [
@@ -491,14 +497,22 @@ Route::group(['middleware' => 'profile'],function() {
         ]);
 
         Route::post('/ajax/executable', [
+            "middleware" => "role:admin",
             "uses" => "ExecutableController@addExecutable"
         ]);
 
         Route::get('/ajax/executable', [
+            "middleware" => "role:admin",
             "uses" => "ExecutableController@getExecutable"
         ]);
 
+        Route::put('/ajax/executable', [
+            "middleware" => "role:admin",
+            "uses" => "ExecutableController@updateExecutable"
+        ]);
+
         Route::delete('/ajax/executable', [
+            "middleware" => "role:admin",
             "uses" => "ExecutableController@deleteExecutable"
         ]);
 
