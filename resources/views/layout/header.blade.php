@@ -79,7 +79,9 @@
         @endif
         </div>
     </div>
-           @if(Request::session()->has('username'))
+<!--     
+    //chatroom      
+ @if(Request::session()->has('username'))
         <div class="chatroom-box">
             <ul class="chatroom-icon">
                 <li>
@@ -123,5 +125,6 @@
                 </div>
             </div>
         </div>
-        @endif
+    @endif 
+-->
 </header>
