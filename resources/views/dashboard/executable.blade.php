@@ -3,6 +3,7 @@
 <head>
     <title>Executables</title>
     @include("layout.head")
+    @include("layout.dashboard_header")
     <link rel="stylesheet" href="/css/main.css">
     <script type="text/javascript">
         $(function() {
@@ -54,7 +55,11 @@
                             </div>
                             <div class="row">
                                 <label class="col-md-3">Type</label>
-                                <input class="col-md-8" name="type" type="text">
+                                <select class="col-md-8" name="type">
+                                    <option value="lang">lang</option>
+                                    <option value="compare">compare</option>
+                                    <option value="run">run</option>
+                                </select>
                             </div>
                             <div class="row">
                                 <label class="col-md-3">Input File</label>
@@ -88,8 +93,8 @@
         $("#tmp_form_submit").click(function(){
             var form = new FormData($("#tmp_form")[0]);
             $.ajax({
-                url: '/ajax/contests',
-                type: 'put',
+                url: '/ajax/executable',
+                type: 'post',
                 processData: false,
                 contentType: false,
                 data: form,
@@ -102,7 +107,7 @@
     //get table
     $(function(){
         $.ajax({
-            url: '/ajax/contests',
+            url: '/ajax/executable',
             type: 'get',
             async: true,
             dataType: 'json',
@@ -116,7 +121,7 @@
                 for(var i= 0; i< obj.length; i++) {
                     var executable = '<tr><td>' + obj[i].execid + '</td>'+
                             '<td>' + obj[i].type + '</td>'+
-                            '<td>' + obj[i].input_file + '</td>'+
+                            '<td><a href="/dashboard/executable/' + obj[i].execid + '">' + obj[i].execid + '.zip</a></td>'+
                             '<td>' + obj[i].md5sum + '</td>'+
                             '<td>'+
                                 '<a class="btn btn-grey" id="executable_edit'+obj[i].execid+'" href="#modal_edit'+obj[i].execid+'" data-toggle="modal">&nbsp;&nbsp;Edit&nbsp;&nbsp;</a>'+
@@ -126,9 +131,9 @@
                                 '$(function(){'+
                                     '$("#executable_delete'+obj[i].execid+'").click(function(){'+
                                         '$.ajax({'+
-                                            'url: "/ajax/contests1",'+
-                                            'type: "DELETE",'+
-                                            'data: {"execid":"'+obj[i].execid+'"},'+
+                                            'url: "/ajax/executable",'+
+                                            'type: "post",'+
+                                            'data: {"execid":"'+obj[i].execid+'", "_method":"DELETE", "_token": "{{ csrf_token() }}"},'+
                                             'async: true,'+
                                             'success: function(){'+
                                                 'window.location.reload();'+
@@ -149,18 +154,24 @@
                                     '</div>'+
                                     '<div class="modal-body">'+
                                         '<form enctype="multipart/form-data" id="tmp_form'+obj[i].execid+'">'+
+                                        '{{ method_field('PUT') }}'+
                                         '{{ csrf_field() }}'+
+                                        '<input type="hidden" name="execid" value="' + obj[i].execid + '">'+
                                             '<div class="row">'+
                                                 '<label class="col-md-3 pull-left">ID</label>'+
-                                                '<input class="col-md-8" name="execid" type="text" value="'+obj[i].execid+'">'+
+                                                '<input class="col-md-8" name="execid_edit" type="text" value="'+obj[i].execid+'">'+
                                             '</div>'+
                                             '<div class="row">'+
                                                 '<label class="col-md-3">Type</label>'+
-                                                '<input class="col-md-8" name="type" type="text" value="'+obj[i].type+'">'+
+                                                '<select class="col-md-8" name="type_edit" value="'+obj[i].type+'">'+
+                                                    '<option value="lang">lang</option>'+
+                                                    '<option value="compare">compare</option>'+
+                                                    '<option value="run">run</option>'+
+                                                '</select>'+
                                             '</div>'+
                                             '<div class="row">'+
                                                 '<label class="col-md-3">Old Input File</label>'+
-                                                '<input class="col-md-8" value="'+obj[i].input_file+'"disabled>'+
+                                                '<input class="col-md-8" value="'+obj[i].execid+'.zip"disabled>'+
                                             '</div>'+
                                             '<div class="row">'+
                                                 '<label class="col-md-3">New Input File</label>'+
@@ -180,7 +191,7 @@
                                 '$("#tmp_form_submit'+obj[i].execid+'").click(function(){'+
                                     'var form = new FormData($("#tmp_form'+obj[i].execid+'")[0]);'+
                                     '$.ajax({'+
-                                        'url: "/ajax/contests",'+
+                                        'url: "/ajax/executable",'+
                                         'type: "post",'+
                                         'processData: false,'+
                                         'contentType: false,'+

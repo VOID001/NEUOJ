@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+//use App\OJLog;
 use App\Executable;
 use Illuminate\Http\Request;
 use Storage;
@@ -13,6 +14,12 @@ use Illuminate\Support\Facades\Response;
 
 class ExecutableController extends Controller
 {
+
+    public function getExecutableDashboard(Request $request)
+    {
+        return View::make('dashboard.executable');
+    }
+
     /**
      * @function addExecutable
      * @input $request
@@ -22,9 +29,10 @@ class ExecutableController extends Controller
      */
     public function addExecutable(Request $request)
     {
-        $execId = $request->execid;
+        $input = $request->input();
+        $execId = $input['execid'];
         $execFile = $request->file('file');
-        $execType = $request->type;
+        $execType = $input['type'];
         if ($execType == "lang" || $execType == "compare" || $execType == "run") {
             if (isset($execFile)) {
                 if (substr($execFile->getMimeType(), 0, 15) == "application/zip") {
@@ -80,7 +88,7 @@ class ExecutableController extends Controller
      */
     public function deleteExecutable(Request $request)
     {
-        $execId = $request->execid;
+        $execId = $request->input('execid');
         Executable::where('execid', $execId)->delete();
         if (Storage::has('executables/' . $execId . '.zip')) {
             Storage::delete('executables/' . $execId . '.zip');
@@ -96,7 +104,7 @@ class ExecutableController extends Controller
     }
 
     /**
-     * @function updateExecutableByExeId
+     * @function updateExecutableByExecId
      * @input $request
      *
      * @return json with update result
@@ -104,13 +112,23 @@ class ExecutableController extends Controller
      */
     public function updateExecutable(Request $request)
     {
-        $execId = $request->execid;
-        $exeIdEdit = $request->execidEdit;
-        $exeType = $request->typeEdit;
+        $input = $request->input();
+        $execId = $input['execid'];
+        $execIdEdit = $input['execid_edit'];
+        $execType = $input['type_edit'];
+        $execFile = $request->file('file');
         if (Executable::where('execid', $execId)->first()) {
-            if ($exeType == "lang" || $exeType == "compare" || $exeType == "run") {
-                Executable::where('execid', $execId)->update(['execid' => $exeIdEdit]);
-                Executable::where('execid', $exeIdEdit)->update(['type' => $exeType]);
+            if ($execType == "lang" || $execType == "compare" || $execType == "run") {
+                Executable::where('execid', $execId)->update(['execid' => $execIdEdit]);
+                Executable::where('execid', $execIdEdit)->update(['type' => $execType]);
+                if (isset($execFile) && substr($execFile->getMimeType(), 0, 15) == "application/zip") {
+                    Executable::where('execid', $execIdEdit)->update(['md5sum' => md5_file($execFile)]);
+                    //Storage::delete('executables/' . $execId . ".zip");
+                    Storage::put(
+                        'executables/' . $execId . ".zip",
+                        file_get_contents($request->file('file')->getRealPath())
+                    );
+                }
                 $data['status'] = "success";
             } else {
                 $data['status'] = "fail";
