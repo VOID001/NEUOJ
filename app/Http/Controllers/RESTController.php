@@ -410,6 +410,8 @@ class RESTController extends Controller
         $simLangMapArr = [
             'C' => 'sim_c',
             'C++' => 'sim_c',
+            'C++11' => 'sim_c',
+            'Java' => 'sim_java',
             /* Now only support two langs */
         ];
         $currentSubmissionObj = Submission::find($run_id);
