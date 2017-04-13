@@ -456,7 +456,7 @@ class ProblemController extends Controller
         $dataStr = file_get_contents($request->file('xml')->getRealPath());
 
         /* Use SimpleXML to import Data from XML File */
-        $xmlObj = simplexml_load_string($dataStr);
+        $xmlObj = simplexml_load_string($dataStr, 'SimpleXMLElement', LIBXML_PARSEHUGE);
         foreach($xmlObj->item as $importData)
         {
             $problemObj = new Problem();
