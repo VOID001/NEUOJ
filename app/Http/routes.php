@@ -125,6 +125,22 @@ Route::group(['middleware' => 'profile'],function() {
         "uses" => "ContestController@getContestListByPageID"
     ])->where('page_id', '[0-9]+');
 
+    Route::get('/contest/{contest_id}/ranklist', [
+        "uses" => "ContestController@getContestRanklist"
+    ])->where('contest_id', '[0-9]+');
+
+    Route::get('/contest/{contest_id}/ranklist/export', [
+        "middleware" => "role:admin",
+        "uses" => "ContestController@exportContestRanklist"
+    ])->where('contest_id', '[0-9]+');
+
+    Route::get('/contest/{contest_id}/ranklist/p/{page_id}', [
+        "uses" => "ContestController@getContestRanklistByPageID"
+    ])->where([
+        'contest_id' => '[0-9]+',
+        'page_id' => '[0-9]+'
+    ]);
+
     Route::get('/ranklist', [
         "uses" => "RanklistController@getRanklist"
     ]);
@@ -133,6 +149,12 @@ Route::group(['middleware' => 'profile'],function() {
         "uses" => "RanklistController@getRanklistByPageID"
     ])->where('page_id', '[0-9]+');
 
+    Route::get('/training', [
+        "uses" => "TrainingController@getTrainingList"
+    ]);
+    Route::get('/training/p/1',[
+        "uses" => "TrainingController@getTrainingList"
+    ]);
 
     /*Route group need auth middleware*/
     Route::group(['middleware' => 'auth'], function () {
@@ -313,22 +335,6 @@ Route::group(['middleware' => 'profile'],function() {
             "problem_id" => "[0-9]+"
         ]);
 
-        Route::get('/contest/{contest_id}/ranklist', [
-            "uses" => "ContestController@getContestRanklist"
-        ])->where('contest_id', '[0-9]+');
-
-        Route::get('/contest/{contest_id}/ranklist/export', [
-            "middleware" => "role:admin",
-            "uses" => "ContestController@exportContestRanklist"
-        ])->where('contest_id', '[0-9]+');
-
-        Route::get('/contest/{contest_id}/ranklist/p/{page_id}', [
-            "uses" => "ContestController@getContestRanklistByPageID"
-        ])->where([
-            'contest_id' => '[0-9]+',
-            'page_id' => '[0-9]+'
-        ]);
-
         Route::get('/contest/{contest_id}/status', [
             "uses" => "ContestController@getContestStatus"
         ])->where('contest_id', '[0-9]+');
@@ -425,13 +431,6 @@ Route::group(['middleware' => 'profile'],function() {
             "middleware" => "role:admin",
             "uses" => "TrainingController@showTrainingDashboard"
         ])->where('page_id', '[0-9]+');
-
-        Route::get('/training', [
-            "uses" => "TrainingController@getTrainingList"
-        ]);
-        Route::get('/training/p/1',[
-            "uses" => "TrainingController@getTrainingList"
-        ]);
 
         Route::get('/training/{train_id}', [
             "uses" => "TrainingController@getTrainingByID"

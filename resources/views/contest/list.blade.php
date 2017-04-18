@@ -29,6 +29,7 @@
 				<th class="text-center" width="18%">Start Time</th>
 				<th class="text-center" width="8%">Type</th>
 				<th class="text-center" width="10%">Status</th>
+				<th class="text-center" width="10%">Ranklist</th>
 				@if($roleCheck->is('admin'))
 					<th class="text-center" width="12%">Management</th>
 				@endif
@@ -62,6 +63,9 @@
 							@else
 								<span class="label label-default">{{ $contest->status }}</span>
 							@endif
+						</td>
+						<td>
+							<button class="btn btn-default" onClick="window.location.href='/contest/{{ $contest->contest_id }}/ranklist';">Watch</button>
 						</td>
 						@if($roleCheck->is('admin'))
 							<td>

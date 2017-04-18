@@ -39,13 +39,16 @@
 			<table class="table table-striped table-bordered custom-list">
 			<thead class="front-green-thead">
 				<th class="text-center" id="contest-ranklist-rank">Rank</th>
-				<th class="text-center" id="contest-ranklist-id">
+				<!--<th class="text-center" id="contest-ranklist-id">
 					@if($roleCheck->is("admin"))
 						学号
 					@else
 						Avatar
 					@endif
-				</th>
+				</th>-->
+				@if($roleCheck->is("admin"))
+				<th class="text-center" id="contest-ranklist-id">学号</th>
+				@endif
 				<th class=" text-center" id="contest-ranklist-name">
 					@if($roleCheck->is("admin"))
 						真实姓名
@@ -68,7 +71,7 @@
 						<td>
 							{{ $counter++ }}
 						</td>
-						<td>
+						<!--<td>
 							<paper-button><a class="custom-word" href="/profile/{{ $user->uid }}">
 								@if($roleCheck->is("admin"))
 									{{ $user->stu_id }}
@@ -76,7 +79,14 @@
 									<img class="loader contest-ranklist-img" src="/image/loading.gif" data-src="/avatar/{{$user->uid}}" />
 								@endif
 							</a></paper-button>
+						</td>-->
+						@if($roleCheck->is("admin"))
+						<td>
+							<paper-button><a class="custom-word" href="/profile/{{ $user->uid }}">
+									{{ $user->stu_id }}
+							</a></paper-button>
 						</td>
+						@endif
 						<td>
 							<paper-button>
 								@if($roleCheck->is("admin"))
@@ -147,7 +157,7 @@
 		</div>
 	</div>
 	@include("layout.footer")
-	<script type="text/javascript">
+	<!--<script type="text/javascript">
 		$.imageloader.queueInterval = 300;
 		$(document).ready(function () {
 			$('body').imageloader(
@@ -159,6 +169,6 @@
 					}
 			);
 		});
-	</script>
+	</script>-->
 </body>
 </html>
