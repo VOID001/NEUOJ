@@ -170,23 +170,27 @@
 						<td>
 							@if($roleCheck->is("able-view-code", $param))
 								<span onclick="window.location.href='/status/{{ $submission->runid }}@if(isset($contest))?c={{ $contest->contest_id }}&p={{ $submission->contestProblemId }} @endif'"
-							@else
-								<div
-							@endif
-							@if($submission->result=="Accepted")
-								class="label label-success can-view-code"><span class="can-view-code-tooltip">You can view all AC code on this problem</span><span class="glyphicon glyphicon-ok"></span>Accepted
-							@elseif($submission->result=="Compile Error")
-								class="label label-default">Compile Error
-							@elseif($submission->result=="Wrong Answer")
-								class="label label-danger">Wrong Answer
-							@elseif($submission->result=="Pending")
-								class="label label-info">Pending
-							@elseif($submission->result=="Rejudging")
-								class="label label-info">Rejudging
-							@else
-								class="label label-warning">{{$submission->result}}
-							@endif
-							</div>
+                            @else
+                                <div
+                                    @endif
+                                    @if($submission->result=="Accepted")
+                                        class="label label-success can-view-code">
+                                            <span class="can-view-code-tooltip">You can view all AC code on this problem</span>
+                                            <span class="glyphicon glyphicon-ok"></span>
+                                            Accepted
+                                    @elseif($submission->result=="Compile Error")
+                                        class="label label-default">Compile Error
+                                    @elseif($submission->result=="Wrong Answer")
+                                        class="label label-danger">Wrong Answer
+                                    @elseif($submission->result=="Pending")
+                                        class="label label-info">Pending
+                                    @elseif($submission->result=="Rejudging")
+                                        class="label label-info">Rejudging
+                                    @else
+                                        class="label label-warning">{{$submission->result}}
+                                    @endif
+							    </div>
+                                </span>
 							@if($submission->result=="Accepted")
 								@if(isset($submission->sim->similarity) && $roleCheck->is("admin"))
 									<span class="label label-primary" title="runid:{{ $submission->sim->sim_runid }}" onclick="window.location.href='/status/sim?left={{ $submission->sim->runid }}&right={{ $submission->sim->sim_runid }}'" style="margin-left:5px">{{ $submission->sim->similarity }}%</span>
