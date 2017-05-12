@@ -142,4 +142,3 @@
 
 <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
 <script src="/js/jQueryRotate.2.2.js"></script>
-<script src="/js/main.js"></script>
