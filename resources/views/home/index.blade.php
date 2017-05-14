@@ -34,7 +34,7 @@
 		<div class="page page1">
 			<p class="page-title">Welcome to NEUOJ</p>
 			<div class='page-info'>
-    				<p>欢迎使用 NEUOJ ver {{ env('APP_VER', 'NULL') }}, <a href="http://202.118.31.226:3322/Lbyang/NEUOJ"><img src="http://202.118.31.226:3322/api/badges/Lbyang/NEUOJ/status.svg" /></a>在使用中遇到任何问题, 请在 <a href="https://github.com/VOID001/NEUOJ-bug-report/issues/new">[Github Issues]</a>提出, 或者联系: zhangjianqiu13@gmail.com<p>
+    				<p>欢迎使用 NEUOJ ver {{ env('APP_VER', 'NULL') }}, <a href="http://202.118.31.226:3322/Lbyang/NEUOJ"><img src="http://202.118.31.226:3322/api/badges/Lbyang/NEUOJ/status.svg" /></a>在使用中遇到任何问题, 点击<a href="https://github.com/NEU-ACM/OnlineJudge/issues/new">[Github Issues]</a><p>
     			</div>
     			<p class='page-tip'>↓滚动</p>
 		</div>
@@ -92,7 +92,7 @@
 		</div>
 		<div style="clear: both"></div>
 	</div>
-  
+
     <script>
       $(function(){
         $.ajax({
