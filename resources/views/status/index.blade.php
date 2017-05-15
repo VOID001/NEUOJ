@@ -1,3 +1,4 @@
+@inject('roleCheck', 'App\Http\Controllers\RoleController')
 <!doctype html>
 <html>
 <head>
