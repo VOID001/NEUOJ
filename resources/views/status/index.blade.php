@@ -38,7 +38,9 @@
         <div>JudgeHost: <span class="label label-success">{{ $judgeid }}</span></div>
         <div>Download Source Code</div>
         @if($roleCheck->is('admin'))
-        <code class="cpp" id="paste">{{ $code }}</code>
+            <code class="cpp" id="paste">{{ $code }}</code>
+        @elseif($roleCheck->is('able-view-code'))
+            <code class="cpp" id="paste">{{ $code }}</code>
         @endif
         @if($result == "Compile Error" && $err_info != "")
             <h3>Compile/Runtime Error</h3>
