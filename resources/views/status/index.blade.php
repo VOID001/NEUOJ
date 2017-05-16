@@ -39,7 +39,7 @@
         <div>Download Source Code</div>
         @if($roleCheck->is('admin'))
             <code class="cpp" id="paste">{{ $code }}</code>
-        @elseif($roleCheck->is('able-view-code'))
+        @elseif($roleCheck->is('able-view-code', ['runid' => $runid]))
             <code class="cpp" id="paste">{{ $code }}</code>
         @endif
         @if($result == "Compile Error" && $err_info != "")
