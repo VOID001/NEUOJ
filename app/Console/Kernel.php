@@ -23,6 +23,7 @@ class Kernel extends ConsoleKernel
         \App\Console\Commands\EditProblem::class,
         \App\Console\Commands\StartPresureTest::class,
         \App\Console\Commands\ClearPresureTest::class,
+        \App\Console\Commands\InitContestRanklist::class,
     ];
 
     /**

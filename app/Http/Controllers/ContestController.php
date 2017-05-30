@@ -27,6 +27,7 @@ use Illuminate\Http\Response;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Hash;
 use Storage;
+use App\ContestRanklist;
 
 class ContestUserInfo
 {
@@ -391,14 +392,14 @@ class ContestController extends Controller
         if(Cache::has("contest-$contest_id.ranklist.final"))
         {
             $data = Cache::get("contest-$contest_id.ranklist.final");
-            return View::make('contest.ranklist', $data);
+            return View::make('contest.ranklist_back', $data);
         }
         /** Check for cache, if have then load cache*/
         $timestamp = (int)(time() / 5);
         if(Cache::has("contest-$contest_id.ranklist.$timestamp"))
         {
             $data = Cache::get("contest-$contest_id.ranklist.$timestamp");
-            return View::make('contest.ranklist', $data);
+            return View::make('contest.ranklist_back', $data);
         }
 
         $data = [];
@@ -532,7 +533,7 @@ class ContestController extends Controller
         {
             Cache::put("contest-$contest_id.ranklist.$timestamp", $data, Carbon::now()->addMinutes(1));
         }
-        return View::make('contest.ranklist', $data);
+        return View::make('contest.ranklist_back', $data);
     }
 
     /**
@@ -549,6 +550,66 @@ class ContestController extends Controller
             return $userA->infoObj->totalPenalty > $userB->infoObj->totalPenalty;
         }
         return $userA->infoObj->totalAC < $userB->infoObj->totalAC;
+    }
+
+    public function getContestRanklist_new(Request $request, $contest_id)
+    {
+        $contestObj = Contest::where('contest_id', $contest_id)->first();
+        if (Contest::where('contest_id', $contest_id)->count() == 0)
+            return Redirect::to('/contest/p/1');
+
+        /** Check for contest status and cache, if contest end and have then load cache*/
+        if(Cache::has("contest-$contest_id.ranklist.final"))
+        {
+            $data = Cache::get("contest-$contest_id.ranklist.final");
+            return View::make('contest.ranklist', $data);
+        }
+        /** Check for cache, if have then load cache*/
+        $timestamp = (int)(time() / 5);
+        if(Cache::has("contest-$contest_id.ranklist.$timestamp"))
+        {
+            $data = Cache::get("contest-$contest_id.ranklist.$timestamp");
+            return View::make('contest.ranklist', $data);
+        }
+
+        $data = [];
+        $contestRanklistObj = ContestRanklist::where('contest_id', $contest_id)->orderby('rank', 'asc')->get();
+        #decode json
+        for($i = 0; $i < count($contestRanklistObj); $i++)
+        {
+            $userObj = User::where('uid', $contestRanklistObj[$i]->uid)->first();
+            $userInfoObj = UserInfo::where('uid', $contestRanklistObj[$i]->uid)->first();
+            if($userInfoObj == NULL)
+            {
+                $contestRanklistObj[$i]->nickname = $userObj->username;
+                $contestRanklistObj[$i]->realname = $userObj->username;
+                $contestRanklistObj[$i]->stu_id = $userObj->username;
+            }
+            else
+            {
+                $contestRanklistObj[$i]->nickname = $userInfoObj->nickname;
+                $contestRanklistObj[$i]->realname = $userInfoObj->realname;
+                $contestRanklistObj[$i]->stu_id = $userInfoObj->stu_id;
+            }
+            $contestRanklistObj[$i]->username = $userObj->username;
+
+            $contestRanklistObj[$i]->penalty_list = json_decode($contestRanklistObj[$i]->penalty_list, true);
+            $contestRanklistObj[$i]->result_list = json_decode($contestRanklistObj[$i]->result_list, true);
+        }
+        $data['problems'] = ContestProblem::where('contest_id', $contest_id)->get();
+        $data['ranklist'] = $contestRanklistObj;
+        $data['contest_id'] = $contest_id;
+        $data['counter'] = 1;
+        /** Cache the result for a better performance when multiple visit at the same time */
+        if(Contest::where('contest_id', $contest_id)->first()->isEnded())
+        {
+            Cache::put("contest-$contest_id.ranklist.final", $data, Carbon::now()->addDay());
+        }
+        else
+        {
+            Cache::put("contest-$contest_id.ranklist.$timestamp", $data, Carbon::now()->addMinutes(1));
+        }
+        return View::make('contest.ranklist', $data);
     }
 
     /**

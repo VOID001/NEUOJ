@@ -665,6 +665,8 @@ class ProblemController extends Controller
             if($submissionGroup->where('result', "Accepted")->count() == 0)
             {
                 $problemObj = Problem::where('problem_id', $submissionGroup[0]->pid)->first();
+                if($problemObj == NULL)
+                    continue;
                 $data['unfinished_problems'][$i]['pid'] = $problemObj->problem_id;
                 $data['unfinished_problems'][$i]['title'] = $problemObj->title;
                 $data['unfinished_problems'][$i]['result'] = $submissionGroup[0]->result;

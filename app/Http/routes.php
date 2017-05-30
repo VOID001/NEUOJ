@@ -126,7 +126,7 @@ Route::group(['middleware' => 'profile'],function() {
     ])->where('page_id', '[0-9]+');
 
     Route::get('/contest/{contest_id}/ranklist', [
-        "uses" => "ContestController@getContestRanklist"
+        "uses" => "ContestController@getContestRanklist_new"
     ])->where('contest_id', '[0-9]+');
 
     Route::get('/contest/{contest_id}/ranklist/export', [

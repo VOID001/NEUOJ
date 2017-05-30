@@ -66,7 +66,7 @@
 				</th>
 				@endforeach
 			</thead>
-				@foreach($ranklist as $user)
+				@foreach($users as $user)
 					<tr class="front-table-row">
 						<td>
 							{{ $counter++ }}
@@ -101,42 +101,54 @@
 							</paper-button>
 						</td>
 						<td>
-							{{ $user->total_ac }}
+							{{ $user->infoObj->totalAC }}
 						</td>
 						<td>
 							{{--the total penalty--}}
-							{{ $user->total_penalty }}
+							@if(intval($user->infoObj->totalPenalty / 60 / 60)<=9)
+								0{{intval($user->infoObj->totalPenalty / 60 / 60)}}
+							@else{{intval($user->infoObj->totalPenalty / 60 / 60)}}
+							@endif
+							: {{ substr(strval($user->infoObj->totalPenalty % 3600 / 60 + 100), 1, 2) }} : {{ substr(strval($user->infoObj->totalPenalty % 60 + 100), 1, 2) }}
 						</td>
 						{{--every problem's result--}}
 						@foreach($problems as $problem)
 							<td class="contest-ranklist-btn">
 								{{--first blood--}}
-                                @if(isset($user->result_list[$problem->contest_problem_id]))
-								@if(isset($user->result_list[$problem->contest_problem_id]) && $user->result_list[$problem->contest_problem_id] == "First Blood")
+								@if(isset($user->infoObj->result[$problem->contest_problem_id]) && $user->infoObj->result[$problem->contest_problem_id] == "First Blood")
 									<div class="btn btn-primary">
-                                        {{ $user->penalty_list[$problem->contest_problem_id]['time'] }}
-                                        @if($user->penalty_list[$problem->contest_problem_id]['penalty'] != 0)
-                                        ({{ $user->penalty_list[$problem->contest_problem_id]['penalty'] }})
-                                        @endif
-									</div>
+										@if( intval($user->infoObj->time[$problem->contest_problem_id] / 60 / 60) <= 9)
+											0{{ intval($user->infoObj->time[$problem->contest_problem_id] / 60 / 60) }}
+										@else
+											{{ intval($user->infoObj->time[$problem->contest_problem_id] / 60 / 60) }}
+										@endif
+										: {{ substr(strval($user->infoObj->time[$problem->contest_problem_id] % 3600 / 60 + 100), 1, 2) }} : {{ substr(strval($user->infoObj->time[$problem->contest_problem_id] % 60 + 100), 1, 2) }}
+										@if($user->infoObj->penalty[$problem->contest_problem_id])
+											({{ $user->infoObj->penalty[$problem->contest_problem_id] }})
+										@endif
+										</div>
 								{{--only accepted--}}
-								@elseif(isset($user->result_list[$problem->contest_problem_id]) && $user->result_list[$problem->contest_problem_id] == "Accepted")
+								@elseif(isset($user->infoObj->result[$problem->contest_problem_id]) && $user->infoObj->result[$problem->contest_problem_id] == "Accepted")
 									<div class="btn btn-success">
-                                        {{ $user->penalty_list[$problem->contest_problem_id]['time'] }}
-                                        @if($user->penalty_list[$problem->contest_problem_id]['penalty'] != 0)
-                                        ({{ $user->penalty_list[$problem->contest_problem_id]['penalty'] }})
-                                        @endif
+										@if( intval($user->infoObj->time[$problem->contest_problem_id] / 60 / 60) <=9)
+											0{{ intval($user->infoObj->time[$problem->contest_problem_id] / 60 / 60) }}
+										@else
+											{{ intval($user->infoObj->time[$problem->contest_problem_id] / 60 / 60) }}
+										@endif
+										: {{ substr(strval($user->infoObj->time[$problem->contest_problem_id] % 3600 / 60 + 100), 1, 2) }} : {{ substr(strval($user->infoObj->time[$problem->contest_problem_id] % 60 + 100), 1, 2) }}
+										@if($user->infoObj->penalty[$problem->contest_problem_id])
+											({{ $user->infoObj->penalty[$problem->contest_problem_id] }})
+										@endif
 									</div>
-								@elseif(isset($user->result_list[$problem->contest_problem_id]) && $user->result_list[$problem->contest_problem_id] == "Rejudging" || $user->result_list[$problem->contest_problem_id] == "Pending"))
+								@elseif(isset($user->infoObj->result[$problem->contest_problem_id]) && ($user->infoObj->result[$problem->contest_problem_id] == "Rejudging" || $user->infoObj->result[$problem->contest_problem_id] == "Pending"))
 									<div class="btn btn-default">
 										Pending/Rejudging
 									</div>
-								@elseif(isset($user->result_list[$problem->contest_problem_id]))
+								@elseif(isset($user->infoObj->result[$problem->contest_problem_id]))
 									<div class="btn btn-danger text-center">
-										({{ $user->penalty_list[$problem->contest_problem_id]['penalty'] }})
+										({{ $user->infoObj->penalty[$problem->contest_problem_id] }})
 									</div>
 								@endif
-                                @endif
 							</td>
 						@endforeach
 					</tr>

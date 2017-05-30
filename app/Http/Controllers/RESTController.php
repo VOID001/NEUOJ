@@ -18,6 +18,7 @@ use App\Contest;
 use App\ContestProblem;
 use App\Sim;
 use App\Jobs\updateUserProblemCount;
+use App\Jobs\updateContestRanklist;
 
 class RESTController extends Controller
 {
@@ -167,7 +168,16 @@ class RESTController extends Controller
             ]);
 
             /* update Ranklist queue */
-            $this->dispatch(new updateUserProblemCount(Submission::select('uid')->where('runid', $id)->first()->uid));
+            $submissionObj = Submission::select('uid', 'cid')->where('runid', $id)->first();
+            $this->dispatch(new updateUserProblemCount($submissionObj->uid));
+            if($submissionObj->cid != 0)
+            {
+                $contestObj = Contest::where('contest_id', $submissionObj->cid)->first();
+                if(strtotime($contestObj->end_time) - time() <= 30)
+                    $this->dispatch(new updateContestRanklist($submissionObj->cid, $submissionObj->uid, true));
+                else
+                    $this->dispatch(new updateContestRanklist($submissionObj->cid, $submissionObj->uid, false));
+            }
         }
     }
 
@@ -257,6 +267,11 @@ class RESTController extends Controller
 
         /* update Ranklist queue */
         $this->dispatch(new updateUserProblemCount($submissionObj->uid));
+        if($submissionObj->cid != 0)
+            if(strtotime($contestObj->end_time) - time() <= 30)
+                $this->dispatch(new updateContestRanklist($submissionObj->cid, $submissionObj->uid, true));
+            else
+                $this->dispatch(new updateContestRanklist($submissionObj->cid, $submissionObj->uid, false));
 
         // Now we just return and skip the balloon logic
         return
