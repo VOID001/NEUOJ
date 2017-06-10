@@ -140,11 +140,19 @@ class updateContestRanklist extends Job implements SelfHandling, ShouldQueue
         return $time;
     }
 
+    public function str_to_time($time)
+    {
+        $hour = strtok($time, ":");
+        $minute = strtok($time, ":");
+        $time = strtok($time, ":");
+        return $hour * 3600 + $minute * 60 + $time * 60;
+    }
+
     public function cmp($userA, $userB)
     {
         if($userA->total_ac == $userB->total_ac)
         {
-            return $userA->total_penalty > $userB->total_penalty;
+            return $this->str_to_time($userA->total_penalty) > $this->str_to_time($userB->total_penalty);
         }
         return $userA->total_ac < $userB->total_ac;
     }
