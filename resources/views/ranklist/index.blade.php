@@ -75,6 +75,9 @@
                 <tr>
                     <th class="text-center" width="5%">Rank</th>
                     <th class="text-center" width="8%">Student ID</th>
+                    @if($roleCheck->is('admin'))
+                        <th class="text-center" width="8%">TureName</th>
+                    @endif
                     <th class="text-center" width="30%">Nickname</th>
                     <th class="text-center" width="8%">Solved</th>
                     <th class="text-center" width="8%">Submitted</th>
@@ -100,6 +103,10 @@
                                 <p class="custom-word">School: {{$user['school']}}</p>
                             </div>
                         </td>
+                        @if($roleCheck->is('admin'))
+                            <td>{{ $user['realname'] }}</td>
+                        @endif
+
                     <td class="custom-word"><a href="/profile/{{$user['uid']}}">{{ $user['nickname'] }}</a></td>
                     <td>{{ $user['ac_count'] }}</td>
                     <td>{{ $user['submit_count'] }}</td>
@@ -126,6 +133,9 @@
                                 <p class="custom-word">School: {{$user['school']}}</p>
                             </div>
                         </td>
+                            @if($roleCheck->is('admin'))
+                                <td>{{ $user['realname'] }}</td>
+                            @endif
                         <td class="custom-word"><a href="/profile/{{$user['uid']}}">{{ $user['nickname'] }}</a></td>
                         <td>{{ $user['ac_count'] }}</td>
                         <td>{{ $user['submit_count'] }}</td>
