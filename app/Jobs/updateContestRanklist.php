@@ -143,9 +143,9 @@ class updateContestRanklist extends Job implements SelfHandling, ShouldQueue
     public function str_to_time($time)
     {
         $hour = strtok($time, ":");
-        $minute = strtok($time, ":");
-        $time = strtok($time, ":");
-        return $hour * 3600 + $minute * 60 + $time * 60;
+        $minute = strtok(":");
+        $time = strtok(":");
+        return $hour * 3600 + $minute * 60 + $time;
     }
 
     public function cmp($userA, $userB)
