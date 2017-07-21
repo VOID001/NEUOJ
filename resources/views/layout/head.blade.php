@@ -8,4 +8,4 @@
 <script src="/js/bootstrap.min.js"></script>
 <script src="/bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <link rel="import" href="/bower_components/paper-button/paper-button.html">
-<script src="//cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script src="/js/jquery.cookie.min.js"></script>
