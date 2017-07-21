@@ -384,7 +384,10 @@ class ProblemController extends Controller
             //if(!($request->session()->get('uid') && $request->session()->get('uid') <= 2))
             if(!RoleController::is('admin'))
             {
-                $contestUserObj = ContestUser::where('username', $username)->first();
+                $contestUserObj = ContestUser::where([
+                    'username' => $username,
+                    'contest_id' => $contest_id
+                ])->first();
                 //var_dump($contestUserObj);
                 if($contestUserObj == NULL)
                     return Redirect::to('/contest/p/1');
