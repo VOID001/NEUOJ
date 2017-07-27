@@ -131,7 +131,7 @@ Route::group(['middleware' => 'profile'],function() {
 
     Route::get('/contest/{contest_id}/ranklist/export', [
         "middleware" => "role:admin",
-        "uses" => "ContestController@exportContestRanklist"
+        "uses" => "ContestController@exportContestRanklist_new"
     ])->where('contest_id', '[0-9]+');
 
     Route::get('/contest/{contest_id}/ranklist/p/{page_id}', [

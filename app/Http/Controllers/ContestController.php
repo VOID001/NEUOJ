@@ -1138,6 +1138,114 @@ class ContestController extends Controller
         return Redirect::to("/contest/$contest_id/ranklist");
     }
 
+    public function exportContestRanklist_new(Request $request, $contest_id)
+    {
+        $contestObj = Contest::where('contest_id', $contest_id)->first();
+        if($contestObj->isEnded() && Cache::has("contest-$contest_id.ranklist.final"))
+        {
+            $data = Cache::get("contest-$contest_id.ranklist.final");
+            if (count($data['ranklist']) <= 0)
+                return Redirect::to("/contest/$contest_id/ranklist");
+            Excel::create
+            (
+                "ranklist_$contest_id",
+                function ($excel) use($data)
+                {
+                    $excel->sheet('Ranklist',
+                        function ($sheet) use ($data)
+                        {
+                            $problems = $data['problems'];
+                            $titleRow = array('Rank', '学号', '真实姓名', 'Solve', 'Penalty');
+                            foreach($problems as $contestProblemObj)
+                            {
+                                $titleRow[] = $contestProblemObj->problem_title;
+                            }
+                            $titleRow[] = "OJ总过题数";
+                            $titleRow[] = "OJ总提交数";
+                            $sheet->prependRow(1, $titleRow);
+                            $sheet->setSize(array('A1' => array('width' => 10, 'height' => 20)));
+                            $sheet->row(1, function($row)
+                            {
+                               $row->setBackground('#95a5a6');
+                               $row->setFontColor('#ffffff');
+                            });
+                            $i = 1;
+                            foreach($data['ranklist'] as $user)
+                            {
+                                if($user->uid == 0)
+                                    continue;
+                                $row = array
+                                (
+                                    $i++,
+                                    $user->stu_id,
+                                    $user->realname,
+                                    $user->total_ac,
+                                );
+                                $row[] = $user->total_penalty;
+                                foreach($problems as $problem)
+                                {
+                                    $problem_result = "";
+                                    if(isset($user->result_list[$problem->contest_problem_id]))
+                                    {
+                                        $result = $user->result_list[$problem->contest_problem_id];
+                                        if($result == "Rejudging" || $result == "Pending")
+                                        {
+                                            $problem_result = "Pending/Rejudging";
+                                        }
+                                        elseif($result != 'Accepted' && $result != 'First Blood')
+                                        {
+                                            $problem_result = "(" . strval($user->penalty_list[$problem->contest_problem_id]['penalty']) . ")";
+                                            $sheet->cell
+                                            (
+                                                strval(chr(ord('A') + count($row))) . strval($i),
+                                                function($cell)
+                                                {
+                                                    $cell->setBackground('#c9302c');
+                                                }
+                                            );
+                                        }
+                                        else
+                                        {
+                                            $problem_result = $user->penalty_list[$problem->contest_problem_id]['time'];
+                                            if($result == "First Blood")
+                                            {
+                                                $sheet->cell
+                                                (
+                                                    strval(chr(ord('A') + count($row))) . strval($i),
+                                                    function ($cell)
+                                                    {
+                                                        $cell->setBackground('#337ab7');
+                                                    }
+                                                );
+                                            }
+                                            else
+                                            {
+                                                $sheet->cell
+                                                (
+                                                    strval(chr(ord('A') + count($row))) . strval($i),
+                                                    function ($cell)
+                                                    {
+                                                        $cell->setBackground('#5cb85c');
+                                                    }
+                                                );
+                                            }
+                                        }
+                                    }
+                                    $row[] = $problem_result;
+                                }
+                                $row[] = Userinfo::where('uid', $user->uid)->first()->ac_count;
+                                $row[] = Userinfo::where('uid', $user->uid)->first()->submit_count;
+                                $sheet->row($i, $row);
+                            }
+                            /** end for*/
+                        });
+                        /** end sheet */
+                }
+            )->download('xls');
+        }
+        return Redirect::to("/contest/$contest_id/ranklist");
+    }
+
     /*
      * @function postMemberList
      * @input $request
