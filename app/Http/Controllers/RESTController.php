@@ -61,13 +61,13 @@ class RESTController extends Controller
             return response()->json(NULL);
 
         /* Create System Wide Lock with file */
-        touch("/tmp/neuoj_db_lck");
+        $this->safeTouch("/tmp/neuoj_db_lck");
         $submission = Submission::where('judge_status', 0)->first();
 
         /* This means no active submissions */
         if($submission == NULL)
         {
-            unlink('/tmp/neuoj_db_lck');
+            $this->safeUnlink('/tmp/neuoj_db_lck');
             return response()->json(NULL);
         }
         Log::info("Judgehost " . $input['judgehost'] . " fetched submission $submission->runid");
@@ -78,7 +78,7 @@ class RESTController extends Controller
             "judgeid" => $input['judgehost']
         ]);
         Log::info("Judgehost " . $input['judgehost'] . "unlock table");
-        unlink('/tmp/neuoj_db_lck');
+        $this->safeUnlink('/tmp/neuoj_db_lck');
 
         $problem = Problem::where('problem_id', $submission->pid)->first();
         $runExecutable = Executable::where('execid', 'run')->first();
@@ -512,6 +512,28 @@ class RESTController extends Controller
         exec('rm -rf /tmp/sim');
         exec('rm -rf /tmp/sim_diff');
         return ;
+    }
+
+    private function safeTouch($filename)
+    {
+        $max_try = 5;
+        for ($i = 0; $i < $max_try; ++$i)
+        {
+            if (touch($filename) == true)
+                return;
+        }
+        Log::info("File lock touch failed!");
+    }
+
+    private function safeUnlink($filename)
+    {
+        $max_try = 5;
+        for ($i = 0; $i < $max_try; ++$i)
+        {
+            if (unlink($filename) == true)
+                return;
+        }
+        Log::info("File lock unlink failed!");
     }
 
 }
