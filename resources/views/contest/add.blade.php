@@ -251,7 +251,7 @@
         '<tr><td>username</td><td>password</td>' +
         '</table></div>';
     form += '<h4>Import user list</h4>' +
-        '* Choose Column: &nbsp;&nbsp;<input id="selected_col" name="selected_col" value=""/><br/>' +
+        '* Choose Stuid Column(0, 1, 2, ...): &nbsp;&nbsp;<input id="selected_col" name="selected_col" value=""/><br/>' +
         '* Choose File: &nbsp;&nbsp;<input id="import-user" name="memberlist" style="display: inline-block" type="file" />' +
         '<input id="file_type" name="file_type" value="xls" hidden/><br/>' +
         '<input id="import_btn" type="button" value="import">' +

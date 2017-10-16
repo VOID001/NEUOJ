@@ -1274,7 +1274,7 @@ class ContestController extends Controller
         {
             $fileName = $file->getPathname();
             $xlsObj = Excel::load($fileName, function($reader){
-
+                $reader->noHeading();
             });
 
             $dataArr = $xlsObj->toArray();
