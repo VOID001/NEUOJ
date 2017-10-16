@@ -25,6 +25,17 @@
           <div class='profile-content'>
             <div class="profile-text">
               <section>
+                <p class="profile-note">注意：</p>
+                <ul>
+                  <li>1.点击select选择图片，修改用户头像，图片＜1MB</li>
+                  <li>2.所有项请认真填写</li>
+                </ul>
+                <div class="image-input">
+                  <div class="btn btn-grey">Select</div>
+                  <input class="custom-word" type="text" placeholder="No file selected"/>
+                  <input name="image" accept="accept=" image/jpg,image/jpeg,image/png" type="file"/>
+                </div>
+
                 <table class="custom-table" id="dashboard-custom-table">
                   <tbody>
                   <tr>
@@ -48,13 +59,6 @@
                     <td><input class="form-control" name="stu_id"
                                value="@if(isset($stu_id)){{ $stu_id }}@endif" type="text"></td>
                   </tr>
-                  <div class="image-input">
-                    <div class="btn btn-grey">Select</div>
-                    <input class="custom-word" type="text" placeholder="No file selected"/>
-                    <input name="image" accept="accept=" image/jpg,image/jpeg,image/png" type="file"/>
-                  </div>
-                  <p class="profile-note">Note: Click the "select" button to edit your avatar and make
-                    sure your image file is less than 1M!</p>
                   </tbody>
                 </table>
                 <input class="btn profile-button" value="Save" type="submit">
