@@ -240,6 +240,7 @@ class RESTController extends Controller
             $this->checkSIM($input['judgingid']);
 
         /* Contest Only, Judge for First Blood */
+        $contestObj = [];
         if($input["runresult"] == "correct" && $submissionObj->cid != 0)
         {
             $contestObj = Contest::where('contest_id', $submissionObj->cid)->first();

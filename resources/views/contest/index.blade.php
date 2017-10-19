@@ -140,7 +140,7 @@
 					</td>
 					<td>
 						@if($roleCheck->is("admin" ) || ($contest->isRunning() || $contest->isEnded()))
-							<paper-button><a href="/contest/{{ $contest->contest_id }}/status/p/1username=&pid={{ $problem->contest_problem_id }}&lang=All&result=All">
+							<paper-button><a href="/contest/{{ $contest->contest_id }}/status/p/1?username=&pid={{ $problem->contest_problem_id }}&lang=All&result=All">
 						@endif
 						@if($problem->totalSubmissionCount != 0)
 							{{ $problem->acSubmissionCount }} / {{ $problem->totalSubmissionCount }}({{ intval($problem->acSubmissionCount/$problem->totalSubmissionCount * 100) }}%)
