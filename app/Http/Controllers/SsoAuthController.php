@@ -95,6 +95,7 @@ class SsoAuthController extends Controller
     public function casloginAction(Request $request)
     {
         phpCAS::client(CAS_VERSION_2_0, "sso.neu.cn", 443, "/cas");
+        phpCAS::setFixedServiceURL($request->url());
         phpCAS::setNoCasServerValidation();
         phpCAS::forceAuthentication();
         $user_id = phpCAS::getUser();
