@@ -28,6 +28,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Hash;
 use Storage;
 use App\ContestRanklist;
+use App\Jobs\updateContestRanklist;
 
 class ContestUserInfo
 {
@@ -579,7 +580,16 @@ class ContestController extends Controller
         {
             $userObj = User::where('uid', $contestRanklistObj[$i]->uid)->first();
             $userInfoObj = UserInfo::where('uid', $contestRanklistObj[$i]->uid)->first();
-            if($userInfoObj == NULL)
+            if($userObj == NULL)
+            {
+                ContestRanklist::where([
+                    'uid' => $contestRanklistObj[$i]->uid,
+                    'contest_id' => $contest_id
+                ])->delete();
+                $this->dispatch(new updateContestRanklist($contest_id, 0, true));
+                return Redirect::to("/contest/$contest_id/ranklist");
+            }
+            elseif($userInfoObj == NULL)
             {
                 $contestRanklistObj[$i]->nickname = $userObj->username;
                 $contestRanklistObj[$i]->realname = $userObj->username;
