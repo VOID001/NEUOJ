@@ -124,8 +124,7 @@ class UserController extends Controller
                 $input['school'] = $userinfoObject->school;
                 $input['stu_id'] = $userinfoObject->stu_id;
                 $input['realname'] = $userinfoObject->realname;
-                //$input['acCount'] = json_encode(Submission::getAcCountByUserID($uid));
-                // Submission::getAcCountByUserID($uid)这里出错，先把拿到过题数这块代码注释了
+                $input['acCount'] = json_encode(Submission::getAcCountByUserID($uid));
                 if (!Storage::has('avatars/' . $uid . '.jpg')) {
                     $uid = 0;
                 }

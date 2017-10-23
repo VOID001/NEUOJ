@@ -33,7 +33,7 @@
                 <div class="image-input">
                   <div class="btn btn-grey">Select</div>
                   <input class="custom-word" type="text" placeholder="No file selected"/>
-                  <input name="image" accept="accept=" image/jpg,image/jpeg,image/png" type="file"/>
+                  <input name="image" accept="image/jpg,image/jpeg,image/png" type="file"/>
                 </div>
 
                 <table class="custom-table" id="dashboard-custom-table">
