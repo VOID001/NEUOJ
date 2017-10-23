@@ -145,7 +145,7 @@ class TrainingController extends Controller
         $data['uid'] = $uid;
         $trainingObj = Train::where('train_id', $train_id)->first();
         if(!isset($trainingObj))
-            return Redirect::back();
+            return Redirect::to('/training');
         $data['training'] = $trainingObj;
         /* chapter_in is to find which chapter is user in */
         $chapter_in = 1 ;
@@ -196,7 +196,7 @@ class TrainingController extends Controller
         $userPerPage = 30;
         $trainingObj = Train::where('train_id', $train_id)->first();
         if (!isset($trainingObj))
-            return Redirect::back();
+            return Redirect::to('/training');
         $trainUserList = TrainUser::where('train_id', $train_id)->get()->all();
         usort($trainUserList, [$this, 'cmp']);
         foreach ($trainUserList as &$trainUser) {
@@ -231,7 +231,7 @@ class TrainingController extends Controller
         $uid = $request->session()->get('uid');
         $trainingObj = Train::where('train_id', $train_id)->first();
         if(!isset($trainingObj))
-            return Redirect::back();
+            return Redirect::to('/training');
         $user_chapter = $trainingObj->getUserChapter($uid) - 1;
         $user_real_chapter = $user_chapter;
         while(count($trainingProblemObj = TrainProblem::where('train_id', $train_id)->where('chapter_id', $user_real_chapter)->get())==0 && $user_real_chapter != 0)
@@ -274,7 +274,7 @@ class TrainingController extends Controller
     {
         $trainingObj = Train::where('train_id', $train_id)->first();
         if(!isset($trainingObj))
-            return Redirect::back();
+            return Redirect::to('/training');
         $trainingProblemObj = TrainProblem::where('train_id', $train_id)->where('chapter_id', 1)->get();
         $user_num = 0;
         foreach($trainingProblemObj as $train_problem)
