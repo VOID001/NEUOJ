@@ -128,7 +128,7 @@
                                         @endif
 									</div>
 								@elseif(isset($user->result_list[$problem->contest_problem_id]) && $user->result_list[$problem->contest_problem_id] == "Rejudging" || $user->result_list[$problem->contest_problem_id] == "Pending")
-									<div class="btn btn-default">
+									<div class="btn btn-warning">
 										Pending/Rejudging
 									</div>
 								@elseif(isset($user->result_list[$problem->contest_problem_id]))
