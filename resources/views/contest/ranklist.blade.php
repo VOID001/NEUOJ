@@ -127,7 +127,7 @@
                                         ({{ $user->penalty_list[$problem->contest_problem_id]['penalty'] }})
                                         @endif
 									</div>
-								@elseif(isset($user->result_list[$problem->contest_problem_id]) && $user->result_list[$problem->contest_problem_id] == "Rejudging" || $user->result_list[$problem->contest_problem_id] == "Pending"))
+								@elseif(isset($user->result_list[$problem->contest_problem_id]) && $user->result_list[$problem->contest_problem_id] == "Rejudging" || $user->result_list[$problem->contest_problem_id] == "Pending")
 									<div class="btn btn-default">
 										Pending/Rejudging
 									</div>
