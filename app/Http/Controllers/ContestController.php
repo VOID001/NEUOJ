@@ -689,6 +689,7 @@ class ContestController extends Controller
                 ])->first()->problem_id;
             }
         }
+        $submissionObjAll = Submission::where($queryArr)->orderby('runid', 'desc')->get();
         $submissionObj = Submission::where($queryArr)->orderby('runid', 'desc')->skip(($page_id - 1) * $itemsPerPage)->take($itemsPerPage)->get();
 
         for ($count = 0; $count < $submissionObj->count(); $count++)
@@ -720,7 +721,7 @@ class ContestController extends Controller
         {
             $data['firstPage'] = 1;
         }
-        if(($page_id - 1) * $itemsPerPage >= $submissionObj->count())
+        if(($page_id - 1) * $itemsPerPage >= $submissionObjAll->count())
         {
             $data['lastPage'] = 1;
         }
