@@ -95,6 +95,8 @@
 				<option name="java">Java</option>
 				<option name="cpp">C++</option>
 				<option name="cpp11">C++11</option>
+				<option name="py2">Python2</option>
+				<option name="py3">Python3</option>
 			</select>
 			<select name="result" class="form-control">
 				<option name="all">All</option>

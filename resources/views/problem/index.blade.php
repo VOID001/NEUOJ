@@ -167,7 +167,8 @@
 							<option name="c" id="C">C</option>
 							<option name="cpp" id="C++">C++</option>
 							<option name="cc" id="C++11">C++11</option>
-							<!--<option name="py3" id="Python3">Python3</option>-->
+							<option name="py3" id="Python3">Python3</option>
+							<option name="py2" id="Python2">Python2</option>
 							<option name="java" id="Java">Java</option>
 						</select>
 							@if(isset($lang))
