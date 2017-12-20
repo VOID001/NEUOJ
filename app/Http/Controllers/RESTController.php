@@ -423,6 +423,8 @@ class RESTController extends Controller
             'C++' => 'sim_c',
             'C++11' => 'sim_c',
             'Java' => 'sim_java',
+            'Python2' => 'sim_text',    // this sim check doesn't have python check
+            'Python3' => 'sim_text',
             /* Now only support two langs */
         ];
         $currentSubmissionObj = Submission::find($run_id);
@@ -453,11 +455,11 @@ class RESTController extends Controller
 
             /* First Do Similarity Percentage Check */
 
-            $SIM_PERCENTAGE_COMMAND = $SIMEXEC . ' -p ' . $SUBMISSIONSDIR.'/'. $currentSubmissionObj->submit_file . ' ' . $SUBMISSIONSDIR . '/' . $relatedSubmission->submit_file . " > /tmp/sim";
+            $SIM_PERCENTAGE_COMMAND = $SIMEXEC . ' -p ' . $SUBMISSIONSDIR.'/'. $currentSubmissionObj->submit_file . ' ' . $SUBMISSIONSDIR . '/' . $relatedSubmission->submit_file . " > /tmp/sim_" . $run_id;
             exec($SIM_PERCENTAGE_COMMAND, $result);
 
             /* The first Percentage in the output is what we need */
-            $sim_data = file_get_contents('/tmp/sim');
+            $sim_data = file_get_contents('/tmp/sim_'.$run_id);
             //echo $SIM_PERCENTAGE_COMMAND . '<br/>';
             //echo $sim_data;
             $pos = strpos($sim_data, "consists for");
@@ -498,15 +500,15 @@ class RESTController extends Controller
 
             $sim_file_name = Submission::find($max_similarity_runid)->submit_file;
 
-            $SIM_DIFF_COMMAND = $SIMEXEC . ' ' . $SUBMISSIONSDIR.'/'. $currentSubmissionObj->submit_file . ' ' . $SUBMISSIONSDIR . '/' . $sim_file_name . " > /tmp/sim_diff";
+            $SIM_DIFF_COMMAND = $SIMEXEC . ' ' . $SUBMISSIONSDIR.'/'. $currentSubmissionObj->submit_file . ' ' . $SUBMISSIONSDIR . '/' . $sim_file_name . " > /tmp/sim_diff_" . $run_id;
             exec($SIM_DIFF_COMMAND);
-            $sim_diff = file_get_contents('/tmp/sim_diff');
+            $sim_diff = file_get_contents('/tmp/sim_diff_'.$run_id);
             Storage::put('sim/' . $simObj->runid . '_' . $simObj->sim_runid . '.sim', $sim_diff);
         }
 
         /* Cleanup the temp file */
-        exec('rm -rf /tmp/sim');
-        exec('rm -rf /tmp/sim_diff');
+        exec('rm -rf /tmp/sim_'.$run_id);
+        exec('rm -rf /tmp/sim_diff_'.$run_id);
         return ;
     }
 
