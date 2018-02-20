@@ -19,6 +19,7 @@ use App\ContestProblem;
 use App\Sim;
 use App\Jobs\updateUserProblemCount;
 use App\Jobs\updateContestRanklist;
+use Symfony\Component\Filesystem\Exception\FileNotFoundException;
 
 class RESTController extends Controller
 {
@@ -114,7 +115,13 @@ class RESTController extends Controller
         $input = $request->input();
         $submission = Submission::where('runid', $input['id'])->first();
         $jsonObj[0]["filename"] = $submission->submit_file;
-        $content = Storage::get("submissions/".$submission->submit_file);
+        if (Storage::exists("submissions/" . $submission->submit_file)) {
+            $content = Storage::get("submissions/".$submission->submit_file);
+        }
+        else {
+            Log::info("Fetching submission $submission->runid but submission file is missing, using blank space for temporary solution...");
+            $content = " ";
+        }
         $jsonObj[0]["content"] = base64_encode($content);
 
         return response()->json($jsonObj);
