@@ -56,11 +56,19 @@
 			@endif
 		@endif
 		@if($roleCheck->is('admin'))
-			&nbsp;&nbsp;&nbsp;
-			<form action="/rejudge/0/{{$problem->problem_id }}" method="post" style="display: inline">
-				{{ csrf_field()}}
-				<input type="submit" class="btn btn-danger" id="problem_index_rejudge_btn" value="rejudge"></input>
-			</form>
+			@if(isset($contest))
+				&nbsp;&nbsp;&nbsp;
+				<form action="/rejudge/{{$contest->contest_id}}/{{$problem->problem_id }}" method="post" style="display: inline">
+					{{ csrf_field()}}
+					<input type="submit" class="btn btn-danger" id="problem_index_rejudge_btn" value="rejudge"></input>
+				</form>
+			@else
+				&nbsp;&nbsp;&nbsp;
+				<form action="/rejudge/0/{{$problem->problem_id }}" method="post" style="display: inline">
+					{{ csrf_field()}}
+					<input type="submit" class="btn btn-danger" id="problem_index_rejudge_btn" value="rejudge"></input>
+				</form>
+			@endif
 		@endif
 	</div>
 	@if(isset($contest))
