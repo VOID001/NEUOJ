@@ -540,7 +540,6 @@ class ContestController extends Controller
 
     public function getContestRanklist_new(Request $request, $contest_id)
     {
-        $contestObj = Contest::where('contest_id', $contest_id)->first();
         if (Contest::where('contest_id', $contest_id)->count() == 0)
             return Redirect::to('/contest/p/1');
 
@@ -559,13 +558,13 @@ class ContestController extends Controller
         }
 
         $data = [];
-        $contestRanklistObj = ContestRanklist::where('contest_id', $contest_id)->orderby('rank', 'asc')->get();
+        $contestRanklistObj = ContestRanklist::with('user', 'user.info')->where('contest_id', $contest_id)->orderby('rank', 'asc')->get();
         #decode json
         for($i = 0; $i < count($contestRanklistObj); $i++)
         {
-            $userObj = User::where('uid', $contestRanklistObj[$i]->uid)->first();
-            $userInfoObj = UserInfo::where('uid', $contestRanklistObj[$i]->uid)->first();
-            if($userObj == NULL)
+            $userObj = $contestRanklistObj[$i]->user;
+            $userInfoObj = $contestRanklistObj[$i]->user->info;
+            if(!$userObj)
             {
                 ContestRanklist::where([
                     'uid' => $contestRanklistObj[$i]->uid,
@@ -574,7 +573,7 @@ class ContestController extends Controller
                 $this->dispatch(new updateContestRanklist($contest_id, 0, true));
                 return Redirect::to("/contest/$contest_id/ranklist");
             }
-            elseif($userInfoObj == NULL)
+            elseif(!$userInfoObj)
             {
                 $contestRanklistObj[$i]->nickname = $userObj->username;
                 $contestRanklistObj[$i]->realname = $userObj->username;
