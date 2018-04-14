@@ -74,23 +74,6 @@ class ProblemController extends Controller
     public function getProblemListByPageID(Request $request, $page_id)
     {
         $problemPerPage = 20;
-
-        /**  Remove the customize pagination function
-        if($request->method() == "GET")
-        {
-            if(($problemPerPage = $request->session()->get('problem_per_page')) == NULL)
-                $problemPerPage = 10;
-        }
-        elseif($request->method() == "POST")
-        {
-            $input = $request->input();
-            if(($problemPerPage = $input['problem_per_page']) == NULL)
-                $problemPerPage = 10;
-            else
-                $request->session()->put('problem_per_page', $problemPerPage);
-        }
-         **/
-        $data = [];
         $data = Problem::getProblemItemsInPage($problemPerPage, $page_id);
         $request->session()->put('page_id', $page_id);
         return View::make('problem.list', $data);
@@ -104,7 +87,6 @@ class ProblemController extends Controller
     public function showProblemDashboardByPageID(Request $request, $page_id)
     {
         $problemPerPage = 20;
-        $data = [];
 
         $data = Problem::getProblemItemsInPage($problemPerPage, $page_id);
         if(session('status'))

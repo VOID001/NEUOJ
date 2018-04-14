@@ -15,6 +15,10 @@ class Problem extends Model
 
     protected $fillable = ["title" ,"description" , "visibility_locks" , "time_limit" , "mem_limit" , "output_limit" , "difficulty" , "author_id"];
 
+    public function author() {
+        return $this->belongsTo('App\User', 'author_id');
+    }
+
     /*
      * @function getProblemTitle
      * @input $problem_id
@@ -63,7 +67,8 @@ class Problem extends Model
         if(RoleController::is('admin'))
             $problemNum = Problem::orderby('problem_id', 'asc')->count();
         else
-            $problemNum = Problem::orderby('problem_id', 'asc')->where('visibility_locks', 0)->count();
+            $problemNum = Problem::orderby('problem_id', 'asc')
+                ->where('visibility_locks', 0)->count();
 
         /* If page_id > page_num then page_id set to the last page available */
         $data["page_id"] = $page_id;
@@ -74,35 +79,43 @@ class Problem extends Model
             $page_id = 1;
 
         if (RoleController::is('admin'))
-            $problemObj = Problem::orderby('problem_id', 'asc')->skip(($page_id - 1) * $itemsPerPage)->take($itemsPerPage)->get();
+            $problemObj = Problem::with('author')
+                ->orderby('problem_id', 'asc')
+                ->skip(($page_id - 1) * $itemsPerPage)->take($itemsPerPage)->get();
         else
-            $problemObj = Problem::orderby('problem_id', 'asc')->where('visibility_locks', 0)->skip(($page_id - 1) * $itemsPerPage)->take($itemsPerPage)->get();
+            $problemObj = Problem::with('author')
+                ->orderby('problem_id', 'asc')
+                ->where('visibility_locks', 0)
+                ->skip(($page_id - 1) * $itemsPerPage)
+                ->take($itemsPerPage)
+                ->get();
 
-        for ($count = 0; $count < $problemObj->count(); $count++)
+        for ($i = 0; $i < $problemObj->count(); $i++)
         {
-            $data["problems"][$count] = $problemObj[$count];
-            $data['problems'][$count]->submission_count = Submission::getValidSubmissionCount(0, $problemObj[$count]->problem_id);
-            $data['problems'][$count]->ac_count = Submission::where('pid', $problemObj[$count]->problem_id)
+            $data["problems"][$i] = $problemObj[$i];
+            $data['problems'][$i]->submission_count = Submission::getValidSubmissionCount(0, $problemObj[$i]->problem_id);
+            $data['problems'][$i]->ac_count = Submission::where('pid', $problemObj[$i]->problem_id)
                 ->where('result', 'Accepted')->get()->unique('uid')->count();
-            $authorObj = User::where('uid', $problemObj[$count]->author_id)->first();
-            $data['problems'][$count]->author = $authorObj["username"];
-            $data['problems'][$count]->used_times = $problemObj[$count]->getNumberOfUsedContests();
+            $data['problems'][$i]->author = $problemObj[$i]->author->username;
+//            $data['problems'][$i]->used_times = $problemObj[$i]->getNumberOfUsedContests();
             if(Request::session()->has('username'))
             {
-                $submissionObj = Submission::select('result')->where(['pid' => $problemObj[$count]->problem_id, 'uid' => Request::session()->get('uid')])->get();
-                if($submissionObj ->count() != 0)
+                $submissionObj = Submission::select('result')
+                    ->where(['pid' => $problemObj[$i]->problem_id,
+                        'uid' => Request::session()->get('uid')]);
+                if($submissionObj->count() != 0)
                 {
                     if($submissionObj->where('result', 'Accepted')->count() != 0)
-                        $data['problems'][$count]->status = "Y";
+                        $data['problems'][$i]->status = "Y";
                     else
-                        $data['problems'][$count]->status = "N";
+                        $data['problems'][$i]->status = "N";
                 }
                 else
-                    $data['problems'][$count]->status = "T";
+                    $data['problems'][$i]->status = "T";
             }
             else
             {
-                $data['problems'][$count]->status = "T";
+                $data['problems'][$i]->status = "T";
             }
         }
         if(($page_id - 1) * $itemsPerPage >= $problemNum)
