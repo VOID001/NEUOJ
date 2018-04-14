@@ -642,14 +642,19 @@ class ProblemController extends Controller
     {
         $data = [];
         $uid = $request->session()->get('uid');
-        $submissionObj = Submission::select('pid', 'result', 'submit_time')->where('uid', $uid)->orderBy('submit_time', 'desc')->get()->groupBy('pid');
+        $submissionObj = Submission::with('problem')
+            ->select('pid', 'result', 'submit_time')
+            ->where('uid', $uid)
+            ->orderBy('submit_time', 'desc')
+            ->get()
+            ->groupBy('pid');
         $i = 0;
         $data['unfinished_problems'] = [];
         foreach($submissionObj as $submissionGroup)
         {
             if($submissionGroup->where('result', "Accepted")->count() == 0)
             {
-                $problemObj = Problem::where('problem_id', $submissionGroup[0]->pid)->first();
+                $problemObj = $submissionGroup[0]->problem;
                 if($problemObj == NULL)
                     continue;
                 $data['unfinished_problems'][$i]['pid'] = $problemObj->problem_id;
