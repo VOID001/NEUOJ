@@ -152,7 +152,8 @@ class SubmissionController extends Controller
                 }
             }
         }
-        $submissionObj = Submission::with('user', 'user.info', 'problem')->where($queryArr);
+        $submissionObj = Submission::with('user', 'user.info', 'problem', 'sim')
+            ->where($queryArr);
         $submissionObjCount = $submissionObj->count();
         $submissionObj = $submissionObj->orderby('runid', 'desc')
             ->skip(($page_id - 1) * $itemsPerPage)
