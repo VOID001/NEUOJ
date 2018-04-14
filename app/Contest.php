@@ -151,9 +151,9 @@ class Contest extends Model
      * @input $this
      *
      * @return $firstac
-     * @description find the first ac submission of every problem of the contest
+     * @description find the first AC submission of every problem of the contest
      */
-    public function getFirstacList()
+    public function getFirstACList()
     {
         $contestProblemObj = ContestProblem::where('contest_id', $this->contest_id)->get();
         $firstac = [];

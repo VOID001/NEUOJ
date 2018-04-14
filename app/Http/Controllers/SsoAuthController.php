@@ -124,6 +124,7 @@ class SsoAuthController extends Controller
             $request->session()->put([
                 'username' => $userObject->username,
                 'uid' => $userObject->uid,
+                'gid' => $userObject->gid,
             ]);
             return Redirect::route('dashboard.profile');
         }

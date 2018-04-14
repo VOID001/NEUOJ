@@ -252,85 +252,71 @@ class ContestController extends Controller
      */
     public function getContestByID(Request $request, $contest_id)
     {
+        // Perform Role Check
+        // TODO: Simplify RoleCheck (cache gid to session)
         $roleController = new RoleController();
         $data = [];
         $uid = $request->session()->get('uid');
 	    $userObj = User::where('uid', $uid)->first();
-	    //var_dump($userObj);
-        $contestUserObj = ContestUser::where('username', $userObj->username)->first();
-        if($contestUserObj)
-            $username = $contestUserObj->username;
-        else
-            $username = "";
         $contestObj = Contest::where('contest_id', $contest_id)->first();
-        if($contestObj->contest_type == 2)
+        if(!($roleController->is("admin") || $roleController->is("teacher")) &&
+            ($contestObj->contest_type == 1 || $contestObj->contest_type == 2))
         {
-            if(!$roleController->is("admin"))
+            $contestUserObj = ContestUser::where([
+                'username' => $userObj->username,
+                'contest_id' => $contest_id
+            ])->first();
+            if (!$contestUserObj || !$contestUserObj->username)
             {
-                $contestUserObj = ContestUser::where([
-                    'username' => $username,
-                    'contest_id' => $contest_id
-                ])->first();
-                if ($contestUserObj == NULL || $contestUserObj->username == NULL)
+                if($contestObj->contest_type == 2 && $contestObj->isInRegister())
                 {
-                    if($contestObj->isInRegister())
-                    {
-                        return Redirect::to("/contest/$contest_id/register");
-                    }
-                    return Redirect::to("/contest/p/1");
+                    return Redirect::to("/contest/$contest_id/register");
                 }
+                return Redirect::to("/contest/p/1");
             }
         }
-        if($contestObj->contest_type == 1)
-        {
-            if(!$roleController->is("admin"))
-            {
-                $contestUserObj = ContestUser::where([
-                    'username' => $username,
-                    'contest_id' => $contest_id
-                ])->first();
-                if ($contestUserObj == NULL || $contestUserObj->username == NULL)
-                    return Redirect::to('/contest/p/1');
-            }
-        }
+
+        // Prepare Data for View
         $data["contest"] = $contestObj;
-        $contestProblemObj = ContestProblem::where('contest_id', $contest_id)->orderby('contest_problem_id', 'asc')->get();
-        $count = 0;
-        //var_dump($contestProblemObj);
+        $contestProblems = ContestProblem::with("problem")
+            ->where('contest_id', $contest_id)
+            ->orderby('contest_problem_id', 'asc')
+            ->get();
+        $i = 0;
         // Fetch Each Problem and Get The Submission Status
         // Get user AC status and FB Status
-        foreach($contestProblemObj as $contestProblem)
+        $firstac = $contestObj->getFirstACList();
+        $acList = Submission::select('pid')
+            ->where([
+                "cid" => $contest_id,
+                "uid" => $uid,
+                "result" => "Accepted",
+            ])->get();
+        foreach($contestProblems as $contestProblem)
         {
-            $data["problems"][$count] = $contestProblem;
-            $data["problems"][$count]->contest_problem_id = $contestProblem->contest_problem_id;
+            $data["problems"][$i] = $contestProblem;
             $realProblemID = $contestProblem->problem_id;
-            $data["problems"][$count]->totalSubmissionCount = Submission::getValidSubmissionCount($contest_id, $realProblemID);
-
-            $data["problems"][$count]->acSubmissionCount = Submission::where([
+            $data["problems"][$i]->totalSubmissionCount =
+                Submission::getValidSubmissionCount($contest_id, $realProblemID);
+            $data["problems"][$i]->acSubmissionCount = Submission::where([
                 "pid" => $realProblemID,
                 "cid" => $contest_id,
                 "result" => "Accepted",
             ])->get()->unique('uid')->count();
+            $data["problems"][$i]->realProblemName = $contestProblem->problem->title;
 
-
-            $data["problems"][$count]->realProblemName = Problem::getProblemTitle($realProblemID);
-
-            $firstac = $contestObj->getFirstacList();
             if(isset($firstac[$contestProblem->problem_id]) && $uid == $firstac[$contestProblem->problem_id])
             {
-                $data["problems"][$count]->thisUserFB = true;
+                $data["problems"][$i]->thisUserFB = true;
             }
 
-            if(Submission::where([
-                "pid" => $realProblemID,
-                "cid" => $contest_id,
-                "uid" => $uid,
-                "result" => "Accepted",
-            ])->count())
+            if($acList->search(function ($item, $key) use ($realProblemID) {
+                return $item->pid == $realProblemID;
+            }))
             {
-                $data["problems"][$count]->thisUserAc = true;
+                $data["problems"][$i]->thisUserAc = true;
             }
-            $count++;
+            $i++;
         }
 
         if($contestObj->isRunning())
@@ -342,7 +328,6 @@ class ContestController extends Controller
         //var_dump($data['problems']);
         Event::fire(new ContestPageVisited($contest_id));
         return View::make('contest.index', $data);
-
     }
 
     /**
@@ -423,7 +408,7 @@ class ContestController extends Controller
         $allSubmissions = Submission::select('uid', 'result', 'pid', 'cid', 'submit_time')->where('cid', $contest_id)
             ->orderby('uid', 'asc')->orderby('runid', 'asc')->get();
 
-        $firstac = $contestObj->getFirstacList();
+        $firstac = $contestObj->getFirstACList();
         $preuid = -1;
         $curUserAcList = [];
         $data["users"] = [];

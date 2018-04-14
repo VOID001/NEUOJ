@@ -20,7 +20,7 @@
         @foreach ($errors->all() as $error)
             <li>{{ $error }}</li>
         @endforeach
-    </ul>>
+    </ul>
 @endif
     <div id="contest_register_picture">
     <form action = "/contest/{{$contest_id}}/register" method = "post">

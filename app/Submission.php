@@ -33,7 +33,8 @@ class Submission extends Model
      * @input $contest_id, $problem_id
      *
      * @return $totalSubmissionCount
-     * @description count total submission before firstAc, including the first ac
+     * @description Count total submission of a given problem in a given contest. All
+     * submissions after one's first AC submission will be ignored.
      */
     public static function getValidSubmissionCount($contest_id, $problem_id)
     {

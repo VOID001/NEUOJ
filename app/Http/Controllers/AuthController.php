@@ -60,6 +60,7 @@ class AuthController extends Controller
                     $request->session()->put([
                         'username' => $row->username,
                         'uid' => $row->uid,
+                        'gid' => $row->gid,
                     ]);
                     if($request->session()->get('sessiondat') != NULL)
                     {
@@ -113,6 +114,7 @@ class AuthController extends Controller
             $request->session()->put([
                 'username' => $userObject->username,
                 'uid' => $userObject->uid,
+                'gid' => $userObject->gid,
             ]);
             $userinfoObject = new Userinfo;
             $userinfoObject->uid = $userObject->uid;

@@ -20,10 +20,11 @@ class RoleController extends Controller
     {
         $uid = session('uid');
         /*** Use database gid field to check Admin */
-        $userObj = User::find($uid);
-        if($userObj == NULL)
+//        $userObj = User::find($uid);
+        $gid = session('gid');
+        if(!$uid)
             return false;
-        if($userObj->gid == env('GROUP_ADMIN', 1))
+        if($gid == env('GROUP_ADMIN', 1))
             return true;
         return false;
     }
@@ -39,10 +40,11 @@ class RoleController extends Controller
     public static function checkTeacher()
     {
         $uid = session('uid');
-        $userObj = User::find($uid);
-        if($userObj == NULL)
+//        $userObj = User::find($uid);
+        $gid = session('gid');
+        if(!$uid)
             return false;
-        if($userObj->gid == env('GROUP_TEACHER', 2))
+        if($gid == env('GROUP_TEACHER', 2))
             return true;
         return false;
     }
@@ -60,11 +62,8 @@ class RoleController extends Controller
         if(RoleController::is("admin") || RoleController::is("teacher"))
             return true;
         $submissionObj = Submission::find($runid);
-
-        if($submissionObj == NULL)
+        if(!$submissionObj)
             return false;
-
-        $userObj = User::find($uid);
 
         // Check whether the user has AC the problem
         $acObj = Submission::where([
@@ -73,12 +72,10 @@ class RoleController extends Controller
             'result' => "Accepted",
         ])->first();
 
-
         if($submissionObj->uid == $uid)
             return true;
         else if($acObj != NULL && $submissionObj->result == "Accepted")     // And the problem should be ACed by others
             return true;
-
         return false;
     }
     /**
@@ -101,5 +98,6 @@ class RoleController extends Controller
         case "able-view-code":
             return RoleController::checkAbleViewCode($param['runid']);
         }
+        return false;
     }
 }
