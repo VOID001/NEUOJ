@@ -11,6 +11,8 @@ class Problem extends Model
 {
     protected $table = "problems";
 
+    protected $primaryKey = "problem_id";
+
     protected $fillable = ["title" ,"description" , "visibility_locks" , "time_limit" , "mem_limit" , "output_limit" , "difficulty" , "author_id"];
 
     /*

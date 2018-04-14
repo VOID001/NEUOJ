@@ -18,6 +18,16 @@ class Submission extends Model
         return $this->hasOne('App\Sim', 'runid');
     }
 
+    public function user()
+    {
+        return $this->belongsTo('App\User', 'uid');
+    }
+
+    public function problem()
+    {
+        return $this->belongsTo('App\Problem', 'pid');
+    }
+
     /*
      * @function getValidSubmissionCount
      * @input $contest_id, $problem_id

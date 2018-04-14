@@ -123,7 +123,7 @@ class SubmissionController extends Controller
      * @input $request,$page_id
      *
      * @return View
-     * @description get subbmistion list from database and show problems of given $page_id
+     * @description get submission list from database and show problems of given $page_id
      */
     public function getSubmissionListByPageID(Request $request, $page_id)
     {
@@ -152,18 +152,19 @@ class SubmissionController extends Controller
                 }
             }
         }
-        $submissionObj = Submission::where($queryArr);
+        $submissionObj = Submission::with('user', 'user.info', 'problem')->where($queryArr);
         $submissionObjCount = $submissionObj->count();
-        $submissionObj = $submissionObj->orderby('runid', 'desc')->skip(($page_id - 1) * $itemsPerPage)->take($itemsPerPage)->get();
+        $submissionObj = $submissionObj->orderby('runid', 'desc')
+            ->skip(($page_id - 1) * $itemsPerPage)
+            ->take($itemsPerPage)
+            ->get();
         for ($count = 0; $count < $submissionObj->count(); $count++)
         {
             $data['submissions'][$count] = $submissionObj[$count];
-            $tmpUserObj = User::where('uid', $submissionObj[$count]->uid)->first();
-            $tmpProblemObj = Problem::where('problem_id', $submissionObj[$count]->pid)->first();
-            $problemTitle = $tmpProblemObj['title'];
-            $username = $tmpUserObj['username'];
+            $problemTitle = $submissionObj[$count]->problem->title;
+            $username = $submissionObj[$count]->user->username;
             $data['submissions'][$count]->userName = $username;
-            $data['submissions'][$count]->nickname = $tmpUserObj->info->nickname;
+            $data['submissions'][$count]->nickname = $submissionObj[$count]->user->info->nickname;
             $data['submissions'][$count]->problemTitle = $problemTitle;
         }
         $queryInput = $request->input();
