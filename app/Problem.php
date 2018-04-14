@@ -89,28 +89,33 @@ class Problem extends Model
                 ->skip(($page_id - 1) * $itemsPerPage)
                 ->take($itemsPerPage)
                 ->get();
+        $problemIDs = $problemObj->pluck('problem_id')->toArray();
+        $submissionBuilder = Submission::select('pid')
+            ->where('uid', Request::session()->get('uid'))
+            ->whereIn('pid', $problemIDs);
+        $submissions = $submissionBuilder->get();
+        $ACSubmissions = $submissionBuilder->where('result', 'Accepted')->get();
 
         for ($i = 0; $i < $problemObj->count(); $i++)
         {
+            $pid = $problemObj[$i]->pid;
             $data["problems"][$i] = $problemObj[$i];
             $data['problems'][$i]->submission_count = Submission::getValidSubmissionCount(0, $problemObj[$i]->problem_id);
             $data['problems'][$i]->ac_count = Submission::where('pid', $problemObj[$i]->problem_id)
                 ->where('result', 'Accepted')->get()->unique('uid')->count();
             $data['problems'][$i]->author = $problemObj[$i]->author->username;
 //            $data['problems'][$i]->used_times = $problemObj[$i]->getNumberOfUsedContests();
-            if(Request::session()->has('username'))
+            if(Request::session()->has('uid'))
             {
-                $submissionObj = Submission::select('result')
-                    ->where(['pid' => $problemObj[$i]->problem_id,
-                        'uid' => Request::session()->get('uid')]);
-                if($submissionObj->count() != 0)
-                {
-                    if($submissionObj->where('result', 'Accepted')->count() != 0)
-                        $data['problems'][$i]->status = "Y";
-                    else
-                        $data['problems'][$i]->status = "N";
-                }
-                else
+                if ($ACSubmissions->search(function($item, $key) use ($pid) {
+                    return $item->pid == $pid;
+                })) {
+                    $data['problems'][$i]->status = "Y";
+                } else if ($submissions->search(function($item, $key) use ($pid) {
+                    return $item->pid == $pid;
+                })) {
+                    $data['problems'][$i]->status = "N";
+                } else
                     $data['problems'][$i]->status = "T";
             }
             else
