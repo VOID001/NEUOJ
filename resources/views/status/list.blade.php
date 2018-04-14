@@ -272,7 +272,7 @@
 
 		function freshResult()
 		{
-			var tableObj = window.document.getElementById("statuslist")
+			var tableObj = window.document.getElementById("statuslist");
 			var rows = tableObj.rows;
 			for(var i = 1; i < rows.length; i++)
 			{
@@ -353,7 +353,7 @@
 			})
 		}
 
-		setInterval("freshResult()", 1000);
+		setInterval(freshResult, 5000);
 
 	</script>
 </body>
