@@ -114,7 +114,7 @@ class ThreadController extends Controller
 
         $data['contest_id'] = $contest_id;
         $data['problem_id'] = $problem_id;
-        $threadObj = Thread::where([
+        $threadObj = Thread::with('info')->where([
             'cid' => $contest_id,
             'pid' => $problem_id
         ])->orderby('id', 'asc')->get();
@@ -139,7 +139,7 @@ class ThreadController extends Controller
     {
         $data = [];
 
-        $threadObj = Thread::find($thread_id);
+        $threadObj = Thread::with('info')->find($thread_id);
         $data['thread'] = $threadObj;
         return $data;
     }
@@ -193,7 +193,7 @@ class ThreadController extends Controller
         $itemsPerPage = 5;
 
         $data['contest_id'] = $contest_id;
-        $threads = Thread::where('cid', $contest_id)->orderby('id', 'desc')->get();
+        $threads = Thread::with('info')->where('cid', $contest_id)->orderby('id', 'desc')->get();
         $threads_num = $threads->count();
         $data["page_num"] = (int)($threads_num / $itemsPerPage + ($threads_num % $itemsPerPage == 0 ? 0 : 1));
         $data['page_id'] = $page_id;
