@@ -77,7 +77,7 @@
                     <th class="text-center" width="5%">Rank</th>
                     <th class="text-center" width="8%">Student ID</th>
                     @if($roleCheck->is('admin'))
-                        <th class="text-center" width="8%">TureName</th>
+                        <th class="text-center" width="8%">RealName</th>
                     @endif
                     <th class="text-center" width="30%">Nickname</th>
                     <th class="text-center" width="8%">Solved</th>
