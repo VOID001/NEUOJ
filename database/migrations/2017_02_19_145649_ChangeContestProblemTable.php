@@ -24,6 +24,8 @@ class ChangeContestProblemTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('contest_problems', function ($table) {
+            $table->dropColumn('problem_color');
+        });
     }
 }

@@ -24,6 +24,8 @@ class AddBindSSOToUserTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('users', function ($table) {
+            $table->dropColumn('bindSSO');
+        });
     }
 }

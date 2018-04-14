@@ -32,6 +32,6 @@ class CreateContestRanklistTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('train_users');
+        Schema::dropIfExists('contest_ranklist');
     }
 }

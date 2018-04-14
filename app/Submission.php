@@ -75,7 +75,7 @@ class Submission extends Model
     public static function getAcCountByUserID($uid)
     {
         $dayNumObj = Submission::orderby('runid', 'asc')->first();
-        if ($dayNumObj->count()) {
+        if ($dayNumObj && $dayNumObj->count()) {
             $dayOld = strtotime($dayNumObj->created_at->format('Ymd'));
             $nowDate = strtotime(date('Ymd', time()));
             $dayNum = round(($nowDate - $dayOld) / 3600 / 24) + 1;
