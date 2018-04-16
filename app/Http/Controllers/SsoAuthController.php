@@ -39,7 +39,7 @@ class SsoAuthController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -50,7 +50,7 @@ class SsoAuthController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -61,7 +61,7 @@ class SsoAuthController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -72,8 +72,8 @@ class SsoAuthController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -84,7 +84,7 @@ class SsoAuthController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -99,47 +99,44 @@ class SsoAuthController extends Controller
         phpCAS::setNoCasServerValidation();
         phpCAS::forceAuthentication();
         $user_id = phpCAS::getUser();
-        $username = User::where('bindSSO', $user_id)->first();
-        if(!$username)
-            $username = User::where('username', $user_id)->first();
-        if(!$username)
-        {
-            $userObject = new User;
-            $userObject->username = $user_id;
-            $userObject->password = Hash::make($user_id);
-            $userObject->email = $user_id."@stu.neu.edu.cn";
-            $userObject->registration_time = date('Y-m-d h:i:s');
-            $userObject->lastlogin_time = date('Y-m-d h:i:s');
-            $userObject->regsitration_ip = $request->ip();
-            $userObject->lastlogin_ip = $request->ip();
-            $userObject->save();
+        $user = User::where('bindSSO', $user_id)
+            ->orWhere('username', $user_id)
+            ->first();
+        if (!$user) {
+            $newUser = new User;
+            $newUser->username = $user_id;
+            $newUser->password = Hash::make($user_id);
+            $newUser->email = $user_id . "@stu.neu.edu.cn";
+            $newUser->bindSSO = $user_id;
+            $newUser->registration_time = date('Y-m-d h:i:s');
+            $newUser->lastlogin_time = date('Y-m-d h:i:s');
+            $newUser->regsitration_ip = $request->ip();
+            $newUser->lastlogin_ip = $request->ip();
+            $newUser->save();
 
-            $userinfoObject = new Userinfo;
-            $userinfoObject->uid = $userObject->uid;
-            $userinfoObject->school = "NEU";
-            $userinfoObject->stu_id = $userObject->username;
-
-            $userinfoObject->save();
+            $newUserInfo = new Userinfo;
+            $newUserInfo->uid = $newUser->uid;
+            $newUserInfo->school = "NEU";
+            $newUserInfo->stu_id = $newUser->username;
+            $newUserInfo->save();
 
             $request->session()->put([
-                'username' => $userObject->username,
-                'uid' => $userObject->uid,
-                'gid' => $userObject->gid,
+                'username' => $newUser->username,
+                'uid' => $newUser->uid,
+                'gid' => $newUser->gid,
             ]);
             return Redirect::route('dashboard.profile');
-        }
-        else
-        {
+        } else {
             // dump($user_id);
             $request->session()->put([
-                'username' => $username->username,
-                'uid' => $username->uid,
+                'username' => $user->username,
+                'uid' => $user->uid,
+                'gid' => $user->gid,
             ]);
-            $username->lastlogin_ip = $request->ip();
-            $username->lastlogin_time = date('Y-m-d h:i:s');
-            $username->save();
-            if($request->session()->get('sessiondat') != NULL)
-            {
+            $user->lastlogin_ip = $request->ip();
+            $user->lastlogin_time = date('Y-m-d h:i:s');
+            $user->save();
+            if ($request->session()->get('sessiondat') != NULL) {
                 $sessionDat = $request->session()->get('sessiondat');
                 $prevURL = $sessionDat['prevURL'];
                 return Redirect::to($prevURL);
