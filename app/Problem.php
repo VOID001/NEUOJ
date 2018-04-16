@@ -109,11 +109,11 @@ class Problem extends Model
             {
                 if ($ACSubmissions->search(function($item, $key) use ($pid) {
                     return $item->pid == $pid;
-                })) {
+                }) !== false ) {
                     $data['problems'][$i]->status = "Y";
                 } else if ($submissions->search(function($item, $key) use ($pid) {
                     return $item->pid == $pid;
-                })) {
+                }) !== false) {
                     $data['problems'][$i]->status = "N";
                 } else
                     $data['problems'][$i]->status = "T";

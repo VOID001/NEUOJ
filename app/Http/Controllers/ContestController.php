@@ -312,7 +312,7 @@ class ContestController extends Controller
 
             if($acList->search(function ($item, $key) use ($realProblemID) {
                 return $item->pid == $realProblemID;
-            }))
+            }) !== false)
             {
                 $data["problems"][$i]->thisUserAc = true;
             }
