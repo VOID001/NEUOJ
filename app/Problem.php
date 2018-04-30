@@ -98,13 +98,12 @@ class Problem extends Model
 
         for ($i = 0; $i < $problemObj->count(); $i++)
         {
-            $pid = $problemObj[$i]->pid;
+            $pid = $problemObj[$i]->problem_id;
             $data["problems"][$i] = $problemObj[$i];
             $data['problems'][$i]->submission_count = Submission::getValidSubmissionCount(0, $problemObj[$i]->problem_id);
             $data['problems'][$i]->ac_count = Submission::where('pid', $problemObj[$i]->problem_id)
                 ->where('result', 'Accepted')->get()->unique('uid')->count();
             $data['problems'][$i]->author = $problemObj[$i]->author->username;
-//            $data['problems'][$i]->used_times = $problemObj[$i]->getNumberOfUsedContests();
             if(Request::session()->has('uid'))
             {
                 if ($ACSubmissions->search(function($item, $key) use ($pid) {
