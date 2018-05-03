@@ -441,7 +441,9 @@ class RESTController extends Controller
             'pid' => $currentSubmissionObj->pid,
             'lang' => $currentSubmissionObj->lang,
             'result' => "Accepted"
-        ])->get();
+        ])
+            ->where('uid', '<>', $currentSubmissionObj->uid) //Don check submissions submitted by the same uid
+            ->get();
 
         $lang = $currentSubmissionObj->lang;
         $max_similarity = 0;
